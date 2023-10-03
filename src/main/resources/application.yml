@@ -1,0 +1,39 @@
+# db connection(oracle) - spring(context.xml)
+spring:
+  datasource:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@AWS생성예정
+    username: AWS생성예정
+    password: AWS생성예정
+    tomcat:
+      initial-size: 2
+      time-between-eviction-runs-millis: 60000
+    hikari:
+      maximum-pool-size: 2
+      connection-timeout: 5000
+      validation-timeout: 2000
+      minimum-idle: 2
+      idle-timeout: 600000
+      max-lifetime: 1800000
+  jpa:
+    database-platform: org.hibernate.dialect.Oracle12cDialect
+    show-sql: true
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+
+#Server
+server:
+  port: 8081
+  error:
+    whitelabel:
+      enabled: false
+
+#Mybatis
+mybatis:
+  mapper-locations:
+  - mappers/**/*.xml
+  type-aliases-package: com.fullstack.pj_erp.back_end.mappers
+  configuration:
+    map-underscore-to-camel-case: true
