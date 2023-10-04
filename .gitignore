@@ -34,7 +34,7 @@ build/
 .vscode/
 
 ### Database ###
-!**/src/main/resources/application.yml
+src/main/resources/application.yml
 
 ### front end###
 # dependencies
