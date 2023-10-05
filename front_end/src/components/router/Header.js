@@ -16,9 +16,9 @@ function Header() {
                 crossorigin="anonymous"
             />
 
-            <Navbar expand="lg" className="bg-body-tertiary">
+            <Navbar bg="dark" data-bs-theme="dark" expand="xl">
                 <Container fluid>
-                    <Navbar.Brand href="#">Navbar scroll</Navbar.Brand>
+                    <Navbar.Brand href="#">Web-ERP Service</Navbar.Brand>
                     <Navbar.Toggle aria-controls="navbarScroll" />
                     <Navbar.Collapse id="navbarScroll">
                         <Nav

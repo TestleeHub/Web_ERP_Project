@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState } from 'react';
 import {
   CDBSidebar,
   CDBSidebarContent,
@@ -10,6 +10,12 @@ import {
 import { NavLink } from 'react-router-dom';
 
 const LeftNavbar = () => {
+  const [show, setShow] = useState(false);
+
+  const onShow = () => {
+    setShow(!show);
+  }
+
   return (
     <div style={{ display: 'flex', height: '100vh', overflow: 'scroll initial' }}>
       <CDBSidebar textColor="#fff" backgroundColor="#333">
@@ -35,20 +41,46 @@ const LeftNavbar = () => {
                     - 서브3<br/>
                 </NavLink>
             </div>
-            <NavLink exact to="/tables" activeClassName="activeClicked">
+            <NavLink exact to="/manufacture" activeClassName="activeClicked" onClick={onShow}>
               <CDBSidebarMenuItem icon="table">제조 관리</CDBSidebarMenuItem>
             </NavLink>
+            {show === true ? <div style={{textAlign : 'center', margin : '0px 30px'}}>
+                <NavLink exact to="/manufacture/productionList" activeClassName="activeClicked">
+                    - 생산 품목 조회<br/>
+                </NavLink>
+                <NavLink exact to="/manufacture/productionAdd" activeClassName="activeClicked">
+                    - 생산 품목 등록<br/>
+                </NavLink>
+                <NavLink exact to="/manufacture/dispatchList" activeClassName="activeClicked">
+                    - 생산 불출 조회<br/>
+                </NavLink>
+                <NavLink exact to="/manufacture/dispatchAdd" activeClassName="activeClicked">
+                    - 생산 불출 등록<br/>
+                </NavLink>
+                <NavLink exact to="/manufacture/warehousingList" activeClassName="activeClicked">
+                    - 생산 입고 조회<br/>
+                </NavLink>
+                <NavLink exact to="/manufacture/warehousingAdd" activeClassName="activeClicked">
+                    - 생산 입고 등록<br/>
+                </NavLink>
+                <NavLink exact to="/manufacture/instructionList" activeClassName="activeClicked">
+                    - 작업지시서 조회<br/>
+                </NavLink>
+                <NavLink exact to="/manufacture/instructionAdd" activeClassName="activeClicked">
+                    - 작업지시서 등록<br/>
+                </NavLink>
+            </div> : <></>}
             <NavLink exact to="/profile" activeClassName="activeClicked">
               <CDBSidebarMenuItem icon="chart-line">회계 관리</CDBSidebarMenuItem>
             </NavLink>
             <NavLink exact to="/analytics" activeClassName="activeClicked">
-              <CDBSidebarMenuItem icon="chart-line">구매/판매 관리</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="credit-card">구매/판매 관리</CDBSidebarMenuItem>
             </NavLink>
             <NavLink exact to="/analytics1" activeClassName="activeClicked">
-              <CDBSidebarMenuItem icon="chart-line">고객 관리</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="sticky-note">고객 관리</CDBSidebarMenuItem>
             </NavLink>
             <NavLink exact to="/analytics2" activeClassName="activeClicked">
-              <CDBSidebarMenuItem icon="chart-line">자재 관리</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="book">자재 관리</CDBSidebarMenuItem>
             </NavLink>
             <div style={{textAlign : 'center', margin : '0px 30px'}}>
                 <NavLink exact to="/logistics/inventoryAdjustment" activeClassName="activeClicked">

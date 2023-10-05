@@ -15,6 +15,12 @@
 
 .contentBox{
   display: flex;
+  width: 1240px;
+}
+
+.content{
+  display: flex;
+  justify-content: center;
 }
 
 .App-header {
