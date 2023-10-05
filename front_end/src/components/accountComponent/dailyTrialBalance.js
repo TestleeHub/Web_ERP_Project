@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import testImage from '../../image/test/salesForm.png'
+import testImage from '../../image/test/dailyTrialBalance.png'
 
-class salesForm extends Component{
+class dailyTrialBalance extends Component{
     render(){
         return(
             <div>
@@ -11,4 +11,4 @@ class salesForm extends Component{
     }
 }
 
-export default salesForm;
+export default dailyTrialBalance;

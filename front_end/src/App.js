@@ -4,9 +4,6 @@ import LeftNavbar from './components/router/LeftNavbar';
 import AppRouter from './components/router/RouterComponent';
 import Header from './components/router/Header';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
-import test1Component from './components/accountComponent/test1Component';
-import test2Component from './components/accountComponent/test2Component';
-import test3Component from './components/accountComponent/test3Component';
 import inventoryAdjustment from './components/logisticsComponent/inventoryAdjustment';
 import productInsert from './components/logisticsComponent/productInsert';
 import receipt from './components/logisticsComponent/receipt';
@@ -29,14 +26,14 @@ import customerTradeHistory from './components/customerComponent/customerTradeHi
 import customerTradeSlip from './components/customerComponent/customerTradeSlip';
 import customerTradeSlipInsert from './components/customerComponent/customerTradeSlipInsert';
 import customerIncome from './components/customerComponent/customerIncome';
-import orderForm from './components/accountComponent/orderForm';
-import orderList from './components/accountComponent/orderList';
-import purchaseForm from './components/accountComponent/purchaseForm';
-import purchaseList from './components/accountComponent/purchaseList';
-import salesForm_Form from './components/accountComponent/salesForm_Form';
-import salesForm_List from './components/accountComponent/salesForm_List';
-import salesForm from './components/accountComponent/salesForm';
-import salesList from './components/accountComponent/salesList';
+import orderForm from './components/purchaseComponent/orderForm';
+import orderList from './components/purchaseComponent/orderList';
+import purchaseForm from './components/purchaseComponent/purchaseForm';
+import purchaseList from './components/purchaseComponent/purchaseList';
+import salesForm_Form from './components/purchaseComponent/salesForm_Form';
+import salesForm_List from './components/purchaseComponent/salesForm_List';
+import salesForm from './components/purchaseComponent/salesForm';
+import salesList from './components/purchaseComponent/salesList';
 import employeeLedger from './components/humanResourcesComponent/employeeLedger';
 import empList from './components/humanResourcesComponent/empList';
 import empProofMaking from './components/humanResourcesComponent/empProofMaking';
@@ -44,6 +41,13 @@ import salaryReg from './components/humanResourcesComponent/salaryReg';
 import SalaryStateSelect from './components/humanResourcesComponent/SalaryStateSelect';
 import depList from './components/humanResourcesComponent/depList';
 import depAdd from './components/humanResourcesComponent/depAdd';
+import purchaseBook from './components/accountComponent/purchaseBook';
+import salesBook from './components/accountComponent/salesBook';
+import dailyTrialBalance from './components/accountComponent/dailyTrialBalance';
+import monthlyTrialBalance from './components/accountComponent/monthlyTrialBalance';
+import fixedAssetsList from './components/accountComponent/fixedAssetsList';
+import fixedAssetsAdd from './components/accountComponent/fixedAssetsAdd';
+
 
 function App() {
   return (
@@ -66,7 +70,7 @@ function App() {
               <Route path='/manufacture/instructionList' exact={true} component={instructionList} />
               <Route path='/manufacture/instructionAdd' exact={true} component={instructionAdd} />
 
-              <Route path='/analytics2' exact={true} component={inventoryAdjustment} />
+              <Route path='/logistics' exact={true} component={inventoryAdjustment} />
               <Route path='/logistics/inventoryAdjustment' exact={true} component={inventoryAdjustment} />
               <Route path='/logistics/productInsert' exact={true} component={productInsert} />
               <Route path='/logistics/receipt' exact={true} component={receipt} />
@@ -76,6 +80,7 @@ function App() {
               <Route path='/logistics/storageMoveSelect' exact={true} component={storageMoveSelect} />
               <Route path='/logistics/storageMoveUpdate' exact={true} component={storageMoveUpdate} />
 
+              <Route path='/customerTest' exact={true} component={customerList} />
               <Route path='/customerTest/customerListSample' exact={true} component={customerList} />
               <Route path='/customerTest/customerInsertSample' exact={true} component={customerInsert} />
               <Route path='/customerTest/customerTradeHistorySample' exact={true} component={customerTradeHistory} />
@@ -83,19 +88,17 @@ function App() {
               <Route path='/customerTest/customerTradeSlipInsertSample' exact={true} component={customerTradeSlipInsert} />
               <Route path='/customerTest/customerIncomeSample' exact={true} component={customerIncome} />
 
-              <Route path='/test' exact={true} component={test1Component} />
-              <Route path='/test/test1' exact={true} component={test1Component} />
-              <Route path='/test/test2' exact={true} component={test2Component} />
-              <Route path='/test/test3' exact={true} component={test3Component} />
-              <Route path='/test/orderForm' exact={true} component={orderForm} />
-              <Route path='/test/orderList' exact={true} component={orderList} />
-              <Route path='/test/purchaseForm' exact={true} component={purchaseForm} />
-              <Route path='/test/purchaseList' exact={true} component={purchaseList} />
-              <Route path='/test/salesForm_Form' exact={true} component={salesForm_Form} />
-              <Route path='/test/salesForm_List' exact={true} component={salesForm_List} />
-              <Route path='/test/salesForm' exact={true} component={salesForm} />
-              <Route path='/test/salesList' exact={true} component={salesList} />
+              <Route path='/purchase' exact={true} component={orderList} />
+              <Route path='/purchase/orderList' exact={true} component={orderList} />
+              <Route path='/purchase/orderForm' exact={true} component={orderForm} />
+              <Route path='/purchase/purchaseForm' exact={true} component={purchaseForm} />
+              <Route path='/purchase/purchaseList' exact={true} component={purchaseList} />
+              <Route path='/purchase/salesForm_Form' exact={true} component={salesForm_Form} />
+              <Route path='/purchase/salesForm_List' exact={true} component={salesForm_List} />
+              <Route path='/purchase/salesForm' exact={true} component={salesForm} />
+              <Route path='/purchase/salesList' exact={true} component={salesList} />
 
+              <Route path='/humanResourceImg' exact={true} component={empList} />
               <Route path='/humanResourceImg/empBasicReg' exact={true} component={employeeLedger} />
               <Route path='/humanResourceImg/empList' exact={true} component={empList} />
               <Route path='/humanResourceImg/empProofMaking' exact={true} component={empProofMaking} />
@@ -103,10 +106,17 @@ function App() {
               <Route path='/humanResourceImg/SalaryStateSelect' exact={true} component={SalaryStateSelect} />
               <Route path='/humanResourceImg/depList' exact={true} component={depList} />
               <Route path='/humanResourceImg/depAdd' exact={true} component={depAdd} />
+
+              <Route path='/account' exact={true} component={fixedAssetsList} />
+              <Route path='/account/purchaseBook' exact={true} component={purchaseBook} />
+              <Route path='/account/salesBook' exact={true} component={salesBook} />
+              <Route path='/account/dailyTrialBalance' exact={true} component={dailyTrialBalance} />
+              <Route path='/account/monthlyTrialBalance' exact={true} component={monthlyTrialBalance} />
+              <Route path='/account/fixedAssetsList' exact={true} component={fixedAssetsList} />
+              <Route path='/account/fixedAssetsAdd' exact={true} component={fixedAssetsAdd} />
             </Switch>
             {/* <AppRouter /> 사용 안함 추후 삭제 예정*/}
           </div>
-
         </div>
       </div>
     </Router>
