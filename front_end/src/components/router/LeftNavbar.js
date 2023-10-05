@@ -79,6 +79,26 @@ const LeftNavbar = () => {
             <NavLink exact to="/analytics1" activeClassName="activeClicked">
               <CDBSidebarMenuItem icon="sticky-note">고객 관리</CDBSidebarMenuItem>
             </NavLink>
+            <div style={{textAlign : 'center', margin : '0px 30px'}}>
+                <NavLink exact to="/customerTest/customerListSample" activeClassName="activeClicked">
+                    - 서브1<br/>
+                </NavLink>
+                <NavLink exact to="/customerTest/customerInsertSample" activeClassName="activeClicked">
+                    - 서브2<br/>
+                </NavLink>
+                <NavLink exact to="/customerTest/customerTradeHistorySample" activeClassName="activeClicked">
+                    - 서브3<br/>
+                </NavLink>
+                <NavLink exact to="/customerTest/CustomerTradeSlipSample" activeClassName="activeClicked">
+                    - 서브4<br/>
+                </NavLink>
+                <NavLink exact to="/customerTest/customerTradeSlipInsertSample" activeClassName="activeClicked">
+                    - 서브5<br/>
+                </NavLink>
+                <NavLink exact to="/customerTest/customerIncomeSample" activeClassName="activeClicked">
+                    - 서브6<br/>
+                </NavLink>
+            </div>
             <NavLink exact to="/analytics2" activeClassName="activeClicked">
               <CDBSidebarMenuItem icon="book">자재 관리</CDBSidebarMenuItem>
             </NavLink>
@@ -131,5 +151,4 @@ const LeftNavbar = () => {
     </div>
   );
 };
-
 export default LeftNavbar;

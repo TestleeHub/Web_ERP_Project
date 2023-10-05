@@ -23,6 +23,13 @@ import warehousingList from './components/manufactureComponent/warehousingList';
 import warehousingAdd from './components/manufactureComponent/warehousingAdd';
 import instructionList from './components/manufactureComponent/instructionList';
 import instructionAdd from './components/manufactureComponent/instructionAdd';
+import customerList from './components/customerComponent/customerList';
+import customerInsert from './components/customerComponent/customerInsert';
+import customerTradeHistory from './components/customerComponent/customerTradeHistory';
+import customerTradeSlip from './components/customerComponent/customerTradeSlip';
+import customerTradeSlipInsert from './components/customerComponent/customerTradeSlipInsert';
+import customerIncome from './components/customerComponent/customerIncome';
+
 
 function App() {
   return (
@@ -54,6 +61,13 @@ function App() {
               <Route path='/logistics/storageInsert' exact={true} component={storageInsert} />
               <Route path='/logistics/storageMoveSelect' exact={true} component={storageMoveSelect} />
               <Route path='/logistics/storageMoveUpdate' exact={true} component={storageMoveUpdate} />
+
+              <Route path='/customerTest/customerListSample' exact={true} component={customerList} />
+              <Route path='/customerTest/customerInsertSample' exact={true} component={customerInsert} />
+              <Route path='/customerTest/customerTradeHistorySample' exact={true} component={customerTradeHistory} />
+              <Route path='/customerTest/CustomerTradeSlipSample' exact={true} component={customerTradeSlip} />
+              <Route path='/customerTest/customerTradeSlipInsertSample' exact={true} component={customerTradeSlipInsert} />
+              <Route path='/customerTest/customerIncomeSample' exact={true} component={customerIncome} />
             </Switch>
             {/* <AppRouter /> 사용 안함 추후 삭제 예정*/}
           </div>
