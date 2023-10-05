@@ -29,7 +29,6 @@ import customerTradeHistory from './components/customerComponent/customerTradeHi
 import customerTradeSlip from './components/customerComponent/customerTradeSlip';
 import customerTradeSlipInsert from './components/customerComponent/customerTradeSlipInsert';
 import customerIncome from './components/customerComponent/customerIncome';
-
 import orderForm from './components/accountComponent/orderForm';
 import orderList from './components/accountComponent/orderList';
 import purchaseForm from './components/accountComponent/purchaseForm';
@@ -38,6 +37,13 @@ import salesForm_Form from './components/accountComponent/salesForm_Form';
 import salesForm_List from './components/accountComponent/salesForm_List';
 import salesForm from './components/accountComponent/salesForm';
 import salesList from './components/accountComponent/salesList';
+import employeeLedger from './components/humanResourcesComponent/employeeLedger';
+import empList from './components/humanResourcesComponent/empList';
+import empProofMaking from './components/humanResourcesComponent/empProofMaking';
+import salaryReg from './components/humanResourcesComponent/salaryReg';
+import SalaryStateSelect from './components/humanResourcesComponent/SalaryStateSelect';
+import depList from './components/humanResourcesComponent/depList';
+import depAdd from './components/humanResourcesComponent/depAdd';
 
 function App() {
   return (
@@ -89,9 +95,18 @@ function App() {
               <Route path='/test/salesForm_List' exact={true} component={salesForm_List} />
               <Route path='/test/salesForm' exact={true} component={salesForm} />
               <Route path='/test/salesList' exact={true} component={salesList} />
+
+              <Route path='/humanResourceImg/empBasicReg' exact={true} component={employeeLedger} />
+              <Route path='/humanResourceImg/empList' exact={true} component={empList} />
+              <Route path='/humanResourceImg/empProofMaking' exact={true} component={empProofMaking} />
+              <Route path='/humanResourceImg/salaryReg' exact={true} component={salaryReg} />
+              <Route path='/humanResourceImg/SalaryStateSelect' exact={true} component={SalaryStateSelect} />
+              <Route path='/humanResourceImg/depList' exact={true} component={depList} />
+              <Route path='/humanResourceImg/depAdd' exact={true} component={depAdd} />
             </Switch>
             {/* <AppRouter /> 사용 안함 추후 삭제 예정*/}
           </div>
+
         </div>
       </div>
     </Router>

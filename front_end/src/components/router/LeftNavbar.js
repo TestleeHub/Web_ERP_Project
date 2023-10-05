@@ -31,14 +31,26 @@ const LeftNavbar = () => {
               <CDBSidebarMenuItem icon="user">인적 관리</CDBSidebarMenuItem>
             </NavLink>
             <div style={{textAlign : 'center', margin : '0px 30px'}}>
-                <NavLink exact to="/test/test1" activeClassName="activeClicked">
-                    - 서브1<br/>
+                <NavLink exact to="/humanResourceImg/empBasicReg" activeClassName="activeClicked">
+                    - 사원 기본 정보 등록<br/>
                 </NavLink>
-                <NavLink exact to="/test/test2" activeClassName="activeClicked">
-                    - 서브2<br/>
+                <NavLink exact to="/humanResourceImg/empList" activeClassName="activeClicked">
+                    - 사원 목록<br/>
                 </NavLink>
-                <NavLink exact to="/test/test3" activeClassName="activeClicked">
-                    - 서브3<br/>
+                <NavLink exact to="/humanResourceImg/empProofMaking" activeClassName="activeClicked">
+                    - 재직 증명서 양식 제작<br/>
+                </NavLink>
+                <NavLink exact to="/humanResourceImg/salaryReg" activeClassName="activeClicked">
+                    - 급여 등록<br/>
+                </NavLink>
+                <NavLink exact to="/humanResourceImg/SalaryStateSelect" activeClassName="activeClicked">
+                    - 급여 명세서 양식 제작<br/>
+                </NavLink>
+                <NavLink exact to="/humanResourceImg/depList" activeClassName="activeClicked">
+                    - 부서 목록 페이지 제작<br/>
+                </NavLink>
+                <NavLink exact to="/humanResourceImg/depAdd" activeClassName="activeClicked">
+                    - 부서 추가<br/>
                 </NavLink>
             </div>
             <NavLink exact to="/manufacture" activeClassName="activeClicked" onClick={onShow}>
