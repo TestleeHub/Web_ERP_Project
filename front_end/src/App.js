@@ -30,6 +30,14 @@ import customerTradeSlip from './components/customerComponent/customerTradeSlip'
 import customerTradeSlipInsert from './components/customerComponent/customerTradeSlipInsert';
 import customerIncome from './components/customerComponent/customerIncome';
 
+import orderForm from './components/accountComponent/orderForm';
+import orderList from './components/accountComponent/orderList';
+import purchaseForm from './components/accountComponent/purchaseForm';
+import purchaseList from './components/accountComponent/purchaseList';
+import salesForm_Form from './components/accountComponent/salesForm_Form';
+import salesForm_List from './components/accountComponent/salesForm_List';
+import salesForm from './components/accountComponent/salesForm';
+import salesList from './components/accountComponent/salesList';
 
 function App() {
   return (
@@ -68,6 +76,19 @@ function App() {
               <Route path='/customerTest/CustomerTradeSlipSample' exact={true} component={customerTradeSlip} />
               <Route path='/customerTest/customerTradeSlipInsertSample' exact={true} component={customerTradeSlipInsert} />
               <Route path='/customerTest/customerIncomeSample' exact={true} component={customerIncome} />
+
+              <Route path='/test' exact={true} component={test1Component} />
+              <Route path='/test/test1' exact={true} component={test1Component} />
+              <Route path='/test/test2' exact={true} component={test2Component} />
+              <Route path='/test/test3' exact={true} component={test3Component} />
+              <Route path='/test/orderForm' exact={true} component={orderForm} />
+              <Route path='/test/orderList' exact={true} component={orderList} />
+              <Route path='/test/purchaseForm' exact={true} component={purchaseForm} />
+              <Route path='/test/purchaseList' exact={true} component={purchaseList} />
+              <Route path='/test/salesForm_Form' exact={true} component={salesForm_Form} />
+              <Route path='/test/salesForm_List' exact={true} component={salesForm_List} />
+              <Route path='/test/salesForm' exact={true} component={salesForm} />
+              <Route path='/test/salesList' exact={true} component={salesList} />
             </Switch>
             {/* <AppRouter /> 사용 안함 추후 삭제 예정*/}
           </div>
