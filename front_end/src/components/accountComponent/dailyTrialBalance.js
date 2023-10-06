@@ -5,7 +5,7 @@ class dailyTrialBalance extends Component{
     render(){
         return(
             <div>
-                <img src={testImage}/>
+                <img src={testImage}/>  
             </div>
         );
     }
