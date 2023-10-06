@@ -47,6 +47,8 @@ import dailyTrialBalance from './components/accountComponent/dailyTrialBalance';
 import monthlyTrialBalance from './components/accountComponent/monthlyTrialBalance';
 import fixedAssetsList from './components/accountComponent/fixedAssetsList';
 import fixedAssetsAdd from './components/accountComponent/fixedAssetsAdd';
+import loginComponent from './components/commonComponent/loginComponent';
+import logoutComponent from './components/commonComponent/logoutComponent';
 
 
 function App() {
@@ -114,6 +116,9 @@ function App() {
               <Route path='/account/monthlyTrialBalance' exact={true} component={monthlyTrialBalance} />
               <Route path='/account/fixedAssetsList' exact={true} component={fixedAssetsList} />
               <Route path='/account/fixedAssetsAdd' exact={true} component={fixedAssetsAdd} />
+
+              <Route path='/login' exact={true} component={loginComponent} />
+              <Route path='/logout' exact={true} component={logoutComponent} />
             </Switch>
             {/* <AppRouter /> 사용 안함 추후 삭제 예정*/}
           </div>
