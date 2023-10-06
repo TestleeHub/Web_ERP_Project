@@ -8,6 +8,7 @@ import {
   CDBSidebarMenuItem,
 } from 'cdbreact';
 import { NavLink } from 'react-router-dom';
+import { getAuthToken } from '../../helpers/axios_helper';
 
 const LeftNavbar = () => {
   const [humanResourceshow, setHumanResourceShow] = useState(false);
@@ -213,9 +214,13 @@ const LeftNavbar = () => {
               </NavLink>
             </div> : <></>}
 
-            <NavLink exact to="/" activeClassName="activeClicked">
-              <CDBSidebarMenuItem icon="user">로그인</CDBSidebarMenuItem>
-            </NavLink>
+            {getAuthToken() === 'null' ?
+              <NavLink exact to="/login" activeClassName="activeClicked">
+                <CDBSidebarMenuItem icon="user">로그인</CDBSidebarMenuItem>
+              </NavLink>
+              : <NavLink exact to="/logout" activeClassName="activeClicked">
+                <CDBSidebarMenuItem icon="user">로그아웃</CDBSidebarMenuItem>
+              </NavLink>}
 
             <NavLink exact to="/hero404" target="_blank" activeClassName="activeClicked">
               <CDBSidebarMenuItem icon="exclamation-circle">QNA</CDBSidebarMenuItem>
