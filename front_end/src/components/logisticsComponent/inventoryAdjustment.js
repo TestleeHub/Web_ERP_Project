@@ -18,10 +18,12 @@ class inventoryAdjustment extends Component{
 
     render() {
         return(
-            <div><br/><br/>
-                <Typography variant="h4" style={style}> 재고조정</Typography>
-                <Button variant="contained" color="primary" onClick={this.addSample}>전체</Button>
-                <Table border="3">
+            <div>
+                <br/>
+                    <Typography variant="h4" style={style}> 재고조정</Typography>
+                <br/>
+                <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>전체</Button>
+                <Table border="1" style={{backgroundColor: 'lightgray'}}>
                     <TableHead>
                         <TableRow>
                             <TableCell> 제품 코드 </TableCell>
@@ -36,7 +38,6 @@ class inventoryAdjustment extends Component{
                     </TableHead>
 
                     <TableBody>
-
                         <TableRow>
                             <TableCell> 0011 </TableCell>
                             <TableCell> 스마트폰 </TableCell>
@@ -88,9 +89,9 @@ class inventoryAdjustment extends Component{
                     </TableBody>
                 </Table>
                 <br/>
-                <Button variant="contained" color="primary" onClick={this.addSample}>간편 재고조정</Button>
-                <Button variant="contained" color="primary" onClick={this.addSample}>단계별 재고실사</Button>
-                <Button variant="contained" color="primary" onClick={this.addSample}>재고조정</Button>
+                <Button variant="contained" style={normalButton} onClick={this.addSample}>간편 재고조정</Button>
+                <Button variant="contained" style={normalButton} onClick={this.addSample}>단계별 재고실사</Button>
+                <Button variant="contained" style={normalButton} onClick={this.addSample}>재고조정</Button>
             </div>
         );
     }
@@ -98,15 +99,28 @@ class inventoryAdjustment extends Component{
 
 const style = {
     display: 'flex',
-    justifyContent: 'center'
+    justifyContent: 'left'
 }
-//     render(){
-//         return(
-//             <div>
-//                 <img src={testImage}/>
-//             </div>
-//         );
-//     }
-// }
+
+// 사다리꼴 버튼 속성
+const trapezoidButton = {
+    backgroundColor: 'navy',
+    color: 'white',
+    marginRight: '10px',
+    clipPath: 'polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)',
+    width: '120px',
+    height: '30px',
+    padding: '10px 20px'
+}
+
+// 기본 버튼 속성
+const normalButton = {
+    backgroundColor: 'navy',
+    color: 'white',
+    marginRight: '10px',
+    width: '150px',
+    height: '30px',
+    padding: '10px 20px'
+}
 
 export default inventoryAdjustment;
