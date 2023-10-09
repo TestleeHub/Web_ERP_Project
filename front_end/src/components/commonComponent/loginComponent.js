@@ -32,6 +32,8 @@ class loginComponent extends Component {
             }).then((response) => {
                 console.log('response : ', response);
                 setAuthToken(response.data.token)
+                this.props.history.push('/manufacture');
+                window.location.reload();
             }).catch((error) => {
                 console.log('error : ', error);
                 setAuthToken(null);
