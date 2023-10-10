@@ -17,21 +17,21 @@ class receipt extends Component{
                     <TableHead>
                         <TableRow>
                             <TableCell style={{border: 'none'}}>출고코드</TableCell>
-                            <TableCell style={{border: 'none'}}><input type="text" size="10" placeholder="출고코드" /></TableCell>
+                            <TableCell style={{border: 'none'}}><input type="text" size="50px" placeholder="출고코드" /></TableCell>
                             <TableCell style={{border: 'none'}}> 일자 </TableCell>
-                            <TableCell style={{border: 'none'}}><input type="text" size="10" placeholder="일자" /></TableCell>
+                            <TableCell style={{border: 'none'}}><input type="text" size="50px" placeholder="일자" /></TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell style={{border: 'none'}}>창고코드</TableCell>
-                            <TableCell style={{border: 'none'}}><input type="text" size="10" placeholder="창고코드" /></TableCell>
+                            <TableCell style={{border: 'none'}}><input type="text" size="50px" placeholder="창고코드" /></TableCell>
                             <TableCell style={{border: 'none'}}>제품코드</TableCell>
-                            <TableCell style={{border: 'none'}}><input type="text" size="10" placeholder="제품코드" /></TableCell>
+                            <TableCell style={{border: 'none'}}><input type="text" size="50px" placeholder="제품코드" /></TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell style={{border: 'none'}}>수량합계</TableCell>
-                            <TableCell style={{border: 'none'}}><input type="text" size="10" placeholder="수량합계" /></TableCell>
+                            <TableCell style={{border: 'none'}}><input type="text" size="50px" placeholder="수량합계" /></TableCell>
                             <TableCell style={{border: 'none'}}>거래처명</TableCell>
-                            <TableCell style={{border: 'none'}}><input type="text" size="10" placeholder="거래처명" /></TableCell>
+                            <TableCell style={{border: 'none'}}><input type="text" size="50px" placeholder="거래처명" /></TableCell>
                         </TableRow>
                     </TableHead>
                 </Table>

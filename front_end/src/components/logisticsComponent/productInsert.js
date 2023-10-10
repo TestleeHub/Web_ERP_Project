@@ -19,19 +19,19 @@ class productInsert extends Component{
                     <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>부가 정보</Button>
                     <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>관리 대상</Button> */}
                 </div> 
-                <Table border="1" style={{backgroundColor: 'lightgray'}}>
+                <Table style={{border: '1px solid lightgray', backgroundColor: 'ghostwhite'}}>
                     <TableHead>
                         <TableRow>
-                            <TableCell> 제품 코드 </TableCell>
-                            <TableCell><input type="text" size="70" /></TableCell>
+                            <TableCell style={{border: 'none'}}> 제품 코드 </TableCell>
+                            <TableCell style={{border: 'none'}}><input type="text" size="70" /></TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell>제품명</TableCell>
-                            <TableCell><input type="text" size="70" /></TableCell>
+                            <TableCell style={{border: 'none'}}>제품명</TableCell>
+                            <TableCell style={{border: 'none'}}><input type="text" size="70" /></TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell>제품 구분</TableCell>
-                            <TableCell>
+                            <TableCell style={{border: 'none'}}>제품 구분</TableCell>
+                            <TableCell style={{border: 'none'}}>
                                 <input type="checkbox" name="color" value="blue" style={{marginLeft: '10px'}} /> 원재료
                                 <input type="checkbox" name="color" value="blue" style={{marginLeft: '10px'}} /> 부재료
                                 <input type="checkbox" name="color" value="blue" style={{marginLeft: '10px'}} /> 제품
@@ -41,28 +41,28 @@ class productInsert extends Component{
                             </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell>등록일</TableCell>
-                            <TableCell><input type="text" size="70" /></TableCell>
+                            <TableCell style={{border: 'none'}}>등록일</TableCell>
+                            <TableCell style={{border: 'none'}}><input type="text" size="70" /></TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell>담당자</TableCell>
-                            <TableCell><input type="text" size="70" /></TableCell>
+                            <TableCell style={{border: 'none'}}>담당자</TableCell>
+                            <TableCell style={{border: 'none'}}><input type="text" size="70" /></TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell>창고 코드</TableCell>
-                            <TableCell><input type="text" size="70" /></TableCell>
+                            <TableCell style={{border: 'none'}}>창고 코드</TableCell>
+                            <TableCell style={{border: 'none'}}><input type="text" size="70" /></TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell>장부 수량</TableCell>
-                            <TableCell><input type="text" size="70" /></TableCell>
+                            <TableCell style={{border: 'none'}}>장부 수량</TableCell>
+                            <TableCell style={{border: 'none'}}><input type="text" size="70" /></TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell>실사 수량</TableCell>
-                            <TableCell><input type="text" size="70" /></TableCell>
+                            <TableCell style={{border: 'none'}}>실사 수량</TableCell>
+                            <TableCell style={{border: 'none'}}><input type="text" size="70" /></TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell>이력</TableCell>
-                            <TableCell><input type="text" size="70" /></TableCell>
+                            <TableCell style={{border: 'none'}}>이력</TableCell>
+                            <TableCell style={{border: 'none'}}><input type="text" size="70" /></TableCell>
                         </TableRow>
                     </TableHead>
                 </Table>
@@ -101,5 +101,6 @@ const normalButton = {
     height: '30px',
     padding: '10px 20px'
 }
+
 
 export default productInsert;

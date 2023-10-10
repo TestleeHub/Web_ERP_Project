@@ -23,8 +23,8 @@ class inventoryAdjustment extends Component{
                     <Typography variant="h4" style={style}> 재고조정</Typography>
                 <br/>
                 <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>전체</Button>
-                <Table border="1" style={{backgroundColor: 'lightgray'}}>
-                    <TableHead>
+                <Table style={{border: '1px solid lightgray', backgroundColor: 'ghostwhite'}}>
+                    <TableHead style={{backgroundColor: 'lightgray'}}>
                         <TableRow>
                             <TableCell> 제품 코드 </TableCell>
                             <TableCell> 제품명 </TableCell>
