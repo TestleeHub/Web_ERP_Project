@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @Table(name = "STORAGE")
 public class StorageDTO {
+	//DB 관련 name = 은 모두 소문자로 쓰거나 모두 대문자로 써줘야하는데 가독성을 위해 대문자로 표시함
 	@Id
 	@Column(name = "STORAGEID")
 	private Integer storageId;

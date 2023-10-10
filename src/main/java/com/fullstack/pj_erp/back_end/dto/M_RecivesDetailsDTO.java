@@ -26,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @Table(name = "RECIVESDETAILS")
 public class M_RecivesDetailsDTO {
+	//DB 관련 name = 은 모두 소문자로 쓰거나 모두 대문자로 써줘야하는데 가독성을 위해 대문자로 표시함
 	@Id
 	@Column(name = "RECIVESDETAILID")
 	private String recivesDetailId;

@@ -32,9 +32,8 @@ public class SecurityConfig {
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
 			.authorizeHttpRequests((requests) -> requests
-					.antMatchers(HttpMethod.POST,"/login", "/register").permitAll()
-					.antMatchers(HttpMethod.GET,"/login", "/manufacture/warehousingList").permitAll()//테스트용
-					.antMatchers(HttpMethod.PUT,"/login", "/manufacture/warehousingUpdate").permitAll()//테스트용
+					//.antMatchers(HttpMethod.POST,"/login", "/register").permitAll()
+					.antMatchers("/**").permitAll()//개발 단계 테스트용으로 모든 요청 허용 추후에 삭제
 					.anyRequest().authenticated() // 나머지 엔드포인트는 인증을 받아야 함
 					);
 			// stateless 애플리케이션을 스프링에게 전달하여 

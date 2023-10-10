@@ -1,7 +1,5 @@
-import logo from './logo.svg';
 import './App.css';
 import LeftNavbar from './components/router/LeftNavbar';
-import AppRouter from './components/router/RouterComponent';
 import Header from './components/router/Header';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import inventoryAdjustment from './components/logisticsComponent/inventoryAdjustment';

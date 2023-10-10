@@ -12,21 +12,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fullstack.pj_erp.back_end.dto.MaterialRecivesDTO;
-import com.fullstack.pj_erp.back_end.service.MaterialRecivesService;
+import com.fullstack.pj_erp.back_end.service.ManufactureService;
 
 import lombok.RequiredArgsConstructor;
 
+//제조관리 컨트롤러
 @RequiredArgsConstructor
 @RestController
 @RequestMapping
-public class MaterialRecivesController {
+public class ManufactureController {
+	//컨트롤러는 각자 맡은 파트에 대해 하나만 생성
 	@Autowired
-	MaterialRecivesService service;
+	ManufactureService service;
 	
 	@GetMapping(value = {"/manufacture/warehousingList"})
 	public List<MaterialRecivesDTO> index(){
 		
-		return service.getList();
+		return service.getwarehousingList();
 	}
 	
 	@PostMapping(value = {"/manufacture/warehousingAdd"})
@@ -42,19 +44,20 @@ public class MaterialRecivesController {
 		
 		System.out.println(dto);
 		
-		service.addList(dto);
+		service.addwarehousingList(dto);
 	}
 	
+	//입고 항목은 실제 삭제가 아닌 validation만 0으로 바꿔줄거임
 	@PutMapping(value = {"/manufacture/warehousingDelete"})
 	public void warehousingDelete(@RequestBody MaterialRecivesDTO dto) {
 		System.out.println(dto);
 		dto.setValidation(0);
-		service.updateList(dto);
+		service.updatewarehousingList(dto);
 	}
 	
 	@PutMapping(value = {"/manufacture/warehousingUpdate"})
 	public void warehousingUpdate(@RequestBody MaterialRecivesDTO dto) {
 		System.out.println(dto);
-		service.updateList(dto);
+		service.updatewarehousingList(dto);
 	}
 }

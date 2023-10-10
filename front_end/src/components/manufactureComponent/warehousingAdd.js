@@ -91,7 +91,7 @@ class warehousingAdd extends Component {
         return (
             <div>
                 <br />
-                <Typography variant="h4" style={style}> 출하입력 </Typography>
+                <Typography variant="h4" style={style}> 생산 입고 등록 </Typography>
                 <br />
                 <div>
                     <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>출하입력</Button>
