@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 public class UserDTO {
 	@Id
 	@Column(name = "EMPLOYEEID")
-	private int employeeId;
+	private String employeeId;
 	private String password;
 	private String name;
 	@Column(name = "FOREIGNNAME")

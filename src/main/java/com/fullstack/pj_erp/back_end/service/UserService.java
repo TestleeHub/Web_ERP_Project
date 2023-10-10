@@ -23,7 +23,7 @@ public class UserService {
 	@Autowired
 	private final PasswordEncoder passwordEncoder; 
 	
-	public UserDTO findById(int id) {
+	public UserDTO findById(String id) {
 		System.out.println("<<<UserService - findById()>>>");
 		
 		UserDTO user = userRepository.findById(id).orElseThrow(()-> new AppException("UnKnown user", HttpStatus.NOT_FOUND));
