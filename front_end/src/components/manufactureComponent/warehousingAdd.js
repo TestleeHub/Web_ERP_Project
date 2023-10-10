@@ -14,6 +14,18 @@ class warehousingAdd extends Component {
         }
     }
 
+    // 라이프 사이클 중 컴포넌트가 생성된 후 사용자에게 보여지기 까지의 전체 과정을 렌더링
+    componentDidMount() {
+        const data = window.localStorage.getItem("warehousingData");
+        console.log(data);
+        if (data !== null) {
+            // JSON 문자열을 파싱하여 객체로 변환
+            const parsedData = JSON.parse(data);
+            this.setState(parsedData);
+            window.localStorage.removeItem('warehousingData');
+        }
+    }
+
     addNewField = () => {
         this.setState(prevState => ({
             details: [
@@ -100,15 +112,15 @@ class warehousingAdd extends Component {
                     <TableHead>
                         <TableRow>
                             <TableCell style={{ border: 'none' }}>생산 불출 코드</TableCell>
-                            <TableCell style={{ border: 'none' }}><input type="text" name="materialReciveId" size="10" placeholder="생산 불출 코드" onChange={this.onChangeHandler} /></TableCell>
+                            <TableCell style={{ border: 'none' }}><input type="text" name="materialReciveId" size="10" placeholder="생산 불출 코드" onChange={this.onChangeHandler} readOnly value={this.state.materialReciveId}/></TableCell>
                             <TableCell style={{ border: 'none' }}>생산 품목 코드</TableCell>
-                            <TableCell style={{ border: 'none' }}><input type="text" name="productionItemId" size="10" placeholder="생산 품목 코드" onChange={this.onChangeHandler} /></TableCell>
+                            <TableCell style={{ border: 'none' }}><input type="text" name="productionItemId" size="10" placeholder="생산 품목 코드" onChange={this.onChangeHandler} value={this.state.productionItemId}/></TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell style={{ border: 'none' }}>작업 지시서 코드</TableCell>
-                            <TableCell style={{ border: 'none' }}><input type="text" name="workOrderId" size="10" placeholder="작업 지시서 코드" onChange={this.onChangeHandler} /></TableCell>
+                            <TableCell style={{ border: 'none' }}><input type="text" name="workOrderId" size="10" placeholder="작업 지시서 코드" onChange={this.onChangeHandler} value={this.state.workOrderId}/></TableCell>
                             <TableCell style={{ border: 'none' }}>거래처 코드</TableCell>
-                            <TableCell style={{ border: 'none' }}><input type="text" name="businessRelationId" size="10" placeholder="거래처 코드" onChange={this.onChangeHandler} /></TableCell>
+                            <TableCell style={{ border: 'none' }}><input type="text" name="businessRelationId" size="10" placeholder="거래처 코드" onChange={this.onChangeHandler} value={this.state.businessRelationId}/></TableCell>
                         </TableRow>
                     </TableHead>
                 </Table>
@@ -140,6 +152,7 @@ class warehousingAdd extends Component {
                                         size="10"
                                         placeholder="원자재 코드"
                                         onChange={this.onChangeHandler}
+                                        value={detail.meterialId}
                                     />
                                 </TableCell>
                                 <TableCell style={{ borderRight: '1px solid lightgray' }}>
@@ -149,6 +162,7 @@ class warehousingAdd extends Component {
                                         size="10"
                                         placeholder="원자재 이름"
                                         onChange={this.onChangeHandler}
+                                        value={detail.name}
                                     />
                                 </TableCell>
                                 <TableCell style={{ borderRight: '1px solid lightgray' }}>
@@ -158,6 +172,7 @@ class warehousingAdd extends Component {
                                         size="10"
                                         placeholder="창고코드"
                                         onChange={this.onChangeHandler}
+                                        value={detail.storageId}
                                     />
                                 </TableCell>
                                 <TableCell style={{ borderRight: '1px solid lightgray' }}>
@@ -167,6 +182,7 @@ class warehousingAdd extends Component {
                                         size="10"
                                         placeholder="수량"
                                         onChange={this.onChangeHandler}
+                                        value={detail.quantity}
                                     />
                                 </TableCell>
                                 <TableCell>

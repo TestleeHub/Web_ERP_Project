@@ -9,7 +9,13 @@ class warehousingList extends Component {
             datas: [],
             displayedDatas: [],
             showMore: true,
-            isLoading: true
+            isLoading: true,
+            materialReciveId: "",
+            productionItemId: "",
+            workOrderId: "",
+            businessRelationId: "",
+            registDate : "",
+            details: []
         }
     }
 
@@ -49,6 +55,36 @@ class warehousingList extends Component {
             })
     }
 
+    // update
+    editData = (data) => {
+        //반드시 데이터를 한번 가져간 후 localStorage에서 삭제해 줘야 함
+        window.localStorage.setItem("warehousingData", JSON.stringify(data));
+        this.props.history.push('/manufacture/warehousingAdd');
+    }
+
+    // delete // 실제 삭제가 아닌 validation만 0으로 변경
+    deleteData = (targetdata) => {
+        request(
+            "PUT",
+            "/manufacture/warehousingDelete",
+            {
+                materialReciveId: targetdata.materialReciveId,
+                productionItemId: targetdata.productionItemId,
+                workOrderId: targetdata.workOrderId,
+                businessRelationId: targetdata.businessRelationId,
+                details: targetdata.details,
+                registDate : targetdata.registDate
+            }).then((response) => {
+                this.setState({
+                    datas: this.state.datas.filter(data => data.materialReciveId !== targetdata.materialReciveId),
+                    displayedDatas: this.state.displayedDatas.filter(data => data.materialReciveId !== targetdata.materialReciveId)
+                });
+                console.log('response : ', response);
+            }).catch((error) => {
+                console.log('error : ', error);
+            })
+    }
+
     formatDate = (timestamp) => {
         const date = new Date(timestamp);
         const year = date.getFullYear();
@@ -80,6 +116,7 @@ class warehousingList extends Component {
                                 <TableCell> 거래처 </TableCell>
                                 <TableCell> 상세 내용 </TableCell>
                                 <TableCell> 등록일 </TableCell>
+                                <TableCell> 추가 작업 </TableCell>
                             </TableRow>
                         </TableHead>
 
@@ -90,8 +127,12 @@ class warehousingList extends Component {
                                     <TableCell> {data.productionItem ? data.productionItem.name : 'N/A'} </TableCell>
                                     <TableCell> {data.workOrderId} </TableCell>
                                     <TableCell> {data.businessRelationId} </TableCell>
-                                    <TableCell> {data.details && data.details.length > 0 ? data.details[0].name+' 외' : ''}  {data.details ? data.details.length : 0} 건 </TableCell>
+                                    <TableCell> {data.details && data.details.length > 0 ? data.details[0].name + ' 외' : ''}  {data.details ? data.details.length : 0} 건 </TableCell>
                                     <TableCell> {this.formatDate(data.registDate)} </TableCell>
+                                    <TableCell>
+                                        <Button variant="contained" style={normalButton} onClick={() => this.editData(data)}>수정</Button>
+                                        <Button variant="contained" style={normalButton} onClick={() => this.deleteData(data)}>삭제</Button>
+                                    </TableCell>
                                 </TableRow>
                             ))}
 

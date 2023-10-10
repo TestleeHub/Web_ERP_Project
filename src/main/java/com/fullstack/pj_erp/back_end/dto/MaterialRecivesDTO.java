@@ -1,4 +1,5 @@
 package com.fullstack.pj_erp.back_end.dto;
+
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -25,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @Table(name = "MATERIALRECIVES")
 public class MaterialRecivesDTO {
-	//DB 관련 name = 은 모두 소문자로 쓰거나 모두 대문자로 써줘야하는데 가독성을 위해 대문자로 표시함
+	// DB 관련 name = 은 모두 소문자로 쓰거나 모두 대문자로 써줘야하는데 가독성을 위해 대문자로 표시함
 	@Id
 	@Column(name = "MATERIALRECIVEID")
 	private String materialReciveId;
@@ -44,18 +45,20 @@ public class MaterialRecivesDTO {
 	@OneToOne
 	@JoinColumn(name = "PRODUCTIONITEMID", insertable = false, updatable = false)
 	private ProductionItemsDTO productionItem;
-	
+
 	@PrePersist
 	private void generateId() {
-		// 현재 날짜와 시간
-		java.util.Date currentDate = new java.util.Date();
-		
-		// SimpleDateFormat을 사용하여 날짜와 시간을 "yyMMddHHmmss" 형식으로 포맷
-        SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
-        String key = sdf.format(currentDate);
-        // 데이터 베이스에 항목에 PK 컬럼이 VARCHAR2(20)으로 되있는지 확인
-        // "DTO의 앞 두글자를 대문자로" + key 값
-        this.materialReciveId = "MR" + key; // 숫자 시퀀스 값을 문자열로 변환하여 PK 값 생성
-        System.out.println(materialReciveId);
-    }
+		if (materialReciveId == null) {
+			// 현재 날짜와 시간
+			java.util.Date currentDate = new java.util.Date();
+
+			// SimpleDateFormat을 사용하여 날짜와 시간을 "yyMMddHHmmss" 형식으로 포맷
+			SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
+			String key = sdf.format(currentDate);
+			// 데이터 베이스에 항목에 PK 컬럼이 VARCHAR2(20)으로 되있는지 확인
+			// "DTO의 앞 두글자를 대문자로" + key 값
+			this.materialReciveId = "MR" + key; // 숫자 시퀀스 값을 문자열로 변환하여 PK 값 생성
+			System.out.println(materialReciveId);
+		}
+	}
 }
