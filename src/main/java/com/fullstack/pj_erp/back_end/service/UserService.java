@@ -29,7 +29,7 @@ public class UserService {
 		UserDTO user = userRepository.findById(id).orElseThrow(()-> new AppException("UnKnown user", HttpStatus.NOT_FOUND));
 		System.out.println("<<<UserService findById user>>>" + user);
 		
-		return userRepository.findById(id).get();
+		return user;
 	}
 	
 	public UserDTO login(CredentialsDTO credentialsDTO) {
