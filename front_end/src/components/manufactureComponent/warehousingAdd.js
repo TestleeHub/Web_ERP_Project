@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Table, TableHead, TableBody, TableRow, TableCell, Typography, Button } from '@mui/material';
 import { request } from "../../helpers/axios_helper";
+import Popup from "../popUp/productionPopup";
+import Modal from 'react-modal';
 
 class warehousingAdd extends Component {
     constructor(props) {
@@ -10,7 +12,8 @@ class warehousingAdd extends Component {
             productionItemId: "",
             workOrderId: "",
             businessRelationId: "",
-            details: []
+            details: [],
+            isPopupOpen: false,
         }
     }
 
@@ -24,6 +27,21 @@ class warehousingAdd extends Component {
             this.setState(parsedData);
             window.localStorage.removeItem('warehousingData');
         }
+    }
+
+    // 팝업 열기
+    openPopup = () => {
+        this.setState({ isPopupOpen: true });
+    }
+
+    // 팝업 닫기
+    closePopup = () => {
+        this.setState({ isPopupOpen: false });
+    }
+
+    // 팝업에서 선택한 데이터를 받아오는 콜백 함수
+    handlePopupData = (data) => {
+        this.setState({ productionItemId: data.productionItemId, isPopupOpen: false });
     }
 
     addNewField = () => {
@@ -102,6 +120,32 @@ class warehousingAdd extends Component {
     render() {
         return (
             <div>
+                {/* 팝업 */}
+                <div>
+                    <Modal
+                        isOpen={this.state.isPopupOpen}
+                        onRequestClose={this.closePopup}
+                        contentLabel="팝업"
+                        style={{
+                            overlay: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                            },
+                            content: {
+                                width: '700px', // 원하는 폭으로 설정
+                                height: '400px', // 원하는 높이로 설정
+                                top: '50%', // 원하는 수직 위치로 설정
+                                left: '55%', // 원하는 수평 위치로 설정
+                                transform: 'translate(-50%, -50%)'
+                            },
+                        }}
+                    >
+                        {/* 팝업 컴포넌트에 선택한 데이터를 전달 */}
+                        <Popup onPopupData={this.handlePopupData} />
+
+                        <button onClick={this.closePopup}>닫기</button>
+                    </Modal>
+                </div>
+
                 <br />
                 <Typography variant="h4" style={style}> 생산 입고 등록 </Typography>
                 <br />
@@ -112,15 +156,17 @@ class warehousingAdd extends Component {
                     <TableHead>
                         <TableRow>
                             <TableCell style={{ border: 'none' }}>생산 불출 코드</TableCell>
-                            <TableCell style={{ border: 'none' }}><input type="text" name="materialReciveId" size="10" placeholder="생산 불출 코드" onChange={this.onChangeHandler} readOnly value={this.state.materialReciveId}/></TableCell>
+                            <TableCell style={{ border: 'none' }}><input type="text" name="materialReciveId" size="10" placeholder="생산 불출 코드" onChange={this.onChangeHandler} readOnly value={this.state.materialReciveId} /></TableCell>
                             <TableCell style={{ border: 'none' }}>생산 품목 코드</TableCell>
-                            <TableCell style={{ border: 'none' }}><input type="text" name="productionItemId" size="10" placeholder="생산 품목 코드" onChange={this.onChangeHandler} value={this.state.productionItemId}/></TableCell>
+                            <TableCell style={{ border: 'none' }}>
+                                <input type="text" name="productionItemId" size="10" placeholder="생산 품목 코드" onChange={this.onChangeHandler} onClick={this.openPopup} readOnly value={this.state.productionItemId} />
+                            </TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell style={{ border: 'none' }}>작업 지시서 코드</TableCell>
-                            <TableCell style={{ border: 'none' }}><input type="text" name="workOrderId" size="10" placeholder="작업 지시서 코드" onChange={this.onChangeHandler} value={this.state.workOrderId}/></TableCell>
+                            <TableCell style={{ border: 'none' }}><input type="text" name="workOrderId" size="10" placeholder="작업 지시서 코드" onChange={this.onChangeHandler} value={this.state.workOrderId} /></TableCell>
                             <TableCell style={{ border: 'none' }}>거래처 코드</TableCell>
-                            <TableCell style={{ border: 'none' }}><input type="text" name="businessRelationId" size="10" placeholder="거래처 코드" onChange={this.onChangeHandler} value={this.state.businessRelationId}/></TableCell>
+                            <TableCell style={{ border: 'none' }}><input type="text" name="businessRelationId" size="10" placeholder="거래처 코드" onChange={this.onChangeHandler} value={this.state.businessRelationId} /></TableCell>
                         </TableRow>
                     </TableHead>
                 </Table>

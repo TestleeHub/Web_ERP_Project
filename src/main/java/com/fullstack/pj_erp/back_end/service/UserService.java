@@ -23,13 +23,13 @@ public class UserService {
 	@Autowired
 	private final PasswordEncoder passwordEncoder; 
 	
-	public UserDTO findById(int id) {
+	public UserDTO findById(String id) {
 		System.out.println("<<<UserService - findById()>>>");
 		
 		UserDTO user = userRepository.findById(id).orElseThrow(()-> new AppException("UnKnown user", HttpStatus.NOT_FOUND));
 		System.out.println("<<<UserService findById user>>>" + user);
 		
-		return userRepository.findById(id).get();
+		return user;
 	}
 	
 	public UserDTO login(CredentialsDTO credentialsDTO) {
