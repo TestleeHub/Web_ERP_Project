@@ -191,27 +191,30 @@ const LeftNavbar = () => {
               <NavLink exact to="/logistics/inventoryAdjustment" activeClassName="activeClicked">
                 - 재고조정<br />
               </NavLink>
-              <NavLink exact to="/logistics/productInsert" activeClassName="activeClicked">
-                - 품목등록<br />
+              <NavLink exact to="/logistics/inventorySelect" activeClassName="inventorySelect">
+                - 재고조회<br />
               </NavLink>
+              {/* <NavLink exact to="/logistics/productInsert" activeClassName="activeClicked">
+                - 품목등록<br />
+              </NavLink> */}
               <NavLink exact to="/logistics/receipt" activeClassName="activeClicked">
                 - 출하입력<br />
               </NavLink>
               <NavLink exact to="/logistics/receiptSelect" activeClassName="activeClicked">
                 - 출하조회<br />
               </NavLink>
-              <NavLink exact to="/logistics/receiptStatus" activeClassName="activeClicked">
+              {/* <NavLink exact to="/logistics/receiptStatus" activeClassName="activeClicked">
                 - 출하현황<br />
-              </NavLink>
+              </NavLink> */}
               <NavLink exact to="/logistics/storageInsert" activeClassName="activeClicked">
                 - 창고등록<br />
               </NavLink>
-              <NavLink exact to="/logistics/storageMoveSelect" activeClassName="activeClicked">
-                - 창고이동조회<br />
+              <NavLink exact to="/logistics/storageSelect" activeClassName="activeClicked">
+                - 창고조회<br />
               </NavLink>
-              <NavLink exact to="/logistics/storageMoveUpdate" activeClassName="activeClicked">
+              {/* <NavLink exact to="/logistics/storageMoveUpdate" activeClassName="activeClicked">
                 - 창고이동수정<br />
-              </NavLink>
+              </NavLink> */}
             </div> : <></>}
 
             {getAuthToken() === 'null' ?

@@ -72,11 +72,10 @@ public class LogisticsService {
 	
 	// [ Storage ]
 	public List<StorageDTO> getStorageList() {
-		Sort sort = Sort.by(Sort.Order.desc("registDate"));
 		// validation 체크
 		Specification<StorageDTO> filter = new EntityValidationFilter<StorageDTO>().excludeEntitiesWithCondition();
 
-		return storageRepository.findAll(filter, sort);
+		return storageRepository.findAll(filter);
 	}
 
 	public void addStorageList(StorageDTO dto) {storageRepository.save(dto);}

@@ -2,14 +2,14 @@ import React, { Component } from "react";
 import {Table, TableHead, TableBody, TableRow, TableCell, Typography, Button} from '@mui/material';
 // import testImage from '../../image/logistics/productInsert.png'
 
-// 봉인
-class storageMoveUpdate extends Component{
+// 재고조회(inventorySelect) 추가
+class inventorySelect extends Component{
     render(){
         return(
 
             <div>
                 <br/>
-                    <Typography variant="h4" style={style}> 창고이동수정 </Typography>
+                    <Typography variant="h4" style={style}> 재고조회 </Typography>
                 <br/>
                 <div>
                     <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>창고이동</Button>
@@ -129,4 +129,4 @@ const normalButton = {
     padding: '10px 20px'
 }
 
-export default storageMoveUpdate;
+export default inventorySelect;
