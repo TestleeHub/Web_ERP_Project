@@ -1,8 +1,11 @@
 package com.fullstack.pj_erp.back_end.dto;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -49,4 +52,11 @@ public class CustomerDTO {
 	
 	@Column(name = "ADDRESS")
     private String address;  // 상세주소
+
+	@JoinColumn(name = "CUSTOMERID")  // 거래처 입력
+	public List<CustomerDTO> getDetails() {
+		return null;
+	}
+	
+	
 }

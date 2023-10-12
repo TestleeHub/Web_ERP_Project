@@ -11,7 +11,12 @@ class customerList extends Component{
     state = {
         postalCode: '',
         address: '',
-        isPopupOpen: false // 팝업 상태 추가
+        isPopupOpen: false, // 팝업 상태 추가
+        formData: { 
+            customerCode: '',
+            customerName: '',
+            
+        }
     }
 
     searchAddress = () => {
@@ -35,20 +40,37 @@ class customerList extends Component{
         this.setState({ isPopupOpen: false });
     }
 
+    // 입력값의 변경을 감지하는 함수
+    handleInputChange = (event, field) => {
+        const { value } = event.target;
+        this.setState(prevState => ({
+            formData: {
+                ...prevState.formData,
+                [field]: value
+            }
+        }));
+    };
+
+    // "저장" 버튼을 눌렀을 때의 동작
+    handleSave = () => {
+        console.log(this.state.formData);
+        // 여기에서 추가적인 저장 로직을 구현할 수 있습니다. 예: API 호출 등
+    };
+
     render(){
         return(
             <div><br/><br/>
                 <Typography variant='h5' style={style}> 거래처 목록 </Typography>
                 <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-start">
-                        <li class="page-item disabled">
-                        <a class="page-link">이전</a>
+                    <ul className="pagination justify-content-start">
+                        <li className="page-item disabled">
+                        <a className="page-link">이전</a>
                         </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                        <a class="page-link" href="#">다음</a>
+                        <li className="page-item"><a className="page-link" href="#">1</a></li>
+                        <li className="page-item"><a className="page-link" href="#">2</a></li>
+                        <li className="page-item"><a className="page-link" href="#">3</a></li>
+                        <li className="page-item">
+                        <a className="page-link" href="#">다음</a>
                         </li>
                     </ul>
                 </nav>
@@ -158,7 +180,7 @@ class customerList extends Component{
                                 거래처코드
                             </TableCell>
                             <TableCell>
-                                <input type="text" size="70" />
+                                <input type="text" size="70" value={this.state.formData.customerId} onChange={(e) => this.handleInputChange(e, 'customerId')} />
                             </TableCell>
                         </TableRow>
 
@@ -167,7 +189,7 @@ class customerList extends Component{
                                 거래처명(이름)
                             </TableCell>
                             <TableCell>
-                                <input type="text" size="70" />
+                                <input type="text" size="70" value={this.state.formData.name} onChange={(e) => this.handleInputChange(e, 'name')} />
                             </TableCell>
                         </TableRow>
 
@@ -193,7 +215,7 @@ class customerList extends Component{
                                 대표자명
                             </TableCell>
                             <TableCell>
-                                <input type="text" size="70" />
+                                <input type="text" size="70" value={this.state.formData.ceoName} onChange={(e) => this.handleInputChange(e, 'ceoName')} />
                             </TableCell>
                         </TableRow>
 
@@ -202,7 +224,7 @@ class customerList extends Component{
                                전화번호
                             </TableCell>
                             <TableCell>
-                                <input type="text" size="70" />
+                                <input type="text" size="70" value={this.state.formData.phone} onChange={(e) => this.handleInputChange(e, 'phone')} />
                             </TableCell>
                         </TableRow>
 
@@ -211,7 +233,7 @@ class customerList extends Component{
                                 팩스번호
                             </TableCell>
                             <TableCell>
-                                <input type="text" size="70" />
+                                <input type="text" size="70" value={this.state.formData.faxNumber} onChange={(e) => this.handleInputChange(e, 'faxNumber')} />
                             </TableCell>
                         </TableRow>
 
@@ -220,7 +242,7 @@ class customerList extends Component{
                                 업종
                             </TableCell>
                             <TableCell>
-                                <input type="text" size="70" />
+                                <input type="text" size="70" value={this.state.formData.type} onChange={(e) => this.handleInputChange(e, 'type')} />
                             </TableCell>
                         </TableRow>
 
@@ -229,7 +251,7 @@ class customerList extends Component{
                                 은행코드
                             </TableCell>
                             <TableCell>
-                                <input type="text" size="70" />
+                                <input type="text" size="70" value={this.state.formData.bankCode} onChange={(e) => this.handleInputChange(e, 'bankCode')} />
                             </TableCell>
                         </TableRow>
 
@@ -238,7 +260,7 @@ class customerList extends Component{
                                 계좌번호
                             </TableCell>
                             <TableCell>
-                                <input type="text" size="70" />
+                                <input type="text" size="70" value={this.state.formData.account} onChange={(e) => this.handleInputChange(e, 'account')} />
                             </TableCell>
                         </TableRow>
 
@@ -264,7 +286,7 @@ class customerList extends Component{
                 </Table>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={this.addSample} color="primary">저장</Button>
+                    <Button onClick={this.handleSave} color="primary">저장</Button>
                     <Button onClick={this.addSample} color="primary" >다시 작성</Button>
                     <Button onClick={this.closePopup} color="primary">닫기</Button>
                 </DialogActions>
