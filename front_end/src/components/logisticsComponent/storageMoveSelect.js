@@ -14,13 +14,14 @@ import {Table, TableHead, TableBody, TableRow, TableCell, Typography, Button} fr
 //     },
 //   }))(TableCell);
 
+// 창고이동조회(storageMoveSelect) => 창고 조회(storageSelect)로 변경
 class storageMoveSelect extends Component{
-
+    
     render() {
         return(
             <div>
                 <br/>
-                    <Typography variant="h4" style={style}>창고이동조회</Typography>
+                    <Typography variant="h4" style={style}>창고조회</Typography>
                 <br/>
                 <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>전체</Button>
                 <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>결재중</Button>
