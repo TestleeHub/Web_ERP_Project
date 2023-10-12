@@ -61,7 +61,7 @@ public class UserAuthProvider {
 		System.out.println("decoded" + decoded);
 		
 		System.out.println("<<<UserAuthProvider - validateToken 2>>>");
-		UserDTO user = userService.findById(Integer.parseInt(decoded.getIssuer()));
+		UserDTO user = userService.findById(decoded.getIssuer());
 		
 		System.out.println("decoded.getIssuer()" + decoded.getIssuer());
 		

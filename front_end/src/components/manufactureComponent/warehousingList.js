@@ -107,8 +107,8 @@ class warehousingList extends Component {
                 {this.state.isLoading ? (
                     <p>로딩 중...</p>
                 ) : (
-                    <Table border="1" style={{ backgroundColor: 'lightgray' }}>
-                        <TableHead>
+                    <Table border="1" style={{border: '1px solid lightgray', backgroundColor: 'ghostwhite'}}>
+                        <TableHead style={{backgroundColor: 'lightgray'}}>
                             <TableRow>
                                 <TableCell> 입고코드 </TableCell>
                                 <TableCell> 생산 상품명 </TableCell>

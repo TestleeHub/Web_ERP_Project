@@ -12,7 +12,8 @@
 	<groupId>com.example</groupId>
 	<artifactId>springBoot_react_oracle_jwt01</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>springBoot_react_oracle_jwt01</name>
+	<packaging>jar</packaging>
+	<name>pj_erp</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>
