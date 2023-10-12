@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Table, TableBody, TableCell, TableRow, Typography, Button, TableHead } from "@mui/material";
 import Form from 'react-bootstrap/Form';
 import { request } from "../../helpers/axios_helper";
+import Modal from 'react-modal';
+import Popup from "../popUp/purchasePopup";
 
 class purchaseForm extends Component{
 
@@ -28,11 +30,12 @@ class purchaseForm extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            purcahseId: "",
+            purchaseId: "",
             customerId: "",
             employeeId: "",
             dueDate: "",
-            details: []
+            details: [],
+            isPopupOpen: false
         }
     }
 
@@ -46,6 +49,23 @@ class purchaseForm extends Component{
             window.localStorage.removeItem('purchaseFormData');
         }
     }
+
+    // 팝업 열기
+    openPopup = () => {
+        this.setState({ isPopupOpen: true });
+    }
+
+    // 팝업 닫기
+    closePopup = () => {
+        this.setState({ isPopupOpen: false });
+    }
+
+    // 팝업에서 선택한 데이터를 받아오는 콜백 함수
+    handlePopupData = (data) => {
+        this.setState({ customerId: data.customerId, isPopupOpen: false });
+        this.setState({ employeeId: data.employeeId, isPopupOpen: false });
+    }
+
 
     // 버튼 클릭시 구매 디테일 행 추가
     addNewField = () => {
@@ -107,7 +127,7 @@ class purchaseForm extends Component{
             "POST",
             "/purchase/purchaseForm",
             {
-                purcahseId: this.state.purcahseId,
+                purcahseId: this.state.purchaseId,
                 customerId: this.state.customerId,
                 employeeId: this.state.employeeId,
                 dueDate: this.state.dueDate,
@@ -122,6 +142,32 @@ class purchaseForm extends Component{
     render(){
         return(
             <div>
+                {/* 팝업 */}
+                <div>
+                    <Modal
+                        isOpen={this.state.isPopupOpen}
+                        onRequestClose={this.closePopup}
+                        contentLabel="팝업"
+                        style={{
+                            overlay: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                            },
+                            content: {
+                                width: '700px', 
+                                height: '400px', 
+                                top: '50%',
+                                left: '55%',
+                                transform: 'translate(-50%, -50%)'
+                            },
+                        }}
+                    >
+                        {/* 팝업 컴포넌트에 선택한 데이터를 전달 */}
+                        <Popup onPopupData={this.handlePopupData} />
+
+                        <button onClick={this.closePopup}>닫기</button>
+                    </Modal>
+                </div>
+
                 <div>
                     <Typography style={style}>구매 입력</Typography>
                 </div>
@@ -129,16 +175,17 @@ class purchaseForm extends Component{
                     <Button variant="contained" style={trapezoidButtonF} onClick={this.purchaseForm}>구매 입력</Button>
                 </div>
                 <div>
-                    <Table style={{marginLeft: 15, width: '50%', backgroundColor:'#F5F5F5'}}>
+                    <Table style={{marginLeft: 15, width: '80%', backgroundColor:'#F5F5F5'}}>
                         <TableBody>
                             <TableRow>
-                                <TableCell>일자</TableCell>
+                                <TableCell>구매코드</TableCell>
                                 <TableCell>
                                     <input 
-                                        type="date" 
-                                        name="purcahseId" 
-                                        value={this.state.purcahseId} 
+                                        type="text" 
+                                        name="purchaseId" 
+                                        value={this.state.purchaseId} 
                                         onChange={this.onChangeHandler} 
+                                        readOnly
                                     />
                                 </TableCell>
                                 <TableCell>거래처</TableCell>
@@ -149,6 +196,8 @@ class purchaseForm extends Component{
                                         value={this.state.customerId} 
                                         placeholder="거래처코드" 
                                         onChange={this.onChangeHandler} 
+                                        onClick={this.openPopup} 
+                                        readOnly
                                     />
                                 </TableCell>
                             </TableRow>
@@ -170,8 +219,9 @@ class purchaseForm extends Component{
                                         value={this.state.employeeId} 
                                         placeholder="담당자" 
                                         onChange={this.onChangeHandler} 
+                                        onClick={this.openPopup} 
+                                        readOnly
                                     />
-                                    <Button variant="outline-success">Search</Button>
                                 </TableCell>
                             </TableRow>
                         </TableBody>
@@ -194,7 +244,7 @@ class purchaseForm extends Component{
                                 <TableCell align="center">규격</TableCell>
                                 <TableCell align="center">수량</TableCell>
                                 <TableCell align="center">단가</TableCell>
-                                <TableCell align="center">적요</TableCell>
+                                <TableCell align="center">행 삭제</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -206,10 +256,10 @@ class purchaseForm extends Component{
                                     <TableCell>
                                         <input 
                                             type="text"
-                                            name={`details[${index}].meterialId`}
+                                            name={`details[${index}].materialId`}
                                             size="10"
                                             onChange={this.onChangeHandler}
-                                            value={detail.meterialId}
+                                            value={detail.materialId}
                                         />
                                     </TableCell>
                                     <TableCell>

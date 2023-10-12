@@ -40,6 +40,8 @@ class orderList extends Component{
             customerId: "",
             employeeId: "",
             dueDate: "",
+            price: "",
+            Progress: "",
             details: []
         }
     }
@@ -97,7 +99,9 @@ class orderList extends Component{
                 customerId: targetdata.customerId,
                 employeeId: targetdata.employeeId,
                 details: targetdata.details,
-                dueDate : targetdata.dueDate
+                dueDate : targetdata.dueDate,
+                price: targetdata.price,
+                Progress: targetdata.Progress
             }).then((response) => {
                 this.setState({
                     datas: this.state.datas.filter(data => data.orderFormId !== targetdata.orderFormId),
@@ -148,6 +152,7 @@ class orderList extends Component{
                                     <TableCell align="center">납기일</TableCell>
                                     <TableCell align="center">금액</TableCell>
                                     <TableCell align="center">진행 상태</TableCell>
+                                    <TableCell align="center">추가 작업</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -161,9 +166,9 @@ class orderList extends Component{
                                         <TableCell>{data.employeeId}</TableCell>
                                         <TableCell>{data.dueDate}</TableCell>
                                         {/* 수량 * 단가 */}
-                                        <TableCell>{data.quantity}</TableCell> 
+                                        <TableCell>{data.details[0].price}</TableCell> 
                                         {/* progress 조건문으로 */}
-                                        <TableCell>{data.price}</TableCell>
+                                        <TableCell>{data.Progress}</TableCell>
                                         <TableCell>
                                             <Button variant="contained" style={{margin: 5, backgroundColor: '#D3D3D3'}} onClick={() => this.editData(data)}>수정</Button>
                                             <Button variant="contained" style={{margin: 5, backgroundColor: '#D3D3D3'}} onClick={() => this.deleteData(data)}>삭제</Button>

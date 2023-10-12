@@ -28,20 +28,20 @@ public class PurchaseFormDTO {
 	
 	// 구매 아이디
 	@Id
-	@Column(name = "PURCAHSEID")
-	private String purcahseId;
+	@Column(name = "PURCHASEID")
+	private String purchaseId;
 	// 거래처 코드
 	@Column(name = "CUSTOMERID")
 	private String customerId;
 	// 유효성 체크
 	@Column(name = "VALIDATION")
 	private int validation;
-	// 회계 반영 여부
+	// 회계 반영 여부 : 구
 	@Column(name = "ACCOUNTREFLECT")
 	private int accountReflect;
 	// 작성자(담당자)
 	@Column(name = "EMPLOYEEID")
-	private int employeeId;
+	private String employeeId;
 	// 납기일
 	@Column(name = "DUEDATE")
 	private Date dueDate;
@@ -50,16 +50,20 @@ public class PurchaseFormDTO {
 	private int purchaseBookId;
 	
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "PURCAHSEID")
+	@JoinColumn(name = "PURCHASEID")
 	private List<Purchase_DetailDTO> details;
 	
 //	@OneToOne
 //	@JoinColumn(name = "CUSTOMERID")
-//	private CustomerDTO customerId; 	// Customer 테이블 FK
+//	private CustomerDTO customerId; 		// Customer 테이블 FK
 	
 //	@OneToOne
 //	@JoinColumn(name = "EMPLOYEEID")
-//	private EmployeeDTO employeeId; 	// Employee 테이블 FK
+//	private UserDTO employeeId; 			// Employee 테이블 FK
+	
+//	@OneToOne
+//	@JoinColumn(name = "PURCHASEBOOKID")
+//	private PurchaseBook purchaseBookId; 	// PurchaseBook 테이블 FK
 	
 	@PrePersist
 	private void generateId() {
@@ -71,7 +75,7 @@ public class PurchaseFormDTO {
 		String key = sdf.format(currentDate);
 		
 		// 데이터베이스 항목에 PK 컬럼이 VARCHAR2(20)으로 되어있는지 확인
-		this.purcahseId = "PU" + key;
-		System.out.println("구매 ID : " + purcahseId);
+		this.purchaseId = "PU" + key;
+		System.out.println("구매 ID : " + purchaseId);
 	}
 }

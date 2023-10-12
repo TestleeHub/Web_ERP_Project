@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import { Table, TableBody, TableCell, TableRow, Typography, Button, TableHead } from "@mui/material";
 import { request } from "../../helpers/axios_helper";
 
@@ -147,7 +147,7 @@ class orderForm extends Component{
                     <Button variant="contained" style={trapezoidButton} onClick={this.orderConfirm}>결제 완료</Button>
                 </div>
                 <div>
-                    <Table style={{marginLeft: 15, width: '70%', backgroundColor:'#F5F5F5'}}>
+                    <Table style={{marginLeft: 15, width: '80%', backgroundColor:'#F5F5F5'}}>
                         <TableBody>
                             <TableRow>
                                 <TableCell>발주코드</TableCell>
@@ -213,7 +213,7 @@ class orderForm extends Component{
                                 <TableCell align="center">규격</TableCell>
                                 <TableCell align="center">수량</TableCell>
                                 <TableCell align="center">단가</TableCell>
-                                <TableCell align="center">적요</TableCell>
+                                <TableCell align="center">행 삭제</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>

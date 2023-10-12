@@ -26,7 +26,7 @@ class purchaseList extends Component{
             displayedDatas: [],
             showMore: true,
             isLoading: true,
-            purcahseId: "",
+            purchaseId: "",
             customerId: "",
             employeeId: "",
             dueDate: "",
@@ -75,7 +75,7 @@ class purchaseList extends Component{
     editData = (data) => {
         //반드시 데이터를 한번 가져간 후 localStorage에서 삭제해 줘야 함
         window.localStorage.setItem("purchaseFormData", JSON.stringify(data));
-        this.props.history.push('/purchase/purchseForm');
+        this.props.history.push('/purchase/purchaseForm');
     }
 
     // delete // 실제 삭제가 아닌 validation만 0으로 변경
@@ -84,15 +84,15 @@ class purchaseList extends Component{
             "PUT",
             "/purchase/purchaseDelete",
             {
-                purcahseId: targetdata.purcahseId,
+                purchaseId: targetdata.purchaseId,
                 customerId: targetdata.customerId,
                 employeeId: targetdata.employeeId,
                 details: targetdata.details,
                 dueDate : targetdata.dueDate
             }).then((response) => {
                 this.setState({
-                    datas: this.state.datas.filter(data => data.purcahseId !== targetdata.purcahseId),
-                    displayedDatas: this.state.displayedDatas.filter(data => data.purcahseId !== targetdata.purcahseId)
+                    datas: this.state.datas.filter(data => data.purchaseId !== targetdata.purchaseId),
+                    displayedDatas: this.state.displayedDatas.filter(data => data.purchaseId !== targetdata.purchaseId)
                 });
                 console.log('response : ', response);
             }).catch((error) => {
@@ -136,6 +136,7 @@ class purchaseList extends Component{
                                 <TableCell align="center">원재료 코드</TableCell>
                                 <TableCell align="center">금액 합계</TableCell>
                                 <TableCell align="center">회계 반영 여부</TableCell>
+                                <TableCell align="center">추가 작업</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -144,11 +145,11 @@ class purchaseList extends Component{
                                     <TableCell align="center">
                                         <input type="checkbox" /> {index + 1}
                                     </TableCell>
-                                    <TableCell>{data.purcahseId}</TableCell>
+                                    <TableCell>{data.purchaseId}</TableCell>
                                     <TableCell>{data.customerId}</TableCell>
-                                    <TableCell>{data.meterialId}</TableCell>
+                                    <TableCell>{data.details[0].materialId}</TableCell>
                                     {/* 수량 * 단가 */}
-                                    <TableCell>{data.price}</TableCell>
+                                    <TableCell>{data.details[0].price}</TableCell>
                                     <TableCell>{data.accountReflect}</TableCell>
                                     <TableCell>
                                             <Button variant="contained" style={{margin: 5, backgroundColor: '#D3D3D3'}} onClick={() => this.editData(data)}>수정</Button>
