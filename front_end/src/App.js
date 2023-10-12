@@ -32,7 +32,7 @@ import salesForm_Form from './components/purchaseComponent/salesForm_Form';
 import salesForm_List from './components/purchaseComponent/salesForm_List';
 import salesForm from './components/purchaseComponent/salesForm';
 import salesList from './components/purchaseComponent/salesList';
-import employeeLedger from './components/humanResourcesComponent/employeeLedger';
+import empAdd from './components/humanResourcesComponent/empAdd';
 import empList from './components/humanResourcesComponent/empList';
 import empProofMaking from './components/humanResourcesComponent/empProofMaking';
 import salaryReg from './components/humanResourcesComponent/salaryReg';
@@ -99,7 +99,7 @@ function App() {
               <Route path='/purchase/salesList' exact={true} component={salesList} />
 
               <Route path='/humanResourceImg' exact={true} component={empList} />
-              <Route path='/humanResourceImg/empBasicReg' exact={true} component={employeeLedger} />
+              <Route path='/humanResourceImg/empBasicReg' exact={true} component={empAdd} />
               <Route path='/humanResourceImg/empList' exact={true} component={empList} />
               <Route path='/humanResourceImg/empProofMaking' exact={true} component={empProofMaking} />
               <Route path='/humanResourceImg/salaryReg' exact={true} component={salaryReg} />
