@@ -242,10 +242,7 @@ class warehousingAdd extends Component {
                 <br />
 
                 <Button variant="contained" style={normalButton} onClick={this.onSubmitAdd}>저장</Button>
-                <Button variant="contained" style={normalButton} onClick={this.addSample}>리스트</Button>
-                <Button variant="contained" style={normalButton} onClick={this.addSample}>다시 작성</Button>
                 <Button variant="contained" style={normalButton} onClick={this.addNewField}>항목 추가</Button>
-                <Button variant="contained" style={normalButton} onClick={this.addSample}>닫기</Button>
             </div>
         );
     }

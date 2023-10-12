@@ -71,4 +71,30 @@ public class ManufactureController {
 
 		return service.getProductionItemsList();
 	}
+	
+	@PostMapping(value = { "/manufacture/productionListAdd" })
+	public void productionListAdd(@RequestBody ProductionItemsDTO dto) {
+		System.out.println(dto);
+		dto.setRegistDate(new Date(System.currentTimeMillis()));
+
+		dto.setValidation(1);
+		
+		System.out.println(dto);
+
+		service.addProductionItemsList(dto);
+	}
+	
+	@PutMapping(value = { "/manufacture/productionListDelete" })
+	public void warehousingDelete(@RequestBody ProductionItemsDTO dto) {
+		System.out.println(dto);
+		dto.setValidation(0);
+		service.updateProductionItemsList(dto);
+	}
+
+	@PutMapping(value = { "/manufacture/productionListUpdate" })
+	public void warehousingUpdate(@RequestBody ProductionItemsDTO dto) {
+		System.out.println(dto);
+		service.updateProductionItemsList(dto);
+	}
+	
 }
