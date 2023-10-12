@@ -48,7 +48,7 @@ public class MaterialRecivesDTO {
 
 	@PrePersist
 	private void generateId() {
-		if (materialReciveId == null) {
+		if (materialReciveId == null || materialReciveId.length() == 0) {
 			// 현재 날짜와 시간
 			java.util.Date currentDate = new java.util.Date();
 

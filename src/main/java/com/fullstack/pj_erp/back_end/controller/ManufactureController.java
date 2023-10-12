@@ -40,7 +40,7 @@ public class ManufactureController {
 
 		dto.setValidation(1);
 		// 최초 생성일때만 id를 만들어 주고 update시에는 아이디 생성 X
-		if (dto.getMaterialReciveId() == null) {
+		if (dto.getMaterialReciveId() == null || dto.getMaterialReciveId().length() == 0) {
 			for (int i = 0; i < dto.getDetails().size(); i++) {
 				dto.getDetails().get(i).setRecivesDetailId("_" + i);
 			}

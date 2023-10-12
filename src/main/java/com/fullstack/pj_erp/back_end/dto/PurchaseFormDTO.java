@@ -47,7 +47,7 @@ public class PurchaseFormDTO {
 	private Date dueDate;
 	// 구매장 아이디
 	@Column(name = "PURCHASEBOOKID")
-	private int purchaseBookId;
+	private String purchaseBookId;
 	
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "PURCHASEID")
@@ -77,5 +77,8 @@ public class PurchaseFormDTO {
 		// 데이터베이스 항목에 PK 컬럼이 VARCHAR2(20)으로 되어있는지 확인
 		this.purchaseId = "PU" + key;
 		System.out.println("구매 ID : " + purchaseId);
+		
+		this.purchaseBookId = "PB" + key;
+		System.out.println("구매장 ID : " + purchaseBookId);
 	}
 }

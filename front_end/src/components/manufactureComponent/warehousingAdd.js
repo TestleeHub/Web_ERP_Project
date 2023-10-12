@@ -179,9 +179,9 @@ class warehousingAdd extends Component {
                     <TableHead style={{ backgroundColor: 'lightgray' }}>
                         <TableRow>
                             <TableCell style={{ border: 'none' }}>  </TableCell>
-                            <TableCell> 제품 코드 </TableCell>
-                            <TableCell> 제품명 </TableCell>
-                            <TableCell> 규격 </TableCell>
+                            <TableCell> 원자재 코드 </TableCell>
+                            <TableCell> 원자재 이름 </TableCell>
+                            <TableCell> 창고코드 </TableCell>
                             <TableCell> 수량 </TableCell>
                             <TableCell> 새로운 항목 추가 </TableCell>
                         </TableRow>
