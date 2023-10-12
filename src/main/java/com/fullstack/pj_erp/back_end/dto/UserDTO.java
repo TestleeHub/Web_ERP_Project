@@ -37,7 +37,7 @@ public class UserDTO {
 	private String leaveReason;
 	private Integer phone;
 	@Column(name = "EMAIL")
-	private String eMail;
+	private String email;
 	@Column(name = "DEPARTMENTID")
 	private Integer departmentId;
 	@Column(name = "BANKCODE")
