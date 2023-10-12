@@ -135,7 +135,7 @@ const LeftNavbar = () => {
             </NavLink>
             {purchaseshow === true ? <div style={{ textAlign: 'left', margin: '0px 30px' }}>
               <NavLink exact to="/purchase/orderForm" activeClassName="activeClicked">
-                - 발주서 작성<br />
+                - 발주서 입력<br />
               </NavLink>
               <NavLink exact to="/purchase/orderList" activeClassName="activeClicked">
                 - 발주서 조회<br />

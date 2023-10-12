@@ -33,6 +33,12 @@ import salesForm_List from './components/purchaseComponent/salesForm_List';
 import salesForm from './components/purchaseComponent/salesForm';
 import salesList from './components/purchaseComponent/salesList';
 import empAdd from './components/humanResourcesComponent/empAdd';
+import orderConfimING from './components/purchaseComponent/orderConfimING';
+import orderUnchecked from './components/purchaseComponent/orderUnchecked';
+import orderChecked from './components/purchaseComponent/orderChecked';
+import orderConfirm from './components/purchaseComponent/orderConfirm';
+import purchaseING from './components/purchaseComponent/purchaseING';
+import purchaseConfirm from './components/purchaseComponent/purchaseConfirm';
 import empList from './components/humanResourcesComponent/empList';
 import empProofMaking from './components/humanResourcesComponent/empProofMaking';
 import salaryReg from './components/humanResourcesComponent/salaryReg';
@@ -97,6 +103,13 @@ function App() {
               <Route path='/purchase/salesForm_List' exact={true} component={salesForm_List} />
               <Route path='/purchase/salesForm' exact={true} component={salesForm} />
               <Route path='/purchase/salesList' exact={true} component={salesList} />
+              <Route path='/purchase/orderConfimING' exact={true} component={orderConfimING} />
+              <Route path='/purchase/orderUnchecked' exact={true} component={orderUnchecked} />
+              <Route path='/purchase/orderChecked' exact={true} component={orderChecked} />
+              <Route path='/purchase/orderConfirm' exact={true} component={orderConfirm} />
+
+              <Route path='/purchase/purchaseING' exact={true} component={purchaseING} />
+              <Route path='/purchase/purchaseConfirm' exact={true} component={purchaseConfirm} />
 
               <Route path='/humanResourceImg' exact={true} component={empList} />
               <Route path='/humanResourceImg/empBasicReg' exact={true} component={empAdd} />
