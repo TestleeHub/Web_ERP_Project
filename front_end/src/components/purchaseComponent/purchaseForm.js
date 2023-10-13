@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Table, TableBody, TableCell, TableRow, Typography, Button, TableHead } from "@mui/material";
-import Form from 'react-bootstrap/Form';
 import { request } from "../../helpers/axios_helper";
 import Modal from 'react-modal';
 import Popup from "../popUp/purchasePopup";

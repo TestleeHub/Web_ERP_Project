@@ -23,47 +23,32 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @Entity
 @Data
-@Table(name = "Purchase")
-public class PurchaseFormDTO {
+@Table(name = "SALESFORM")
+public class SalesFormDTO {
 	
-	// 구매 아이디
+	// 주문서 아이디
 	@Id
-	@Column(name = "PURCHASEID")
-	private String purchaseId;
+	@Column(name = "SALESFORMID")
+	private String salesFormId;
 	// 거래처 코드
 	@Column(name = "CUSTOMERID")
 	private String customerId;
 	// 유효성 체크
 	@Column(name = "VALIDATION")
 	private int validation;
-	// 회계 반영 여부 : 구
-	@Column(name = "ACCOUNTREFLECT")
-	private int accountReflect;
+	// 진행 상태
+	@Column(name = "PROGRESS")
+	private int Progress;
 	// 작성자(담당자)
 	@Column(name = "EMPLOYEEID")
 	private String employeeId;
 	// 납기일
 	@Column(name = "DUEDATE")
 	private Date dueDate;
-	// 구매장 아이디
-	@Column(name = "PURCHASEBOOKID")
-	private String purchaseBookId;
 	
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "PURCHASEID")
-	private List<Purchase_DetailDTO> details;
-	
-//	@OneToOne
-//	@JoinColumn(name = "CUSTOMERID")
-//	private CustomerDTO customerId; 		// Customer 테이블 FK
-	
-//	@OneToOne
-//	@JoinColumn(name = "EMPLOYEEID")
-//	private UserDTO employeeId; 			// Employee 테이블 FK
-	
-//	@OneToOne
-//	@JoinColumn(name = "PURCHASEBOOKID")
-//	private PurchaseBook purchaseBookId; 	// PurchaseBook 테이블 FK
+	@JoinColumn(name = "SALESFORMID")
+	private List<SalesForm_DetailDTO> details;
 	
 	@PrePersist
 	private void generateId() {
@@ -75,10 +60,7 @@ public class PurchaseFormDTO {
 		String key = sdf.format(currentDate);
 		
 		// 데이터베이스 항목에 PK 컬럼이 VARCHAR2(20)으로 되어있는지 확인
-		this.purchaseId = "PU" + key;
-		System.out.println("구매 ID : " + purchaseId);
-		
-		this.purchaseBookId = "PB" + key;
-		System.out.println("구매장 ID : " + purchaseBookId);
+		this.salesFormId = "SF" + key;
+		System.out.println("주문서 ID : " + salesFormId);
 	}
 }
