@@ -40,7 +40,7 @@ public class ManufactureController {
 
 		dto.setValidation(1);
 		// 최초 생성일때만 id를 만들어 주고 update시에는 아이디 생성 X
-		if (dto.getMaterialReciveId() == null) {
+		if (dto.getMaterialReciveId() == null || dto.getMaterialReciveId().length() == 0) {
 			for (int i = 0; i < dto.getDetails().size(); i++) {
 				dto.getDetails().get(i).setRecivesDetailId("_" + i);
 			}
@@ -71,4 +71,30 @@ public class ManufactureController {
 
 		return service.getProductionItemsList();
 	}
+	
+	@PostMapping(value = { "/manufacture/productionListAdd" })
+	public void productionListAdd(@RequestBody ProductionItemsDTO dto) {
+		System.out.println(dto);
+		dto.setRegistDate(new Date(System.currentTimeMillis()));
+
+		dto.setValidation(1);
+		
+		System.out.println(dto);
+
+		service.addProductionItemsList(dto);
+	}
+	
+	@PutMapping(value = { "/manufacture/productionListDelete" })
+	public void warehousingDelete(@RequestBody ProductionItemsDTO dto) {
+		System.out.println(dto);
+		dto.setValidation(0);
+		service.updateProductionItemsList(dto);
+	}
+
+	@PutMapping(value = { "/manufacture/productionListUpdate" })
+	public void warehousingUpdate(@RequestBody ProductionItemsDTO dto) {
+		System.out.println(dto);
+		service.updateProductionItemsList(dto);
+	}
+	
 }

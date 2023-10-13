@@ -179,9 +179,9 @@ class warehousingAdd extends Component {
                     <TableHead style={{ backgroundColor: 'lightgray' }}>
                         <TableRow>
                             <TableCell style={{ border: 'none' }}>  </TableCell>
-                            <TableCell> 제품 코드 </TableCell>
-                            <TableCell> 제품명 </TableCell>
-                            <TableCell> 규격 </TableCell>
+                            <TableCell> 원자재 코드 </TableCell>
+                            <TableCell> 원자재 이름 </TableCell>
+                            <TableCell> 창고코드 </TableCell>
                             <TableCell> 수량 </TableCell>
                             <TableCell> 새로운 항목 추가 </TableCell>
                         </TableRow>
@@ -242,10 +242,7 @@ class warehousingAdd extends Component {
                 <br />
 
                 <Button variant="contained" style={normalButton} onClick={this.onSubmitAdd}>저장</Button>
-                <Button variant="contained" style={normalButton} onClick={this.addSample}>리스트</Button>
-                <Button variant="contained" style={normalButton} onClick={this.addSample}>다시 작성</Button>
                 <Button variant="contained" style={normalButton} onClick={this.addNewField}>항목 추가</Button>
-                <Button variant="contained" style={normalButton} onClick={this.addSample}>닫기</Button>
             </div>
         );
     }

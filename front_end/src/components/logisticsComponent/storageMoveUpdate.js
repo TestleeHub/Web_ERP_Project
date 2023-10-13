@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {Table, TableHead, TableBody, TableRow, TableCell, Typography, Button} from '@mui/material';
 // import testImage from '../../image/logistics/productInsert.png'
 
+// 봉인
 class storageMoveUpdate extends Component{
     render(){
         return(
