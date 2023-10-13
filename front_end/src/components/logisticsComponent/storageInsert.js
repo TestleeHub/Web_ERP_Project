@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Table, TableHead, TableBody, TableRow, TableCell, Typography, Button } from '@mui/material';
 import { request } from "../../helpers/axios_helper";
-// import testImage from '../../image/logistics/productInsert.png'
 
+// 창고 등록(storageInsert)
 class storageInsert extends Component {
     constructor(props) {
         super(props);
@@ -95,7 +95,7 @@ class storageInsert extends Component {
 
             <div>
                 <br />
-                <Typography variant="h4" style={style}> 창고등록 </Typography>
+                <Typography variant="h4" style={style}> 창고 등록 </Typography>
                 <br />
                 <div>
                     <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>기본</Button>
@@ -208,10 +208,12 @@ const trapezoidButton = {
     backgroundColor: 'navy',
     color: 'white',
     marginRight: '10px',
-    clipPath: 'polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)',
+    clipPath: 'polygon(20% 2%, 80% 2%, 100% 100%, 0% 100%)',
     width: '120px',
-    height: '30px',
-    padding: '10px 20px'
+    height: '40px',
+    padding: '10px 20px',
+    borderTopLeftRadius: '100px',
+    borderTopRightRadius: '100px',
 }
 
 // 기본 버튼 속성

@@ -6,8 +6,8 @@ import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import inventoryAdjustment from './components/logisticsComponent/inventoryAdjustment';
 import inventorySelect from './components/logisticsComponent/inventorySelect';
 // import productInsert from './components/logisticsComponent/productInsert';
-import receipt from './components/logisticsComponent/receipt';
-import receiptSelect from './components/logisticsComponent/receiptSelect';
+import inboundSelect from './components/logisticsComponent/inboundSelect';
+import outboundSelect from './components/logisticsComponent/outboundSelect';
 // import receiptStatus from './components/logisticsComponent/receiptStatus';
 import storageInsert from './components/logisticsComponent/storageInsert';
 import storageSelect from './components/logisticsComponent/storageSelect';
@@ -88,8 +88,8 @@ function App() {
               <Route path='/logistics/inventoryAdjustment' exact={true} component={inventoryAdjustment} />
               <Route path='/logistics/inventorySelect' exact={true} component={inventorySelect} />
               {/* <Route path='/logistics/productInsert' exact={true} component={productInsert} /> */}
-              <Route path='/logistics/receipt' exact={true} component={receipt} />
-              <Route path='/logistics/receiptSelect' exact={true} component={receiptSelect} />
+              <Route path='/logistics/inboundSelect' exact={true} component={inboundSelect} />
+              <Route path='/logistics/outboundSelect' exact={true} component={outboundSelect} />
               {/* <Route path='/logistics/receiptStatus' exact={true} component={receiptStatus} /> */}
               <Route path='/logistics/storageInsert' exact={true} component={storageInsert} />
               <Route path='/logistics/storageSelect' exact={true} component={storageSelect} />
