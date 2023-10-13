@@ -160,26 +160,26 @@ const LeftNavbar = () => {
               </NavLink>
             </div> : <></>}
 
-            <NavLink exact to="/customerTest" activeClassName="activeClicked" onClick={onCustomerShow}>
+            <NavLink exact to="/customer" activeClassName="activeClicked" onClick={onCustomerShow}>
               <CDBSidebarMenuItem icon="sticky-note">고객 관리</CDBSidebarMenuItem>
             </NavLink>
             {customershow === true ? <div style={{ textAlign: 'left', margin: '0px 30px' }}>
-              <NavLink exact to="/customerTest/customerListSample" activeClassName="activeClicked">
+              <NavLink exact to="/customer/customerList" activeClassName="activeClicked">
                 - 거래처 목록<br />
               </NavLink>
-              <NavLink exact to="/customerTest/customerInsertSample" activeClassName="activeClicked">
+              <NavLink exact to="/customer/customerInsert" activeClassName="activeClicked">
                 - 거래처 등록<br />
               </NavLink>
-              <NavLink exact to="/customerTest/customerTradeHistorySample" activeClassName="activeClicked">
+              <NavLink exact to="/customer/customerTradeHistory" activeClassName="activeClicked">
                 - 거래처 거래내역<br />
               </NavLink>
-              <NavLink exact to="/customerTest/CustomerTradeSlipSample" activeClassName="activeClicked">
+              <NavLink exact to="/customer/CustomerTradeSlip" activeClassName="activeClicked">
                 - 거래처 입금<br />
               </NavLink>
-              <NavLink exact to="/customerTest/customerTradeSlipInsertSample" activeClassName="activeClicked">
+              <NavLink exact to="/customer/customerTradeSlipInsert" activeClassName="activeClicked">
                 - 거래처 입금 처리<br />
               </NavLink>
-              <NavLink exact to="/customerTest/customerIncomeSample" activeClassName="activeClicked">
+              <NavLink exact to="/customer/customerIncome" activeClassName="activeClicked">
                 - 거래처 입금 목록<br />
               </NavLink>
             </div> : <></>}

@@ -1,300 +1,187 @@
 import React, { Component } from "react";
 import { Table, TableHead, TableRow, TableCell, TableBody, Button, Typography, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import { request } from "../../helpers/axios_helper";
 
+class customerList extends Component {
+    state = {
+        datas: [],
+        displayedDatas: [],
+        showMore: true,
+        isLoading: true,
+        customerId: "",
+        name: "",
+        ceoName: "",
+        phone: "",
+        faxNumber: "",
+        type: "",
+        bank: "",
+        account: "",
+        postMail: "",
+        address: "",
+    }
 
+    handleShowMoreClick = () => {
+        const { datas, displayedDatas } = this.state;
+        const currentLength = displayedDatas.length;
+        const nextChunk = datas.slice(currentLength, currentLength + 5);
+        const newDisplayedData = [...displayedDatas, ...nextChunk];
+        if (newDisplayedData.length === datas.length) {
+            this.setState({ showMore: false }); // 더이상 데이터를 보여줄 필요가 없으면 "더 보기" 버튼을 숨깁니다.
+        }
+        this.setState({ displayedDatas: newDisplayedData });
+    }
+
+    // 라이프 사이클 중 컴포넌트가 생성된 후 사용자에게 보여지기 까지의 전체 과정을 렌더링
+    componentDidMount() {
+        this.setState({ isLoading: true });
+        this.reloadData();
+    }
+
+    // 데이터 요청
+    reloadData = (e) => {
+        request(
+            "GET",
+            "/customer/customerList",
+            {
+
+            }).then((response) => {
+                this.setState({
+                    datas: response.data,
+                    displayedDatas: response.data.slice(0, 5),
+                    isLoading: false
+                });
+                console.log('response : ', response);
+            }).catch((error) => {
+                console.log('error : ', error);
+            })
+    }
+
+    // update
+    editData = (data) => {
+        //반드시 데이터를 한번 가져간 후 localStorage에서 삭제해 줘야 함
+        window.localStorage.setItem("customerData", JSON.stringify(data));
+        this.props.history.push('/customer/customerInsert');
+    }
+
+    // delete // 실제 삭제가 아닌 validation만 0으로 변경
+    deleteData = (targetdata) => {
+        request(
+            "PUT",
+            "/customer/customerDelete",
+            {
+                customerId: targetdata.customerId,
+                name: targetdata.name,
+                ceoName: targetdata.ceoName,
+                phone: targetdata.phone,
+                faxNumber: targetdata.faxNumber,
+                type: targetdata.type,
+                bank: targetdata.bank,
+                account: targetdata.account,
+                postMail: targetdata.postMail,
+                address: targetdata.address
+            }).then((response) => {
+                this.setState({
+                    datas: this.state.datas.filter(data => data.customerId !== targetdata.customerId),
+                    displayedDatas: this.state.displayedDatas.filter(data => data.customerId !== targetdata.customerId)
+                });
+                console.log('response : ', response);
+            }).catch((error) => {
+                console.log('error : ', error);
+            })
+    }
+
+    render() {
+        const { displayedDatas, showMore } = this.state;
+
+        return (
+            <div>
+                <br />
+                <Typography variant="h4" style={style}> 거래처 조회 </Typography>
+                <br />
+                <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>전체</Button>
+                {/* 로딩 상태에 대한 조건부 렌더링 */}
+                {this.state.isLoading ? (
+                    <p>로딩 중...</p>
+                ) : (
+                    <Table border="1" style={{ border: '1px solid lightgray', backgroundColor: 'ghostwhite' }}>
+                        <TableHead style={{ backgroundColor: 'lightgray' }}>
+                            <TableRow>
+                                <TableCell>거래처코드</TableCell>
+                                <TableCell>거래처명</TableCell>
+                                <TableCell>대표자명</TableCell>
+                                <TableCell>전화번호</TableCell>
+                                <TableCell>팩스번호</TableCell>
+                                <TableCell>업종</TableCell>
+                                <TableCell>은행코드</TableCell>
+                                <TableCell>계좌번호</TableCell>
+                                <TableCell>우편번호</TableCell>
+                                <TableCell>상세주소</TableCell>
+                                <TableCell></TableCell>
+                            </TableRow>
+                        </TableHead>
+
+                        <TableBody>
+                            {this.state.displayedDatas.map((data, index) => (
+                                <TableRow>
+                                    <TableCell> {data.customerId} </TableCell>
+                                    <TableCell> {data.name ? data.name : 'N/A'} </TableCell>
+                                    <TableCell> {data.ceoName ? data.ceoName : 'N/A'} </TableCell>
+                                    <TableCell> {data.phone ? data.phone : 'N/A'} </TableCell>
+                                    <TableCell> {data.faxNumber ? data.faxNumber : 'N/A'} </TableCell>
+                                    <TableCell> {data.type ? data.type : 'N/A'} </TableCell>
+                                    <TableCell> {data.bank ? data.bank : 'N/A'} </TableCell>
+                                    <TableCell> {data.account ? data.account : 'N/A'} </TableCell>
+                                    <TableCell> {data.postMail ? data.postMail : 'N/A'} </TableCell>
+                                    <TableCell> {data.address ? data.address : 'N/A'} </TableCell>
+                                    <TableCell>
+                                        <Button variant="contained" style={normalButton} onClick={() => this.editData(data)}>수정</Button>
+                                        <Button variant="contained" style={normalButton} onClick={() => this.deleteData(data)}>삭제</Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+
+                        </TableBody>
+                    </Table>
+                )}
+
+                <br />
+                {showMore && (
+                    <Button variant="contained" style={normalButton} onClick={this.handleShowMoreClick}>더 보기</Button>
+                )}
+                <br />
+                <br />
+                <Button variant="contained" style={normalButton} onClick={() =>  this.props.history.push('/customer/customerInsert')}>신규</Button>
+                <Button variant="contained" style={normalButton} onClick={this.addSample}>단계별 재고실사</Button>
+                <Button variant="contained" style={normalButton} onClick={this.addSample}>재고조정</Button>
+            </div>
+        );
+    }
+
+}
 const style = {
     display: 'flex',
     justifyContent: 'left'
 }
 
-class customerList extends Component{
-    state = {
-        postalCode: '',
-        address: '',
-        isPopupOpen: false, // 팝업 상태 추가
-        formData: { 
-            customerCode: '',
-            customerName: '',
-            
-        }
-    }
+// 사다리꼴 버튼 속성
+const trapezoidButton = {
+    backgroundColor: 'navy',
+    color: 'white',
+    marginRight: '10px',
+    clipPath: 'polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)',
+    width: '120px',
+    height: '30px',
+    padding: '10px 20px'
+}
 
-    searchAddress = () => {
-        new window.daum.Postcode({
-            oncomplete: (data) => {
-                this.setState({
-                    postalCode: data.zonecode,
-                    address: data.address
-                });
-            }
-        }).open();
-    }
-
-    // 팝업 열기
-    openPopup = () => {
-        this.setState({ isPopupOpen: true });
-    }
-
-    // 팝업 닫기
-    closePopup = () => {
-        this.setState({ isPopupOpen: false });
-    }
-
-    // 입력값의 변경을 감지하는 함수
-    handleInputChange = (event, field) => {
-        const { value } = event.target;
-        this.setState(prevState => ({
-            formData: {
-                ...prevState.formData,
-                [field]: value
-            }
-        }));
-    };
-
-    // "저장" 버튼을 눌렀을 때의 동작
-    handleSave = () => {
-        console.log(this.state.formData);
-        // 여기에서 추가적인 저장 로직을 구현할 수 있습니다. 예: API 호출 등
-    };
-
-    render(){
-        return(
-            <div><br/><br/>
-                <Typography variant='h5' style={style}> 거래처 목록 </Typography>
-                <nav aria-label="Page navigation example">
-                    <ul className="pagination justify-content-start">
-                        <li className="page-item disabled">
-                        <a className="page-link">이전</a>
-                        </li>
-                        <li className="page-item"><a className="page-link" href="#">1</a></li>
-                        <li className="page-item"><a className="page-link" href="#">2</a></li>
-                        <li className="page-item"><a className="page-link" href="#">3</a></li>
-                        <li className="page-item">
-                        <a className="page-link" href="#">다음</a>
-                        </li>
-                    </ul>
-                </nav>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>         </TableCell>
-                            <TableCell>거래처코드</TableCell>
-                            <TableCell>거래처명</TableCell>
-                            <TableCell>대표자명</TableCell>
-                            <TableCell>전화번호</TableCell>
-                            <TableCell>팩스번호</TableCell>
-                            <TableCell>업종</TableCell>
-                            <TableCell>유효성 체크</TableCell>
-                            <TableCell>은행코드</TableCell>
-                            <TableCell>계좌번호</TableCell>
-                            <TableCell>우편번호</TableCell>
-                            <TableCell>상세주소</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    
-                    <TableBody>
-                        <TableRow>
-                            <TableCell>1</TableCell>
-                            <TableCell>11111111</TableCell>
-                            <TableCell>(주)구로</TableCell>
-                            <TableCell>김구로</TableCell>
-                            <TableCell>1566-5333</TableCell>
-                            <TableCell>1566-5333</TableCell>
-                            <TableCell>운송업</TableCell>
-                            <TableCell>y</TableCell>
-                            <TableCell>1111</TableCell>
-                            <TableCell>111-11-1111111</TableCell>
-                            <TableCell>11111</TableCell>
-                            <TableCell>서울특별시 구로구 가산동</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell>2</TableCell>
-                            <TableCell>22222222</TableCell>
-                            <TableCell>(주)사당가구</TableCell>
-                            <TableCell>이사당</TableCell>
-                            <TableCell>1522-2222</TableCell>
-                            <TableCell>1522-2222</TableCell>
-                            <TableCell>제조업</TableCell>
-                            <TableCell>y</TableCell>
-                            <TableCell>2222</TableCell>
-                            <TableCell>222-22-2222222</TableCell>
-                            <TableCell>22222</TableCell>
-                            <TableCell>서울특별시 동작구 사당동</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell>3</TableCell>
-                            <TableCell>33333333</TableCell>
-                            <TableCell>(주)서강</TableCell>
-                            <TableCell>박서강</TableCell>
-                            <TableCell>1566-5701</TableCell>
-                            <TableCell>1566-5701</TableCell>
-                            <TableCell>서비스업</TableCell>
-                            <TableCell>y</TableCell>
-                            <TableCell>3333</TableCell>
-                            <TableCell>333-33-3333333</TableCell>
-                            <TableCell>33333</TableCell>
-                            <TableCell>서울특별시 마포구 신수동</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell>4</TableCell>
-                            <TableCell>44444444</TableCell>
-                            <TableCell>쥐마켓</TableCell>
-                            <TableCell>최마켓</TableCell>
-                            <TableCell>1544-4444</TableCell>
-                            <TableCell>1544-4444</TableCell>
-                            <TableCell>유통업</TableCell>
-                            <TableCell>y</TableCell>
-                            <TableCell>4444</TableCell>
-                            <TableCell>444-44-4444444</TableCell>
-                            <TableCell>44444</TableCell>
-                            <TableCell>서울특별시 강남구 청담동</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell>5</TableCell>
-                            <TableCell>55555555</TableCell>
-                            <TableCell>KT구로지사</TableCell>
-                            <TableCell>김현일</TableCell>
-                            <TableCell>1555-5555</TableCell>
-                            <TableCell>1555-5555</TableCell>
-                            <TableCell>통신업</TableCell>
-                            <TableCell>y</TableCell>
-                            <TableCell>5555</TableCell>
-                            <TableCell>555-55-5555555</TableCell>
-                            <TableCell>5555</TableCell>
-                            <TableCell>서울특별시 강남구 신사동</TableCell>
-                        </TableRow> 
-                    </TableBody>        
-                </Table>
-            <Button variant = 'contained' color='primary' onClick={this.openPopup}>신규</Button>
-            <Button variant = 'contained' color='primary' onClick={this.addSample}>수정</Button>
-            <Button variant = 'contained' color='primary' onClick={this.addSample}>삭제</Button>
-
-            {/* 팝업 부분 */}
-            <Dialog open={this.state.isPopupOpen} onClose={this.closePopup} fullWidth={true} maxWidth={'md'}>
-                <DialogTitle>거래처 등록</DialogTitle>
-                <DialogContent>
-                <Table className="bordered-table" style={{ width: '100%', maxWidth: '200' }}>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>
-                                거래처코드
-                            </TableCell>
-                            <TableCell>
-                                <input type="text" size="70" value={this.state.formData.customerId} onChange={(e) => this.handleInputChange(e, 'customerId')} />
-                            </TableCell>
-                        </TableRow>
-
-                        <TableRow>
-                            <TableCell>
-                                거래처명(이름)
-                            </TableCell>
-                            <TableCell>
-                                <input type="text" size="70" value={this.state.formData.name} onChange={(e) => this.handleInputChange(e, 'name')} />
-                            </TableCell>
-                        </TableRow>
-
-                        <TableRow>
-                            <TableCell>
-                                거래처코드 구분
-                            </TableCell>     
-                            <TableCell colSpan={3}>
-                                <label style={{ marginRight: '15px' }}>
-                                    <input type="radio" name="customer" value="사업자" checked />사업자
-                                </label>
-                                <label style={{ marginRight: '15px' }}>
-                                    <input type="radio" name="customer" value="비사업자(내국인)" />비사업자(내국인)
-                                </label>
-                                <label>
-                                    <input type="radio" name="customer" value="비사업자(외국인)" />비사업자(외국인)
-                                </label>
-                            </TableCell>
-                        </TableRow>
-
-                        <TableRow>
-                            <TableCell>
-                                대표자명
-                            </TableCell>
-                            <TableCell>
-                                <input type="text" size="70" value={this.state.formData.ceoName} onChange={(e) => this.handleInputChange(e, 'ceoName')} />
-                            </TableCell>
-                        </TableRow>
-
-                        <TableRow>
-                            <TableCell>
-                               전화번호
-                            </TableCell>
-                            <TableCell>
-                                <input type="text" size="70" value={this.state.formData.phone} onChange={(e) => this.handleInputChange(e, 'phone')} />
-                            </TableCell>
-                        </TableRow>
-
-                        <TableRow>
-                            <TableCell>
-                                팩스번호
-                            </TableCell>
-                            <TableCell>
-                                <input type="text" size="70" value={this.state.formData.faxNumber} onChange={(e) => this.handleInputChange(e, 'faxNumber')} />
-                            </TableCell>
-                        </TableRow>
-
-                        <TableRow>
-                            <TableCell>
-                                업종
-                            </TableCell>
-                            <TableCell>
-                                <input type="text" size="70" value={this.state.formData.type} onChange={(e) => this.handleInputChange(e, 'type')} />
-                            </TableCell>
-                        </TableRow>
-
-                        <TableRow>
-                            <TableCell>
-                                은행코드
-                            </TableCell>
-                            <TableCell>
-                                <input type="text" size="70" value={this.state.formData.bankCode} onChange={(e) => this.handleInputChange(e, 'bankCode')} />
-                            </TableCell>
-                        </TableRow>
-
-                        <TableRow>
-                            <TableCell>
-                                계좌번호
-                            </TableCell>
-                            <TableCell>
-                                <input type="text" size="70" value={this.state.formData.account} onChange={(e) => this.handleInputChange(e, 'account')} />
-                            </TableCell>
-                        </TableRow>
-
-                        <TableRow>
-                            <TableCell>
-                                우편번호
-                            </TableCell>
-                            <TableCell>
-                                <Button onClick={this.searchAddress}>주소검색</Button>
-                                <input type="text" value={this.state.postalCode} size="60" readOnly />
-                            </TableCell>
-                        </TableRow>
-
-                        <TableRow>
-                            <TableCell>
-                                상세주소
-                            </TableCell>
-                            <TableCell>
-                                <input type="text" value={this.state.address} size="70" readOnly />
-                            </TableCell>
-                        </TableRow>
-                    </TableHead>
-                </Table>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={this.handleSave} color="primary">저장</Button>
-                    <Button onClick={this.addSample} color="primary" >다시 작성</Button>
-                    <Button onClick={this.closePopup} color="primary">닫기</Button>
-                </DialogActions>
-            </Dialog>
-        </div>
-        );
-    }
-
+// 기본 버튼 속성
+const normalButton = {
+    backgroundColor: 'navy',
+    color: 'white',
+    marginRight: '10px',
+    width: '150px',
+    height: '30px',
+    padding: '10px 20px'
 }
 
 export default customerList;

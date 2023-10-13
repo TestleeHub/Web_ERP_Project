@@ -33,25 +33,12 @@ public class CustomerController {
 		return service.getCustomerList();
 	}
 	
-	// 거래처 1곳 조회
-	@GetMapping(value = { "/customer/{customerId}" })
-	public CustomerDTO getCustomerById(@PathVariable String customerId) {
-		
-		return service.getCustomerById(customerId);
-	}
-	
 	// 거래처 입력
 	@PostMapping(value = { "/customer/customerAdd" })
 	public void customerAdd(@RequestBody CustomerDTO dto) {
 		System.out.println(dto);
 		
-		dto.setValidation(1);  // 입력과 동시에 validation에 "1"을 부여함
-		// 최초 생성일때만 id를 만들어 주고 update시에는 아이디 생성 X
-		if (dto.getCustomerId() == null) {
-			for (int i = 0; i < dto.getDetails().size(); i++) {
-			//	dto.getDetails().get(i).set
-			}
-		}
+		dto.setValidation(1);
 		
 		System.out.println(dto);
 		
