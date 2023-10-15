@@ -150,12 +150,12 @@ class warehousingAdd extends Component {
                 <Typography variant="h4" style={style}> 생산 입고 등록 </Typography>
                 <br />
                 <div>
-                    <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>출하입력</Button>
+                    <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>입고입력</Button>
                 </div>
                 <Table style={{ borderCollapse: 'collapse', border: 'none', backgroundColor: 'lightgray' }}>
                     <TableHead>
                         <TableRow>
-                            <TableCell style={{ border: 'none' }}>생산 불출 코드</TableCell>
+                            <TableCell style={{ border: 'none' }}>생산 입고 코드</TableCell>
                             <TableCell style={{ border: 'none' }}><input type="text" name="materialReciveId" size="10" placeholder="생산 불출 코드" onChange={this.onChangeHandler} readOnly value={this.state.materialReciveId} /></TableCell>
                             <TableCell style={{ border: 'none' }}>생산 품목 코드</TableCell>
                             <TableCell style={{ border: 'none' }}>

@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fullstack.pj_erp.back_end.dto.MaterialRecivesDTO;
+import com.fullstack.pj_erp.back_end.dto.MaterialReleaseDTO;
 import com.fullstack.pj_erp.back_end.dto.ProductionItemsDTO;
+import com.fullstack.pj_erp.back_end.dto.WorkOrderDTO;
 import com.fullstack.pj_erp.back_end.service.ManufactureService;
 
 import lombok.RequiredArgsConstructor;
@@ -96,5 +98,77 @@ public class ManufactureController {
 		System.out.println(dto);
 		service.updateProductionItemsList(dto);
 	}
+	
+	/*작업 지시서 시작*/
+	@GetMapping(value = { "/manufacture/instructionList" })
+	public List<WorkOrderDTO> instructionList() {
+
+		return service.getWorkOrderList();
+	}
+	
+	@PostMapping(value = { "/manufacture/instructionAdd" })
+	public void instructionAdd(@RequestBody WorkOrderDTO dto) {
+		System.out.println(dto);
+		dto.setRegistDate(new Date(System.currentTimeMillis()));
+
+		dto.setValidation(1);
+		dto.setCompletion("N");
+		
+		System.out.println(dto);
+
+		service.addWorkOrderList(dto);
+	}
+	
+	@PutMapping(value = { "/manufacture/instructionListDelete" })
+	public void instructionListDelete(@RequestBody WorkOrderDTO dto) {
+		System.out.println(dto);
+		dto.setValidation(0);
+		service.updateWorkOrderList(dto);
+	}
+
+	@PutMapping(value = { "/manufacture/instructionListUpdate" })
+	public void instructionListUpdate(@RequestBody WorkOrderDTO dto) {
+		System.out.println(dto);
+		service.updateWorkOrderList(dto);
+	}
+	/*작업 지시서 끝*/
+	
+	/*생산 불출 시작*/
+	@GetMapping(value = { "/manufacture/dispatchList" })
+	public List<MaterialReleaseDTO> dispatchList() {
+
+		return service.getMaterialReleaseList();
+	}
+	
+	@PostMapping(value = { "/manufacture/dispatchAdd" })
+	public void dispatchAdd(@RequestBody MaterialReleaseDTO dto) {
+		System.out.println(dto);
+		dto.setRegistDate(new Date(System.currentTimeMillis()));
+
+		dto.setValidation(1);
+		// 최초 생성일때만 id를 만들어 주고 update시에는 아이디 생성 X
+		if (dto.getMaterialReleaseId() == null || dto.getMaterialReleaseId().length() == 0) {
+			for (int i = 0; i < dto.getDetails().size(); i++) {
+				dto.getDetails().get(i).setReleaseDetailId("_" + i);
+			}
+		}
+		System.out.println(dto);
+
+		service.addMaterialReleaseList(dto);
+	}
+	
+	@PutMapping(value = { "/manufacture/dispatchListDelete" })
+	public void dispatchListDelete(@RequestBody MaterialReleaseDTO dto) {
+		System.out.println(dto);
+		dto.setValidation(0);
+		service.updateMaterialReleaseList(dto);
+	}
+
+	@PutMapping(value = { "/manufacture/dispatchListUpdate" })
+	public void dispatchListUpdate(@RequestBody MaterialReleaseDTO dto) {
+		System.out.println(dto);
+		service.updateMaterialReleaseList(dto);
+	}
+	/*생산 불출 끝*/
 	
 }
