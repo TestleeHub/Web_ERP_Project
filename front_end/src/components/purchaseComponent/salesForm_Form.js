@@ -169,7 +169,7 @@ class salesForm_Form extends Component{
                                 <TableCell align="center">
                                     <input type="checkbox" />
                                 </TableCell>
-                                <TableCell align="center">제품코드</TableCell>
+                                <TableCell align="center">품목코드</TableCell>
                                 <TableCell align="center">규격</TableCell>
                                 <TableCell align="center">수량</TableCell>
                                 <TableCell align="center">단가</TableCell>
