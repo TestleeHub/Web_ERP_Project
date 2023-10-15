@@ -43,7 +43,7 @@ public class ReceiptDTO {
 	
 	@PrePersist
 	private void generateId() {
-		if (receiptId == null) {
+		if (receiptId == null || storageId.length() == 0) {
 			// 현재 날짜와 시간
 			java.util.Date currentDate = new java.util.Date();
 
@@ -52,7 +52,7 @@ public class ReceiptDTO {
 			String key = sdf.format(currentDate);
 			// 데이터 베이스에 항목에 PK 컬럼이 VARCHAR2(20)으로 되있는지 확인
 			// "DTO의 앞 두글자를 대문자로" + key 값
-			this.receiptId = "MR" + key; // 숫자 시퀀스 값을 문자열로 변환하여 PK 값 생성
+			this.receiptId = "RE" + key; // 숫자 시퀀스 값을 문자열로 변환하여 PK 값 생성
 			System.out.println(receiptId);
 		}
 	}

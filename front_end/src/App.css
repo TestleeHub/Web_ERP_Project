@@ -50,9 +50,10 @@
 
 /* 
   사용자 지정(정요셉) css 
-  컴포넌트의 내부 경계선 지움 
+  placeholder 색상 지정 
 */
-/* .noBorderCell {
-  border: none !important;
-} */
+.redPlaceholder::placeholder {
+  color: #A52A2A;
+  font-style: italic;
+}
 

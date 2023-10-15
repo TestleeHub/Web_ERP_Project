@@ -24,7 +24,7 @@ class Popup extends Component {
     reloadData = (e) => {
         request(
         "GET",
-        "/purchase/orderList",
+        "/purchase/salesForm_List",
         {
 
         }).then((response) => {
@@ -47,14 +47,14 @@ class Popup extends Component {
     render() {
         return (
           <div>
-            <h3>발주 목록</h3>
+            <h3>주문 목록</h3>
             {this.state.isLoading ? (
               <p>로딩 중...</p>
             ) : (
               <Table border="1" style={{ backgroundColor: '#F5F5F5' }}>
                 <TableHead>
                   <TableRow>
-                    <TableCell>발주 번호</TableCell>
+                    <TableCell>주문 번호</TableCell>
                     <TableCell>거래처 코드</TableCell>
                     <TableCell>담당자</TableCell>
                     <TableCell>납기일</TableCell>
@@ -65,7 +65,7 @@ class Popup extends Component {
                 <TableBody>
                   {this.state.datas.map((data, index) => (
                     <TableRow onClick={() => this.handleDataSelection(data)}>
-                      <TableCell> {data.orderFormId} </TableCell>
+                      <TableCell> {data.salesFormId} </TableCell>
                       <TableCell> {data.customerId} </TableCell>
                       <TableCell> {data.employeeId} </TableCell>
                       <TableCell> {data.dueDate} </TableCell>

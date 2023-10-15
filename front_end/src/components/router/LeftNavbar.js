@@ -160,26 +160,26 @@ const LeftNavbar = () => {
               </NavLink>
             </div> : <></>}
 
-            <NavLink exact to="/customerTest" activeClassName="activeClicked" onClick={onCustomerShow}>
+            <NavLink exact to="/customer" activeClassName="activeClicked" onClick={onCustomerShow}>
               <CDBSidebarMenuItem icon="sticky-note">고객 관리</CDBSidebarMenuItem>
             </NavLink>
             {customershow === true ? <div style={{ textAlign: 'left', margin: '0px 30px' }}>
-              <NavLink exact to="/customerTest/customerListSample" activeClassName="activeClicked">
+              <NavLink exact to="/customer/customerList" activeClassName="activeClicked">
                 - 거래처 목록<br />
               </NavLink>
-              <NavLink exact to="/customerTest/customerInsertSample" activeClassName="activeClicked">
+              <NavLink exact to="/customer/customerInsert" activeClassName="activeClicked">
                 - 거래처 등록<br />
               </NavLink>
-              <NavLink exact to="/customerTest/customerTradeHistorySample" activeClassName="activeClicked">
+              <NavLink exact to="/customer/customerTradeHistory" activeClassName="activeClicked">
                 - 거래처 거래내역<br />
               </NavLink>
-              <NavLink exact to="/customerTest/CustomerTradeSlipSample" activeClassName="activeClicked">
+              <NavLink exact to="/customer/CustomerTradeSlip" activeClassName="activeClicked">
                 - 거래처 입금<br />
               </NavLink>
-              <NavLink exact to="/customerTest/customerTradeSlipInsertSample" activeClassName="activeClicked">
+              <NavLink exact to="/customer/customerTradeSlipInsert" activeClassName="activeClicked">
                 - 거래처 입금 처리<br />
               </NavLink>
-              <NavLink exact to="/customerTest/customerIncomeSample" activeClassName="activeClicked">
+              <NavLink exact to="/customer/customerIncome" activeClassName="activeClicked">
                 - 거래처 입금 목록<br />
               </NavLink>
             </div> : <></>}
@@ -189,28 +189,28 @@ const LeftNavbar = () => {
             </NavLink>
             {logisticsshow === true ? <div style={{ textAlign: 'left', margin: '0px 30px' }}>
               <NavLink exact to="/logistics/inventoryAdjustment" activeClassName="activeClicked">
-                - 재고조정<br />
+                - 재고 조정<br />
               </NavLink>
               <NavLink exact to="/logistics/inventorySelect" activeClassName="inventorySelect">
-                - 재고조회<br />
+                - 재고 조회<br />
               </NavLink>
               {/* <NavLink exact to="/logistics/productInsert" activeClassName="activeClicked">
                 - 품목등록<br />
               </NavLink> */}
-              <NavLink exact to="/logistics/receipt" activeClassName="activeClicked">
-                - 출하입력<br />
+              <NavLink exact to="/logistics/inboundSelect" activeClassName="activeClicked">
+                - 입고 조회<br />
               </NavLink>
-              <NavLink exact to="/logistics/receiptSelect" activeClassName="activeClicked">
-                - 출하조회<br />
+              <NavLink exact to="/logistics/outboundSelect" activeClassName="activeClicked">
+                - 출고 조회<br />
               </NavLink>
               {/* <NavLink exact to="/logistics/receiptStatus" activeClassName="activeClicked">
                 - 출하현황<br />
               </NavLink> */}
               <NavLink exact to="/logistics/storageInsert" activeClassName="activeClicked">
-                - 창고등록<br />
+                - 창고 등록<br />
               </NavLink>
               <NavLink exact to="/logistics/storageSelect" activeClassName="activeClicked">
-                - 창고조회<br />
+                - 창고 조회<br />
               </NavLink>
               {/* <NavLink exact to="/logistics/storageMoveUpdate" activeClassName="activeClicked">
                 - 창고이동수정<br />

@@ -6,8 +6,8 @@ import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import inventoryAdjustment from './components/logisticsComponent/inventoryAdjustment';
 import inventorySelect from './components/logisticsComponent/inventorySelect';
 // import productInsert from './components/logisticsComponent/productInsert';
-import receipt from './components/logisticsComponent/receipt';
-import receiptSelect from './components/logisticsComponent/receiptSelect';
+import inboundSelect from './components/logisticsComponent/inboundSelect';
+import outboundSelect from './components/logisticsComponent/outboundSelect';
 // import receiptStatus from './components/logisticsComponent/receiptStatus';
 import storageInsert from './components/logisticsComponent/storageInsert';
 import storageSelect from './components/logisticsComponent/storageSelect';
@@ -88,20 +88,20 @@ function App() {
               <Route path='/logistics/inventoryAdjustment' exact={true} component={inventoryAdjustment} />
               <Route path='/logistics/inventorySelect' exact={true} component={inventorySelect} />
               {/* <Route path='/logistics/productInsert' exact={true} component={productInsert} /> */}
-              <Route path='/logistics/receipt' exact={true} component={receipt} />
-              <Route path='/logistics/receiptSelect' exact={true} component={receiptSelect} />
+              <Route path='/logistics/inboundSelect' exact={true} component={inboundSelect} />
+              <Route path='/logistics/outboundSelect' exact={true} component={outboundSelect} />
               {/* <Route path='/logistics/receiptStatus' exact={true} component={receiptStatus} /> */}
               <Route path='/logistics/storageInsert' exact={true} component={storageInsert} />
               <Route path='/logistics/storageSelect' exact={true} component={storageSelect} />
               {/* <Route path='/logistics/storageMoveUpdate' exact={true} component={storageMoveUpdate} /> */}
 
-              <Route path='/customerTest' exact={true} component={customerList} />
-              <Route path='/customerTest/customerListSample' exact={true} component={customerList} />
-              <Route path='/customerTest/customerInsertSample' exact={true} component={customerInsert} />
-              <Route path='/customerTest/customerTradeHistorySample' exact={true} component={customerTradeHistory} />
-              <Route path='/customerTest/CustomerTradeSlipSample' exact={true} component={customerTradeSlip} />
-              <Route path='/customerTest/customerTradeSlipInsertSample' exact={true} component={customerTradeSlipInsert} />
-              <Route path='/customerTest/customerIncomeSample' exact={true} component={customerIncome} />
+              <Route path='/customer' exact={true} component={customerList} />
+              <Route path='/customer/customerList' exact={true} component={customerList} />
+              <Route path='/customer/customerInsert' exact={true} component={customerInsert} />
+              <Route path='/customer/customerTradeHistory' exact={true} component={customerTradeHistory} />
+              <Route path='/customer/CustomerTradeSlip' exact={true} component={customerTradeSlip} />
+              <Route path='/customer/customerTradeSlipInsert' exact={true} component={customerTradeSlipInsert} />
+              <Route path='/customer/customerIncome' exact={true} component={customerIncome} />
 
               <Route path='/purchase' exact={true} component={orderList} />
               <Route path='/purchase/orderList' exact={true} component={orderList} />

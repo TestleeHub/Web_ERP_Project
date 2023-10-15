@@ -1,21 +1,9 @@
 import React, { Component } from "react";
 import {Table, TableHead, TableBody, TableRow, TableCell, Typography, Button} from '@mui/material';
 import { request } from "../../helpers/axios_helper";
-// import { withStyles } from '@material-ui/core/styles';
-// import testImage from '../../image/logistics/inventoryAdjustment.png'
-// import {Create, Delete} from '@mui/icons-material';
 
-// const StyledTableCell = withStyles((theme) => ({
-//     head: {
-//       backgroundColor: theme.palette.common.black,
-//       color: theme.palette.common.white,
-//     },
-//     body: {
-//       fontSize: 14,
-//     },
-//   }))(TableCell);
 
-// 창고이동조회(storageMoveSelect) => 창고 조회(storageSelect)로 변경
+// 창고 조회(storageSelect)
 class storageSelect extends Component{
     constructor(props) {
         super(props);
@@ -74,7 +62,7 @@ class storageSelect extends Component{
     editData = (data) => {
         //반드시 데이터를 한번 가져간 후 localStorage에서 삭제해 줘야 함
         window.localStorage.setItem("storageData", JSON.stringify(data));
-        this.props.history.push('/logistics/storageListAdd');
+        this.props.history.push('/logistics/storageInsert');
     }
 
 
@@ -106,7 +94,7 @@ class storageSelect extends Component{
         return(
             <div>
                 <br/>
-                    <Typography variant="h4" style={style}>창고조회</Typography>
+                    <Typography variant="h4" style={style}>창고 조회</Typography>
                 <br/>
                 <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>전체</Button>
                 <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>결재중</Button>
@@ -132,10 +120,24 @@ class storageSelect extends Component{
                                 <TableCell> {data.storageId} </TableCell>
                                 <TableCell> {data.storageName} </TableCell>
                                 <TableCell> {data.category} </TableCell>
+                                
                                 <TableCell>
-                                    <Button variant="contained" style={normalButton} onClick={() => this.editData(data)}>수정</Button>
-                                    <Button variant="contained" style={normalButton} onClick={() => this.deleteData(data)}>삭제</Button>
+                                    <Button variant="contained" style={updateButton} onClick={() => this.editData(data)}>수정
+                                        <img className="penImage" 
+                                             alt="pen" 
+                                             src="../images/pen.png" 
+                                             style={{marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)'}} 
+                                        />
+                                    </Button>
+                                    <Button variant="contained" style={deleteButton} onClick={() => this.deleteData(data)}> 삭제
+                                        <img className="garbageImage" 
+                                             alt="garbage" 
+                                             src="../images/garbage.png" 
+                                             style={{marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)'}} 
+                                        />
+                                    </Button>
                                 </TableCell>
+
                             </TableRow>
                         ))}     
                     </TableBody>
@@ -165,10 +167,12 @@ const trapezoidButton = {
     backgroundColor: 'navy',
     color: 'white',
     marginRight: '10px',
-    clipPath: 'polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)',
+    clipPath: 'polygon(20% 2%, 80% 2%, 100% 100%, 0% 100%)',
     width: '120px',
-    height: '30px',
-    padding: '10px 20px'
+    height: '40px',
+    padding: '10px 20px',
+    borderTopLeftRadius: '100px',
+    borderTopRightRadius: '100px',
 }
 
 // 기본 버튼 속성
@@ -181,4 +185,25 @@ const normalButton = {
     padding: '10px 20px'
 }
 
+// 수정 버튼 속성
+const updateButton = {
+    backgroundColor: '#FF8C0A',
+    color: 'white',
+    marginRight: '10px',
+    width: '100px',
+    height: '35px',
+    padding: '10px 20px',
+    borderRadius: '20px'
+}
+
+// 삭제 버튼 속성
+const deleteButton = {
+    backgroundColor: '#A52A2A',
+    color: 'white',
+    marginRight: '10px',
+    width: '100px',
+    height: '35px',
+    padding: '10px 20px',
+    borderRadius: '20px'
+}
 export default storageSelect;

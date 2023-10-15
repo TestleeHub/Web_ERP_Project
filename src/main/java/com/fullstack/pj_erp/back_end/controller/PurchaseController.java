@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fullstack.pj_erp.back_end.dto.OrderFormDTO;
 import com.fullstack.pj_erp.back_end.dto.PurchaseFormDTO;
+import com.fullstack.pj_erp.back_end.dto.SalesDTO;
+import com.fullstack.pj_erp.back_end.dto.SalesFormDTO;
 import com.fullstack.pj_erp.back_end.service.PurchaseService;
 
 import lombok.RequiredArgsConstructor;
@@ -111,4 +113,87 @@ public class PurchaseController {
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// 주문 폼 입력
+	@PostMapping(value = {"/purchase/salesForm"})
+	public void salesForm_Form(@RequestBody SalesFormDTO dto) {
+		System.out.println("[SalesFormDTO] : " + dto);
+		
+		dto.setDueDate(new Date(System.currentTimeMillis()));
+		
+		dto.setValidation(1); // 디폴트 값 : 1
+		// 최초 생성시에만 id를 만들어주고 update 시엔 아이디 따로 생성하지 않음
+		if(dto.getSalesFormId() == null || dto.getSalesFormId().length() == 0) {
+			for(int i = 0; i < dto.getDetails().size(); i++) {
+				dto.getDetails().get(i).setSalesFormDetailId("_" + i);
+			}
+		}
+		System.out.println("[SalesFormDTO] : " + dto); // validation=1로 바뀐거 확인
+		
+		service.addSalesForm(dto);
+	}
+	
+	// 주문 목록
+	@GetMapping(value = {"/purchase/salesForm_List"})
+	public List<SalesFormDTO> salesFormList() {
+		return service.listSalesForm();
+	}
+	
+	// 주문 목록 수정
+	@PutMapping(value = {"/purchase/salesForm"})
+	public void salesFormUpdate(@RequestBody SalesFormDTO dto) {
+		System.out.println("[SalesFormDTO] : " + dto);
+		service.updateSalesForm(dto);
+	}
+	
+	// 주문 목록 삭제 => 삭제하는 대신 유효성을 0으로
+	@PutMapping(value = {"/purchase/salesFormDelete"})
+	public void salesFormDelete(@RequestBody SalesFormDTO dto) {
+		System.out.println("[SalesFormDTO] : " + dto);
+		dto.setValidation(0);
+		service.updateSalesForm(dto);
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// 판매 폼 입력
+	@PostMapping(value = {"/purchase/sales"})
+	public void salesForm(@RequestBody SalesDTO dto) {
+		System.out.println("[SalesDTO] : " + dto);
+		
+		dto.setDueDate(new Date(System.currentTimeMillis()));
+		
+		dto.setValidation(1); // 디폴트 값 : 1
+		// 최초 생성시에만 id를 만들어주고 update 시엔 아이디 따로 생성하지 않음
+		if(dto.getSalesId() == null || dto.getSalesId().length() == 0) {
+			for(int i = 0; i < dto.getDetails().size(); i++) {
+				dto.getDetails().get(i).setSalesDetailId("_" + i);
+			}
+		}
+		System.out.println("[SalesDTO] : " + dto); // validation=1로 바뀐거 확인
+		
+		service.addSales(dto);
+	}
+	
+	// 판매 목록
+	@GetMapping(value = {"/purchase/salesList"})
+	public List<SalesDTO> salesList() {
+		return service.listSales();
+	}
+	
+	// 판매 목록 수정
+	@PutMapping(value = {"/purchase/sales"})
+	public void salesUpdate(@RequestBody SalesDTO dto) {
+		System.out.println("[SalesDTO] : " + dto);
+		service.updateSales(dto);
+	}
+	
+	// 판매 목록 삭제 => 삭제하는 대신 유효성을 0으로
+	@PutMapping(value = {"/purchase/salesDelete"})
+	public void salesDelete(@RequestBody SalesDTO dto) {
+		System.out.println("[SalesDTO] : " + dto);
+		dto.setValidation(0);
+		service.updateSales(dto);
+	}
+	
 }

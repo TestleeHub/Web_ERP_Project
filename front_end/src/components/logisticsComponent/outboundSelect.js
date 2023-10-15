@@ -3,8 +3,8 @@ import {Table, TableHead, TableBody, TableRow, TableCell, Typography, Button} fr
 import { request } from "../../helpers/axios_helper";
 
 
-// 재고 조회(storageSelect)
-class storageSelect extends Component{
+// 출고 조회(outboundSelect)
+class outboundSelect extends Component{
     constructor(props) {
         super(props);
         this.state = {
@@ -12,15 +12,14 @@ class storageSelect extends Component{
             displayedDatas: [],
             showMore: true,
             isLoading: true,
-            productionItemId: "",
-            registDate: "",
-            manager: "",
+            outboundId: "", // receiptId
+            outboundDate: "", // receiptDate
             storageId: "",
-            quantity: "",
-            record: ""
+            productionItemId: "",
+            amount: "",
+            client: ""
         }
     }
-
 
     handleShowMoreClick = () => {
         const { datas, displayedDatas } = this.state;
@@ -45,7 +44,7 @@ class storageSelect extends Component{
     reloadData = (e) => {
         request(
             "GET",
-            "/logistics/inventoryList",
+            "/logistics/ ", // ???
             {
 
             }).then((response) => {
@@ -64,8 +63,8 @@ class storageSelect extends Component{
     // update
     editData = (data) => {
         //반드시 데이터를 한번 가져간 후 localStorage에서 삭제해 줘야 함
-        window.localStorage.setItem("inventoryData", JSON.stringify(data));
-        this.props.history.push('/logistics/inventoryAdjustment');
+        window.localStorage.setItem("outboundData", JSON.stringify(data));
+        this.props.history.push('/logistics/inventoryAdjustment'); // ????
     }
 
 
@@ -73,19 +72,19 @@ class storageSelect extends Component{
     deleteData = (targetdata) => {
         request(
             "PUT",
-            "/logistics/inventoryListDelete",
+            "/logistics/inventoryListDelete", // ????
             {
-                productionItemId: targetdata.productionItemId,
-                registDate: targetdata.registDate,
-                manager: targetdata.manager,
+                outboundId: targetdata.outboundId,
+                outboundDate: targetdata.outboundDate,
                 storageId: targetdata.storageId,
-                quantity: targetdata.quantity,
-                record: targetdata.record
+                productionItemId: targetdata.productionItemId,
+                amount: targetdata.amount,
+                client: targetdata.client
 
             }).then((response) => {
                 this.setState({
-                    datas: this.state.datas.filter(data => data.productionItemId !== targetdata.productionItemId),
-                    displayedDatas: this.state.displayedDatas.filter(data => data.productionItemId !== targetdata.productionItemId)
+                    datas: this.state.datas.filter(data => data.outboundId !== targetdata.outboundId),
+                    displayedDatas: this.state.displayedDatas.filter(data => data.outboundId !== targetdata.outboundId)
                 });
                 console.log('response : ', response);
             }).catch((error) => {
@@ -100,12 +99,9 @@ class storageSelect extends Component{
         return(
             <div>
                 <br/>
-                    <Typography variant="h4" style={style}>재고 조회</Typography>
+                    <Typography variant="h4" style={style}> 출고 조회 </Typography>
                 <br/>
                 <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>전체</Button>
-                <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>결재중</Button>
-                <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>미확인</Button>
-                <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>확인</Button>
                 {/* 로딩 상태에 대한 조건부 렌더링 */}
                 {this.state.isLoading ? (
                     <p>로딩 중...</p>
@@ -113,12 +109,12 @@ class storageSelect extends Component{
                 <Table style={{border: '1px solid lightgray', backgroundColor: 'ghostwhite'}}>
                     <TableHead style={{backgroundColor: 'lightgray'}}>
                         <TableRow>
-                            <TableCell> 제품 코드 </TableCell>
+                            <TableCell> 출고 코드 </TableCell>
+                            <TableCell> 일자 </TableCell>
                             <TableCell> 창고 코드 </TableCell>
-                            <TableCell> 담당자 </TableCell>
-                            <TableCell> 등록일 </TableCell>
-                            <TableCell> 수량 </TableCell>
-                            <TableCell> 이력 </TableCell>
+                            <TableCell> 제품 코드 </TableCell>
+                            <TableCell> 수량 합계 </TableCell>
+                            <TableCell> 거래처명 </TableCell>
                             <TableCell> </TableCell>
                         </TableRow>
                     </TableHead>
@@ -126,32 +122,19 @@ class storageSelect extends Component{
                     <TableBody>
                         {this.state.displayedDatas.map((data, index) => (
                             <TableRow>
-                                <TableCell> {data.productionItemId} </TableCell>
+                                <TableCell> {data.outboundId} </TableCell>
+                                <TableCell> {data.outboundDate} </TableCell>
                                 <TableCell> {data.storageId} </TableCell>
-                                <TableCell> {data.manager} </TableCell>
-                                <TableCell> {data.registDate} </TableCell>
-                                <TableCell> {data.quantity} </TableCell>
-                                <TableCell> {data.record} </TableCell>
+                                <TableCell> {data.productionItemId} </TableCell>
+                                <TableCell> {data.amount} </TableCell>
+                                <TableCell> {data.client} </TableCell>
 
-                                <TableCell>
-                                    <Button variant="contained" style={updateButton} onClick={() => this.editData(data)}>수정
-                                        <img className="penImage" 
-                                             alt="pen" 
-                                             src="../images/pen.png" 
-                                             style={{marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)'}} 
-                                        />
-                                    </Button>
-                                    <Button variant="contained" style={deleteButton} onClick={() => this.deleteData(data)}> 삭제
-                                        <img className="garbageImage" 
-                                             alt="garbage" 
-                                             src="../images/garbage.png" 
-                                             style={{marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)'}} 
-                                        />
-                                    </Button>
+                                <TableCell> 
+                                    <Button variant="contained" style={normalButton} onClick={() => this.editData(data)}>수정</Button>
+                                    <Button variant="contained" style={normalButton} onClick={() => this.deleteData(data)}>삭제</Button>
                                 </TableCell>
-
                             </TableRow>
-                        ))}     
+                        ))}
                     </TableBody>
                 </Table>
                 )}
@@ -159,8 +142,8 @@ class storageSelect extends Component{
                     <Button variant="contained" style={normalButton} onClick={this.handleShowMoreClick}>더 보기</Button>
                 )}
                 <Button variant="contained" style={normalButton} onClick={this.addSample}>신규(F2)</Button>
-                <Button variant="contained" style={normalButton} onClick={this.addSample}>전자결재</Button>
                 <Button variant="contained" style={normalButton} onClick={this.addSample}>선택삭제</Button>
+                <Button variant="contained" style={normalButton} onClick={this.addSample}>이력조회</Button>
                 <br/><br/>
             </div>
         );
@@ -190,31 +173,9 @@ const normalButton = {
     backgroundColor: 'navy',
     color: 'white',
     marginRight: '10px',
-    width: '100px',
+    width: '150px',
     height: '30px',
     padding: '10px 20px'
 }
 
-// 수정 버튼 속성
-const updateButton = {
-    backgroundColor: '#FF8C0A',
-    color: 'white',
-    marginRight: '10px',
-    width: '100px',
-    height: '35px',
-    padding: '10px 20px',
-    borderRadius: '20px'
-}
-
-// 삭제 버튼 속성
-const deleteButton = {
-    backgroundColor: '#A52A2A',
-    color: 'white',
-    marginRight: '10px',
-    width: '100px',
-    height: '35px',
-    padding: '10px 20px',
-    borderRadius: '20px'
-}
-
-export default storageSelect;
+export default outboundSelect;
