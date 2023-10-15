@@ -95,13 +95,13 @@ function App() {
               <Route path='/logistics/storageSelect' exact={true} component={storageSelect} />
               {/* <Route path='/logistics/storageMoveUpdate' exact={true} component={storageMoveUpdate} /> */}
 
-              <Route path='/customerTest' exact={true} component={customerList} />
-              <Route path='/customerTest/customerListSample' exact={true} component={customerList} />
-              <Route path='/customerTest/customerInsertSample' exact={true} component={customerInsert} />
-              <Route path='/customerTest/customerTradeHistorySample' exact={true} component={customerTradeHistory} />
-              <Route path='/customerTest/CustomerTradeSlipSample' exact={true} component={customerTradeSlip} />
-              <Route path='/customerTest/customerTradeSlipInsertSample' exact={true} component={customerTradeSlipInsert} />
-              <Route path='/customerTest/customerIncomeSample' exact={true} component={customerIncome} />
+              <Route path='/customer' exact={true} component={customerList} />
+              <Route path='/customer/customerList' exact={true} component={customerList} />
+              <Route path='/customer/customerInsert' exact={true} component={customerInsert} />
+              <Route path='/customer/customerTradeHistory' exact={true} component={customerTradeHistory} />
+              <Route path='/customer/CustomerTradeSlip' exact={true} component={customerTradeSlip} />
+              <Route path='/customer/customerTradeSlipInsert' exact={true} component={customerTradeSlipInsert} />
+              <Route path='/customer/customerIncome' exact={true} component={customerIncome} />
 
               <Route path='/purchase' exact={true} component={orderList} />
               <Route path='/purchase/orderList' exact={true} component={orderList} />

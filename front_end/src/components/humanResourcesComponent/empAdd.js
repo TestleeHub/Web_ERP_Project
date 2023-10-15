@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { Table, TableBody, TableRow, TableCell, Button } from '@mui/material';
+import { Table, TableBody, TableRow, TableCell, Button, Alert } from '@mui/material';
 import { request } from "../../helpers/axios_helper";
 
 class empAdd extends Component{
     constructor(props) {
         super(props);
+
         this.state = {
             employeeId: "",
             name: "",
@@ -22,12 +23,20 @@ class empAdd extends Component{
             postMail: "",	
             address: "",
             salary: "",	
-            // 임시 시작
-            joinDate: "20230101",
-            // 임시 끝
             password: "",
-            chkpassword : ""
-            
+            chkpassword : "",
+            joinDate: ""
+        }
+    }
+
+    // 수정페이지 처리
+    componentDidMount() {
+        const emp = window.localStorage.getItem("emp");
+        console.log("edit:" + emp)
+        if(emp !== null){
+            const parseEmp = JSON.parse(emp);
+            this.setState(parseEmp);
+            window.localStorage.removeItem("emp");
         }
     }
 
@@ -47,35 +56,36 @@ class empAdd extends Component{
     // 직원 추가
     onSubmitEmpAdd = (e) => {
         e.preventDefault();
-        request(
-            "POST",
-            "/humanResources/empAdd",
-            {
-                employeeId: this.state.employeeId,
-                name: this.state.name,
-                foreignName: this.state.foreignName,
-                socialNum: this.state.socialNum,
-                position: this.state.position,
-                leaveDate: this.state.leaveDate,	 
-                leaveReason: this.state.leaveReason,
-                phone: this.state.phone,
-                email: this.state.email,		 
-                departmentId: this.state.departmentId,
-                bankCode: this.state.bankCode,
-                account: this.state.account,	
-                accountName: this.state.accountName,	  
-                postMail: this.state.postMail,	
-                address: this.state.address,
-                salary: this.state.salary,	
-                password: this.state.password,
-                // 임시
-                joinDate: this.state.joinDate
-                // 임시
-            }).then((response) => {
-                console.log('response : ', response);   
-            }).catch((error) => {
-                console.log('error : ', error); 
-            })
+        if(this.state.password === this.state.chkpassword){
+            request(
+                "POST",
+                "/humanResources/empAdd",
+                {
+                    employeeId: this.state.employeeId,
+                    name: this.state.name,
+                    foreignName: this.state.foreignName,
+                    socialNum: this.state.socialNum,
+                    position: this.state.position,
+                    leaveDate: this.state.leaveDate,	 
+                    leaveReason: this.state.leaveReason,
+                    phone: this.state.phone,
+                    email: this.state.email,		 
+                    departmentId: this.state.departmentId,
+                    bankCode: this.state.bankCode,
+                    account: this.state.account,	
+                    accountName: this.state.accountName,	  
+                    postMail: this.state.postMail,	
+                    address: this.state.address,
+                    salary: this.state.salary,	
+                    password: this.state.password,
+                }).then((response) => {
+                    console.log('response : ', response);   
+                    this.props.history.push('/humanResourceImg/empList');
+                }).catch((error) => {
+                    console.log('error : ', error); 
+                })
+            
+        }
     }
     render(){
         return(

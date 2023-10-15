@@ -7,7 +7,26 @@ class empList extends Component{
         super(props);
 
         this.state = {
-            empDatas: []            
+            empDatas: [],
+            employeeId: "",
+            name: "",
+            foreignName: "",
+            socialNum: "",
+            position: "",
+            leaveDate: "",	 
+            leaveReason: "",
+            phone: "",
+            email: "",		 
+            departmentId: "",
+            bankCode: "",
+            account: "",	
+            accountName: "",	  
+            postMail: "",	
+            address: "",
+            salary: "",	
+            password: "",
+            chkpassword : "",
+            joinDate: ""
         }
     }
 
@@ -35,9 +54,57 @@ class empList extends Component{
         
     }
     // emp 삭제
-    // emp 수정
-    updateEmp = (e) => {
+    deleteEmp = (emp) => {
+        console.log(emp)
+        console.log(emp.employeeId)
+        request(
+            "PUT",
+            "/humanResources/empDelete",
+            {
+                employeeId: emp.employeeId,
+                name: emp.name,
+                foreignName: emp.foreignName,
+                socialNum: emp.socialNum,
+                position: emp.position,
+                leaveDate: emp.leaveDate,	 
+                leaveReason: emp.leaveReason,
+                phone: emp.phone,
+                email: emp.email,		 
+                departmentId: emp.departmentId,
+                bankCode: emp.bankCode,
+                account: emp.account,	
+                accountName: emp.accountName,	  
+                postMail: emp.postMail,	
+                address: emp.address,
+                salary: emp.salary,	
+                password: emp.password,
+                chkpassword : emp.chkpassword,
+                joinDate: emp.joinDate
+            }).then((response) => {
+                this.setState({
+                    
+                });
+                console.log('response: ',response);
+            }).catch((error) => {
+                console.log('error: ', error);
+            })
 
+        
+    } 
+    // emp 수정
+    updateEmp = (emp) => {
+        console.log("list: " + emp)
+        window.localStorage.setItem("emp", JSON.stringify(emp))
+        this.props.history.push('/humanResourceImg/empBasicReg');
+    }
+
+    formatDate = (timestamp) => {
+        const date = new Date(timestamp);
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 +1을 해줍니다.
+        const day = date.getDate().toString().padStart(2, '0');
+
+        return `${year}-${month}-${day}`;
     }
 
     render(){
@@ -67,16 +134,19 @@ class empList extends Component{
                             </TableHead>
                             <TableBody>
                                 {this.state.empDatas.map(emp => 
-                                    
                                 <TableRow>
-                                    <TableCell><input type="checkbox"/></TableCell>
-                                    <TableCell>{emp.joinDate}</TableCell>
+                                    <TableCell><input type="checkbox" name={emp.employeeId}/></TableCell>
+                                    <TableCell>{this.formatDate(emp.joinDate)}</TableCell>
                                     <TableCell>{emp.employeeId}</TableCell>
                                     <TableCell>{emp.name}</TableCell>
                                     <TableCell>{emp.departmentId}</TableCell>
                                     <TableCell>{emp.position}</TableCell>
                                     <TableCell>{emp.account}</TableCell>
                                     <TableCell>{emp.salary}</TableCell>    
+                                    <TableCell>
+                                        <Button onClick={() => this.updateEmp(emp)}>수정</Button>
+                                        <Button onClick={() => this.deleteEmp(emp)}>삭제</Button>
+                                    </TableCell>
                                 </TableRow>
                                 )}
                             </TableBody>
@@ -87,8 +157,7 @@ class empList extends Component{
                 </div>
                 <hr/>
                 <div>
-                    <Button onClick={this.updateEmp}>수정</Button>
-                    <Button>삭제</Button>
+                    
                 </div>
             </div>
             // 전체 div 끝
