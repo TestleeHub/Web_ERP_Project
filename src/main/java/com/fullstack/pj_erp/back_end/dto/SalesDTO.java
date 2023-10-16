@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -51,6 +52,12 @@ public class SalesDTO {
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "SALESID")
 	private List<Sales_DetailDTO> details;
+	
+	@Transient
+	private int totalPrice;
+	
+	@Transient
+	private int vat;
 	
 //	@OneToOne
 //	@JoinColumn(name = "CUSTOMERID")
