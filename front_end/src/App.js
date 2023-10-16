@@ -111,14 +111,14 @@ function App() {
               <Route path='/purchase/purchaseING' exact={true} component={purchaseING} />
               <Route path='/purchase/purchaseConfirm' exact={true} component={purchaseConfirm} />
 
-              <Route path='/humanResourceImg' exact={true} component={empList} />
-              <Route path='/humanResourceImg/empBasicReg' exact={true} component={empAdd} />
-              <Route path='/humanResourceImg/empList' exact={true} component={empList} />
-              <Route path='/humanResourceImg/empProofMaking' exact={true} component={empProofMaking} />
-              <Route path='/humanResourceImg/salaryReg' exact={true} component={salaryReg} />
-              <Route path='/humanResourceImg/SalaryStateSelect' exact={true} component={SalaryStateSelect} />
-              <Route path='/humanResourceImg/depList' exact={true} component={depList} />
-              <Route path='/humanResourceImg/depAdd' exact={true} component={depAdd} />
+              <Route path='/humanResources' exact={true} component={empList} />
+              <Route path='/humanResources/empAdd' exact={true} component={empAdd} />
+              <Route path='/humanResources/empList' exact={true} component={empList} />
+              <Route path='/humanResources/empProofMaking' exact={true} component={empProofMaking} />
+              <Route path='/humanResources/salaryReg' exact={true} component={salaryReg} />
+              <Route path='/humanResources/SalaryStateSelect' exact={true} component={SalaryStateSelect} />
+              <Route path='/humanResources/depList' exact={true} component={depList} />
+              <Route path='/humanResources/depAdd' exact={true} component={depAdd} />
 
               <Route path='/account' exact={true} component={fixedAssetsList} />
               <Route path='/account/purchaseBook' exact={true} component={purchaseBook} />

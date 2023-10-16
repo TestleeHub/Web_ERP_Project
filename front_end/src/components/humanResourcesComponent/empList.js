@@ -81,21 +81,25 @@ class empList extends Component{
                 chkpassword : emp.chkpassword,
                 joinDate: emp.joinDate
             }).then((response) => {
-                this.setState({
-                    
-                });
                 console.log('response: ',response);
+                
             }).catch((error) => {
                 console.log('error: ', error);
             })
-
+        this.props.history.push('/humanResources/empList');
         
     } 
     // emp 수정
     updateEmp = (emp) => {
-        console.log("list: " + emp)
+        console.log("emp: " + emp)
         window.localStorage.setItem("emp", JSON.stringify(emp))
-        this.props.history.push('/humanResourceImg/empBasicReg');
+        this.props.history.push('/humanResources/empAdd');
+    }
+    // 재직증명서
+    tenure = (emp) => {
+        console.log("emp: " + emp)
+        window.localStorage.setItem("emp", JSON.stringify(emp))
+        this.props.history.push('/humanResources/empProofMaking');
     }
 
     formatDate = (timestamp) => {
@@ -119,14 +123,14 @@ class empList extends Component{
                 <div className="centerDivCss">
                     
                     <div>
-                        <Table>
+                        <Table style={{ backgroundColor: 'lightgray'}}>
                             <TableHead>
                                 <TableRow>
                                 <TableCell><input type="checkbox"/></TableCell>
                                 <TableCell>입사일자</TableCell>
                                 <TableCell>사원번호</TableCell>
                                 <TableCell>성명</TableCell>
-                                <TableCell>부서명</TableCell>
+                                <TableCell>부서코드</TableCell>
                                 <TableCell>직책</TableCell>
                                 <TableCell>계좌번호</TableCell>
                                 <TableCell>급여구분</TableCell>
@@ -146,6 +150,7 @@ class empList extends Component{
                                     <TableCell>
                                         <Button onClick={() => this.updateEmp(emp)}>수정</Button>
                                         <Button onClick={() => this.deleteEmp(emp)}>삭제</Button>
+                                        <Button onClick={() => this.tenure(emp)}>재직 증명서</Button>
                                     </TableCell>
                                 </TableRow>
                                 )}

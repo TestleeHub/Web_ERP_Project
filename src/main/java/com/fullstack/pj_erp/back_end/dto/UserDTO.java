@@ -29,8 +29,8 @@ public class UserDTO {
 	private long socialNum;
 	@Column(name = "JOINDATE")
 	private Date joinDate;
-	private Integer rank;
-	private Integer position;
+	private String rank;
+	private String position;
 	@Column(name = "LEAVEDATE")
 	private Date leaveDate;
 	@Column(name = "LEAVEREASON")
@@ -39,10 +39,10 @@ public class UserDTO {
 	@Column(name = "EMAIL")
 	private String email;
 	@Column(name = "DEPARTMENTID")
-	private Integer departmentId;
+	private String departmentId;
 	@Column(name = "BANKCODE")
-	private Integer bankCode;
-	private Integer account;
+	private String bankCode;
+	private String account;
 	@Column(name = "ACCOUNTNAME")
 	private String accountName;
 	@Column(name = "POSTMAIL")
