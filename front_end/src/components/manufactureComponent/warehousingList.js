@@ -46,7 +46,7 @@ class warehousingList extends Component {
             }).then((response) => {
                 this.setState({
                     datas: response.data,
-                    displayedDatas: response.data.slice(0, 5),
+                    displayedDatas: response.data.slice(0, 10),
                     isLoading: false
                 });
                 console.log('response : ', response);
@@ -94,6 +94,45 @@ class warehousingList extends Component {
         return `${year}-${month}-${day}`;
     }
 
+    // sorting 시작
+    sortUsingMaterialReciveId = () => {
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.materialReciveId.localeCompare(b.materialReciveId);
+        });
+        this.setState({
+            displayedDatas: sortedData
+        });
+
+    }
+    sortUsingProductionItemName = () => {
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.productionItem.name.localeCompare(b.productionItem.name);
+        });
+        this.setState({
+            displayedDatas: sortedData
+        });
+
+    }
+    sortUsingBusinessRelationName = () => {
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.businessRelation.name.localeCompare(b.businessRelation.name);
+        });
+        this.setState({
+            displayedDatas: sortedData
+        });
+
+    }
+    sortUsingRegistDate = () => {
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.registDate - b.registDate;
+        });
+        this.setState({
+            displayedDatas: sortedData
+        });
+
+    }
+    // sorting 끝
+
     render() {
         const { displayedDatas, showMore } = this.state;
 
@@ -110,12 +149,12 @@ class warehousingList extends Component {
                     <Table border="1" style={{border: '1px solid lightgray', backgroundColor: 'ghostwhite'}}>
                         <TableHead style={{backgroundColor: 'lightgray'}}>
                             <TableRow>
-                                <TableCell> 입고코드 </TableCell>
-                                <TableCell> 생산 상품명 </TableCell>
+                                <TableCell onClick={() => this.sortUsingMaterialReciveId()}> 입고코드▽ </TableCell>
+                                <TableCell onClick={() => this.sortUsingProductionItemName()}> 생산 상품명▽ </TableCell>
                                 <TableCell> 작업지시서 </TableCell>
-                                <TableCell> 거래처 </TableCell>
+                                <TableCell onClick={() => this.sortUsingBusinessRelationName()}> 거래처▽ </TableCell>
                                 <TableCell> 상세 내용 </TableCell>
-                                <TableCell> 등록일 </TableCell>
+                                <TableCell onClick={() => this.sortUsingRegistDate()}> 등록일▽ </TableCell>
                                 <TableCell> 추가 작업 </TableCell>
                             </TableRow>
                         </TableHead>
@@ -146,9 +185,9 @@ class warehousingList extends Component {
                 )}
                 <br />
                 <br />
-                <Button variant="contained" style={normalButton} onClick={this.addSample}>간편 재고조정</Button>
-                <Button variant="contained" style={normalButton} onClick={this.addSample}>단계별 재고실사</Button>
-                <Button variant="contained" style={normalButton} onClick={this.addSample}>재고조정</Button>
+                <Button variant="contained" style={normalButton} onClick={() => this.props.history.push('/logistics/inventorySelect')}>재고 조회</Button>
+                <Button variant="contained" style={normalButton} onClick={() => this.props.history.push('/logistics/materialSelect')}>원자재 조회</Button>
+                <Button variant="contained" style={normalButton} onClick={() => this.props.history.push('/logistics/storageSelect')}>창고 조회</Button>
             </div>
         );
     }

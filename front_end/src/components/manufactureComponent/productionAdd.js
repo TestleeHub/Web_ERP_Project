@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { Table, TableHead, TableBody, TableRow, TableCell, Typography, Button } from '@mui/material';
 import { request } from "../../helpers/axios_helper";
+import EmployeePopup from "../popUp/employeePopup";
+import StoragePopup from "../popUp/storagePopup";
+import Modal from 'react-modal';
 
 class productionAdd extends Component {
     constructor(props) {
@@ -11,7 +14,9 @@ class productionAdd extends Component {
             name: "",
             standard: "",
             managerId: "",
-            storageId: ""
+            storageId: "",
+            isEmployeePopupOpen: false,
+            isStoregePopupOpen: false
         }
     }
 
@@ -25,6 +30,30 @@ class productionAdd extends Component {
             this.setState(parsedData);
             window.localStorage.removeItem('productionData');
         }
+    }
+
+    // 팝업 열기
+    openEmployeePopup = () => {
+        this.setState({ isEmployeePopupOpen: true });
+    }
+    openStoregePopup = () => {
+        this.setState({ isStoregePopupOpen: true });
+    }
+
+    // 팝업 닫기
+    closeEmployeePopup = () => {
+        this.setState({ isEmployeePopupOpen: false });
+    }
+    closeStoregePopup = () => {
+        this.setState({ isStoregePopupOpen: false });
+    }
+
+    // 팝업에서 선택한 데이터를 받아오는 콜백 함수
+    handleEmployeePopupData = (data) => {
+        this.setState({ managerId: data.employeeId, isEmployeePopupOpen: false });
+    }
+    handleStoregePopupData = (data) => {
+        this.setState({ storageId: data.storageId, isStoregePopupOpen: false });
     }
 
     // 필드의 업데이트 값을 state에 저장
@@ -74,7 +103,10 @@ class productionAdd extends Component {
                 storageId: this.state.storageId
             }).then((response) => {
                 console.log('response : ', response);
+                window.confirm("등록에 성공하였습니다.")
+                this.props.history.push('/manufacture/productionList');
             }).catch((error) => {
+                alert("등록에 실패하였습니다.!")
                 console.log('error : ', error);
             })
 
@@ -82,8 +114,57 @@ class productionAdd extends Component {
 
     render() {
         return (
-
             <div>
+                {/* 팝업 */}
+                <div>
+                    <Modal
+                        isOpen={this.state.isEmployeePopupOpen}
+                        onRequestClose={this.closeEmployeePopup}
+                        contentLabel="팝업"
+                        style={{
+                            overlay: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                            },
+                            content: {
+                                width: '700px', // 원하는 폭으로 설정
+                                height: '400px', // 원하는 높이로 설정
+                                top: '50%', // 원하는 수직 위치로 설정
+                                left: '55%', // 원하는 수평 위치로 설정
+                                transform: 'translate(-50%, -50%)'
+                            },
+                        }}
+                    >
+                        {/* 팝업 컴포넌트에 선택한 데이터를 전달 */}
+                        <EmployeePopup onPopupData={this.handleEmployeePopupData} />
+
+                        <button onClick={this.closeEmployeePopup}>닫기</button>
+                    </Modal>
+                </div>
+                <div>
+                    <Modal
+                        isOpen={this.state.isStoregePopupOpen}
+                        onRequestClose={this.closeStoregePopup}
+                        contentLabel="팝업"
+                        style={{
+                            overlay: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                            },
+                            content: {
+                                width: '700px', // 원하는 폭으로 설정
+                                height: '400px', // 원하는 높이로 설정
+                                top: '50%', // 원하는 수직 위치로 설정
+                                left: '55%', // 원하는 수평 위치로 설정
+                                transform: 'translate(-50%, -50%)'
+                            },
+                        }}
+                    >
+                        {/* 팝업 컴포넌트에 선택한 데이터를 전달 */}
+                        <StoragePopup onPopupData={this.handleStoregePopupData} />
+
+                        <button onClick={this.closeStoregePopup}>닫기</button>
+                    </Modal>
+                </div>
+                {/* 팝업 끝 */}
                 <br />
                 <Typography variant="h4" style={style}> 품목등록 </Typography>
                 <br />
@@ -152,9 +233,11 @@ class productionAdd extends Component {
                                     type="text"
                                     size="70"
                                     name="managerId"
-                                    placeholder="담당자"
+                                    placeholder="담당자(검색)"
                                     onChange={this.onChangeHandler}
+                                    onClick={this.openEmployeePopup}
                                     value={this.state.managerId}
+                                    readOnly
                                 />
                             </TableCell>
                         </TableRow>
@@ -165,9 +248,11 @@ class productionAdd extends Component {
                                     type="text"
                                     size="70"
                                     name="storageId"
-                                    placeholder="받는창고"
+                                    placeholder="받는창고(검색)"
                                     onChange={this.onChangeHandler}
+                                    onClick={this.openStoregePopup}
                                     value={this.state.storageId}
+                                    readOnly
                                 />
                             </TableCell>
                         </TableRow>

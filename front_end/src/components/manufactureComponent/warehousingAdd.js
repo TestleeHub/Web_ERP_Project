@@ -4,6 +4,7 @@ import { request } from "../../helpers/axios_helper";
 import ProductionPopup from "../popUp/productionPopup";
 import InstructionPopup from "../popUp/instructionPopup";
 import CustomerPopup from "../popUp/customerPopup";
+import MaterialPopup from "../popUp/materialPopup";
 import Modal from 'react-modal';
 
 class warehousingAdd extends Component {
@@ -16,8 +17,10 @@ class warehousingAdd extends Component {
             businessRelationId: "",
             details: [],
             isProductionPopupOpen: false,
-            isInstructionPopupOpen : false,
-            isCustomerPopupOpen : false
+            isInstructionPopupOpen: false,
+            isCustomerPopupOpen: false,
+            isMaterialPopupOpen: false,
+            detailIndex: -1
         }
     }
 
@@ -37,13 +40,14 @@ class warehousingAdd extends Component {
     openProductionPopup = () => {
         this.setState({ isProductionPopupOpen: true });
     }
-
     openInstructionPopup = () => {
         this.setState({ isInstructionPopupOpen: true });
     }
-
     openCustomerPopup = () => {
         this.setState({ isCustomerPopupOpen: true });
+    }
+    openMaterialPopup = (detailIndex) => {
+        this.setState({ isMaterialPopupOpen: true, detailIndex: detailIndex });
     }
 
     // 팝업 닫기
@@ -56,6 +60,9 @@ class warehousingAdd extends Component {
     closeCustomerPopup = () => {
         this.setState({ isCustomerPopupOpen: false });
     }
+    closeMaterialPopup = () => {
+        this.setState({ isMaterialPopupOpen: false });
+    }
 
     // 팝업에서 선택한 데이터를 받아오는 콜백 함수
     handleProductionPopupData = (data) => {
@@ -67,13 +74,20 @@ class warehousingAdd extends Component {
     handleCustomerPopupData = (data) => {
         this.setState({ businessRelationId: data.customerId, isCustomerPopupOpen: false });
     }
+    handleMaterialPopupData = (data) => {
+        const updatedDetails = [...this.state.details]; // details 배열 복사
+        updatedDetails[this.state.detailIndex].materialId = data.materialId; // 속성 업데이트
+        updatedDetails[this.state.detailIndex].name = data.name; // 속성 업데이트
+        updatedDetails[this.state.detailIndex].storageId = data.storageId; // 속성 업데이트
+        this.setState({ details: updatedDetails, isMaterialPopupOpen: false }); // 상태 업데이트
+    }
 
     addNewField = () => {
         this.setState(prevState => ({
             details: [
                 ...prevState.details,
                 {
-                    meterialId: "",
+                    materialId: "",
                     name: "",
                     storageId: "",
                     quantity: 0
@@ -135,10 +149,29 @@ class warehousingAdd extends Component {
                 details: this.state.details
             }).then((response) => {
                 console.log('response : ', response);
+                window.confirm("등록에 성공하였습니다.")
+                this.props.history.push('/manufacture/warehousingList');
             }).catch((error) => {
+                alert("등록에 실패하였습니다.!")
                 console.log('error : ', error);
             })
 
+    }
+
+    onReset = () => {
+
+        this.setState({
+            materialReciveId: "",
+            productionItemId: "",
+            workOrderId: "",
+            businessRelationId: "",
+            details: [],
+            isProductionPopupOpen: false,
+            isInstructionPopupOpen: false,
+            isCustomerPopupOpen: false,
+            isMaterialPopupOpen: false,
+            detailIndex: -1
+        });
     }
 
     render() {
@@ -217,6 +250,31 @@ class warehousingAdd extends Component {
                         <button onClick={this.closeCustomerPopup}>닫기</button>
                     </Modal>
                 </div>
+                <div>
+                    <Modal
+                        isOpen={this.state.isMaterialPopupOpen}
+                        onRequestClose={this.closeMaterialPopup}
+                        contentLabel="팝업"
+                        style={{
+                            overlay: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                            },
+                            content: {
+                                width: '700px', // 원하는 폭으로 설정
+                                height: '400px', // 원하는 높이로 설정
+                                top: '50%', // 원하는 수직 위치로 설정
+                                left: '55%', // 원하는 수평 위치로 설정
+                                transform: 'translate(-50%, -50%)'
+                            },
+                        }}
+                    >
+                        {/* 팝업 컴포넌트에 선택한 데이터를 전달 */}
+                        <MaterialPopup onPopupData={this.handleMaterialPopupData} />
+
+                        <button onClick={this.closeMaterialPopup}>닫기</button>
+                    </Modal>
+                </div>
+                {/* 팝업 끝 */}
 
                 <br />
                 <Typography variant="h4" style={style}> 생산 입고 등록 </Typography>
@@ -227,18 +285,56 @@ class warehousingAdd extends Component {
                 <Table style={{ borderCollapse: 'collapse', border: 'none', backgroundColor: 'lightgray' }}>
                     <TableHead>
                         <TableRow>
-                            <TableCell style={{ border: 'none' }}>생산 입고 코드</TableCell>
-                            <TableCell style={{ border: 'none' }}><input type="text" name="materialReciveId" size="10" placeholder="생산 불출 코드" onChange={this.onChangeHandler} readOnly value={this.state.materialReciveId} /></TableCell>
+                            <TableCell style={{ border: 'none' }} >생산 입고 코드 </TableCell>
+                            <TableCell style={{ border: 'none' }}>
+                                <input
+                                    type="text"
+                                    name="materialReciveId"
+                                    size="10"
+                                    placeholder="생산 불출 코드"
+                                    onChange={this.onChangeHandler}
+                                    readOnly
+                                    value={this.state.materialReciveId}
+                                />
+                            </TableCell>
                             <TableCell style={{ border: 'none' }}>생산 품목 코드</TableCell>
                             <TableCell style={{ border: 'none' }}>
-                                <input type="text" name="productionItemId" size="10" placeholder="생산 품목 코드" onChange={this.onChangeHandler} onClick={this.openProductionPopup} readOnly value={this.state.productionItemId} />
+                                <input
+                                    type="text"
+                                    name="productionItemId"
+                                    size="10"
+                                    placeholder="생산 품목 코드(검색)"
+                                    onChange={this.onChangeHandler}
+                                    onClick={this.openProductionPopup}
+                                    readOnly
+                                    value={this.state.productionItemId} />
                             </TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell style={{ border: 'none' }}>작업 지시서 코드</TableCell>
-                            <TableCell style={{ border: 'none' }}><input type="text" name="workOrderId" size="10" placeholder="작업 지시서 코드" onChange={this.onChangeHandler} onClick={this.openInstructionPopup} readOnly value={this.state.workOrderId} /></TableCell>
+                            <TableCell style={{ border: 'none' }}>
+                                <input
+                                    type="text"
+                                    name="workOrderId"
+                                    size="10"
+                                    placeholder="작업 지시서 코드(검색)"
+                                    onChange={this.onChangeHandler}
+                                    onClick={this.openInstructionPopup}
+                                    readOnly
+                                    value={this.state.workOrderId} /></TableCell>
                             <TableCell style={{ border: 'none' }}>거래처 코드</TableCell>
-                            <TableCell style={{ border: 'none' }}><input type="text" name="businessRelationId" size="10" placeholder="거래처 코드" onChange={this.onChangeHandler} onClick={this.openCustomerPopup} readOnly value={this.state.businessRelationId} /></TableCell>
+                            <TableCell style={{ border: 'none' }}>
+                                <input
+                                    type="text"
+                                    name="businessRelationId"
+                                    size="10"
+                                    placeholder="거래처 코드(검색)"
+                                    onChange={this.onChangeHandler}
+                                    onClick={this.openCustomerPopup}
+                                    readOnly
+                                    value={this.state.businessRelationId}
+                                />
+                            </TableCell>
                         </TableRow>
                     </TableHead>
                 </Table>
@@ -266,11 +362,13 @@ class warehousingAdd extends Component {
                                 <TableCell style={{ borderRight: '1px solid lightgray' }}>
                                     <input
                                         type="text"
-                                        name={`details[${index}].meterialId`}
+                                        name={`details[${index}].materialId`}
                                         size="10"
-                                        placeholder="원자재 코드"
+                                        placeholder="원자재 코드(검색)"
                                         onChange={this.onChangeHandler}
-                                        value={detail.meterialId}
+                                        onClick={() => this.openMaterialPopup(index)}
+                                        readOnly
+                                        value={detail.materialId}
                                     />
                                 </TableCell>
                                 <TableCell style={{ borderRight: '1px solid lightgray' }}>
@@ -280,6 +378,7 @@ class warehousingAdd extends Component {
                                         size="10"
                                         placeholder="원자재 이름"
                                         onChange={this.onChangeHandler}
+                                        readOnly
                                         value={detail.name}
                                     />
                                 </TableCell>
@@ -290,6 +389,7 @@ class warehousingAdd extends Component {
                                         size="10"
                                         placeholder="창고코드"
                                         onChange={this.onChangeHandler}
+                                        readOnly
                                         value={detail.storageId}
                                     />
                                 </TableCell>
@@ -315,6 +415,7 @@ class warehousingAdd extends Component {
 
                 <Button variant="contained" style={normalButton} onClick={this.onSubmitAdd}>저장</Button>
                 <Button variant="contained" style={normalButton} onClick={this.addNewField}>항목 추가</Button>
+                <Button variant="contained" style={normalButton} onClick={this.onReset}>초기화</Button>
             </div>
         );
     }

@@ -14,7 +14,7 @@ class dispatchList extends Component {
             productionItemId: "",
             workOrderId: "",
             businessRelationId: "",
-            registDate : "",
+            registDate: "",
             details: []
         }
     }
@@ -46,7 +46,7 @@ class dispatchList extends Component {
             }).then((response) => {
                 this.setState({
                     datas: response.data,
-                    displayedDatas: response.data.slice(0, 5),
+                    displayedDatas: response.data.slice(0, 10),
                     isLoading: false
                 });
                 console.log('response : ', response);
@@ -73,7 +73,7 @@ class dispatchList extends Component {
                 workOrderId: targetdata.workOrderId,
                 businessRelationId: targetdata.businessRelationId,
                 details: targetdata.details,
-                registDate : targetdata.registDate
+                registDate: targetdata.registDate
             }).then((response) => {
                 this.setState({
                     datas: this.state.datas.filter(data => data.materialReleaseId !== targetdata.materialReleaseId),
@@ -94,6 +94,45 @@ class dispatchList extends Component {
         return `${year}-${month}-${day}`;
     }
 
+    // sorting 시작
+    sortUsingMaterialReleaseId = () => {
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.materialReleaseId.localeCompare(b.materialReleaseId);
+        });
+        this.setState({
+            displayedDatas: sortedData
+        });
+
+    }
+    sortUsingProductionItemName = () => {
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.productionItem.name.localeCompare(b.productionItem.name);
+        });
+        this.setState({
+            displayedDatas: sortedData
+        });
+
+    }
+    sortUsingBusinessRelationName = () => {
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.businessRelation.name.localeCompare(b.businessRelation.name);
+        });
+        this.setState({
+            displayedDatas: sortedData
+        });
+
+    }
+    sortUsingRegistDate = () => {
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.registDate - b.registDate;
+        });
+        this.setState({
+            displayedDatas: sortedData
+        });
+
+    }
+    // sorting 끝
+
     render() {
         const { displayedDatas, showMore } = this.state;
 
@@ -107,15 +146,15 @@ class dispatchList extends Component {
                 {this.state.isLoading ? (
                     <p>로딩 중...</p>
                 ) : (
-                    <Table border="1" style={{border: '1px solid lightgray', backgroundColor: 'ghostwhite'}}>
-                        <TableHead style={{backgroundColor: 'lightgray'}}>
+                    <Table border="1" style={{ border: '1px solid lightgray', backgroundColor: 'ghostwhite' }}>
+                        <TableHead style={{ backgroundColor: 'lightgray' }}>
                             <TableRow>
-                                <TableCell> 불출코드 </TableCell>
-                                <TableCell> 생산 상품명 </TableCell>
+                                <TableCell onClick={() => this.sortUsingMaterialReleaseId()}> 불출코드▽ </TableCell>
+                                <TableCell onClick={() => this.sortUsingProductionItemName()}> 생산 상품명▽ </TableCell>
                                 <TableCell> 작업지시서 </TableCell>
-                                <TableCell> 거래처 </TableCell>
+                                <TableCell onClick={() => this.sortUsingBusinessRelationName()}> 거래처▽ </TableCell>
                                 <TableCell> 상세 내용 </TableCell>
-                                <TableCell> 등록일 </TableCell>
+                                <TableCell onClick={() => this.sortUsingRegistDate()}> 등록일▽ </TableCell>
                                 <TableCell> 추가 작업 </TableCell>
                             </TableRow>
                         </TableHead>
@@ -144,11 +183,11 @@ class dispatchList extends Component {
                 {showMore && (
                     <Button variant="contained" style={normalButton} onClick={this.handleShowMoreClick}>더 보기</Button>
                 )}
+                                <br />
                 <br />
-                <br />
-                <Button variant="contained" style={normalButton} onClick={this.addSample}>간편 재고조정</Button>
-                <Button variant="contained" style={normalButton} onClick={this.addSample}>단계별 재고실사</Button>
-                <Button variant="contained" style={normalButton} onClick={this.addSample}>재고조정</Button>
+                <Button variant="contained" style={normalButton} onClick={() => this.props.history.push('/logistics/inventorySelect')}>재고 조회</Button>
+                <Button variant="contained" style={normalButton} onClick={() => this.props.history.push('/logistics/materialSelect')}>원자재 조회</Button>
+                <Button variant="contained" style={normalButton} onClick={() => this.props.history.push('/logistics/storageSelect')}>창고 조회</Button>
             </div>
         );
     }
