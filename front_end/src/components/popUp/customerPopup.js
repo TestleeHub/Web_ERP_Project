@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { request } from "../../helpers/axios_helper";
 import { Table, TableHead, TableBody, TableRow, TableCell, Typography, Button } from '@mui/material';
 
-class productionPopup extends Component {
+class customerPopup extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,7 +22,7 @@ class productionPopup extends Component {
   reloadData = (e) => {
     request(
       "GET",
-      "/manufacture/productionList",
+      "/customer/customerList",
       {
 
       }).then((response) => {
@@ -45,31 +45,27 @@ class productionPopup extends Component {
   render() {
     return (
       <div>
-        <h3>생산 품목 목록</h3>
+        <h3>거래처 목록</h3>
         {this.state.isLoading ? (
           <p>로딩 중...</p>
         ) : (
           <Table border="1" style={{ backgroundColor: 'light' }}>
             <TableHead>
               <TableRow>
-                <TableCell> 상품 코드 </TableCell>
-                <TableCell> 공정 </TableCell>
-                <TableCell> 생산 상품명 </TableCell>
-                <TableCell> 규격 </TableCell>
-                <TableCell> 생산 공장 코드 </TableCell>
-                <TableCell> 받는 창고 코드 </TableCell>
+                <TableCell>거래처코드</TableCell>
+                <TableCell>거래처명</TableCell>
+                <TableCell>대표자명</TableCell>
+                <TableCell>업종</TableCell>
               </TableRow>
             </TableHead>
 
             <TableBody>
               {this.state.datas.map((data, index) => (
                 <TableRow onClick={() => this.handleDataSelection(data)}>
-                  <TableCell> {data.productionItemId} </TableCell>
-                  <TableCell> {data.process ? data.process : 'N/A'} </TableCell>
+                  <TableCell> {data.customerId} </TableCell>
                   <TableCell> {data.name ? data.name : 'N/A'} </TableCell>
-                  <TableCell> {data.standard ? data.standard : 'N/A'} </TableCell>
-                  <TableCell> {data.factoryId ? data.factoryId : 'N/A'} </TableCell>
-                  <TableCell> {data.storageId ? data.storageId : 'N/A'} </TableCell>
+                  <TableCell> {data.ceoName ? data.ceoName : 'N/A'} </TableCell>
+                  <TableCell> {data.type ? data.type : 'N/A'} </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -80,4 +76,4 @@ class productionPopup extends Component {
   }
 }
 
-export default productionPopup;
+export default customerPopup;

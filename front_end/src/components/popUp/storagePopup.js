@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { request } from "../../helpers/axios_helper";
 import { Table, TableHead, TableBody, TableRow, TableCell, Typography, Button } from '@mui/material';
 
-class productionPopup extends Component {
+class storagePopup extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,7 +22,7 @@ class productionPopup extends Component {
   reloadData = (e) => {
     request(
       "GET",
-      "/manufacture/productionList",
+      "/logistics/storageList",
       {
 
       }).then((response) => {
@@ -52,24 +52,18 @@ class productionPopup extends Component {
           <Table border="1" style={{ backgroundColor: 'light' }}>
             <TableHead>
               <TableRow>
-                <TableCell> 상품 코드 </TableCell>
-                <TableCell> 공정 </TableCell>
-                <TableCell> 생산 상품명 </TableCell>
-                <TableCell> 규격 </TableCell>
-                <TableCell> 생산 공장 코드 </TableCell>
-                <TableCell> 받는 창고 코드 </TableCell>
+                <TableCell> 창고 코드 </TableCell>
+                <TableCell> 창고명 </TableCell>
+                <TableCell> 구분 </TableCell>
               </TableRow>
             </TableHead>
 
             <TableBody>
               {this.state.datas.map((data, index) => (
                 <TableRow onClick={() => this.handleDataSelection(data)}>
-                  <TableCell> {data.productionItemId} </TableCell>
-                  <TableCell> {data.process ? data.process : 'N/A'} </TableCell>
-                  <TableCell> {data.name ? data.name : 'N/A'} </TableCell>
-                  <TableCell> {data.standard ? data.standard : 'N/A'} </TableCell>
-                  <TableCell> {data.factoryId ? data.factoryId : 'N/A'} </TableCell>
                   <TableCell> {data.storageId ? data.storageId : 'N/A'} </TableCell>
+                  <TableCell> {data.storageName ? data.storageName : 'N/A'} </TableCell>
+                  <TableCell> {data.category ? data.category : 'N/A'} </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -80,4 +74,4 @@ class productionPopup extends Component {
   }
 }
 
-export default productionPopup;
+export default storagePopup;

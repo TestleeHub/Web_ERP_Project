@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { request } from "../../helpers/axios_helper";
 import { Table, TableHead, TableBody, TableRow, TableCell, Typography, Button } from '@mui/material';
 
-class productionPopup extends Component {
+class instructionPopup extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,7 +22,7 @@ class productionPopup extends Component {
   reloadData = (e) => {
     request(
       "GET",
-      "/manufacture/productionList",
+      "/manufacture/instructionList",
       {
 
       }).then((response) => {
@@ -42,34 +42,44 @@ class productionPopup extends Component {
     this.props.onPopupData(selectedData); // 선택한 데이터를 부모 컴포넌트로 전달
   }
 
+  formatDate = (timestamp) => {
+    const date = new Date(timestamp);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 +1을 해줍니다.
+    const day = date.getDate().toString().padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+  }
+
   render() {
     return (
       <div>
-        <h3>생산 품목 목록</h3>
+        <h3>작업 지시서 목록</h3>
         {this.state.isLoading ? (
           <p>로딩 중...</p>
         ) : (
           <Table border="1" style={{ backgroundColor: 'light' }}>
             <TableHead>
               <TableRow>
-                <TableCell> 상품 코드 </TableCell>
-                <TableCell> 공정 </TableCell>
-                <TableCell> 생산 상품명 </TableCell>
-                <TableCell> 규격 </TableCell>
-                <TableCell> 생산 공장 코드 </TableCell>
-                <TableCell> 받는 창고 코드 </TableCell>
+                <TableCell> 지시서 코드 </TableCell>
+                <TableCell> 지시서명 </TableCell>
+                <TableCell> 생산품 </TableCell>
+                <TableCell> 수량 </TableCell>
+                <TableCell> 완료 여부 </TableCell>
+                <TableCell> 납기일 </TableCell>
+                <TableCell>  </TableCell>
               </TableRow>
             </TableHead>
 
             <TableBody>
               {this.state.datas.map((data, index) => (
                 <TableRow onClick={() => this.handleDataSelection(data)}>
-                  <TableCell> {data.productionItemId} </TableCell>
-                  <TableCell> {data.process ? data.process : 'N/A'} </TableCell>
+                  <TableCell> {data.workOrderId} </TableCell>
                   <TableCell> {data.name ? data.name : 'N/A'} </TableCell>
-                  <TableCell> {data.standard ? data.standard : 'N/A'} </TableCell>
-                  <TableCell> {data.factoryId ? data.factoryId : 'N/A'} </TableCell>
-                  <TableCell> {data.storageId ? data.storageId : 'N/A'} </TableCell>
+                  <TableCell> {data.productionItem ? data.productionItem.name : 'N/A'} </TableCell>
+                  <TableCell> {data.quantity ? data.quantity : 'N/A'} </TableCell>
+                  <TableCell> {data.completion === "N" ? '진행 중' : '완료'} </TableCell>
+                  <TableCell> {data.dueDate ? this.formatDate(data.dueDate) : 'N/A'} </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -80,4 +90,4 @@ class productionPopup extends Component {
   }
 }
 
-export default productionPopup;
+export default instructionPopup;
