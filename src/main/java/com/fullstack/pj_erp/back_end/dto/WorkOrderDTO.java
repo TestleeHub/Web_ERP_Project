@@ -32,19 +32,31 @@ public class WorkOrderDTO {
 	private String workOrderId;
 	@Column(name = "CUSTOMERID")
 	private String customerId;
+	@OneToOne
+	@JoinColumn(name = "CUSTOMERID", insertable = false, updatable = false)
+	private CustomerDTO customer;
 	@Column(name = "MANAGERID")
 	private String managerId;
+	@OneToOne
+	@JoinColumn(name = "MANAGERID", referencedColumnName = "EMPLOYEEID", insertable = false, updatable = false)
+	private UserDTO manager;
 	private String name;
 	private String standard;
 	private Integer quantity;
 	private String completion;
 	@Column(name = "STORAGEID")
 	private String storageId;
+	@OneToOne
+	@JoinColumn(name = "STORAGEID", insertable = false, updatable = false)
+	private StorageDTO storage;
 	private Integer validation;
 	@Column(name = "DUEDATE")
 	private Date dueDate;
 	@Column(name = "PRODUCTIONITEMID")
 	private String productionItemId;
+	@OneToOne
+	@JoinColumn(name = "PRODUCTIONITEMID", insertable = false, updatable = false)
+	private ProductionItemsDTO productionItem;
 	@Column(name = "REGISTDATE")
 	private Date registDate;
 

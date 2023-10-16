@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -37,6 +38,12 @@ public class M_ReleaseDetailsDTO {
 	private String name;
 	@Column(name = "STORAGEID")
 	private String storageId;
+	@OneToOne
+	@JoinColumn(name = "METERIALID", insertable = false, updatable = false)
+	private MaterialDTO material;
+	@OneToOne
+	@JoinColumn(name = "STORAGEID", insertable = false, updatable = false)
+	private StorageDTO storage;
 	private Integer quantity;
 
 	@PrePersist

@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
@@ -30,8 +32,14 @@ public class ProductionItemsDTO {
 	private String standard;
 	@Column(name = "MANAGERID")
 	private String managerId;
+	@OneToOne
+	@JoinColumn(name = "MANAGERID", referencedColumnName = "EMPLOYEEID", insertable = false, updatable = false)
+	private UserDTO manager;
 	@Column(name = "STORAGEID")
 	private String storageId;
+	@OneToOne
+	@JoinColumn(name = "STORAGEID", insertable = false, updatable = false)
+	private StorageDTO storage;
 	private Integer validation;
 	@Column(name = "REGISTDATE")
 	private Date registDate;

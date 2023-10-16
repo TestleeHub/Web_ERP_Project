@@ -27,8 +27,8 @@ public class MaterialDTO {
 	@Id
 	@Column(name = "MATERIALID")
 	private String materialId;		// 원재료 코드
-	@Column(name = "MATERIALNAME")
-	private String materialName;	// 원재료 이름
+	@Column(name = "NAME")
+	private String name;	// 원재료 이름
 	@Column(name = "QUANTITY")
 	private Integer quantity;		// 수량
 	@Column(name = "STORAGEID")

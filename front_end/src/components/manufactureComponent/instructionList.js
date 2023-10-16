@@ -15,7 +15,7 @@ class instructionList extends Component {
             managerId: "",
             name: "",
             standard: "",
-            quantity : "",
+            quantity: "",
             completion: "",
             storageId: "",
             validation: "",
@@ -111,10 +111,10 @@ class instructionList extends Component {
                 storageId: targetdata.storageId,
                 dueDate: targetdata.dueDate,
                 productionItemId: targetdata.productionItemId,
-                validation : targetdata.validation,
+                validation: targetdata.validation,
                 registDate: targetdata.registDate
             }).then((response) => {
-                
+
                 console.log('response : ', response);
             }).catch((error) => {
                 console.log('error : ', error);
@@ -164,14 +164,14 @@ class instructionList extends Component {
                             {this.state.displayedDatas.map((data, index) => (
                                 <TableRow>
                                     <TableCell> {data.workOrderId} </TableCell>
-                                    <TableCell> {data.customerId ? data.customerId : 'N/A'} </TableCell>
-                                    <TableCell> {data.managerId ? data.managerId : 'N/A'} </TableCell>
+                                    <TableCell> {data.customer ? data.customer.name : 'N/A'} </TableCell>
+                                    <TableCell> {data.manager ? data.manager.name : 'N/A'} </TableCell>
                                     <TableCell> {data.name ? data.name : 'N/A'} </TableCell>
                                     <TableCell> {data.quantity ? data.quantity : 'N/A'} </TableCell>
                                     <TableCell> {data.completion === "N" ? '진행 중' : '완료'} </TableCell>
-                                    <TableCell> {data.storageId ? data.storageId : 'N/A'} </TableCell>
+                                    <TableCell> {data.storage ? data.storage.storageName : 'N/A'} </TableCell>
                                     <TableCell> {data.dueDate ? this.formatDate(data.dueDate) : 'N/A'} </TableCell>
-                                    <TableCell> {data.productionItemId ? data.productionItemId : 'N/A'} </TableCell>
+                                    <TableCell> {data.productionItem ? data.productionItem.name : 'N/A'} </TableCell>
                                     <TableCell> {data.registDate ? this.formatDate(data.registDate) : 'N/A'} </TableCell>
                                     <TableCell>
                                         {data.completion === "N" ?

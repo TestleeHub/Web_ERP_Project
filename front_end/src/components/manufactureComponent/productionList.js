@@ -130,8 +130,8 @@ class productionList extends Component {
                                     <TableCell> {data.process ? data.process : 'N/A'} </TableCell>
                                     <TableCell> {data.name ? data.name : 'N/A'} </TableCell>
                                     <TableCell> {data.standard ? data.standard : 'N/A'} </TableCell>
-                                    <TableCell> {data.managerId ? data.managerId : 'N/A'} </TableCell>
-                                    <TableCell> {data.storageId ? data.storageId : 'N/A'} </TableCell>
+                                    <TableCell> {data.managerId ? data.manager.name : 'N/A'} </TableCell>
+                                    <TableCell> {data.storageId ? data.storage.storageName : 'N/A'} </TableCell>
                                     <TableCell> {data.registDate ? this.formatDate(data.registDate) : 'N/A'} </TableCell>
                                     <TableCell>
                                         <Button variant="contained" style={normalButton} onClick={() => this.editData(data)}>수정</Button>

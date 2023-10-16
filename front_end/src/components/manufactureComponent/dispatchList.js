@@ -125,8 +125,8 @@ class dispatchList extends Component {
                                 <TableRow>
                                     <TableCell> {data.materialReleaseId} </TableCell>
                                     <TableCell> {data.productionItem ? data.productionItem.name : 'N/A'} </TableCell>
-                                    <TableCell> {data.workOrderId} </TableCell>
-                                    <TableCell> {data.businessRelationId} </TableCell>
+                                    <TableCell> {data.workOrderId ? data.workOrder.name : 'N/A'} </TableCell>
+                                    <TableCell> {data.businessRelationId ? data.businessRelation.name : 'N/A'} </TableCell>
                                     <TableCell> {data.details && data.details.length > 0 ? data.details[0].name + ' 외' : ''}  {data.details ? data.details.length : 0} 건 </TableCell>
                                     <TableCell> {this.formatDate(data.registDate)} </TableCell>
                                     <TableCell>

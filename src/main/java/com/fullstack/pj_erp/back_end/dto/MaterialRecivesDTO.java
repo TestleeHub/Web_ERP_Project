@@ -36,6 +36,9 @@ public class MaterialRecivesDTO {
 	private String workOrderId;
 	@Column(name = "BUSINESSRELATIONID")
 	private String businessRelationId;
+	@OneToOne
+	@JoinColumn(name = "BUSINESSRELATIONID", referencedColumnName = "CUSTOMERID", insertable = false, updatable = false)
+	private CustomerDTO businessRelation;
 	private Integer validation;
 	@Column(name = "REGISTDATE")
 	private Date registDate;
@@ -45,7 +48,10 @@ public class MaterialRecivesDTO {
 	@OneToOne
 	@JoinColumn(name = "PRODUCTIONITEMID", insertable = false, updatable = false)
 	private ProductionItemsDTO productionItem;
-
+	@OneToOne
+	@JoinColumn(name = "WORKORDERID", insertable = false, updatable = false)
+	private WorkOrderDTO workOrder;
+	
 	@PrePersist
 	private void generateId() {
 		if (materialReciveId == null || materialReciveId.length() == 0) {
