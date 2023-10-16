@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -52,6 +53,12 @@ public class PurchaseFormDTO {
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "PURCHASEID")
 	private List<Purchase_DetailDTO> details;
+	
+	@Transient // 합계, 곱한 값 등을 dto에 생성시 쓰는 @
+	private int totalPrice; // /purchase/purchaseList >>> 금액합계 열
+	
+	@Transient
+	private int vat;
 	
 //	@OneToOne
 //	@JoinColumn(name = "CUSTOMERID")

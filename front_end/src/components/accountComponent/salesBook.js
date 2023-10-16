@@ -1,116 +1,157 @@
-// 매출장, salesBook
 import React, { Component } from "react";
-import { Table, TableBody, TableCell, TableRow, TableHead, Button } from '@mui/material';
-import { Typography } from "@material-ui/core";
+import { Table, TableBody, TableCell, TableRow, Typography, Button, TableHead } from "@mui/material";
+import { request } from "../../helpers/axios_helper";
 
-class salesBook extends Component{
+class salesBookList extends Component{
+
+    // 판매 목록 조회
+    salesBookList = () => {
+        this.props.history.push("/account/salesBook");
+    }
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            datas: [],
+            displayedDatas: [],
+            showMore: true,
+            isLoading: true,
+            salesId: "",
+            customerId: "",
+            employeeId: "",
+            dueDate: "",
+            accountReflect: 0,
+            details: [], //Sales_DetailDTO를 배열로 생성 및 선언
+            totalPrice: "",	
+            vat: "",
+            salesBookId: ""
+        }
+    }
+
+    handleShowMoreClick = () => {
+        const { datas, displayedDatas } = this.state;
+        const currentLength = displayedDatas.length;
+        const nextChunk = datas.slice(currentLength, currentLength + 5);
+        const newDisplayedData = [...displayedDatas, ...nextChunk];
+        if (newDisplayedData.length === datas.length) {
+            this.setState({ showMore: false }); // 더이상 데이터를 보여줄 필요가 없으면 "더 보기" 버튼을 숨깁니다.
+        }
+        this.setState({ displayedDatas: newDisplayedData });
+    }
+
+    // 라이프 사이클 중 컴포넌트가 생성된 후 사용자에게 보여지기 까지의 전체 과정을 렌더링
+    componentDidMount() {
+        this.setState({ isLoading: true });
+        this.reloadData();
+    }
+
+    // 데이터 요청
+    reloadData = (e) => {
+        request(
+            "GET",
+            "/account/salesBook",
+            {
+
+            }).then((response) => {
+                this.setState({
+                    datas: response.data,
+                    displayedDatas: response.data.slice(0, 5),
+                    isLoading: false
+                });
+                console.log('response : ', response);
+            }).catch((error) => {
+                console.log('error : ', error);
+            })
+    }
+
+    formatDate = (timestamp) => {
+        const date = new Date(timestamp);
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 +1을 해줍니다.
+        const day = date.getDate().toString().padStart(2, '0');
+
+        return `${year}-${month}-${day}`;
+    }
+
     render(){
+        const { displayedDatas, showMore } = this.state;
         return(
             <div>
-                <br/>
-                    <Typography variant="h4" style={style}> 매출장 조회 </Typography>
-                <br/>
                 <div>
-                    <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>기본</Button>
+                    <Typography style={style}>매출장 조회</Typography>
                 </div>
-                <Table style={{borderCollapse: 'collapse', border: 'none', backgroundColor: 'lightgray'}}>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell style={{border: 'none'}}>매출/매입구분</TableCell>
-                            <TableCell style={{border: 'none'}}><input type="text" size="50" placeholder="[checkBox] 매출/매입/매출집계/매입집계/매입&매출" /></TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell style={{border: 'none'}}>기준일자</TableCell>
-                            <TableCell style={{border: 'none'}}><input type="date" name="dueDate" value="#" onChange="#" /></TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell style={{border: 'none'}}>부서</TableCell>
-                            <TableCell style={{border: 'none'}}><input type="text" size="50" placeholder="[search] (부서)" /></TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell style={{border: 'none'}}>거래처</TableCell>
-                            <TableCell style={{border: 'none'}}><input type="text" size="50" placeholder="[search] (거래처)" /></TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell style={{border: 'none'}}>최종수정자</TableCell>
-                            <TableCell style={{border: 'none'}}><input type="text" size="50" placeholder="[search] (최종수정자)" /></TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell style={{border: 'none'}}>회계전표No.</TableCell>
-                            <TableCell style={{border: 'none'}}><input type="text" size="50" placeholder="[checkBox] (V 결재방표시)" /></TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell style={{border: 'none'}}>기타</TableCell>
-                            <TableCell style={{border: 'none'}}><input type="text" size="50" placeholder="[search] (회계전표No.)" /></TableCell>
-                        </TableRow>
-                    </TableHead>
-                </Table>
-                <Button variant="contained" style={normalButton}>찾기(F3)</Button>
-                <Button variant="contained" style={normalButton}>정렬</Button>
-                
-                <br/><br/>
-
-                <Typography variant="h4" style={style}> 매출장 </Typography>
-                <Typography variant="h10" style={style}> 회사명:(주)ERP_web </Typography>
-                <Typography variant="h10" style={style}> 2023/09/01 ~ 2023/09/30 </Typography>
-                <Table style={{borderRight: '1px solid lightgray'}}>
-                    <TableHead style={{backgroundColor: 'lightgray'}}>
-                        <TableRow>
-                            <TableCell> 일자-No. </TableCell>
-                            <TableCell> 유형명 </TableCell>
-                            <TableCell> 거래처명 </TableCell>
-                            <TableCell> 세부내역 </TableCell>
-                            <TableCell> 매출공급가액 </TableCell>
-                            <TableCell> 매출부가세(부가세 계산하는 함수 사용? 매출공급가액*(부가세 산정식)) </TableCell>
-                        </TableRow>
-                    </TableHead>
-
-                    <TableBody>
-                        <TableRow style={{backgroundColor: 'ghostwhite'}}>
-                            <TableCell style={{borderRight: '1px solid lightgray'}}>  </TableCell>
-                            <TableCell style={{borderRight: '1px solid lightgray'}}>  </TableCell>
-                            <TableCell style={{borderRight: '1px solid lightgray'}}>  </TableCell>
-                            <TableCell style={{borderRight: '1px solid lightgray'}}>  </TableCell>
-                            <TableCell style={{borderRight: '1px solid lightgray'}}>  </TableCell>
-                            <TableCell style={{borderRight: '1px solid lightgray'}}>  </TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
-
-                <br/>
-                
-                <Button variant="contained" style={normalButton}>인쇄</Button>
-                <Button variant="contained" style={normalButton}>리스트</Button>
-                <Button variant="contained" style={normalButton}>닫기</Button>
+                <div>
+                    <Button variant="contained" style={trapezoidButtonF} onClick={this.salesBookList}>전체</Button>
+                </div>
+                <div>
+                    {this.state.isLoading ? (
+                            <p>로딩 중...</p>
+                        ) : (
+                    <Table style={{marginLeft: 15}}>
+                        <TableHead style={{backgroundColor:'#F5F5F5'}}>
+                            <TableRow>
+                                <TableCell align="center">
+                                    <input type="checkbox" />
+                                </TableCell>
+                                <TableCell align="center">매출장 번호</TableCell>
+                                <TableCell align="center">거래처 코드</TableCell>
+                                <TableCell align="center">세부 내역</TableCell>
+                                <TableCell align="center">매출공급가액</TableCell>
+                                <TableCell align="center">매출 부가세</TableCell>
+                                <TableCell align="center">납기일</TableCell>
+                                <TableCell align="center">최종수정자</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {this.state.displayedDatas.map((data, index) => (
+                                <TableRow>
+                                    <TableCell align="center">
+                                        <input type="checkbox" /> {index + 1}
+                                    </TableCell>
+                                    <TableCell>{data.salesBookId}</TableCell>
+                                    <TableCell>{data.customerId ? data.customerId : "N/A"}</TableCell>
+                                    <TableCell>{data.details && data.details.length > 0 ? data.details[0].productionItemId + ' 외' : ''}  {data.details ? data.details.length : 0} 건 </TableCell>
+                                    <TableCell>{data.totalPrice ? data.totalPrice : "0"}원</TableCell>
+                                    <TableCell>{data.vat ? data.vat : "0"}원</TableCell>
+                                    <TableCell>{data.dueDate ? this.formatDate(data.dueDate) : "N/A"}</TableCell>
+                                    <TableCell>{data.employeeId ? data.employeeId : "N/A"}</TableCell>
+                                    <TableCell>  </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                    )}
+                    {showMore && (
+                     <Button variant="contained" style={{margin: 5, backgroundColor: '#D3D3D3'}} onClick={this.handleShowMoreClick}>더 보기</Button>
+                    )}
+                </div>
             </div>
         );
     }
 }
 
+export default salesBookList;
+
 const style = {
-    display: 'flex',
-    justifyContent: 'left'
+    display:'flex',
+    justifyContent:'left',
+    margin: 15
 }
 
 // 사다리꼴 버튼 속성
 const trapezoidButton = {
-    backgroundColor: 'navy',
-    color: 'white',
-    marginRight: '10px',
+    backgroundColor: '#D3D3D3',
     clipPath: 'polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)',
     width: '120px',
     height: '30px',
     padding: '10px 20px'
 }
 
-// 기본 버튼 속성
-const normalButton = {
-    backgroundColor: 'navy',
-    color: 'white',
-    marginRight: '10px',
+const trapezoidButtonF = {
+    backgroundColor: '#D3D3D3',
+    marginLeft: 15,
+    clipPath: 'polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)',
     width: '120px',
     height: '30px',
     padding: '10px 20px'
 }
-
-export default salesBook;
