@@ -1,33 +1,69 @@
 import React, { Component } from "react";
 import {Table, TableHead, TableBody, TableRow, TableCell, Typography, Button} from '@mui/material';
 import { request } from "../../helpers/axios_helper";
+import Popup from "../popUp/productionPopup";
+import Modal from 'react-modal';
 
-
-// 입고 조회(inboundSelect)
-class inboundSelect extends Component{
+// 원재료 등록(materialInsert)
+class materialInsert extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            receiptId: "",
-            receiptDate: "",
-            storageId: "",
-            productionItemId: "",
-            amount: "",
-            client: ""
+            materialId: "",
+            name: "",
+            quantity: "",
+            storageId: ""
         }
     }
 
+    // getCurrentDate = () => {
+    //     const today = new Date();
+    //     const yyyy = today.getFullYear();
+    //     const mm = String(today.getMonth() + 1).padStart(2, '0');
+    //     const dd = String(today.getDate()).padStart(2, '0');
+    //     return `${yyyy}-${mm}-${dd}`;
+    // }
+    
+    // formatDate = (timestamp) => {
+    //     const date = new Date(timestamp);
+    //     const year = date.getFullYear();
+    //     const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 +1을 해줍니다.
+    //     const day = date.getDate().toString().padStart(2, '0');
+
+    //     return `${year}-${month}-${day}`;
+    // }
+    
+    
     // 라이프 사이클 중 컴포넌트가 생성된 후 사용자에게 보여지기 까지의 전체 과정을 렌더링
     componentDidMount() {
-        const data = window.localStorage.getItem("receiptData");
+        const data = window.localStorage.getItem("materialData");
         console.log(data);
         if (data !== null) {
             // JSON 문자열을 파싱하여 객체로 변환
             const parsedData = JSON.parse(data);
             this.setState(parsedData);
-            window.localStorage.removeItem('receiptData');
+            window.localStorage.removeItem('materialData');
         }
     }
+
+
+    // 팝업 열기
+    openPopup = () => {
+        this.setState({ isPopupOpen: true });
+    }
+
+
+    // 팝업 닫기
+    closePopup = () => {
+        this.setState({ isPopupOpen: false });
+    }
+
+
+    // 팝업에서 선택한 데이터를 받아오는 콜백 함수
+    handlePopupData = (data) => {
+        this.setState({ productionItemId: data.productionItemId, isPopupOpen: false });
+    }
+
 
     // 필드의 업데이트 값을 state에 저장
     updateField = (fieldName, value) => {
@@ -36,6 +72,7 @@ class inboundSelect extends Component{
             [fieldName]: value
         }));
     };
+
 
     onChangeHandler = (e) => {
         let name = e.target.name;
@@ -49,14 +86,12 @@ class inboundSelect extends Component{
         e.preventDefault();
         request(
             "POST",
-            "/logistics/receiptListAdd",
+            "/logistics/materialListAdd",
             {
-                receiptId: this.state.receiptId,
-                receiptDate: this.state.receiptDate,
-                storageId: this.state.storageId,
-                productionItemId: this.state.productionItemId,
-                amount: this.state.amount,
-                client: this.state.client
+                materialId: this.state.materialId,
+                name: this.state.name,
+                quantity: this.state.quantity,
+                storageId: this.state.storageId
 
             }).then((response) => {
                 alert('등록되었습니다.');
@@ -68,91 +103,93 @@ class inboundSelect extends Component{
 
     render(){
         return(
-
             <div>
+                {/* 팝업 */}
+                <div>
+                    <Modal
+                        isOpen={this.state.isPopupOpen}
+                        onRequestClose={this.closePopup}
+                        contentLabel="팝업"
+                        style={{
+                            overlay: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                            },
+                            content: {
+                                width: '700px',  // 원하는 폭으로 설정
+                                height: '400px', // 원하는 높이로 설정
+                                top: '50%',      // 원하는 수직 위치로 설정
+                                left: '55%',     // 원하는 수평 위치로 설정
+                                transform: 'translate(-50%, -50%)'
+                            },
+                        }}
+                    >
+                        {/* 팝업 컴포넌트에 선택한 데이터를 전달 */}
+                        <Popup onPopupData={this.handlePopupData} />
+
+                        <button onClick={this.closePopup}>닫기</button>
+                    </Modal>
+                </div>
+                
                 <br/>
-                    <Typography variant="h4" style={style}> 입고 조회 </Typography>
+                    <Typography variant="h4" style={style}> 원재료 등록 </Typography>
                 <br/>
                 <div>
-                    <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>출하입력</Button>
+                    <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>원재료 등록</Button>
                 </div>
                 <Table style={{ border: '1px solid lightgray', backgroundColor: 'ghostwhite' }}>
                     <TableHead>
                         <TableRow>
-                            <TableCell style={{border: 'none'}}>출고코드</TableCell>
+                            <TableCell style={{border: 'none'}}> 원재료 코드 </TableCell>
+                            <TableCell style={{border: 'none'}}>
+                                <input
+                                    readOnly
+                                    type="text" 
+                                    name="materialId" 
+                                    className="redPlaceholder"
+                                    style={longInputStyle}
+                                    placeholder="원재료 코드는 자동으로 생성됩니다." 
+                                    onChange={this.onChangeHandler} 
+                                    value={this.state.materialId}
+                                />
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell style={{border: 'none'}}> 원재료 이름 </TableCell>
                             <TableCell style={{border: 'none'}}>
                                 <input 
                                     type="text" 
-                                    name="receiptId" 
-                                    size="70" 
-                                    placeholder="출고코드" 
+                                    name="name" 
+                                    style={longInputStyle}
+                                    placeholder="원재료 이름" 
                                     onChange={this.onChangeHandler} 
-                                    readOnly 
-                                    value={this.state.receiptId}
+                                    value={this.state.name}
                                 />
                             </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell style={{border: 'none'}}> 일자 </TableCell>
+                            <TableCell style={{border: 'none'}}> 수량 </TableCell>
                             <TableCell style={{border: 'none'}}>
                                 <input 
-                                    type="date" 
-                                    name="receiptDate" 
-                                    size="70" 
+                                    type="number" 
+                                    name="quantity" 
+                                    style={shortInputStyle}
+                                    placeholder="수량" 
                                     onChange={this.onChangeHandler} 
-                                    value={this.state.receiptDate}
+                                    value={this.state.quantity}
                                 />
                             </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell style={{border: 'none'}}>창고코드</TableCell>
+                            <TableCell style={{border: 'none'}}> 창고 코드 </TableCell>
                             <TableCell style={{border: 'none'}}>
-                                <input 
+                                <input
+                                    readOnly
                                     type="text" 
                                     name="storageId" 
-                                    size="70" 
-                                    placeholder="창고코드" 
+                                    style={longInputStyle}
+                                    placeholder="창고 코드" 
                                     onChange={this.onChangeHandler} 
                                     value={this.state.storageId}
-                                />
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell style={{border: 'none'}}>제품코드</TableCell>
-                            <TableCell style={{border: 'none'}}>
-                                <input 
-                                    type="text" 
-                                    name="productionItemId" 
-                                    size="70" 
-                                    placeholder="제품코드" 
-                                    onChange={this.onChangeHandler} 
-                                    value={this.state.productionItemId}
-                                />
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell style={{border: 'none'}}>수량합계</TableCell>
-                            <TableCell style={{border: 'none'}}>
-                                <input 
-                                    type="text" 
-                                    name="amount" 
-                                    size="70" 
-                                    placeholder="수량합계" 
-                                    onChange={this.onChangeHandler} 
-                                    value={this.state.amount}
-                                />
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell style={{border: 'none'}}>거래처명</TableCell>
-                            <TableCell style={{border: 'none'}}>
-                                <input 
-                                    type="text" 
-                                    name="client" 
-                                    size="70" 
-                                    placeholder="거래처명" 
-                                    onChange={this.onChangeHandler} 
-                                    value={this.state.client}
                                 />
                             </TableCell>
                         </TableRow>
@@ -237,9 +274,21 @@ const normalButton = {
     backgroundColor: 'navy',
     color: 'white',
     marginRight: '10px',
-    width: '120px',
+    width: '150px',
     height: '30px',
     padding: '10px 20px'
 }
 
-export default inboundSelect;
+// 300px input 창
+const shortInputStyle = {
+    width: '300px',
+    padding: '5px 10px',
+};
+
+// 700px input 창
+const longInputStyle = {
+    width: '700px',
+    padding: '5px 10px',
+};
+
+export default materialInsert;

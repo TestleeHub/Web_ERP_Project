@@ -3,11 +3,12 @@ import LeftNavbar from './components/router/LeftNavbar';
 import Header from './components/router/Header';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 
+import mainPage from './components/mainComponent/mainPage';
 import inventoryAdjustment from './components/logisticsComponent/inventoryAdjustment';
 import inventorySelect from './components/logisticsComponent/inventorySelect';
 // import productInsert from './components/logisticsComponent/productInsert';
-import inboundSelect from './components/logisticsComponent/inboundSelect';
-import outboundSelect from './components/logisticsComponent/outboundSelect';
+import materialInsert from './components/logisticsComponent/materialInsert';
+import materialSelect from './components/logisticsComponent/materialSelect';
 // import receiptStatus from './components/logisticsComponent/receiptStatus';
 import storageInsert from './components/logisticsComponent/storageInsert';
 import storageSelect from './components/logisticsComponent/storageSelect';
@@ -85,11 +86,12 @@ function App() {
               <Route path='/manufacture/instructionAdd' exact={true} component={instructionAdd} />
 
               <Route path='/logistics' exact={true} component={inventoryAdjustment} />
+              <Route path='/logistics/mainPage' exact={true} component={mainPage} />
               <Route path='/logistics/inventoryAdjustment' exact={true} component={inventoryAdjustment} />
               <Route path='/logistics/inventorySelect' exact={true} component={inventorySelect} />
               {/* <Route path='/logistics/productInsert' exact={true} component={productInsert} /> */}
-              <Route path='/logistics/inboundSelect' exact={true} component={inboundSelect} />
-              <Route path='/logistics/outboundSelect' exact={true} component={outboundSelect} />
+              <Route path='/logistics/materialInsert' exact={true} component={materialInsert} />
+              <Route path='/logistics/materialSelect' exact={true} component={materialSelect} />
               {/* <Route path='/logistics/receiptStatus' exact={true} component={receiptStatus} /> */}
               <Route path='/logistics/storageInsert' exact={true} component={storageInsert} />
               <Route path='/logistics/storageSelect' exact={true} component={storageSelect} />

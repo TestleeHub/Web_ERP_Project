@@ -188,6 +188,9 @@ const LeftNavbar = () => {
               <CDBSidebarMenuItem icon="book">자재 관리</CDBSidebarMenuItem>
             </NavLink>
             {logisticsshow === true ? <div style={{ textAlign: 'left', margin: '0px 30px' }}>
+              <NavLink exact to="/logistics/mainPage" activeClassName="activeClicked">
+                - 메인 페이지 테스트<br />
+              </NavLink>
               <NavLink exact to="/logistics/inventoryAdjustment" activeClassName="activeClicked">
                 - 재고 조정<br />
               </NavLink>
@@ -197,11 +200,11 @@ const LeftNavbar = () => {
               {/* <NavLink exact to="/logistics/productInsert" activeClassName="activeClicked">
                 - 품목등록<br />
               </NavLink> */}
-              <NavLink exact to="/logistics/inboundSelect" activeClassName="activeClicked">
-                - 입고 조회<br />
+              <NavLink exact to="/logistics/materialInsert" activeClassName="activeClicked">
+                - 원재료 등록<br />
               </NavLink>
-              <NavLink exact to="/logistics/outboundSelect" activeClassName="activeClicked">
-                - 출고 조회<br />
+              <NavLink exact to="/logistics/materialSelect" activeClassName="activeClicked">
+                - 원재료 조회<br />
               </NavLink>
               {/* <NavLink exact to="/logistics/receiptStatus" activeClassName="activeClicked">
                 - 출하현황<br />

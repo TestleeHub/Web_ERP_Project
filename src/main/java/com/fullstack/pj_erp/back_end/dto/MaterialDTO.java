@@ -1,11 +1,16 @@
 package com.fullstack.pj_erp.back_end.dto;
 
+import java.sql.Date;
+// import java.text.SimpleDateFormat;
 import java.text.SimpleDateFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
+// import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -33,6 +38,9 @@ public class MaterialDTO {
 	private Integer quantity;		// 수량
 	@Column(name = "STORAGEID")
 	private String storageId;		// 창고 코드
+	@OneToOne
+	@JoinColumn(name = "STORAGEID", insertable = false, updatable = false)
+	private StorageDTO storage;
 	private Integer validation;		// 유효성 체크
 	
 	
