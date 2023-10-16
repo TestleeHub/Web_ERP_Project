@@ -5,7 +5,6 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
-
 function Header() {
     return (
         <div>
@@ -16,49 +15,22 @@ function Header() {
                 crossorigin="anonymous"
             />
 
-            <Navbar bg="dark" data-bs-theme="dark" expand="xl">
+            <Navbar bg="dark" data-bs-theme="dark" expand="xl" style={{minWidth: '1500px'}}>
                 <Container fluid>
                     <Navbar.Brand href="#">Web-ERP Service</Navbar.Brand>
                     <Navbar.Toggle aria-controls="navbarScroll" />
                     <Navbar.Collapse id="navbarScroll">
                         <Nav
                             className="me-auto my-2 my-lg-0"
-                            style={{ maxHeight: '100px' }}
+                            style={{ maxHeight: '100px'}}
                             navbarScroll
                         >
-                            <Nav.Link href="/test">Home</Nav.Link>
-                            <Nav.Link href="/samples">SampleList</Nav.Link>
+                            <Nav.Link href="/main">Home</Nav.Link>
                             <NavDropdown title="마이페이지" id="navbarScrollingDropdown">
-                                <NavDropdown.Item href="/add-member">Sample추가</NavDropdown.Item>
-                                <NavDropdown.Item href="#action1">장바구니</NavDropdown.Item>
-                                <NavDropdown.Item href="#action2">Sample탈퇴</NavDropdown.Item>
-                                <NavDropdown.Divider />
-                                <NavDropdown.Item href="#action3">구매</NavDropdown.Item>
-                                <NavDropdown.Item href="#action4">환불</NavDropdown.Item>
+                                <NavDropdown.Item href="/updateUser">내 정보 수정</NavDropdown.Item>
                                 <NavDropdown.Divider />
                             </NavDropdown>
-                            <NavDropdown title="커뮤니티" id="navbarScrollingDropdown">
-                                <NavDropdown.Item href="/board">게시판</NavDropdown.Item>
-                                <NavDropdown.Item href="/qna">QNA</NavDropdown.Item>
-                                <NavDropdown.Item href="/notice">공지사항</NavDropdown.Item>
-                                <NavDropdown.Divider />
-                                <NavDropdown.Item href="#action3">찾아오기</NavDropdown.Item>
-                                <NavDropdown.Item href="#action4">컨택</NavDropdown.Item>
-                                <NavDropdown.Divider />
-                            </NavDropdown>
-                            <Nav.Link href="#" disabled>
-                                로그인
-                            </Nav.Link>
                         </Nav>
-                        <Form className="d-flex">
-                            <Form.Control
-                                type="search"
-                                placeholder="Search"
-                                className="me-2"
-                                aria-label="Search"
-                            />
-                            <Button variant="outline-success">Search</Button>
-                        </Form>
                     </Navbar.Collapse>
                 </Container>
             </Navbar>

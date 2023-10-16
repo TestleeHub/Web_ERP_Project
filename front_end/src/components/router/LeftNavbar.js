@@ -48,7 +48,7 @@ const LeftNavbar = () => {
 
         <CDBSidebarContent className="sidebar-content">
           <CDBSidebarMenu>
-            <NavLink exact to="/humanResourceImg" activeClassName="activeClicked" onClick={onHumanResourceShow}>
+            <NavLink exact to="#" activeClassName="" onClick={onHumanResourceShow}>
               <CDBSidebarMenuItem icon="user">인적 관리</CDBSidebarMenuItem>
             </NavLink>
             {humanResourceshow === true ?
@@ -76,7 +76,7 @@ const LeftNavbar = () => {
                 </NavLink>
               </div> : <></>}
 
-            <NavLink exact to="/manufacture" activeClassName="activeClicked" onClick={onManufactureShow}>
+            <NavLink exact to="#" activeClassName="" onClick={onManufactureShow}>
               <CDBSidebarMenuItem icon="table">제조 관리</CDBSidebarMenuItem>
             </NavLink>
             {manufactureshow === true ?
@@ -106,7 +106,7 @@ const LeftNavbar = () => {
                   - 작업지시서 등록<br />
                 </NavLink>
               </div> : <></>}
-            <NavLink exact to="/account" activeClassName="activeClicked" onClick={onAccountShow}>
+            <NavLink exact to="#" activeClassName="" onClick={onAccountShow}>
               <CDBSidebarMenuItem icon="chart-line">회계 관리</CDBSidebarMenuItem>
             </NavLink>
             {accountshow === true ? <div style={{ textAlign: 'left', margin: '0px 30px' }}>
@@ -130,7 +130,7 @@ const LeftNavbar = () => {
               </NavLink>
             </div> : <></>}
 
-            <NavLink exact to="/purchase" activeClassName="activeClicked" onClick={onPurchaseShow}>
+            <NavLink exact to="#" activeClassName="" onClick={onPurchaseShow}>
               <CDBSidebarMenuItem icon="credit-card">구매/판매 관리</CDBSidebarMenuItem>
             </NavLink>
             {purchaseshow === true ? <div style={{ textAlign: 'left', margin: '0px 30px' }}>
@@ -160,7 +160,7 @@ const LeftNavbar = () => {
               </NavLink>
             </div> : <></>}
 
-            <NavLink exact to="/customer" activeClassName="activeClicked" onClick={onCustomerShow}>
+            <NavLink exact to="#" activeClassName="" onClick={onCustomerShow}>
               <CDBSidebarMenuItem icon="sticky-note">고객 관리</CDBSidebarMenuItem>
             </NavLink>
             {customershow === true ? <div style={{ textAlign: 'left', margin: '0px 30px' }}>
@@ -184,7 +184,7 @@ const LeftNavbar = () => {
               </NavLink>
             </div> : <></>}
 
-            <NavLink exact to="/logistics" activeClassName="activeClicked" onClick={onLogisticsShow}>
+            <NavLink exact to="#" activeClassName="" onClick={onLogisticsShow}>
               <CDBSidebarMenuItem icon="book">자재 관리</CDBSidebarMenuItem>
             </NavLink>
             {logisticsshow === true ? <div style={{ textAlign: 'left', margin: '0px 30px' }}>

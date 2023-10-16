@@ -1,9 +1,11 @@
 package com.fullstack.pj_erp.back_end.controller;
 
+import java.nio.CharBuffer;
 import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +27,7 @@ public class HumanResourcesController {
 
 	@Autowired
 	HumanResourcesService service;
+	private final PasswordEncoder passwordEncoder; 
 	
 	// emp 조회
 	@GetMapping(value = {"/humanResources/empList"})
@@ -44,6 +47,7 @@ public class HumanResourcesController {
 		dto.setJoinDate(new Date(System.currentTimeMillis()));
 		dto.setValidation(1);
 		
+		dto.setPassword(passwordEncoder.encode(CharBuffer.wrap(dto.getPassword())));
 		System.out.println(dto);
 		
 		service.addEmp(dto);
