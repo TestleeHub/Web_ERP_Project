@@ -44,11 +44,10 @@ public class LogisticsService {
 	
 	// [ Material ]
 	public List<MaterialDTO> getMaterialList() {
-		Sort sort = Sort.by(Sort.Order.desc("registDate"));
 		// validation 체크
 		Specification<MaterialDTO> filter = new EntityValidationFilter<MaterialDTO>().excludeEntitiesWithCondition();
 
-		return materialRepository.findAll(filter, sort);
+		return materialRepository.findAll(filter);
 	}
 
 	public void addMaterialList(MaterialDTO dto) {materialRepository.save(dto);}

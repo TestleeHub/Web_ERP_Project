@@ -7,6 +7,8 @@ import java.sql.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 // import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
@@ -32,14 +34,15 @@ public class InventoryDTO {
 	private Date registDate;			// 등록일
 	@Column(name = "MANAGER")
 	private String manager;				// 담당자
-	@Column(name = "STORAGEID")
-	private String storageId;			// 창고 코드
 	@Column(name = "QUANTITY")
 	private Integer quantity;			// 수량
-
-
 	@Column(name = "RECORD")
 	private Date record;				// 이력 - 연우님한테 여쭤보기(이력이 필요한지)
+	@Column(name = "STORAGEID")
+	private String storageId;			// 창고 코드
+	@OneToOne
+	@JoinColumn(name = "STORAGEID", insertable = false, updatable = false)
+	private StorageDTO storage;
 
 	private Integer validation;			// 유효성 체크
 

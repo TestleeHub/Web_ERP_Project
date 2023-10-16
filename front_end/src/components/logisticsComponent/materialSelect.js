@@ -3,8 +3,8 @@ import {Table, TableHead, TableBody, TableRow, TableCell, Typography, Button} fr
 import { request } from "../../helpers/axios_helper";
 
 
-// 재고 조회(storageSelect)
-class storageSelect extends Component{
+// 원재료 조회(materialSelect)
+class materialSelect extends Component{
     constructor(props) {
         super(props);
         this.state = {
@@ -12,16 +12,13 @@ class storageSelect extends Component{
             displayedDatas: [],
             showMore: true,
             isLoading: true,
-            productionItemId: "",
-            registDate: "",
-            manager: "",
-            storageId: "",
-            storage: "",
+            materialId: "",
+            name: "",
             quantity: "",
-            record: ""
+            storageId: "",
+            storage: ""
         }
     }
-
 
     handleShowMoreClick = () => {
         const { datas, displayedDatas } = this.state;
@@ -46,7 +43,7 @@ class storageSelect extends Component{
     reloadData = (e) => {
         request(
             "GET",
-            "/logistics/inventoryList",
+            "/logistics/materialList", // ???
             {
 
             }).then((response) => {
@@ -65,8 +62,8 @@ class storageSelect extends Component{
     // update
     editData = (data) => {
         //반드시 데이터를 한번 가져간 후 localStorage에서 삭제해 줘야 함
-        window.localStorage.setItem("inventoryData", JSON.stringify(data));
-        this.props.history.push('/logistics/inventoryAdjustment');
+        window.localStorage.setItem("materialData", JSON.stringify(data));
+        this.props.history.push('/logistics/materialInsert');
     }
 
 
@@ -74,33 +71,22 @@ class storageSelect extends Component{
     deleteData = (targetdata) => {
         request(
             "PUT",
-            "/logistics/inventoryListDelete",
+            "/logistics/materialListDelete", // ????
             {
-                productionItemId: targetdata.productionItemId,
-                registDate: targetdata.registDate,
-                manager: targetdata.manager,
-                storageId: targetdata.storageId,
+                materialId: targetdata.materialId,
+                name: targetdata.name,
                 quantity: targetdata.quantity,
-                record: targetdata.record
+                storageId: targetdata.storageId
 
             }).then((response) => {
                 this.setState({
-                    datas: this.state.datas.filter(data => data.productionItemId !== targetdata.productionItemId),
-                    displayedDatas: this.state.displayedDatas.filter(data => data.productionItemId !== targetdata.productionItemId)
+                    datas: this.state.datas.filter(data => data.materialId !== targetdata.materialId),
+                    displayedDatas: this.state.displayedDatas.filter(data => data.materialId !== targetdata.materialId)
                 });
                 console.log('response : ', response);
             }).catch((error) => {
                 console.log('error : ', error);
             })
-    }
-
-    formatDate = (timestamp) => {
-        const date = new Date(timestamp);
-        const year = date.getFullYear();
-        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 +1을 해줍니다.
-        const day = date.getDate().toString().padStart(2, '0');
-
-        return `${year}-${month}-${day}`;
     }
 
 
@@ -110,12 +96,9 @@ class storageSelect extends Component{
         return(
             <div>
                 <br/>
-                    <Typography variant="h4" style={style}>재고 조회</Typography>
+                    <Typography variant="h4" style={style}> 원재료 조회 </Typography>
                 <br/>
                 <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>전체</Button>
-                <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>결재중</Button>
-                <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>미확인</Button>
-                <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>확인</Button>
                 {/* 로딩 상태에 대한 조건부 렌더링 */}
                 {this.state.isLoading ? (
                     <p>로딩 중...</p>
@@ -123,12 +106,10 @@ class storageSelect extends Component{
                 <Table style={{border: '1px solid lightgray', backgroundColor: 'ghostwhite'}}>
                     <TableHead style={{backgroundColor: 'lightgray'}}>
                         <TableRow>
-                            <TableCell> 제품 코드 </TableCell>
-                            <TableCell> 창고 </TableCell>
-                            <TableCell> 담당자 </TableCell>
-                            <TableCell> 등록일 </TableCell>
+                            <TableCell> 원재료 코드 </TableCell>
+                            <TableCell> 원재료 이름 </TableCell>
                             <TableCell> 수량 </TableCell>
-                            <TableCell> 이력 </TableCell>
+                            <TableCell> 창고 </TableCell>
                             <TableCell> </TableCell>
                         </TableRow>
                     </TableHead>
@@ -136,12 +117,10 @@ class storageSelect extends Component{
                     <TableBody>
                         {this.state.displayedDatas.map((data, index) => (
                             <TableRow>
-                                <TableCell> {data.productionItemId} </TableCell>
-                                <TableCell> {data.storage.storageName} </TableCell>
-                                <TableCell> {data.manager} </TableCell>
-                                <TableCell> {this.formatDate(data.registDate)} </TableCell>
+                                <TableCell> {data.materialId} </TableCell>
+                                <TableCell> {data.name} </TableCell>
                                 <TableCell> {data.quantity} </TableCell>
-                                <TableCell> {this.formatDate(data.record)} </TableCell>
+                                <TableCell> {data.storage.storageName} </TableCell>
 
                                 <TableCell>
                                     <Button variant="contained" style={updateButton} onClick={() => this.editData(data)}>수정
@@ -159,9 +138,8 @@ class storageSelect extends Component{
                                         />
                                     </Button>
                                 </TableCell>
-
                             </TableRow>
-                        ))}     
+                        ))}
                     </TableBody>
                 </Table>
                 )}
@@ -169,8 +147,8 @@ class storageSelect extends Component{
                     <Button variant="contained" style={normalButton} onClick={this.handleShowMoreClick}>더 보기</Button>
                 )}
                 <Button variant="contained" style={normalButton} onClick={this.addSample}>신규(F2)</Button>
-                <Button variant="contained" style={normalButton} onClick={this.addSample}>전자결재</Button>
                 <Button variant="contained" style={normalButton} onClick={this.addSample}>선택삭제</Button>
+                <Button variant="contained" style={normalButton} onClick={this.addSample}>이력조회</Button>
                 <br/><br/>
             </div>
         );
@@ -227,4 +205,4 @@ const deleteButton = {
     borderRadius: '20px'
 }
 
-export default storageSelect;
+export default materialSelect;
