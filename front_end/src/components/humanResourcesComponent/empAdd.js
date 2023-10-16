@@ -53,10 +53,12 @@ class empAdd extends Component{
 
     }
 
-    // 직원 추가
+    // 직원 추가/수정/삭제
     onSubmitEmpAdd = (e) => {
         e.preventDefault();
-        if(this.state.password === this.state.chkpassword){
+        const pw = this.state.password;
+        const chkpw = this.state.chkpassword;
+        if(pw === chkpw && pw !== "" ){
             request(
                 "POST",
                 "/humanResources/empAdd",
@@ -80,7 +82,7 @@ class empAdd extends Component{
                     password: this.state.password,
                 }).then((response) => {
                     console.log('response : ', response);   
-                    this.props.history.push('/humanResourceImg/empList');
+                    this.props.history.push('/humanResources/empList');
                 }).catch((error) => {
                     console.log('error : ', error); 
                 })
