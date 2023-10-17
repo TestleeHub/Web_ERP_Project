@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -33,6 +34,9 @@ public class SalesDTO {
 	
 	@Column(name = "CUSTOMERID")
 	private String customerId;
+	@OneToOne
+	@JoinColumn(name = "CUSTOMERID", insertable = false, updatable = false)
+	private CustomerDTO customer; 	// Customer 테이블 FK
 	
 	@Column(name = "VALIDATION")
 	private int validation;
@@ -42,12 +46,18 @@ public class SalesDTO {
 	
 	@Column(name = "EMPLOYEEID")
 	private String employeeId;
+//	@OneToOne
+//	@JoinColumn(name = "EMPLOYEEID", insertable = false, updatable = false)
+//	private UserDTO employee; 	// Employee 테이블 FK
 	
 	@Column(name = "DUEDATE")
 	private Date dueDate;
 	
 	@Column(name = "SALESBOOKID")
 	private String salesBookId;
+//	@OneToOne
+//	@JoinColumn(name = "SALESBOOKID")
+//	private PurchaseBook salesBook; 		// PurchaseBook 테이블 FK
 	
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "SALESID")
@@ -58,18 +68,6 @@ public class SalesDTO {
 	
 	@Transient
 	private int vat;
-	
-//	@OneToOne
-//	@JoinColumn(name = "CUSTOMERID")
-//	private CustomerDTO customerId; 		// Customer 테이블 FK
-	
-//	@OneToOne
-//	@JoinColumn(name = "EMPLOYEEID")
-//	private UserDTO employeeId; 			// Employee 테이블 FK
-	
-//	@OneToOne
-//	@JoinColumn(name = "SALESBOOKID")
-//	private PurchaseBook salesBookId; 		// PurchaseBook 테이블 FK
 	
 	@PrePersist
 	private void generateId() {

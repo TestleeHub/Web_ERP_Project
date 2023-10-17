@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
@@ -33,6 +35,9 @@ public class Purchase_DetailDTO {
 	// 원재료 코드(품목명) : Material 테이블 FK
 	@Column(name = "MATERIALID")
 	private String materialId;
+	@OneToOne
+	@JoinColumn(name = "MATERIALID", insertable = false, updatable = false)
+	private MaterialDTO material; // MATERIAL 테이블 FK
 	
 	// 규격
 	@Column(name = "STANDARD")

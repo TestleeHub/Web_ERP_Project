@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
@@ -30,6 +32,9 @@ public class Sales_DetailDTO {
 	
 	@Column(name = "PRODUCTIONITEMID")
 	private String productionItemId;
+	@OneToOne
+	@JoinColumn(name = "PRODUCTIONITEMID", insertable = false, updatable = false)
+	private InventoryDTO productionItem; 	// Customer 테이블 FK
 	
 	@Column(name = "STANDARD")
 	private String standard;

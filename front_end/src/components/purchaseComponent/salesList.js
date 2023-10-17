@@ -93,6 +93,57 @@ class salesList extends Component{
 
         return `${year}-${month}-${day}`;
     }
+    
+    // 정렬
+    // 판매 번호 정렬
+    sortUsingSalesId = () => {
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.salesId.localeCompare(b.salesId);
+        })
+        this.setState({
+            displayedDatas: sortedData
+        })
+    }
+
+    // 거래처 코드 정렬
+    sortUsingCustomerId = () => {
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.customerId.localeCompare(b.customerId);
+        })
+        this.setState({
+            displayedDatas: sortedData
+        })
+    }
+
+    // 품목 코드 정렬
+    sortUsingProductionItemId = () => {
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.details[0].productionItemId.localeCompare(b.details[0].productionItemId);
+        })
+        this.setState({
+            displayedDatas: sortedData
+        })
+    }
+
+    // 금액 합계 정렬
+    sortUsingPrice = () => {
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return (a.details[0].price * a.details[0].quantity) - (b.details[0].price * b.details[0].quantity);
+        });
+        this.setState({
+            displayedDatas: sortedData
+        });
+    }
+
+    // 회계 반영 여부 정렬
+    sortUsingAccountReflect = () => {
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.accountReflect - b.accountReflect;
+        })
+        this.setState({
+            displayedDatas: sortedData
+        })
+    }
 
     render(){
         const { displayedDatas, showMore } = this.state;
@@ -117,11 +168,11 @@ class salesList extends Component{
                                 <TableCell align="center">
                                     <input type="checkbox" />
                                 </TableCell>
-                                <TableCell align="center">판매 번호</TableCell>
-                                <TableCell align="center">거래처 코드</TableCell>
-                                <TableCell align="center">품목 코드</TableCell>
-                                <TableCell align="center">금액 합계</TableCell>
-                                <TableCell align="center">회계 반영 여부</TableCell>
+                                <TableCell onClick={() => this.sortUsingSalesId()} align="center">판매 번호▽</TableCell>
+                                <TableCell onClick={() => this.sortUsingCustomerId()} align="center">거래처 코드▽</TableCell>
+                                <TableCell onClick={() => this.sortUsingProductionItemId()} align="center">품목 코드▽</TableCell>
+                                <TableCell onClick={() => this.sortUsingPrice()} align="center">금액 합계▽</TableCell>
+                                <TableCell onClick={() => this.sortUsingAccountReflect()} align="center">회계 반영 여부▽</TableCell>
                                 <TableCell align="center">추가 작업</TableCell>
                             </TableRow>
                         </TableHead>
@@ -132,11 +183,11 @@ class salesList extends Component{
                                         <input type="checkbox" /> {index + 1}
                                     </TableCell>
                                     <TableCell>{data.salesId}</TableCell>
-                                    <TableCell>{data.customerId}</TableCell>
-                                    <TableCell>{data.details[0].productionItemId}</TableCell>
+                                    <TableCell>{data.customerId ? data.customerId : 'N/A'}</TableCell>
+                                    <TableCell>{data.details[0].productionItemId ? data.details[0].productionItemId : 'N/A'}</TableCell>
                                     {/* 수량 * 단가 */}
-                                    <TableCell>{data.details[0].price}</TableCell>
-                                    <TableCell>{data.accountReflect}</TableCell>
+                                    <TableCell>{(data.details[0].price*data.details[0].quantity) ? (data.details[0].price*data.details[0].quantity) : 'N/A'}</TableCell>
+                                    <TableCell>{data.accountReflect ? data.accountReflect : 'N/A'}</TableCell>
                                     <TableCell>
                                             <Button variant="contained" style={{margin: 5, backgroundColor: '#D3D3D3'}} onClick={() => this.editData(data)}>수정</Button>
                                             <Button variant="contained" style={{margin: 5, backgroundColor: '#D3D3D3'}} onClick={() => this.deleteData(data)}>삭제</Button>

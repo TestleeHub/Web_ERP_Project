@@ -101,6 +101,10 @@ class salesForm extends Component{
     // 추가 요청
     onSubmitAdd = (e) => {
         e.preventDefault();
+        // if (!this.state.salesFormId || !this.state.customerId || !this.state.employeeId || !this.state.dueDate || this.state.details.length === 0) {
+        //     alert('저장 실패');
+        //     return;
+        // }
         request(
             "POST",
             "/purchase/salesForm",
@@ -112,6 +116,8 @@ class salesForm extends Component{
                 details: this.state.details
             }).then((response) => {
                 console.log('response : ', response);
+                alert('저장되었습니다. 판매 목록으로 이동합니다.')
+                this.props.history.push('/purchase/salesList');
             }).catch((error) => {
                 console.log('error : ', error);
             })

@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
@@ -30,18 +31,29 @@ public class SalesFormDTO {
 	@Id
 	@Column(name = "SALESFORMID")
 	private String salesFormId;
+	
 	// 거래처 코드
 	@Column(name = "CUSTOMERID")
 	private String customerId;
+	@OneToOne
+	@JoinColumn(name = "CUSTOMERID", insertable = false, updatable = false)
+	private CustomerDTO customer; 	// Customer 테이블 FK
+	
 	// 유효성 체크
 	@Column(name = "VALIDATION")
 	private int validation;
+	
 	// 진행 상태
 	@Column(name = "PROGRESS")
 	private int Progress;
+	
 	// 작성자(담당자)
 	@Column(name = "EMPLOYEEID")
 	private String employeeId;
+//	@OneToOne
+//	@JoinColumn(name = "EMPLOYEEID", insertable = false, updatable = false)
+//	private UserDTO employee; 	// Employee 테이블 FK
+	
 	// 납기일
 	@Column(name = "DUEDATE")
 	private Date dueDate;
