@@ -1,42 +1,56 @@
 import React, { Component } from "react";
-import { Table, TableHead, TableBody, TableRow, TableCell, Button } from '@mui/material';
+import { Table, TableHead, TableRow, TableCell, TableBody, Button, Typography, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import { request } from "../../helpers/axios_helper";
 
-class empList extends Component{
+class empList extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            empDatas: [],
+            datas: [],
+            displayedDatas: [],
+            showMore: true,
+            isLoading: true,
             employeeId: "",
             name: "",
             foreignName: "",
             socialNum: "",
             position: "",
-            leaveDate: "",	 
+            leaveDate: "",
             leaveReason: "",
             phone: "",
-            email: "",		 
+            email: "",
             departmentId: "",
             bankCode: "",
-            account: "",	
-            accountName: "",	  
-            postMail: "",	
+            account: "",
+            accountName: "",
+            postMail: "",
             address: "",
-            salary: "",	
+            salary: "",
             password: "",
-            chkpassword : "",
+            chkpassword: "",
             joinDate: ""
         }
     }
 
+    handleShowMoreClick = () => {
+        const { datas, displayedDatas } = this.state;
+        const currentLength = displayedDatas.length;
+        const nextChunk = datas.slice(currentLength, currentLength + 5);
+        const newDisplayedData = [...displayedDatas, ...nextChunk];
+        if (newDisplayedData.length === datas.length) {
+            this.setState({ showMore: false }); // 더이상 데이터를 보여줄 필요가 없으면 "더 보기" 버튼을 숨깁니다.
+        }
+        this.setState({ displayedDatas: newDisplayedData });
+    }
+
     // 라이프사이클 중 컴포넌트가 생성된 후 사용자에게 보여지기까지의 전체 과정을 렌더링
-    componentDidMount(){
-        this.reloadEmpList();
+    componentDidMount() {
+        this.reloadData();
     }
 
     // emplist 정보
-    reloadEmpList = (e) => {
+    reloadData = (e) => {
         request(
             "GET",
             "/humanResources/empList",
@@ -45,61 +59,69 @@ class empList extends Component{
             }).then((response) => {
                 console.log("response.data:" + response.data)
                 this.setState({
-                    empDatas: response.data,
+                    datas: response.data,
+                    displayedDatas: response.data.slice(0, 5),
+                    isLoading: false
                 });
-                console.log('response: ',response);
+                console.log('response: ', response);
             }).catch((error) => {
                 console.log('error: ', error);
             })
-        
+
     }
     // emp 삭제
-    deleteEmp = (emp) => {
-        console.log(emp)
-        console.log(emp.employeeId)
+    deleteData = (targetdata) => {
         request(
             "PUT",
             "/humanResources/empDelete",
             {
-                employeeId: emp.employeeId,
-                name: emp.name,
-                foreignName: emp.foreignName,
-                socialNum: emp.socialNum,
-                position: emp.position,
-                leaveDate: emp.leaveDate,	 
-                leaveReason: emp.leaveReason,
-                phone: emp.phone,
-                email: emp.email,		 
-                departmentId: emp.departmentId,
-                bankCode: emp.bankCode,
-                account: emp.account,	
-                accountName: emp.accountName,	  
-                postMail: emp.postMail,	
-                address: emp.address,
-                salary: emp.salary,	
-                password: emp.password,
-                chkpassword : emp.chkpassword,
-                joinDate: emp.joinDate
+                employeeId: targetdata.employeeId,
+                name: targetdata.name,
+                foreignName: targetdata.foreignName,
+                socialNum: targetdata.socialNum,
+                position: targetdata.position,
+                leaveDate: targetdata.leaveDate,
+                leaveReason: targetdata.leaveReason,
+                phone: targetdata.phone,
+                email: targetdata.email,
+                departmentId: targetdata.departmentId,
+                bankCode: targetdata.bankCode,
+                account: targetdata.account,
+                accountName: targetdata.accountName,
+                postMail: targetdata.postMail,
+                address: targetdata.address,
+                salary: targetdata.salary,
+                password: targetdata.password,
+                chkpassword: targetdata.chkpassword,
+                joinDate: targetdata.joinDate
             }).then((response) => {
-                console.log('response: ',response);
-                
+                this.setState({
+                    datas: this.state.datas.filter(data => data.customerId !== targetdata.customerId),
+                    displayedDatas: this.state.displayedDatas.filter(data => data.customerId !== targetdata.customerId)
+                });
+                console.log('response : ', response);
             }).catch((error) => {
                 console.log('error: ', error);
             })
-        this.props.history.push('/humanResources/empList');
-        
-    } 
+    }
     // emp 수정
-    updateEmp = (emp) => {
-        console.log("emp: " + emp)
-        window.localStorage.setItem("emp", JSON.stringify(emp))
+    editData = (data) => {
+        console.log("data: " + data)
+        window.localStorage.setItem("data", JSON.stringify(data))
         this.props.history.push('/humanResources/empAdd');
     }
     // 재직증명서
-    tenure = (emp) => {
-        console.log("emp: " + emp)
-        window.localStorage.setItem("emp", JSON.stringify(emp))
+    tenure = (data) => {
+        console.log("data: " + data)
+        window.localStorage.setItem("emp", JSON.stringify(data))
         this.props.history.push('/humanResources/empProofMaking');
+    }
+
+    // 임시 마이페이지 회원수정
+    myEdit = (Id) => {
+        console.log("Id: " + Id)
+        window.localStorage.setItem("Id", JSON.stringify(Id))
+        this.props.history.push('/humanResources/myEdit');
     }
 
     formatDate = (timestamp) => {
@@ -111,71 +133,87 @@ class empList extends Component{
         return `${year}-${month}-${day}`;
     }
 
-    render(){
-        return(
-            
-            <div> 
-                <div className="centerDivCss">
-                    <div>
-                        <Button style={trapezoidButton}>사원리스트</Button>
-                    </div>
-                </div>
-                <div className="centerDivCss">
-                    
-                    <div>
-                        <Table style={{ backgroundColor: 'lightgray'}}>
-                            <TableHead>
-                                <TableRow>
-                                <TableCell><input type="checkbox"/></TableCell>
-                                <TableCell>입사일자</TableCell>
+    render() {
+        const { displayedDatas, showMore } = this.state;
+
+        return (
+            <div>
+                <br />
+                <Typography variant="h4" style={style}> 사원 목록 </Typography>
+                <br />
+                <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>전체</Button>
+                {/* 로딩 상태에 대한 조건부 렌더링 */}
+                {this.state.isLoading ? (
+                    <p>로딩 중...</p>
+                ) : (
+                    <Table border="1" style={{ border: '1px solid lightgray', backgroundColor: 'ghostwhite' }}>
+                        <TableHead style={{ backgroundColor: 'lightgray' }}>
+                            <TableRow>
                                 <TableCell>사원번호</TableCell>
                                 <TableCell>성명</TableCell>
                                 <TableCell>부서코드</TableCell>
                                 <TableCell>직책</TableCell>
-                                <TableCell>계좌번호</TableCell>
-                                <TableCell>급여구분</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {this.state.empDatas.map(emp => 
+                                <TableCell>이메일</TableCell>
+                                <TableCell>입사일자</TableCell>
+                                <TableCell></TableCell>
+                            </TableRow>
+                        </TableHead>
+
+                        <TableBody>
+                            {this.state.displayedDatas.map((data, index) => (
                                 <TableRow>
-                                    <TableCell><input type="checkbox" name={emp.employeeId}/></TableCell>
-                                    <TableCell>{this.formatDate(emp.joinDate)}</TableCell>
-                                    <TableCell>{emp.employeeId}</TableCell>
-                                    <TableCell>{emp.name}</TableCell>
-                                    <TableCell>{emp.departmentId}</TableCell>
-                                    <TableCell>{emp.position}</TableCell>
-                                    <TableCell>{emp.account}</TableCell>
-                                    <TableCell>{emp.salary}</TableCell>    
+                                    <TableCell> {data.employeeId} </TableCell>
+                                    <TableCell> {data.name ? data.name : 'N/A'} </TableCell>
+                                    <TableCell> {data.departmentId ? data.departmentId : 'N/A'} </TableCell>
+                                    <TableCell> {data.position ? data.position : 'N/A'} </TableCell>
+                                    <TableCell> {data.email ? data.email : 'N/A'} </TableCell>
+                                    <TableCell> {data.joinDate ? this.formatDate(data.joinDate) : 'N/A'} </TableCell>
                                     <TableCell>
-                                        <Button onClick={() => this.updateEmp(emp)}>수정</Button>
-                                        <Button onClick={() => this.deleteEmp(emp)}>삭제</Button>
-                                        <Button onClick={() => this.tenure(emp)}>재직 증명서</Button>
+                                        <Button variant="contained" style={normalButton} onClick={() => this.editData(data)}>수정</Button>
+                                        <Button variant="contained" style={normalButton} onClick={() => this.deleteData(data)}>삭제</Button>
+                                        <Button variant="contained" style={normalButton} onClick={() => this.tenure(data)}>재직증명서</Button>
                                     </TableCell>
                                 </TableRow>
-                                )}
-                            </TableBody>
-                        </Table>
-                    </div>
-                    
-                    
-                </div>
-                <hr/>
-                <div>
-                    
-                </div>
+                            ))}
+
+                        </TableBody>
+                    </Table>
+                )}
+
+                <br />
+                {showMore && (
+                    <Button variant="contained" style={normalButton} onClick={this.handleShowMoreClick}>더 보기</Button>
+                )}
+                <br />
+                <br />
+               
             </div>
-            // 전체 div 끝
         );
     }
 }
 
+const style = {
+    display: 'flex',
+    justifyContent: 'left'
+}
+
+// 사다리꼴 버튼 속성
 const trapezoidButton = {
     backgroundColor: 'navy',
     color: 'white',
     marginRight: '10px',
     clipPath: 'polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)',
     width: '120px',
+    height: '30px',
+    padding: '10px 20px'
+}
+
+// 기본 버튼 속성
+const normalButton = {
+    backgroundColor: 'navy',
+    color: 'white',
+    marginRight: '10px',
+    width: '150px',
     height: '30px',
     padding: '10px 20px'
 }

@@ -28,6 +28,17 @@ public class HumanResourcesService {
 		return repository.findAll(filter, sort);
 	}
 	
+	// 사원 조회(1명)
+	public UserDTO getEmp(String employeeId) {
+		System.out.println("getEmp");
+		System.out.println("getEmp-employeeId: " + employeeId);
+		//String id = "s0002";
+		UserDTO dto = repository.findById(employeeId).get();
+		
+		System.out.println("dto:" + dto);
+		return dto;
+	} 
+	
 	// 사원추가/삭제
 	public void addEmp(UserDTO dto) {
 		repository.save(dto);

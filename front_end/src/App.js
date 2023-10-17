@@ -52,6 +52,8 @@ import salaryReg from './components/humanResourcesComponent/salaryReg';
 import SalaryStateSelect from './components/humanResourcesComponent/SalaryStateSelect';
 import depList from './components/humanResourcesComponent/depList';
 import depAdd from './components/humanResourcesComponent/depAdd';
+import myEdit from './components/humanResourcesComponent/myEdit';
+import pwCheck from './components/humanResourcesComponent/pwCheck';
 
 import purchaseBook from './components/accountComponent/purchaseBook';
 import salesBook from './components/accountComponent/salesBook';
@@ -130,6 +132,8 @@ function App() {
               <Route path='/humanResources/SalaryStateSelect' exact={true} component={SalaryStateSelect} />
               <Route path='/humanResources/depList' exact={true} component={depList} />
               <Route path='/humanResources/depAdd' exact={true} component={depAdd} />
+              <Route path='/humanResources/myEdit' exact={true} component={myEdit} />
+              <Route path='/humanResources/pwCheck' exact={true} component={pwCheck} />
 
               <Route path='/account' exact={true} component={fixedAssetsList} />
               <Route path='/account/purchaseBook' exact={true} component={purchaseBook} />
