@@ -1,9 +1,9 @@
 import './App.css';
+import './test.css';
 import LeftNavbar from './components/router/LeftNavbar';
 import Header from './components/router/Header';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 
-import mainPage from './components/mainComponent/mainPage';
 import inventoryAdjustment from './components/logisticsComponent/inventoryAdjustment';
 import inventorySelect from './components/logisticsComponent/inventorySelect';
 // import productInsert from './components/logisticsComponent/productInsert';
@@ -60,6 +60,7 @@ import monthlyTrialBalance from './components/accountComponent/monthlyTrialBalan
 import fixedAssetsList from './components/accountComponent/fixedAssetsList';
 import fixedAssetsAdd from './components/accountComponent/fixedAssetsAdd';
 
+import mainPage from './components/commonComponent/mainPage';
 import loginComponent from './components/commonComponent/loginComponent';
 import logoutComponent from './components/commonComponent/logoutComponent';
 
@@ -139,6 +140,8 @@ function App() {
               <Route path='/account/fixedAssetsList' exact={true} component={fixedAssetsList} />
               <Route path='/account/fixedAssetsAdd' exact={true} component={fixedAssetsAdd} />
 
+              <Route path='/' exact={true} component={mainPage} />
+              <Route path='/main' exact={true} component={mainPage} />
               <Route path='/login' exact={true} component={loginComponent} />
               <Route path='/logout' exact={true} component={logoutComponent} />
             </Switch>

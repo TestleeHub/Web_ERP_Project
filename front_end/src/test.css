@@ -1,0 +1,149 @@
+* {
+	margin: 0;
+	padding: 0;
+	font-family: 'Poppins', sans-serif;
+	box-sizing: border-box;
+}
+
+body {
+	background: #000;
+	color: #fff;
+	
+}
+
+.header {
+	width: 100%;
+	/* height: 100vh; */
+	height: 3000px;
+	background-image: linear-gradient(to top, ghostwhite, ghostwhite 60%, transparent), url(https://tecoble.techcourse.co.kr/static/348a6c1ea3a4fa8b6990e3e3bf4e8490/8ac6f/sample2.png);
+	background-size: cover;
+	background-position: center;
+	position: relative;
+}
+
+.header h3 {
+    text-align: left;
+	font-size: 50px;
+	color: whitesmoke;
+	position: relative;
+	top: 100px;
+	font-weight: bold;
+	margin-left: 60px;
+}
+
+/*--------------- [ .features ] ---------------*/
+
+.features {
+	position: relative;
+	top: -2700px;
+	padding: 20px 40px;
+	font-size: 22px;
+}
+
+.features h2 {
+	font-size: 50px;
+	font-weight: 600;
+	margin-bottom: 20px;
+}
+
+.row1 {
+	display: flex;
+	width: 100%;
+	height: 300px;
+	align-items: center;
+	flex-wrap: wrap;
+	justify-content: space-between;
+    background-color: rgba(211, 211, 211, 0.5);
+    padding-left: 150px;
+	border-radius: 20px;
+}
+
+.row2 {
+	display: flex;
+	width: 100%;
+	height: 300px;
+	align-items: center;
+	flex-wrap: wrap;
+	margin-top: 40px;
+	justify-content: space-between;
+    background-color: rgba(248, 248, 255, 0.5);
+    padding-right: 150px;
+	border-radius: 20px;
+}
+
+.row3 {
+	display: flex;
+	width: 100%;
+	height: 300px;
+	align-items: center;
+	flex-wrap: wrap;
+    margin-top: 40px;
+	justify-content: space-between;
+    background-color: rgba(211, 211, 211, 0.5);
+    padding-left: 150px;
+	border-radius: 20px;
+
+}
+
+.row4 {
+	display: flex;
+	width: 100%;
+	height: 300px;
+	align-items: center;
+	flex-wrap: wrap;
+	margin-top: 40px;
+	justify-content: space-between;
+    background-color: rgba(248, 248, 255, 0.5);
+    padding-right: 150px;
+	border-radius: 20px;
+
+}
+
+.row5 {
+	display: flex;
+	width: 100%;
+	height: 300px;
+	align-items: center;
+	flex-wrap: wrap;
+	margin-top: 40px;
+	justify-content: space-between;
+    background-color: lightgray;
+    padding-left: 150px;
+	border-radius: 20px;
+
+}
+
+.row6 {
+	display: flex;
+	width: 100%;
+	height: 300px;
+	align-items: center;
+	flex-wrap: wrap;
+	margin-top: 40px;
+	justify-content: space-between;
+    background-color: ghostwhite;
+    padding-right: 150px;
+	border-radius: 20px;
+
+}
+
+.text_col {
+	flex-basis: 50%;
+	margin-bottom: 20px;
+}
+
+.left_imoji {
+	padding-top: 20px;
+	padding-right: 150px;
+}
+.right_imoji {
+	padding-top: 20px;
+	padding-left: 150px;
+}
+
+.left_imoji h2 {
+	font-size: 200px;
+}
+.right_imoji h2 {
+	font-size: 200px;
+}
