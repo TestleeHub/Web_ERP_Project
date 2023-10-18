@@ -31,12 +31,12 @@ class empAdd extends Component{
 
     // 수정페이지 처리
     componentDidMount() {
-        const emp = window.localStorage.getItem("emp");
-        console.log("edit:" + emp)
-        if(emp !== null){
-            const parseEmp = JSON.parse(emp);
-            this.setState(parseEmp);
-            window.localStorage.removeItem("emp");
+        const data = window.localStorage.getItem("data");
+        console.log("edit:" + data)
+        if(data !== null){
+            const parseData = JSON.parse(data);
+            this.setState(parseData);
+            window.localStorage.removeItem("data");
         }
     }
 

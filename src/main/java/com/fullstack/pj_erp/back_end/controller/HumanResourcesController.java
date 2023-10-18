@@ -38,9 +38,11 @@ public class HumanResourcesController {
 		int carPay = 800000;			
 		int totalSalary = 0;
 		double nationalPension = 0; // 국민연금
-		double healthInsurance = 0;// 건강보험
-		double employInsurance = 0;// 고용보험
-		int overTimePay = 0;
+		double healthInsurance = 0; // 건강보험
+		double employInsurance = 0; // 고용보험
+		int overTimePay = 0;		// 야근수당
+		int WeekendPay = 0;			// 주말수당
+		int VacationPay = 0;		// 연차수당
 		// 계산 끝
 		
 		System.out.println("\n<<</humanResources/empList>>>");
@@ -48,13 +50,15 @@ public class HumanResourcesController {
 		for(UserDTO dto : list) {
 			
 			System.out.println("OvertimePay() - dto: " + dto.getSalar().getOvertimePay());
-			overTimePay = dto.getSalar().getOvertimePay() != null ? (int)dto.getSalar().getOvertimePay() : 0;
-		
+			overTimePay = dto.getSalar().getOvertimePay() != null ? dto.getSalar().getOvertimePay() : 0;
+			WeekendPay = dto.getSalar().getWeekendPay() != null ? dto.getSalar().getWeekendPay() : 0;
+			VacationPay = dto.getSalar().getVacationPay() != null ? dto.getSalar().getVacationPay() : 0;
+			
 			// 차량유지비
 			dto.setCarPay(carPay); 
 			
 			// 총지급액
-			totalSalary = dto.getSalary() + carPay + DependentFamiliyPay; 
+			totalSalary = dto.getSalary() + carPay + DependentFamiliyPay + overTimePay + WeekendPay + VacationPay; 
 			dto.setTotalSalary(totalSalary);
 			
 			// 국민연금
