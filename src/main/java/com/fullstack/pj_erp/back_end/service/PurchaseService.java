@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class PurchaseService {
 
-	private final OrderFormRepository repository;
+	private final  OrderFormRepository repository;
 	private final PurchaseFormRepository p_repository;
 	private final SalesFormRepository sf_repository;
 	private final SalesRepository s_repository;

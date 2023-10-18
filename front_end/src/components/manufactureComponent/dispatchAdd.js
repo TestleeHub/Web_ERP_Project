@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Table, TableHead, TableBody, TableRow, TableCell, Typography, Button } from '@mui/material';
+import { Table, TableHead, TableBody, TableFooter, TableRow, TableCell, Typography, Button } from '@mui/material';
 import { request } from "../../helpers/axios_helper";
 import ProductionPopup from "../popUp/productionPopup";
 import InstructionPopup from "../popUp/instructionPopup";

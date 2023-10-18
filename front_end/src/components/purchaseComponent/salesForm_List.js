@@ -105,6 +105,57 @@ class salesForm_List extends Component{
         return `${year}-${month}-${day}`;
     }
 
+    // 정렬
+    // 주문 번호 정렬
+    sortUsingSalesFormId = () => {
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.salesFormId.localeCompare(b.salesFormId);
+        })
+        this.setState({
+            displayedDatas: sortedData
+        })
+    }
+
+    // 거래처 코드 정렬
+    sortUsingCustomerId = () => {
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.customerId.localeCompare(b.customerId);
+        })
+        this.setState({
+            displayedDatas: sortedData
+        })
+    }
+
+    // 담당자 정렬
+    sortUsingEmployeeId = () => {
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.employeeId.localeCompare(b.employeeId);
+        })
+        this.setState({
+            displayedDatas: sortedData
+        })
+    }
+
+    // 납기일 정렬
+    sortUsingDueDate = () => {
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.dueDate - b.dueDate;
+        });
+        this.setState({
+            displayedDatas: sortedData
+        });
+    }
+
+    // 금액 정렬
+    sortUsingPrice = () => {
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return (a.details[0].price * a.details[0].quantity) - (b.details[0].price * b.details[0].quantity);
+        });
+        this.setState({
+            displayedDatas: sortedData
+        });
+}
+
     render(){
         const { displayedDatas, showMore } = this.state;
         return(
@@ -129,11 +180,11 @@ class salesForm_List extends Component{
                                 <TableCell align="center">
                                     <input type="checkbox" />
                                 </TableCell>
-                                <TableCell align="center">주문 번호</TableCell>
-                                <TableCell align="center">거래처 코드</TableCell>
-                                <TableCell align="center">담당자</TableCell>
-                                <TableCell align="center">납기일</TableCell>
-                                <TableCell align="center">금액</TableCell>
+                                <TableCell onClick={() => this.sortUsingSalesFormId()} align="center">주문 번호▽</TableCell>
+                                <TableCell onClick={() => this.sortUsingCustomerId()} align="center">거래처 코드▽</TableCell>
+                                <TableCell onClick={() => this.sortUsingEmployeeId()} align="center">담당자▽</TableCell>
+                                <TableCell onClick={() => this.sortUsingDueDate()} align="center">납기일▽</TableCell>
+                                <TableCell onClick={() => this.sortUsingPrice()} align="center">금액▽</TableCell>
                                 <TableCell align="center">진행 상태</TableCell>
                                 <TableCell align="center">추가 작업</TableCell>
                             </TableRow>
@@ -145,13 +196,13 @@ class salesForm_List extends Component{
                                         <input type="checkbox" /> {index + 1}
                                     </TableCell>
                                     <TableCell>{data.salesFormId}</TableCell>
-                                    <TableCell>{data.customerId}</TableCell>
-                                    <TableCell>{data.employeeId}</TableCell>
-                                    <TableCell>{data.dueDate}</TableCell>
+                                    <TableCell>{data.customerId ? data.customerId : 'N/A'}</TableCell>
+                                    <TableCell>{data.employeeId ? data.employeeId : 'N/A'}</TableCell>
+                                    <TableCell>{this.formatDate(data.dueDate) ? this.formatDate(data.dueDate) : 'N/A'}</TableCell>
                                     {/* 수량 * 단가 */}
-                                    <TableCell>{data.details[0].price}</TableCell> 
+                                    <TableCell>{(data.details[0].price*data.details[0].quantity) ? (data.details[0].price*data.details[0].quantity) : 'N/A'}</TableCell> 
                                     {/* progress 조건문으로 */}
-                                    <TableCell>{data.Progress}</TableCell>
+                                    <TableCell>{data.Progress ? data.Progress : 'N/A'}</TableCell>
                                     <TableCell>
                                         <Button variant="contained" style={{margin: 5, backgroundColor: '#D3D3D3'}} onClick={() => this.editData(data)}>수정</Button>
                                         <Button variant="contained" style={{margin: 5, backgroundColor: '#D3D3D3'}} onClick={() => this.deleteData(data)}>삭제</Button>

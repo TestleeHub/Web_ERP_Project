@@ -56,4 +56,20 @@ public class UserDTO {
 	private String token;
 	@Transient
 	private String role;
+	@Transient
+	private int DependentFamiliyPay; // 부양가족수당
+	@Transient
+	private int totalSalary; // 지급총액
+	@Transient
+	private double totaldeduction; // 공제총액
+	@Transient
+	private double totalSalaryReal; // 실지급액
+	@Transient
+	private double nationalPension; // 국민연금
+	@Transient
+	private double healthInsurance; // 건강보험
+	@Transient
+	private double employInsurance; // 고용보험
+	@Transient
+	private int carPay; // 차량유지비
 }

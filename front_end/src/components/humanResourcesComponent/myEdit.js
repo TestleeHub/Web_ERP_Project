@@ -31,13 +31,42 @@ class empAdd extends Component{
 
     // 수정페이지 처리
     componentDidMount() {
-        const emp = window.localStorage.getItem("emp");
-        console.log("edit:" + emp)
-        if(emp !== null){
-            const parseEmp = JSON.parse(emp);
-            this.setState(parseEmp);
-            window.localStorage.removeItem("emp");
-        }
+        console.log("myedit:" + window.localStorage.getItem("employeeId"))
+        const employeeId = window.localStorage.getItem("employeeId");
+        const parseEmployeeId = JSON.parse(employeeId);
+
+        request(
+            "GET",
+            "/humanResources/empEdit/" + parseEmployeeId,
+            {
+
+            }).then((response) => {
+                console.log("response.data:" + response.data)
+                this.setState({
+                    empDatas: response.data,
+                    employeeId: response.data.employeeId,
+                    name: response.data.name,
+                    foreignName: response.data.foreignName,
+                    socialNum: response.data.socialNum,
+                    position: response.data.position,
+                    leaveDate: response.data.leaveDate,
+                    leaveReason: response.data.leaveReason,
+                    phone: response.data.phone,
+                    email: response.data.email,		 
+                    departmentId: response.data.departmentId,
+                    bankCode: response.data.bankCode,
+                    account: response.data.account,	
+                    accountName: response.data.accountName,	  
+                    postMail: response.data.postMail,	
+                    address: response.data.address,
+                    salary: response.data.salary,	
+                    password: response.data.password,
+                    joinDate: response.data.joinDate
+                });
+                console.log('response: ',response);
+            }).catch((error) => {
+                console.log('error: ', error);
+            })
     }
 
     onChangeEmpHandler = (e) => {
@@ -85,10 +114,6 @@ class empAdd extends Component{
                     this.props.history.push('/humanResources/empList');
                 }).catch((error) => {
                     console.log('error : ', error); 
-                    if(error.response.status === 403){
-                        console.log('접근 권한이 없습니다.');
-                        this.props.history.push('/accessDenied');
-                    }
                 })
             
         }
@@ -97,14 +122,14 @@ class empAdd extends Component{
         return(
             <div>
                 <div>
-                    <Button style={trapezoidButton}>사원등록</Button>
+                    <Button style={trapezoidButton}>사원수정</Button>
                 </div>
                 <div>               
                     <Table style={{ backgroundColor: 'lightgray'}}>
                         <TableBody>
                             <TableRow>
                                 <TableCell >사원번호</TableCell>
-                                <TableCell ><input type="text" name="employeeId" placeholder="사원번호" onChange={this.onChangeEmpHandler} value={this.state.employeeId}/></TableCell>
+                                <TableCell ><input type="text" name="employeeId" placeholder="사원번호" onChange={this.onChangeEmpHandler} value={this.state.employeeId} readOnly/></TableCell>
                                 <TableCell >이름</TableCell>
                                 <TableCell ><input type="text" name="name" placeholder="이름" onChange={this.onChangeEmpHandler} value={this.state.name}/></TableCell>
                             </TableRow>

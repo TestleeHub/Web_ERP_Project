@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Table, TableBody, TableCell, TableRow, Typography, Button, TableHead } from "@mui/material";
 import { request } from "../../helpers/axios_helper";
+import CustomerPopup from "../popUp/customerPopup";
+import Modal from "react-modal";
 
 class salesForm_Form extends Component{
 
@@ -11,7 +13,8 @@ class salesForm_Form extends Component{
             customerId: "",
             employeeId: "",
             dueDate: "",
-            details: []
+            details: [],
+            isCustomerPopupOpen: false,
         }
     }
 
@@ -24,6 +27,21 @@ class salesForm_Form extends Component{
             this.setState(parsedData);
             window.localStorage.removeItem("salesFormData");
         }
+    }
+
+    // 팝업 열기
+    openCustomerPopup = () => {
+        this.setState({isCustomerPopupOpen: true})
+    }
+
+    // 팝업 닫기
+    closeCustomerPopup = () => {
+        this.setState({isCustomerPopupOpen: false})
+    }
+
+    // 팝업에서 선택한 데이터를 받아오는 콜백 함수
+    handleCustomerPopupData = (data) => {
+        this.setState({customerId : data.customerId, isCustomerPopupOpen: false})
     }
 
     // 버튼 클릭시 주문서 디테일 행 추가
@@ -83,9 +101,13 @@ class salesForm_Form extends Component{
     // 추가 요청
     onSubmitAdd = (e) => {
         e.preventDefault();
+        // if (!this.state.salesFormId || !this.state.customerId || !this.state.employeeId || !this.state.dueDate || this.state.details.length === 0) {
+        //     alert('저장 실패');
+        //     return;
+        // }
         request(
             "POST",
-            "/purchase/salesForm",
+            "/purchase/salesForm_Form",
             {
                 salesFormId: this.state.salesFormId,
                 customerId: this.state.customerId,
@@ -94,6 +116,8 @@ class salesForm_Form extends Component{
                 details: this.state.details
             }).then((response) => {
                 console.log('response : ', response);
+                alert('저장되었습니다. 주문 목록으로 이동합니다.')
+                this.props.history.push('/purchase/salesForm_List');
             }).catch((error) => {
                 console.log('error : ', error);
                 if(error.response.status === 403){
@@ -106,6 +130,29 @@ class salesForm_Form extends Component{
     render(){
         return(
             <div>
+                <div>
+                <Modal
+                        isOpen={this.state.isCustomerPopupOpen}
+                        onRequestClose = {this.closeCustomerPopup}
+                        contentLabel="팝업"
+                        style={{
+                            overlay: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                            },
+                            content: {
+                                width: '700px', 
+                                height: '400px', 
+                                top: '50%',
+                                left: '55%',
+                                transform: 'translate(-50%, -50%)'
+                            },
+                        }}
+                    >
+                        <CustomerPopup onPopupData={this.handleCustomerPopupData} />
+                        <br/>
+                        <button onClick={this.closeCustomerPopup}>닫기</button>
+                    </Modal>
+                </div>
                 <div>
                     <Typography style={style}>주문서 입력</Typography>
                 </div>
@@ -134,6 +181,7 @@ class salesForm_Form extends Component{
                                         value={this.state.customerId} 
                                         placeholder="거래처코드" 
                                         onChange={this.onChangeHandler} 
+                                        onClick={this.openCustomerPopup}
                                     />
                                 </TableCell>
                             </TableRow>

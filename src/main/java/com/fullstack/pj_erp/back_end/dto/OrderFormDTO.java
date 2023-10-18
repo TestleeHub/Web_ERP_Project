@@ -31,18 +31,29 @@ public class OrderFormDTO {
 	@Id
 	@Column(name = "ORDERFORMID") 
 	private String orderFormId;
+	
 	// 거래처 코드
 	@Column(name = "CUSTOMERID") 
 	private String customerId;
+	@OneToOne
+	@JoinColumn(name = "CUSTOMERID", insertable = false, updatable = false)
+	private CustomerDTO customer; 	// Customer 테이블 FK
+	
 	// 유효성 체크
 	@Column(name = "VALIDATION") 
 	private int validation;
+	
 	// 진행 상태
 	@Column(name = "PROGRESS") 
 	private int Progress;
+	
 	// 작성자(담당자)
 	@Column(name = "EMPLOYEEID") 
 	private String employeeId;
+//	@OneToOne
+//	@JoinColumn(name = "EMPLOYEEID", insertable = false, updatable = false)
+//	private UserDTO employee; 	// Employee 테이블 FK
+	
 	// 납기일
 	@Column(name = "DUEDATE") 
 	private Date dueDate;
@@ -50,14 +61,6 @@ public class OrderFormDTO {
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "ORDERFORMID")
 	private List<Order_DetailDTO> details;
-	
-//	@OneToOne
-//	@JoinColumn(name = "CUSTOMERID")
-//	private CustomerDTO customerId; 	// Customer 테이블 FK
-	
-//	@OneToOne
-//	@JoinColumn(name = "EMPLOYEEID")
-//	private UserDTO employeeId; 	// Employee 테이블 FK
 	
 	@PrePersist
 	private void generateId() {

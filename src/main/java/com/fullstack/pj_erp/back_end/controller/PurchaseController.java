@@ -115,7 +115,7 @@ public class PurchaseController {
 	///////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	// 주문 폼 입력
-	@PostMapping(value = {"/purchase/salesForm"})
+	@PostMapping(value = {"/purchase/salesForm_Form"})
 	public void salesForm_Form(@RequestBody SalesFormDTO dto) {
 		System.out.println("[SalesFormDTO] : " + dto);
 		
@@ -140,7 +140,7 @@ public class PurchaseController {
 	}
 	
 	// 주문 목록 수정
-	@PutMapping(value = {"/purchase/salesForm"})
+	@PutMapping(value = {"/purchase/salesForm_Form"})
 	public void salesFormUpdate(@RequestBody SalesFormDTO dto) {
 		System.out.println("[SalesFormDTO] : " + dto);
 		service.updateSalesForm(dto);
@@ -157,7 +157,7 @@ public class PurchaseController {
 	///////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	// 판매 폼 입력
-	@PostMapping(value = {"/purchase/sales"})
+	@PostMapping(value = {"/purchase/salesForm"})
 	public void salesForm(@RequestBody SalesDTO dto) {
 		System.out.println("[SalesDTO] : " + dto);
 		
@@ -182,7 +182,7 @@ public class PurchaseController {
 	}
 	
 	// 판매 목록 수정
-	@PutMapping(value = {"/purchase/sales"})
+	@PutMapping(value = {"/purchase/salesForm"})
 	public void salesUpdate(@RequestBody SalesDTO dto) {
 		System.out.println("[SalesDTO] : " + dto);
 		service.updateSales(dto);
