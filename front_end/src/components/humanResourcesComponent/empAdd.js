@@ -93,6 +93,18 @@ class empAdd extends Component{
             
         }
     }
+
+    searchAddress = () => {
+        new window.daum.Postcode({
+            oncomplete: (data) => {
+                this.setState({
+                    postMail: data.zonecode,
+                    address: data.address
+                });
+            }
+        }).open();
+    }
+
     render(){
         return(
             <div>
@@ -100,7 +112,7 @@ class empAdd extends Component{
                     <Button style={trapezoidButton}>사원등록</Button>
                 </div>
                 <div>               
-                    <Table style={{ backgroundColor: 'lightgray'}}>
+                    <Table style={{ backgroundColor: 'ghostwhite'}}>
                         <TableBody>
                             <TableRow>
                                 <TableCell >사원번호</TableCell>
@@ -130,7 +142,16 @@ class empAdd extends Component{
                                 <TableCell >이메일</TableCell>
                                 <TableCell ><input type="text" name="email" placeholder="이메일" onChange={this.onChangeEmpHandler} value={this.state.email}/></TableCell>
                                 <TableCell >부서코드</TableCell>
-                                <TableCell ><input type="text" name="departmentId" placeholder="부서코드" onChange={this.onChangeEmpHandler} value={this.state.departmentId}/></TableCell>
+                                <TableCell>
+                                    <select onChange={this.onChangeEmpHandler}>
+                                        <option value="인사팀">인사팀</option>
+                                        <option value="제조팀">제조팀</option>
+                                        <option value="재무팀">재무팀</option>
+                                        <option value="구매팀">구매팀</option>
+                                        <option value="영업팀">영업팀</option>
+                                        <option value="자재팀">자재팀</option>
+                                    </select>
+                                </TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell >은행</TableCell>
@@ -145,8 +166,12 @@ class empAdd extends Component{
                                 <TableCell ><input type="text" name="accountName" placeholder="예금주" onChange={this.onChangeEmpHandler} value={this.state.accountName}/></TableCell>
                             </TableRow>
                             <TableRow>
+
                                 <TableCell >우편번호</TableCell>
-                                <TableCell ><input type="text" name="postMail" placeholder="우편번호" onChange={this.onChangeEmpHandler} value={this.state.postMail}/></TableCell>
+                                <TableCell>
+                                    <Button onClick={this.searchAddress}>주소검색</Button>
+                                    <input type="text" name="postMail" placeholder="우편번호" onChange={this.onChangeEmpHandler} value={this.state.postMail}/>
+                                </TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell >주소</TableCell>
@@ -168,7 +193,7 @@ class empAdd extends Component{
                         </TableBody>
                     </Table>
                     <hr />
-                    <Button onClick={this.onSubmitEmpAdd}>저장</Button>
+                    <Button variant="contained" style={normalButton} onClick={this.onSubmitEmpAdd}>등록</Button>
                 </div>
             </div>
         );
@@ -181,6 +206,16 @@ const trapezoidButton = {
     marginRight: '10px',
     clipPath: 'polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)',
     width: '120px',
+    height: '30px',
+    padding: '10px 20px'
+}
+
+// 기본 버튼 속성
+const normalButton = {
+    backgroundColor: 'navy',
+    color: 'white',
+    marginRight: '10px',
+    width: '150px',
     height: '30px',
     padding: '10px 20px'
 }

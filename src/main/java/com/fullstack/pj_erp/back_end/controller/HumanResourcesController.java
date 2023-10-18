@@ -85,6 +85,9 @@ public class HumanResourcesController {
 		dto.setJoinDate(new Date(System.currentTimeMillis()));
 		dto.setValidation(1);
 		
+		if(dto.getSalar() == null) dto.setSalar(new SalaryDTO());
+		dto.getSalar().setEmployeeId(dto.getEmployeeId());
+		
 		dto.setPassword(passwordEncoder.encode(CharBuffer.wrap(dto.getPassword())));
 		System.out.println(dto);
 		
@@ -123,6 +126,16 @@ public class HumanResourcesController {
 		
 		
 		return null;
+	}
+	
+	// 급여 등록
+	@PostMapping(value = {"/humanResources/salaryAdd"})
+	public void salaryAdd(@RequestBody SalaryDTO dto){
+		System.out.println("\n<<</humanResources/salaryAdd>>>");
+		System.out.println("dto:" + dto);
+		
+		dto.setValidation(1);
+		service.AddSalary(dto);	
 	}
 	
 	// 급여 조회
