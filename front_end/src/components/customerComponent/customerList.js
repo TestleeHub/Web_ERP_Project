@@ -17,7 +17,7 @@ class customerList extends Component {
         bank: "",
         account: "",
         postMail: "",
-        address: "",
+        address: ""
     }
 
     handleShowMoreClick = () => {
@@ -96,7 +96,7 @@ class customerList extends Component {
         return (
             <div>
                 <br />
-                <Typography variant="h4" style={style}> 거래처 조회 </Typography>
+                <Typography variant="h4" style={style}> 거래처 목록 </Typography>
                 <br />
                 <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>전체</Button>
                 {/* 로딩 상태에 대한 조건부 렌더링 */}
@@ -139,7 +139,6 @@ class customerList extends Component {
                                     </TableCell>
                                 </TableRow>
                             ))}
-
                         </TableBody>
                     </Table>
                 )}
@@ -158,6 +157,7 @@ class customerList extends Component {
     }
 
 }
+
 const style = {
     display: 'flex',
     justifyContent: 'left'
