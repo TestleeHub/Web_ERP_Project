@@ -40,11 +40,15 @@ public class HumanResourcesController {
 		double nationalPension = 0; // 국민연금
 		double healthInsurance = 0;// 건강보험
 		double employInsurance = 0;// 고용보험
+		int overTimePay = 0;
 		// 계산 끝
 		
 		System.out.println("\n<<</humanResources/empList>>>");
 		List<UserDTO> list = service.listEmp();
 		for(UserDTO dto : list) {
+			
+			System.out.println("OvertimePay() - dto: " + dto.getSalar().getOvertimePay());
+			overTimePay = dto.getSalar().getOvertimePay() != null ? (int)dto.getSalar().getOvertimePay() : 0;
 		
 			// 차량유지비
 			dto.setCarPay(carPay); 

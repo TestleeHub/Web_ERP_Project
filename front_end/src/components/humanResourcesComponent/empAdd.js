@@ -143,13 +143,13 @@ class empAdd extends Component{
                                 <TableCell ><input type="text" name="email" placeholder="이메일" onChange={this.onChangeEmpHandler} value={this.state.email}/></TableCell>
                                 <TableCell >부서코드</TableCell>
                                 <TableCell>
-                                    <select onChange={this.onChangeEmpHandler}>
-                                        <option value="인사팀">인사팀</option>
-                                        <option value="제조팀">제조팀</option>
-                                        <option value="재무팀">재무팀</option>
-                                        <option value="구매팀">구매팀</option>
-                                        <option value="영업팀">영업팀</option>
-                                        <option value="자재팀">자재팀</option>
+                                    <select name="departmentId" onChange={this.onChangeEmpHandler} >
+                                        <option value="인사팀" >인사팀</option>
+                                        <option value="제조팀" >제조팀</option>
+                                        <option value="재무팀" >재무팀</option>
+                                        <option value="구매팀" >구매팀</option>
+                                        <option value="영업팀" >영업팀</option>
+                                        <option value="자재팀" >자재팀</option>
                                     </select>
                                 </TableCell>
                             </TableRow>
