@@ -27,7 +27,7 @@ function Header() {
                         >
                             <Nav.Link href="/main">Home</Nav.Link>
                             <NavDropdown title="마이페이지" id="navbarScrollingDropdown">
-                                <NavDropdown.Item href="/updateUser">내 정보 수정</NavDropdown.Item>
+                                <NavDropdown.Item href="/humanResources/myEdit">내 정보 수정</NavDropdown.Item>
                                 <NavDropdown.Divider />
                             </NavDropdown>
                         </Nav>

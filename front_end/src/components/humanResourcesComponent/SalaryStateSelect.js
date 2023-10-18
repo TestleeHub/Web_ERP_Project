@@ -7,7 +7,7 @@ class SalaryStateSelect extends Component{
         super(props);
 
         this.state = {
-            empDatas: []
+            Datas: []
         }
     }
 
@@ -16,13 +16,14 @@ class SalaryStateSelect extends Component{
         request(
             "GET",
             "/humanResources/empList",
+            // "/humanResources/salary",
             {
 
             }).then((response) => {
                 const data = response.data
                 const calSalary = data.map((data) => (parseInt(data, 10)*2).toString())
                 this.setState({
-                    empDatas: response.data,
+                    Datas: response.data,
                     
                 });
                 console.log('calSalary: ', calSalary.map((data=>data.salary)));
@@ -94,15 +95,15 @@ class SalaryStateSelect extends Component{
                                 <TableCell style={tableLineAdd}></TableCell>
                                 <TableCell style={tableLineAdd}></TableCell>
                             </TableRow>
-                            {this.state.empDatas.map(data => 
+                            {this.state.Datas.map(data => 
                                 <Fragment>
                                     <TableRow>
                                         <TableCell style={tableLine}>{data.name}</TableCell>
                                         <TableCell style={tableLine}>{data.departmentId}</TableCell>
                                         <TableCell style={tableLine}>{data.salary}</TableCell>
-                                        <TableCell style={tableLine}>{0 === 0 ? "" : ""}</TableCell>
-                                        <TableCell style={tableLine}></TableCell>
-                                        <TableCell style={tableLine}></TableCell>
+                                        <TableCell style={tableLine}>{data.salar.overtimePay}</TableCell>
+                                        <TableCell style={tableLine}>{data.salar.weekendPay}</TableCell>
+                                        <TableCell style={tableLine}>{data.salar.vacationPay}</TableCell>
                                         <TableCell style={tableLine}></TableCell>
                                         <TableCell style={tableLine} rowSpan={2}>{data.totalSalary}</TableCell>
                                         <TableCell style={tableLine}></TableCell>

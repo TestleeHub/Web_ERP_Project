@@ -1,9 +1,12 @@
 package com.fullstack.pj_erp.back_end.dto;
 import java.sql.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -22,6 +25,9 @@ public class UserDTO {
 	@Id
 	@Column(name = "EMPLOYEEID")
 	private String employeeId;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "EMPLOYEEID", referencedColumnName = "EMPLOYEEID", insertable = false, updatable = false)
+	private SalaryDTO salar;
 	private String password;
 	private String name;
 	@Column(name = "FOREIGNNAME")
