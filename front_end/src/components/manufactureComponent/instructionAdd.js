@@ -138,6 +138,10 @@ class instructionAdd extends Component {
             }).catch((error) => {
                 alert("등록에 실패하였습니다.!")
                 console.log('error : ', error);
+                if(error.response.status === 403){
+                    console.log('접근 권한이 없습니다.');
+                    this.props.history.push('/accessDenied');
+                }
             })
 
     }

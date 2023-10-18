@@ -79,6 +79,10 @@ class orderList extends Component{
                 console.log('response : ', response);
             }).catch((error) => {
                 console.log('error : ', error);
+                if(error.response.status === 403){
+                    console.log('접근 권한이 없습니다.');
+                    this.props.history.push('/accessDenied');
+                }
             })
     }
 

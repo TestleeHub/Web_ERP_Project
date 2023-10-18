@@ -1,6 +1,6 @@
 import { Component } from "react";
 import classNames from 'classnames';
-import { request, setAuthToken } from "../../helpers/axios_helper";
+import { request, setAuthToken, setUserId, setUserRole } from "../../helpers/axios_helper";
 
 class loginComponent extends Component {
     constructor(props) {
@@ -31,12 +31,16 @@ class loginComponent extends Component {
                 password:this.state.password
             }).then((response) => {
                 console.log('response : ', response);
-                setAuthToken(response.data.token)
+                setAuthToken(response.data.token);
+                setUserId(response.data.employeeId);
+                setUserRole(response.data.role);
                 this.props.history.push('/manufacture');
                 window.location.reload();
             }).catch((error) => {
                 console.log('error : ', error);
                 setAuthToken(null);
+                setUserId(null);
+                setUserRole(null);
             })
     
         }

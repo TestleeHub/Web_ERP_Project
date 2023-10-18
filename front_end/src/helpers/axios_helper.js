@@ -5,13 +5,29 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 // 로그인이 완료시 JWT를 저장한다.
 
-//getAuthToken
+
 export const getAuthToken = () => {
     return window.localStorage.getItem('auth_token');
 }
-//setAuthToken
+
 export const setAuthToken = (token) => {
     window.localStorage.setItem('auth_token', token);
+}
+
+export const getUserId = () => {
+    return window.localStorage.getItem('user_id');
+}
+
+export const setUserId = (id) => {
+    window.localStorage.setItem('user_id', id);
+}
+
+export const getUserRole = () => {
+    return window.localStorage.getItem('user_role');
+}
+
+export const setUserRole = (id) => {
+    window.localStorage.setItem('user_role', id);
 }
 
 export const request = (method, url, data) => {
