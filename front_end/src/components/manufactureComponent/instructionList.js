@@ -52,12 +52,16 @@ class instructionList extends Component {
             }).then((response) => {
                 this.setState({
                     datas: response.data,
-                    displayedDatas: response.data.slice(0, 5),
+                    displayedDatas: response.data.slice(0, 10),
                     isLoading: false
                 });
                 console.log('response : ', response);
             }).catch((error) => {
                 console.log('error : ', error);
+                if(error.response.status === 403){
+                    console.log('접근 권한이 없습니다.');
+                    this.props.history.push('/accessDenied');
+                }
             })
     }
 
@@ -93,6 +97,10 @@ class instructionList extends Component {
                 console.log('response : ', response);
             }).catch((error) => {
                 console.log('error : ', error);
+                if(error.response.status === 403){
+                    console.log('접근 권한이 없습니다.');
+                    this.props.history.push('/accessDenied');
+                }
             })
     }
 
@@ -118,6 +126,10 @@ class instructionList extends Component {
                 console.log('response : ', response);
             }).catch((error) => {
                 console.log('error : ', error);
+                if(error.response.status === 403){
+                    console.log('접근 권한이 없습니다.');
+                    this.props.history.push('/accessDenied');
+                }
             })
     }
 
@@ -129,6 +141,44 @@ class instructionList extends Component {
 
         return `${year}-${month}-${day}`;
     }
+    // sorting 시작
+    sortUsingWorkOrderId = () => {
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.workOrderId.localeCompare(b.workOrderId);
+        });
+        this.setState({
+            displayedDatas: sortedData
+        });
+
+    }
+    sortUsingCompletion = () => {
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.completion.localeCompare(b.completion);
+        });
+        this.setState({
+            displayedDatas: sortedData
+        });
+
+    }
+    sortUsingDueDate = () => {
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.dueDate - b.dueDate;
+        });
+        this.setState({
+            displayedDatas: sortedData
+        });
+
+    }
+    sortUsingRegistDate = () => {
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.registDate - b.registDate;
+        });
+        this.setState({
+            displayedDatas: sortedData
+        });
+
+    }
+    // sorting 끝
 
     render() {
         const { displayedDatas, showMore } = this.state;
@@ -146,16 +196,16 @@ class instructionList extends Component {
                     <Table border="1" style={{ border: '1px solid lightgray', backgroundColor: 'ghostwhite' }}>
                         <TableHead style={{ backgroundColor: 'lightgray' }}>
                             <TableRow>
-                                <TableCell> 지시서 코드 </TableCell>
+                                <TableCell onClick={() => this.sortUsingWorkOrderId()}> 지시서 코드▽ </TableCell>
                                 <TableCell> 거래처 </TableCell>
                                 <TableCell> 담당자 </TableCell>
                                 <TableCell> 지시서명 </TableCell>
                                 <TableCell> 수량 </TableCell>
-                                <TableCell> 완료 여부 </TableCell>
+                                <TableCell onClick={() => this.sortUsingCompletion()}> 완료 여부▽ </TableCell>
                                 <TableCell> 받는창고 </TableCell>
-                                <TableCell> 납기일 </TableCell>
+                                <TableCell onClick={() => this.sortUsingDueDate()}> 납기일▽ </TableCell>
                                 <TableCell> 생산품 </TableCell>
-                                <TableCell> 등록일 </TableCell>
+                                <TableCell onClick={() => this.sortUsingRegistDate()}> 등록일▽ </TableCell>
                                 <TableCell>  </TableCell>
                             </TableRow>
                         </TableHead>
@@ -191,6 +241,11 @@ class instructionList extends Component {
                 {showMore && (
                     <Button variant="contained" style={normalButton} onClick={this.handleShowMoreClick}>더 보기</Button>
                 )}
+                <br />
+                <br />
+                <Button variant="contained" style={normalButton} onClick={() => this.props.history.push('/logistics/inventorySelect')}>재고 조회</Button>
+                <Button variant="contained" style={normalButton} onClick={() => this.props.history.push('/logistics/materialSelect')}>원자재 조회</Button>
+                <Button variant="contained" style={normalButton} onClick={() => this.props.history.push('/logistics/storageSelect')}>창고 조회</Button>
             </div>
         );
     }

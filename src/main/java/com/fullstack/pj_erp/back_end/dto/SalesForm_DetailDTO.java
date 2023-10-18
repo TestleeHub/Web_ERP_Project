@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
@@ -33,6 +35,9 @@ public class SalesForm_DetailDTO {
 	// 제품 코드 : Inventory 테이블 FK
 	@Column(name = "PRODUCTIONITEMID")
 	private String productionItemId;
+	@OneToOne
+	@JoinColumn(name = "PRODUCTIONITEMID", insertable = false, updatable = false)
+	private InventoryDTO productionItem; 	
 	
 	// 규격
 	@Column(name = "STANDARD")

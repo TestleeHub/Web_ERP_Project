@@ -47,7 +47,7 @@ class productionList extends Component {
             }).then((response) => {
                 this.setState({
                     datas: response.data,
-                    displayedDatas: response.data.slice(0, 5),
+                    displayedDatas: response.data.slice(0, 10),
                     isLoading: false
                 });
                 console.log('response : ', response);
@@ -84,6 +84,10 @@ class productionList extends Component {
                 console.log('response : ', response);
             }).catch((error) => {
                 console.log('error : ', error);
+                if(error.response.status === 403){
+                    console.log('접근 권한이 없습니다.');
+                    this.props.history.push('/accessDenied');
+                }
             })
     }
 
@@ -95,6 +99,63 @@ class productionList extends Component {
 
         return `${year}-${month}-${day}`;
     }
+
+    // sorting 시작
+    sortUsingProductionItemId = () => {
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.productionItemId.localeCompare(b.productionItemId);
+        });
+        this.setState({
+            displayedDatas: sortedData
+        });
+
+    }
+    sortUsingProcess = () => {
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.process.localeCompare(b.process);
+        });
+        this.setState({
+            displayedDatas: sortedData
+        });
+
+    }
+    sortUsingName = () => {
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.name.localeCompare(b.name);
+        });
+        this.setState({
+            displayedDatas: sortedData
+        });
+
+    }
+    sortUsingManagerName = () => {
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.manager.name.localeCompare(b.manager.name);
+        });
+        this.setState({
+            displayedDatas: sortedData
+        });
+
+    }
+    sortUsingStorageName = () => {
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.storage.storageName.localeCompare(b.storage.storageName);
+        });
+        this.setState({
+            displayedDatas: sortedData
+        });
+
+    }
+    sortUsingRegistDate = () => {
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.registDate - b.registDate;
+        });
+        this.setState({
+            displayedDatas: sortedData
+        });
+
+    }
+    // sorting 끝
 
     render() {
         const { displayedDatas, showMore } = this.state;
@@ -112,13 +173,13 @@ class productionList extends Component {
                     <Table border="1" style={{ border: '1px solid lightgray', backgroundColor: 'ghostwhite' }}>
                         <TableHead style={{ backgroundColor: 'lightgray' }}>
                             <TableRow>
-                                <TableCell> 상품코드 </TableCell>
-                                <TableCell> 공정명 </TableCell>
-                                <TableCell> 상품명 </TableCell>
+                                <TableCell onClick={() => this.sortUsingProductionItemId()}> 상품코드▽ </TableCell>
+                                <TableCell onClick={() => this.sortUsingProcess()}> 공정명▽ </TableCell>
+                                <TableCell onClick={() => this.sortUsingName()}> 상품명▽ </TableCell>
                                 <TableCell> 규격 </TableCell>
-                                <TableCell> 담당자 </TableCell>
-                                <TableCell> 받는창고 </TableCell>
-                                <TableCell> 등록일 </TableCell>
+                                <TableCell onClick={() => this.sortUsingManagerName()}> 담당자▽ </TableCell>
+                                <TableCell onClick={() => this.sortUsingStorageName()}> 받는창고▽ </TableCell>
+                                <TableCell onClick={() => this.sortUsingRegistDate()}> 등록일▽ </TableCell>
                                 <TableCell>  </TableCell>
                             </TableRow>
                         </TableHead>
@@ -148,6 +209,11 @@ class productionList extends Component {
                 {showMore && (
                     <Button variant="contained" style={normalButton} onClick={this.handleShowMoreClick}>더 보기</Button>
                 )}
+                <br />
+                <br />
+                <Button variant="contained" style={normalButton} onClick={() => this.props.history.push('/logistics/inventorySelect')}>재고 조회</Button>
+                <Button variant="contained" style={normalButton} onClick={() => this.props.history.push('/logistics/materialSelect')}>원자재 조회</Button>
+                <Button variant="contained" style={normalButton} onClick={() => this.props.history.push('/logistics/storageSelect')}>창고 조회</Button>
             </div>
         );
     }

@@ -1,0 +1,40 @@
+@charset "UTF-8";
+/* footer */
+.footer_info {
+   border-top: thin solid #e5e6e1;
+   position: relative;
+   bottom: 0;
+   height: auto;
+   background-color: white;
+   opacity: 0.88;
+   align-items: fixed-end;
+   margin-top: 100px;
+   padding: 10px 0px 20px 20px;
+}
+
+.footer_link li {
+   display: inline-block;
+   list-style: none;
+   padding: 0 10px 0 10px;
+   margin-left: -45px;
+   margin-right: 50px;
+}
+
+.footer_link li a {
+   text-decoration: none; /* 밑줄없애기 */
+   color: black;
+}   
+
+.footer_info_customer {
+   background-color: white;
+   opacity: 0.88;
+   color: black;
+}
+
+.footer_info_company {
+   color: grey;
+}
+
+.footer_info_company strong {
+   color: black;
+}

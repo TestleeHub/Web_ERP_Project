@@ -8,7 +8,7 @@ import {
   CDBSidebarMenuItem,
 } from 'cdbreact';
 import { NavLink } from 'react-router-dom';
-import { getAuthToken } from '../../helpers/axios_helper';
+import { getAuthToken, getUserRole } from '../../helpers/axios_helper';
 
 const LeftNavbar = () => {
   const [humanResourceshow, setHumanResourceShow] = useState(false);
@@ -48,9 +48,13 @@ const LeftNavbar = () => {
 
         <CDBSidebarContent className="sidebar-content">
           <CDBSidebarMenu>
-            <NavLink exact to="#" activeClassName="" onClick={onHumanResourceShow}>
-              <CDBSidebarMenuItem icon="user">인적 관리</CDBSidebarMenuItem>
-            </NavLink>
+
+            {getUserRole() === 'ROLE_ADMIN' || getUserRole() === 'ROLE_HR' ?
+              <NavLink exact to="#" activeClassName="" onClick={onHumanResourceShow}>
+                <CDBSidebarMenuItem icon="user">인적 관리</CDBSidebarMenuItem>
+              </NavLink>
+              :
+              <></>}
             {humanResourceshow === true ?
               <div style={{ textAlign: 'left', margin: '0px 30px' }}>
                 <NavLink exact to="/humanResources/empAdd" activeClassName="activeClicked">
@@ -76,9 +80,13 @@ const LeftNavbar = () => {
                 </NavLink>
               </div> : <></>}
 
-            <NavLink exact to="#" activeClassName="" onClick={onManufactureShow}>
-              <CDBSidebarMenuItem icon="table">제조 관리</CDBSidebarMenuItem>
-            </NavLink>
+            {getUserRole() === 'ROLE_ADMIN' || getUserRole() === 'ROLE_MF' ?
+              <NavLink exact to="#" activeClassName="" onClick={onManufactureShow}>
+                <CDBSidebarMenuItem icon="table">제조 관리</CDBSidebarMenuItem>
+              </NavLink>
+              :
+              <></>}
+
             {manufactureshow === true ?
               <div style={{ textAlign: 'left', margin: '0px 30px' }}>
                 <NavLink exact to="/manufacture/productionList" activeClassName="activeClicked">
@@ -106,9 +114,13 @@ const LeftNavbar = () => {
                   - 작업지시서 등록<br />
                 </NavLink>
               </div> : <></>}
-            <NavLink exact to="#" activeClassName="" onClick={onAccountShow}>
-              <CDBSidebarMenuItem icon="chart-line">회계 관리</CDBSidebarMenuItem>
-            </NavLink>
+
+            {getUserRole() === 'ROLE_ADMIN' || getUserRole() === 'ROLE_AC' ?
+              <NavLink exact to="#" activeClassName="" onClick={onAccountShow}>
+                <CDBSidebarMenuItem icon="chart-line">회계 관리</CDBSidebarMenuItem>
+              </NavLink>
+              :
+              <></>}
             {accountshow === true ? <div style={{ textAlign: 'left', margin: '0px 30px' }}>
               <NavLink exact to="/account/purchaseBook" activeClassName="activeClicked">
                 - 매입장 조회<br />
@@ -130,9 +142,12 @@ const LeftNavbar = () => {
               </NavLink>
             </div> : <></>}
 
-            <NavLink exact to="#" activeClassName="" onClick={onPurchaseShow}>
-              <CDBSidebarMenuItem icon="credit-card">구매/판매 관리</CDBSidebarMenuItem>
-            </NavLink>
+            {getUserRole() === 'ROLE_ADMIN' || getUserRole() === 'ROLE_PC' ?
+              <NavLink exact to="#" activeClassName="" onClick={onPurchaseShow}>
+                <CDBSidebarMenuItem icon="credit-card">구매/판매 관리</CDBSidebarMenuItem>
+              </NavLink>
+              :
+              <></>}
             {purchaseshow === true ? <div style={{ textAlign: 'left', margin: '0px 30px' }}>
               <NavLink exact to="/purchase/orderForm" activeClassName="activeClicked">
                 - 발주서 입력<br />
@@ -160,9 +175,12 @@ const LeftNavbar = () => {
               </NavLink>
             </div> : <></>}
 
-            <NavLink exact to="#" activeClassName="" onClick={onCustomerShow}>
-              <CDBSidebarMenuItem icon="sticky-note">고객 관리</CDBSidebarMenuItem>
-            </NavLink>
+            {getUserRole() === 'ROLE_ADMIN' || getUserRole() === 'ROLE_CR' ?
+              <NavLink exact to="#" activeClassName="" onClick={onCustomerShow}>
+                <CDBSidebarMenuItem icon="sticky-note">고객 관리</CDBSidebarMenuItem>
+              </NavLink>
+              :
+              <></>}
             {customershow === true ? <div style={{ textAlign: 'left', margin: '0px 30px' }}>
               <NavLink exact to="/customer/customerList" activeClassName="activeClicked">
                 - 거래처 목록<br />
@@ -184,9 +202,12 @@ const LeftNavbar = () => {
               </NavLink>
             </div> : <></>}
 
-            <NavLink exact to="#" activeClassName="" onClick={onLogisticsShow}>
-              <CDBSidebarMenuItem icon="book">자재 관리</CDBSidebarMenuItem>
-            </NavLink>
+            {getUserRole() === 'ROLE_ADMIN' || getUserRole() === 'ROLE_LG' ?
+              <NavLink exact to="#" activeClassName="" onClick={onLogisticsShow}>
+                <CDBSidebarMenuItem icon="book">자재 관리</CDBSidebarMenuItem>
+              </NavLink>
+              :
+              <></>}
             {logisticsshow === true ? <div style={{ textAlign: 'left', margin: '0px 30px' }}>
               <NavLink exact to="/logistics/mainPage" activeClassName="activeClicked">
                 - 메인 페이지 테스트<br />

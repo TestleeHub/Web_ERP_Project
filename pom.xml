@@ -75,11 +75,16 @@
 			<scope>test</scope>
 		</dependency>
 		<!-- jwt 토큰 생성을 위한 어플리케이션 생성 -->
-		<!-- https://mvnrepository.com/artifact/com.auth0/java-jwt 별도 추가-->
+		<!-- https://mvnrepository.com/artifact/com.auth0/java-jwt 별도 추가 -->
 		<dependency>
 			<groupId>com.auth0</groupId>
 			<artifactId>java-jwt</artifactId>
 			<version>3.10.3</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.9.1</version> <!-- 라이브러리의 최신 버전을 사용하세요 -->
 		</dependency>
 
 		<!-- 직접추가함 : 타임리프 대신 JSP사용, 2개 dependency 누락시 작동안됨 -->

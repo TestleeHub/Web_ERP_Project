@@ -44,6 +44,15 @@ class Popup extends Component {
         this.props.onPopupData(selectedData); // 선택한 데이터를 부모 컴포넌트로 전달
     }
 
+    formatDate = (timestamp) => {
+      const date = new Date(timestamp);
+      const year = date.getFullYear();
+      const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 +1을 해줍니다.
+      const day = date.getDate().toString().padStart(2, '0');
+
+      return `${year}-${month}-${day}`;
+    }
+
     render() {
         return (
           <div>
@@ -66,11 +75,10 @@ class Popup extends Component {
                   {this.state.datas.map((data, index) => (
                     <TableRow onClick={() => this.handleDataSelection(data)}>
                       <TableCell> {data.orderFormId} </TableCell>
-                      <TableCell> {data.customerId} </TableCell>
-                      <TableCell> {data.employeeId} </TableCell>
-                      <TableCell> {data.dueDate} </TableCell>
-                      <TableCell> {data.price} </TableCell>
-                      <TableCell> {data.Progress} </TableCell>
+                      <TableCell> {data.customerId ? data.customerId : 'N/A'} </TableCell>
+                      <TableCell> {data.employeeId ? data.employeeId : 'N/A'} </TableCell>
+                      <TableCell> {this.formatDate(data.dueDate) ? this.formatDate(data.dueDate) : 'N/A'} </TableCell>
+                      <TableCell> {data.Progress ? data.Progress : 'N/A'} </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

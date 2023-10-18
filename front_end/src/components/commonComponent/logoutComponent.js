@@ -1,6 +1,6 @@
 import { Component } from "react";
 import classNames from 'classnames';
-import { request, setAuthToken } from "../../helpers/axios_helper";
+import { getAuthToken, request, setAuthToken, setUserId, setUserRole } from "../../helpers/axios_helper";
 
 class logoutComponent extends Component {
 
@@ -12,16 +12,21 @@ class logoutComponent extends Component {
     onSubmitLogout = () => {
         request(
             "POST",
-            "/logout"
+            "/logoutUser/"+getAuthToken(),
+            {}
             ).then((response) => {
                 console.log('response : ', response);
                 setAuthToken(null);
+                setUserId(null);
+                setUserRole(null);
                 alert("로그 아웃");
                 this.props.history.push('/login');
                 window.location.reload();
             }).catch((error) => {
                 console.log('error : ', error);
                 setAuthToken(null);
+                setUserId(null);
+                setUserRole(null);
                 alert("로그 아웃");
                 this.props.history.push('/login');
                 window.location.reload();

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Table, TableBody, TableCell, TableRow, Typography, Button, TableHead } from "@mui/material";
 import { request } from "../../helpers/axios_helper";
+import CustomerPopup from "../popUp/customerPopup";
+import Modal from "react-modal";
 
 class orderForm extends Component{
 
@@ -46,7 +48,8 @@ class orderForm extends Component{
             customerId: "",
             employeeId: "",
             dueDate: "",
-            details: []
+            details: [],
+            isCustomerPopupOpen: false
         }
     }
 
@@ -59,6 +62,21 @@ class orderForm extends Component{
             this.setState(parsedData);
             window.localStorage.removeItem('orderFormData');
         }
+    }
+
+    // 팝업 열기
+    openCustomerPopup = () => {
+        this.setState({isCustomerPopupOpen: true})
+    }
+
+    // 팝업 닫기
+    closeCustomerPopup = () => {
+        this.setState({isCustomerPopupOpen: false})
+    }
+
+    // 팝업에서 선택한 데이터를 받아오는 콜백 함수
+    handleCustomerPopupData = (data) => {
+        this.setState({customerId : data.customerId, isCustomerPopupOpen: false})
     }
 
     // 버튼 클릭시 발주서 디테일 행 추가
@@ -117,6 +135,10 @@ class orderForm extends Component{
     // 추가 요청
     onSubmitAdd = (e) => {
         e.preventDefault();
+        if (!this.state.orderFormId || !this.state.customerId || !this.state.employeeId || !this.state.dueDate || this.state.details.length === 0) {
+            alert('저장 실패');
+            return;
+        }
         request(
             "POST",
             "/purchase/orderForm",
@@ -128,14 +150,43 @@ class orderForm extends Component{
                 details: this.state.details
             }).then((response) => {
                 console.log('response : ', response);
+                alert('저장되었습니다. 발주 목록으로 이동합니다.')
+                this.props.history.push('/purchase/orderList');
             }).catch((error) => {
                 console.log('error : ', error);
+                if(error.response.status === 403){
+                    console.log('접근 권한이 없습니다.');
+                    this.props.history.push('/accessDenied');
+                }
             })
     }
 
     render(){
         return(
             <div>
+                <div>
+                    <Modal
+                        isOpen={this.state.isCustomerPopupOpen}
+                        onRequestClose = {this.closeCustomerPopup}
+                        contentLabel="팝업"
+                        style={{
+                            overlay: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                            },
+                            content: {
+                                width: '700px', 
+                                height: '400px', 
+                                top: '50%',
+                                left: '55%',
+                                transform: 'translate(-50%, -50%)'
+                            },
+                        }}
+                    >
+                        <CustomerPopup onPopupData={this.handleCustomerPopupData} />
+                        <br/>
+                        <button onClick={this.closeCustomerPopup}>닫기</button>
+                    </Modal>
+                </div>
                 <div>
                     <Typography style={style}>발주서 입력</Typography>
                 </div>
@@ -156,7 +207,7 @@ class orderForm extends Component{
                                         type="text" 
                                         name="orderFormId" 
                                         value={this.state.orderFormId} 
-                                        onChange={this.onChangeHandler} 
+                                        onChange={this.onChangeHandler}
                                         readOnly
                                     />
                                 </TableCell>
@@ -168,6 +219,7 @@ class orderForm extends Component{
                                         value={this.state.customerId} 
                                         placeholder="거래처코드" 
                                         onChange={this.onChangeHandler} 
+                                        onClick={this.openCustomerPopup}
                                     />
                                 </TableCell>
                             </TableRow>
@@ -198,9 +250,8 @@ class orderForm extends Component{
                 </div>
                 <div>
                     <Button variant="outline-success" style={{marginLeft: 15, marginRight:5, backgroundColor: '#D3D3D3'}}>찾기</Button>
-                    <Button variant="outline-success" style={{margin: 5, backgroundColor: '#D3D3D3'}}>정렬</Button>
-                    <Button variant="outline-success" style={{margin: 5, backgroundColor: '#D3D3D3'}} onClick={this.purchaseList}>주문</Button> 
-                    <Button variant="outline-success" style={{margin: 5, backgroundColor: '#D3D3D3'}} onClick={this.orderList}>리스트</Button>
+                    <Button variant="outline-success" style={{margin: 5, backgroundColor: '#D3D3D3'}} onClick={this.purchaseList}>구매 목록</Button> 
+                    <Button variant="outline-success" style={{margin: 5, backgroundColor: '#D3D3D3'}} onClick={this.orderList}>발주 목록</Button>
                 </div>
                 <div>
                     <Table style={{margin: 15}}>
@@ -277,8 +328,6 @@ class orderForm extends Component{
     }
 }
 
-export default orderForm;
-
 const style = {
     display:'flex',
     justifyContent:'left',
@@ -302,3 +351,5 @@ const trapezoidButtonF = {
     height: '30px',
     padding: '10px 20px'
 }
+
+export default orderForm;

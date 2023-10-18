@@ -33,13 +33,13 @@ public class M_RecivesDetailsDTO {
 	private String recivesDetailId;
 //	@Column(name = "MATERIALRECIVEID")
 //	private String materialReciveId;
-	@Column(name = "METERIALID")
-	private String meterialId;
+	@Column(name = "MATERIALID")
+	private String materialId;
 	private String name;
 	@Column(name = "STORAGEID")
 	private String storageId;
 	@OneToOne
-	@JoinColumn(name = "METERIALID", insertable = false, updatable = false)
+	@JoinColumn(name = "MATERIALID", insertable = false, updatable = false)
 	private MaterialDTO material;
 	@OneToOne
 	@JoinColumn(name = "STORAGEID", insertable = false, updatable = false)

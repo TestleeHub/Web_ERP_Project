@@ -3,6 +3,7 @@ import { Table, TableBody, TableCell, TableRow, Typography, Button, TableHead } 
 import { request } from "../../helpers/axios_helper";
 import Modal from 'react-modal';
 import Popup from "../popUp/purchasePopup";
+import D_Popup from "../popUp/purchaseDPopup";
 
 class purchaseForm extends Component{
 
@@ -34,7 +35,9 @@ class purchaseForm extends Component{
             employeeId: "",
             dueDate: "",
             details: [],
-            isPopupOpen: false
+            isPopupOpen: false,
+            isD_PopupOpen: false,
+            detailIndex: -1
         }
     }
 
@@ -53,10 +56,16 @@ class purchaseForm extends Component{
     openPopup = () => {
         this.setState({ isPopupOpen: true });
     }
+    openD_Popup = (detailIndex) => {
+        this.setState({isD_PopupOpen: true, detailIndex: detailIndex});
+    }
 
     // 팝업 닫기
     closePopup = () => {
         this.setState({ isPopupOpen: false });
+    }
+    closeD_Popup = () => {
+        this.setState({isD_PopupOpen: false});
     }
 
     // 팝업에서 선택한 데이터를 받아오는 콜백 함수
@@ -64,7 +73,12 @@ class purchaseForm extends Component{
         this.setState({ customerId: data.customerId, isPopupOpen: false });
         this.setState({ employeeId: data.employeeId, isPopupOpen: false });
     }
-
+    handleD_PopupDdata = (data) => {
+        const detailData = [...this.state.details]; // details 배열 복사
+        detailData[this.state.detailIndex].materialId = data.materialId;
+        detailData[this.state.detailIndex].standard = data.standard;
+        this.setState({details: detailData, isD_PopupOpen: false});
+    }
 
     // 버튼 클릭시 구매 디테일 행 추가
     addNewField = () => {
@@ -122,6 +136,10 @@ class purchaseForm extends Component{
     // 추가 요청
     onSubmitAdd = (e) => {
         e.preventDefault();
+        if (!this.state.purchaseId || !this.state.customerId || !this.state.employeeId || !this.state.dueDate || this.state.details.length === 0) {
+            alert('저장 실패');
+            return;
+        }
         request(
             "POST",
             "/purchase/purchaseForm",
@@ -133,9 +151,28 @@ class purchaseForm extends Component{
                 details: this.state.details
             }).then((response) => {
                 console.log('response : ', response);
+                alert('저장되었습니다. 구매 목록으로 이동합니다.')
+                this.props.history.push('/purchase/purchaseList');
             }).catch((error) => {
                 console.log('error : ', error);
+                if(error.response.status === 403){
+                    console.log('접근 권한이 없습니다.');
+                    this.props.history.push('/accessDenied');
+                }
             })
+    }
+
+    onReset = () => {
+        this.setState({
+            purchaseId: "",
+            customerId: "",
+            employeeId: "",
+            dueDate: "",
+            details: [],
+            isPopupOpen: false,
+            isD_PopupOpen: false,
+            detailIndex: -1
+        });
     }
 
     render(){
@@ -162,11 +199,35 @@ class purchaseForm extends Component{
                     >
                         {/* 팝업 컴포넌트에 선택한 데이터를 전달 */}
                         <Popup onPopupData={this.handlePopupData} />
-
+                        <br/>
                         <button onClick={this.closePopup}>닫기</button>
                     </Modal>
                 </div>
-
+                <div>
+                    <Modal
+                        isOpen={this.state.isD_PopupOpen}
+                        onRequestClose={this.closeD_Popup}
+                        contentLabel="팝업"
+                        style={{
+                            overlay: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                            },
+                            content: {
+                                width: '700px', 
+                                height: '400px', 
+                                top: '50%',
+                                left: '55%',
+                                transform: 'translate(-50%, -50%)'
+                            },
+                        }}
+                    >
+                        {/* 팝업 컴포넌트에 선택한 데이터를 전달 */}
+                        <D_Popup onD_PopupData={this.handleD_PopupDdata} />
+                        <br/>
+                        <button onClick={this.closeD_Popup}>닫기</button>
+                    </Modal>
+                </div>
+                    
                 <div>
                     <Typography style={style}>구매 입력</Typography>
                 </div>
@@ -197,6 +258,7 @@ class purchaseForm extends Component{
                                         onChange={this.onChangeHandler} 
                                         onClick={this.openPopup} 
                                         readOnly
+                                        required
                                     />
                                 </TableCell>
                             </TableRow>
@@ -208,6 +270,7 @@ class purchaseForm extends Component{
                                         name="dueDate" 
                                         value={this.state.dueDate} 
                                         onChange={this.onChangeHandler} 
+                                        required
                                     />
                                 </TableCell>
                                 <TableCell>담당자</TableCell>
@@ -220,6 +283,7 @@ class purchaseForm extends Component{
                                         onChange={this.onChangeHandler} 
                                         onClick={this.openPopup} 
                                         readOnly
+                                        required
                                     />
                                 </TableCell>
                             </TableRow>
@@ -258,7 +322,10 @@ class purchaseForm extends Component{
                                             name={`details[${index}].materialId`}
                                             size="10"
                                             onChange={this.onChangeHandler}
+                                            // onClick={() => this.openD_Popup(index)}
                                             value={detail.materialId}
+                                            required
+                                            // readOnly
                                         />
                                     </TableCell>
                                     <TableCell>
@@ -267,7 +334,10 @@ class purchaseForm extends Component{
                                             name={`details[${index}].standard`}
                                             size="10"
                                             onChange={this.onChangeHandler}
+                                            // onClick={() => this.openD_Popup(index)}
                                             value={detail.standard}
+                                            required
+                                            // readOnly
                                         />
                                     </TableCell>
                                     <TableCell>
@@ -277,6 +347,7 @@ class purchaseForm extends Component{
                                             size="10"
                                             onChange={this.onChangeHandler}
                                             value={detail.quantity}
+                                            required
                                         />
                                     </TableCell>
                                     <TableCell>
@@ -286,6 +357,7 @@ class purchaseForm extends Component{
                                             size="10"
                                             onChange={this.onChangeHandler}
                                             value={detail.price}
+                                            required
                                         />
                                     </TableCell>
                                     <TableCell>
@@ -298,7 +370,7 @@ class purchaseForm extends Component{
                     <div>
                         <Button variant="outline-success" style={{margin: 5, backgroundColor: '#D3D3D3'}} onClick={this.onSubmitAdd}>저장</Button>
                         <Button variant="outline-success" style={{margin: 5, backgroundColor: '#D3D3D3'}} onClick={this.addNewField}>행 추가</Button>
-                        <Button variant="outline-success" style={{margin: 5, backgroundColor: '#D3D3D3'}}>다시 작성</Button>
+                        <Button variant="outline-success" style={{margin: 5, backgroundColor: '#D3D3D3'}} onClick={this.onReset}>다시 작성</Button>
                     </div>
                 </div>
             </div>
