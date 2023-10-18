@@ -5,6 +5,8 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
+import { getUserId } from '../../helpers/axios_helper';
+
 function Header() {
     return (
         <div>
@@ -15,21 +17,27 @@ function Header() {
                 crossorigin="anonymous"
             />
 
-            <Navbar bg="dark" data-bs-theme="dark" expand="xl" style={{minWidth: '1500px'}}>
+            <Navbar bg="dark" data-bs-theme="dark" expand="xl" style={{ minWidth: '1500px' }}>
                 <Container fluid>
                     <Navbar.Brand href="#">Web-ERP Service</Navbar.Brand>
                     <Navbar.Toggle aria-controls="navbarScroll" />
                     <Navbar.Collapse id="navbarScroll">
                         <Nav
                             className="me-auto my-2 my-lg-0"
-                            style={{ maxHeight: '100px'}}
+                            style={{ maxHeight: '100px' }}
                             navbarScroll
                         >
                             <Nav.Link href="/main">Home</Nav.Link>
-                            <NavDropdown title="마이페이지" id="navbarScrollingDropdown">
-                                <NavDropdown.Item href="/updateUser">내 정보 수정</NavDropdown.Item>
-                                <NavDropdown.Divider />
-                            </NavDropdown>
+                            {getUserId() === 'null' || getUserId() === null ?
+                                <NavDropdown title="마이페이지" id="navbarScrollingDropdown">
+                                    <NavDropdown.Item href="/updateUser">내 정보 수정</NavDropdown.Item>
+                                    <NavDropdown.Divider />
+                                </NavDropdown>
+                                :
+                                <NavDropdown title={getUserId()} id="navbarScrollingDropdown">
+                                    <NavDropdown.Item href="/updateUser">내 정보 수정</NavDropdown.Item>
+                                    <NavDropdown.Divider />
+                                </NavDropdown>}
                         </Nav>
                     </Navbar.Collapse>
                 </Container>

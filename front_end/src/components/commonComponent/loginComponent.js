@@ -34,7 +34,7 @@ class loginComponent extends Component {
                 setAuthToken(response.data.token);
                 setUserId(response.data.employeeId);
                 setUserRole(response.data.role);
-                this.props.history.push('/manufacture');
+                this.props.history.push('/main');
                 window.location.reload();
             }).catch((error) => {
                 console.log('error : ', error);
