@@ -3,7 +3,7 @@ import './test.css';
 import LeftNavbar from './components/router/LeftNavbar';
 import Header from './components/router/Header';
 import Footer from './components/router/Footer';
-import {BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import AppRouter from './components/router/AppRouter';
 
 function App() {
@@ -17,7 +17,9 @@ function App() {
             <LeftNavbar />
             <div>
               <Header />
-              <AppRouter />
+              <div className='routerContent'>
+                <AppRouter />
+              </div>
             </div>
           </Router>
         </div>
