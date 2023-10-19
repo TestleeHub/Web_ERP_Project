@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Table, TableBody, TableRow, TableCell, Button } from '@mui/material';
-import { request } from "../../helpers/axios_helper";
+import { request, getUserId } from "../../helpers/axios_helper";
 
 class empAdd extends Component{
     constructor(props) {
@@ -31,13 +31,17 @@ class empAdd extends Component{
 
     // 수정페이지 처리
     componentDidMount() {
-        console.log("myedit:" + window.localStorage.getItem("employeeId"))
-        const employeeId = window.localStorage.getItem("employeeId");
-        const parseEmployeeId = JSON.parse(employeeId);
+        // console.log("myedit:" + window.localStorage.getItem("employeeId"))
+        // const employeeId = window.localStorage.getItem("employeeId");
+        // const parseEmployeeId = JSON.parse(employeeId);
+        // const UserId = window.localStorage.getItem('user_id');
+        const UserId = getUserId();
+        console.log("현재 아이디:", UserId)
+
 
         request(
             "GET",
-            "/humanResources/empEdit/" + parseEmployeeId,
+            "/myeEditPage/myDetail/" + UserId,
             {
 
             }).then((response) => {
@@ -60,7 +64,6 @@ class empAdd extends Component{
                     postMail: response.data.postMail,	
                     address: response.data.address,
                     salary: response.data.salary,	
-                    password: response.data.password,
                     joinDate: response.data.joinDate
                 });
                 console.log('response: ',response);
@@ -80,6 +83,17 @@ class empAdd extends Component{
             [fieldName]: value
         });
 
+    }
+
+    searchAddress = () => {
+        new window.daum.Postcode({
+            oncomplete: (data) => {
+                this.setState({
+                    postMail: data.zonecode,
+                    address: data.address
+                });
+            }
+        }).open();
     }
 
     // 직원 추가/수정/삭제
@@ -125,7 +139,7 @@ class empAdd extends Component{
                     <Button style={trapezoidButton}>사원수정</Button>
                 </div>
                 <div>               
-                    <Table style={{ backgroundColor: 'lightgray'}}>
+                    <Table style={{ backgroundColor: 'ghostwhite'}}>
                         <TableBody>
                             <TableRow>
                                 <TableCell >사원번호</TableCell>
@@ -141,21 +155,21 @@ class empAdd extends Component{
                             </TableRow>
                             <TableRow>
                                 <TableCell >직책</TableCell>
-                                <TableCell ><input type="text" name="position" placeholder="직책" onChange={this.onChangeEmpHandler} value={this.state.position}/></TableCell>
+                                <TableCell ><input type="text" name="position" placeholder="직책" onChange={this.onChangeEmpHandler} value={this.state.position} readOnly/></TableCell>
                                 <TableCell >퇴사일자</TableCell>
-                                <TableCell ><input type="date" name="leaveDate" placeholder="퇴사일자" onChange={this.onChangeEmpHandler} value={this.state.leaveDate}/></TableCell>
+                                <TableCell ><input type="date" name="leaveDate" placeholder="퇴사일자" onChange={this.onChangeEmpHandler} value={this.state.leaveDate} readOnly/></TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell >퇴직사유</TableCell>
-                                <TableCell ><input type="text" name="leaveReason" placeholder="퇴직사유" onChange={this.onChangeEmpHandler} value={this.state.leaveReason}/></TableCell>
+                                <TableCell ><input type="text" name="leaveReason" placeholder="퇴직사유" onChange={this.onChangeEmpHandler} value={this.state.leaveReason} readOnly/></TableCell>
                                 <TableCell >전화</TableCell>
                                 <TableCell ><input type="text" name="phone" placeholder="전화" onChange={this.onChangeEmpHandler} value={this.state.phone}/></TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell >이메일</TableCell>
                                 <TableCell ><input type="text" name="email" placeholder="이메일" onChange={this.onChangeEmpHandler} value={this.state.email}/></TableCell>
-                                <TableCell >부서코드</TableCell>
-                                <TableCell ><input type="text" name="departmentId" placeholder="부서코드" onChange={this.onChangeEmpHandler} value={this.state.departmentId}/></TableCell>
+                                <TableCell >부서이름</TableCell>
+                                <TableCell ><input type="text" name="departmentId" placeholder="부서이름" onChange={this.onChangeEmpHandler} value={this.state.departmentId} readOnly/></TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell >은행</TableCell>
@@ -171,7 +185,10 @@ class empAdd extends Component{
                             </TableRow>
                             <TableRow>
                                 <TableCell >우편번호</TableCell>
-                                <TableCell ><input type="text" name="postMail" placeholder="우편번호" onChange={this.onChangeEmpHandler} value={this.state.postMail}/></TableCell>
+                                <TableCell>
+                                    <Button onClick={this.searchAddress}>주소검색</Button>
+                                    <input type="text" name="postMail" placeholder="우편번호" onChange={this.onChangeEmpHandler} value={this.state.postMail}/>
+                                </TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell >주소</TableCell>
@@ -179,7 +196,7 @@ class empAdd extends Component{
                             </TableRow>
                             <TableRow>
                                 <TableCell >기본급</TableCell>
-                                <TableCell ><input type="text" name="salary" placeholder="기본급" onChange={this.onChangeEmpHandler} value={this.state.salary}/></TableCell>
+                                <TableCell ><input type="text" name="salary" placeholder="기본급" onChange={this.onChangeEmpHandler} value={this.state.salary} readOnly/></TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell >비밀번호</TableCell>
@@ -193,7 +210,7 @@ class empAdd extends Component{
                         </TableBody>
                     </Table>
                     <hr />
-                    <Button onClick={this.onSubmitEmpAdd}>저장</Button>
+                    <Button variant="contained" style={normalButton} onClick={this.onSubmitEmpAdd}>수정</Button>
                 </div>
             </div>
         );
@@ -206,6 +223,16 @@ const trapezoidButton = {
     marginRight: '10px',
     clipPath: 'polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)',
     width: '120px',
+    height: '30px',
+    padding: '10px 20px'
+}
+
+// 기본 버튼 속성
+const normalButton = {
+    backgroundColor: 'navy',
+    color: 'white',
+    marginRight: '10px',
+    width: '150px',
     height: '30px',
     padding: '10px 20px'
 }

@@ -51,6 +51,7 @@ import salaryReg from '../humanResourcesComponent/salaryReg';
 import SalaryStateSelect from '../humanResourcesComponent/SalaryStateSelect';
 import depList from '../humanResourcesComponent/depList';
 import depAdd from '../humanResourcesComponent/depAdd';
+import myEdit from '../commonComponent/myEdit';
 
 import purchaseBook from '../accountComponent/purchaseBook';
 import salesBook from '../accountComponent/salesBook';
@@ -138,6 +139,7 @@ const AppRouter = () => {
             <Route path='/login' exact={true} component={loginComponent} />
             <Route path='/logout' exact={true} component={logoutComponent} />
             <Route path='/accessDenied' exact={true} component={accessDeniedComponent} />
+            <Route path='/myEdit' exact={true} component={myEdit} />
         </Switch>
     );
 }

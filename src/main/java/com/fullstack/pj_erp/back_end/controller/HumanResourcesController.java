@@ -90,7 +90,11 @@ public class HumanResourcesController {
 	@PostMapping(value = {"/humanResources/empAdd"})
 	public void empAdd(@RequestBody UserDTO dto) {
 		System.out.println("<<</humanResources/empAdd>>>");
-		dto.setJoinDate(new Date(System.currentTimeMillis()));
+		
+		if(dto.getJoinDate() == null) {
+			dto.setJoinDate(new Date(System.currentTimeMillis()));
+		}
+		
 		dto.setValidation(1);
 		
 		if(dto.getSalar() == null) dto.setSalar(new SalaryDTO());
@@ -112,8 +116,8 @@ public class HumanResourcesController {
 		service.addEmp(dto);
 	}
 	
-	// emp 회원 수정(1명) 
-	@GetMapping(value = {"/humanResources/empEdit/{employeeId}"})
+	// emp 회원 수정 페이지 - 한명 조회(1명) 
+	@GetMapping(value = {"/myeEditPage/myDetail/{employeeId}"})
 	public UserDTO empEdit(@PathVariable(name = "employeeId") String employeeId){
 		
 		System.out.println("\n<<</humanResources/empEdit>>>");
@@ -122,6 +126,20 @@ public class HumanResourcesController {
 		System.out.println("dto:" + dto);
 		
 		return dto;
+	}
+	
+	// myPage 회원수정 - URL 바꾼거
+	@PostMapping(value = {"/myeEditPage/empUpdate"})
+	public void empUpdate(@RequestBody UserDTO dto) {
+		System.out.println("<<</humanResources/empUpdate>>>");
+
+//		if(dto.getSalar() == null) dto.setSalar(new SalaryDTO());
+//		dto.getSalar().setEmployeeId(dto.getEmployeeId());
+		
+		dto.setPassword(passwordEncoder.encode(CharBuffer.wrap(dto.getPassword())));
+		System.out.println(dto);
+		
+		service.addEmp(dto);
 	}
 	
 	// emp pwCheck 

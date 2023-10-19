@@ -30,12 +30,12 @@ function Header() {
                             <Nav.Link href="/main">Home</Nav.Link>
                             {getUserId() === 'null' || getUserId() === null ?
                                 <NavDropdown title="마이페이지" id="navbarScrollingDropdown">
-                                    <NavDropdown.Item href="/updateUser">내 정보 수정</NavDropdown.Item>
+                                    <NavDropdown.Item href="/myEdit">내 정보 수정</NavDropdown.Item>
                                     <NavDropdown.Divider />
                                 </NavDropdown>
                                 :
                                 <NavDropdown title={getUserId()} id="navbarScrollingDropdown">
-                                    <NavDropdown.Item href="/updateUser">내 정보 수정</NavDropdown.Item>
+                                    <NavDropdown.Item href="/myEdit">내 정보 수정</NavDropdown.Item>
                                     <NavDropdown.Divider />
                                 </NavDropdown>}
                         </Nav>
