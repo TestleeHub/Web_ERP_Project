@@ -195,8 +195,8 @@ class productionList extends Component {
                                     <TableCell> {data.storageId ? data.storage.storageName : 'N/A'} </TableCell>
                                     <TableCell> {data.registDate ? this.formatDate(data.registDate) : 'N/A'} </TableCell>
                                     <TableCell>
-                                        <Button variant="contained" style={normalButton} onClick={() => this.editData(data)}>수정</Button>
-                                        <Button variant="contained" style={normalButton} onClick={() => this.deleteData(data)}>삭제</Button>
+                                        <Button variant="contained" style={updateButton} onClick={() => this.editData(data)}>수정</Button>
+                                        <Button variant="contained" style={deleteButton} onClick={() => this.deleteData(data)}>삭제</Button>
                                     </TableCell>
                                 </TableRow>
                             ))}
@@ -243,6 +243,28 @@ const normalButton = {
     width: '150px',
     height: '30px',
     padding: '10px 20px'
+}
+
+// 수정 버튼 속성
+const updateButton = {
+    backgroundColor: '#FF8C0A',
+    color: 'white',
+    marginRight: '10px',
+    width: '100px',
+    height: '35px',
+    padding: '10px 20px',
+    borderRadius: '20px'
+}
+
+// 삭제 버튼 속성
+const deleteButton = {
+    backgroundColor: '#A52A2A',
+    color: 'white',
+    marginRight: '10px',
+    width: '100px',
+    height: '35px',
+    padding: '10px 20px',
+    borderRadius: '20px'
 }
 
 export default productionList;

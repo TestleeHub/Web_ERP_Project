@@ -177,8 +177,8 @@ class warehousingList extends Component {
                                     <TableCell> {data.details && data.details.length > 0 ? data.details[0].name + ' 외' : ''}  {data.details ? data.details.length : 0} 건 </TableCell>
                                     <TableCell> {this.formatDate(data.registDate)} </TableCell>
                                     <TableCell>
-                                        <Button variant="contained" style={normalButton} onClick={() => this.editData(data)}>수정</Button>
-                                        <Button variant="contained" style={normalButton} onClick={() => this.deleteData(data)}>삭제</Button>
+                                        <Button variant="contained" style={updateButton} onClick={() => this.editData(data)}>수정</Button>
+                                        <Button variant="contained" style={deleteButton} onClick={() => this.deleteData(data)}>삭제</Button>
                                     </TableCell>
                                 </TableRow>
                             ))}
@@ -225,5 +225,27 @@ const normalButton = {
     width: '150px',
     height: '30px',
     padding: '10px 20px'
+}
+
+// 수정 버튼 속성
+const updateButton = {
+    backgroundColor: '#FF8C0A',
+    color: 'white',
+    marginRight: '10px',
+    width: '100px',
+    height: '35px',
+    padding: '10px 20px',
+    borderRadius: '20px'
+}
+
+// 삭제 버튼 속성
+const deleteButton = {
+    backgroundColor: '#A52A2A',
+    color: 'white',
+    marginRight: '10px',
+    width: '100px',
+    height: '35px',
+    padding: '10px 20px',
+    borderRadius: '20px'
 }
 export default warehousingList;
