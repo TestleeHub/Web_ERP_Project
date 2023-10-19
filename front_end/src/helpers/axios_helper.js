@@ -1,6 +1,7 @@
 import axios from 'axios'; // npm install axios
 
-axios.defaults.baseURL = 'http://localhost:8081';
+const apiUrl = process.env.REACT_APP_API_URL;
+axios.defaults.baseURL = apiUrl;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 // 로그인이 완료시 JWT를 저장한다.

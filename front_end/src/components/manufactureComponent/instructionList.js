@@ -122,8 +122,9 @@ class instructionList extends Component {
                 validation: targetdata.validation,
                 registDate: targetdata.registDate
             }).then((response) => {
-
                 console.log('response : ', response);
+                window.confirm('완료처리 되었습니다.');
+                window.location.reload();
             }).catch((error) => {
                 console.log('error : ', error);
                 if(error.response.status === 403){
@@ -225,10 +226,10 @@ class instructionList extends Component {
                                     <TableCell> {data.registDate ? this.formatDate(data.registDate) : 'N/A'} </TableCell>
                                     <TableCell>
                                         {data.completion === "N" ?
-                                            <Button variant="contained" style={normalButton} onClick={() => this.editcompleteData(data)}>완료처리</Button>
+                                            <Button variant="contained" style={updateButton} onClick={() => this.editcompleteData(data)}>완료처리</Button>
                                             :
                                             ''}
-                                        <Button variant="contained" style={normalButton} onClick={() => this.deleteData(data)}>삭제</Button>
+                                        <Button variant="contained" style={deleteButton} onClick={() => this.deleteData(data)}>삭제</Button>
                                     </TableCell>
                                 </TableRow>
                             ))}
@@ -275,6 +276,28 @@ const normalButton = {
     width: '150px',
     height: '30px',
     padding: '10px 20px'
+}
+
+// 수정 버튼 속성
+const updateButton = {
+    backgroundColor: '#FF8C0A',
+    color: 'white',
+    marginRight: '10px',
+    width: '100px',
+    height: '35px',
+    padding: '10px 20px',
+    borderRadius: '20px'
+}
+
+// 삭제 버튼 속성
+const deleteButton = {
+    backgroundColor: '#A52A2A',
+    color: 'white',
+    marginRight: '10px',
+    width: '100px',
+    height: '35px',
+    padding: '10px 20px',
+    borderRadius: '20px'
 }
 
 export default instructionList;

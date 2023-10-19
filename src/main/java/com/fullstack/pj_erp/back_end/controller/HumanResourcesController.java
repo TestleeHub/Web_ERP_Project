@@ -49,7 +49,6 @@ public class HumanResourcesController {
 		List<UserDTO> list = service.listEmp();
 		for(UserDTO dto : list) {
 			
-			System.out.println("OvertimePay() - dto: " + dto.getSalar().getOvertimePay());
 			overTimePay = dto.getSalar().getOvertimePay() != null ? dto.getSalar().getOvertimePay() : 0;
 			WeekendPay = dto.getSalar().getWeekendPay() != null ? dto.getSalar().getWeekendPay() : 0;
 			VacationPay = dto.getSalar().getVacationPay() != null ? dto.getSalar().getVacationPay() : 0;

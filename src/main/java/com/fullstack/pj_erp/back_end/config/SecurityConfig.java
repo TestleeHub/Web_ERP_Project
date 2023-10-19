@@ -39,8 +39,8 @@ public class SecurityConfig {
 					.antMatchers("/manufacture/*").hasAnyRole("ROLE_ADMIN", "ROLE_MF")
 					.antMatchers("/account/*").hasAnyRole("ROLE_ADMIN", "ROLE_AC")
 					.antMatchers("/purchase/*").hasAnyRole("ROLE_ADMIN", "ROLE_PC")
-					.antMatchers("/customer/*").hasAnyRole("ROLE_ADMIN", "ROLE_CR")
-					.antMatchers("/logistics/*").hasAnyRole("ROLE_ADMIN", "ROLE_LG")
+					.antMatchers("/customer/*").hasAnyRole("ROLE_ADMIN", "ROLE_CR", "ROLE_MF", "ROLE_PC", "ROLE_LG")
+					.antMatchers("/logistics/*").hasAnyRole("ROLE_ADMIN", "ROLE_LG", "ROLE_MF", "ROLE_PC")
 					.antMatchers("/**").permitAll()//위 설정 외 다른 페이지는 모두 사용 가능
 					.anyRequest().authenticated() // 나머지 엔드포인트는 인증을 받아야 함
 					);

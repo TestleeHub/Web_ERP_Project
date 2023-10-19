@@ -43,7 +43,7 @@ class customerTradeSlip extends Component{
             }).then((response) => {
                 this.setState({
                     datas: response.data,
-                    displayedDatas: response.data.slice(0, 5),
+                    displayedDatas: response.data.slice(0, 10),
                     isLoading: false
                 });
                 console.log('response : ', response);

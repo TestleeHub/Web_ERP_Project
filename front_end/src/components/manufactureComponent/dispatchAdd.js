@@ -65,7 +65,7 @@ class dispatchAdd extends Component {
         this.setState({ productionItemId: data.productionItemId, isProductionPopupOpen: false });
     }
     handleInstructionPopupData = (data) => {
-        this.setState({ workOrderId: data.workOrderId, isInstructionPopupOpen: false });
+        this.setState({ workOrderId: data.workOrderId, productionItemId: data.productionItemId, businessRelationId: data.customerId, isInstructionPopupOpen: false });
     }
     handleCustomerPopupData = (data) => {
         this.setState({ businessRelationId: data.customerId, isCustomerPopupOpen: false });
