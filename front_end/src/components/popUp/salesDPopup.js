@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Table, TableBody, TableCell, TableRow, TableHead } from "@mui/material";
 import { request } from "../../helpers/axios_helper";
 
-class D_Popup extends Component {
+class SD_Popup extends Component {
 
     constructor(props) {
         super(props);
@@ -23,7 +23,7 @@ class D_Popup extends Component {
     reloadData = (e) => {
         request(
         "GET",
-        "/purchase/orderList",
+        "/purchase/salesForm_List",
         {
 
         }).then((response) => {
@@ -35,26 +35,26 @@ class D_Popup extends Component {
         }).catch((error) => {
             console.log('error : ', error);
         })
-    } 
+    }
 
     // 사용자가 데이터 항목을 선택할 때 호출되는 함수
     handleDataSelection = (selectedData) => {
         this.setState({ selectedData });
-        this.props.onD_PopupData(selectedData); // 선택한 데이터를 부모 컴포넌트로 전달
+        this.props.onSD_PopupData(selectedData); // 선택한 데이터를 부모 컴포넌트로 전달
     }
 
     render() {
         return (
             <div>
-                <h3>발주 목록</h3>
+                <h3>주문 목록</h3>
                 {this.state.isLoading ? (
                     <p>로딩 중...</p>
                 ) : (
                     <Table border="1" style={{ backgroundColor: '#F5F5F5' }}>
                         <TableHead>
                             <TableRow>
-                                <TableCell>발주 번호</TableCell>
-                                <TableCell>원재료 코드</TableCell>
+                                <TableCell>주문 번호</TableCell>
+                                <TableCell>품목 코드</TableCell>
                                 <TableCell>규격</TableCell>
                                 <TableCell>수량</TableCell>
                                 <TableCell>단가</TableCell>
@@ -63,8 +63,8 @@ class D_Popup extends Component {
                         <TableBody>
                             {this.state.datas.map((data, index) => (
                                 <TableRow onClick={() => this.handleDataSelection(data)}>
-                                    <TableCell>{data.orderFormId}</TableCell>
-                                    <TableCell>{data.details[0].materialId}</TableCell>
+                                    <TableCell>{data.salesFormId}</TableCell>
+                                    <TableCell>{data.details[0].productionItemId}</TableCell>
                                     <TableCell>{data.details[0].standard}</TableCell>
                                     <TableCell>{data.details[0].quantity}</TableCell>
                                     <TableCell>{data.details[0].price}</TableCell>
@@ -76,5 +76,6 @@ class D_Popup extends Component {
             </div>
         )
     }
+
 }
-export default D_Popup;
+export default SD_Popup;

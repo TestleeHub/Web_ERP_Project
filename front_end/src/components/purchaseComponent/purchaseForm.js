@@ -1,16 +1,11 @@
 import React, { Component } from "react";
-import { Table, TableBody, TableCell, TableRow, Typography, Button, TableHead } from "@mui/material";
+import { Table, TableBody, TableCell, TableRow, Typography, Button, TableHead, deprecatedPropType } from "@mui/material";
 import { request } from "../../helpers/axios_helper";
 import Modal from 'react-modal';
 import Popup from "../popUp/purchasePopup";
 import D_Popup from "../popUp/purchaseDPopup";
 
-class purchaseForm extends Component{
-
-    // 발주 입력
-    orderForm = () => {
-        this.props.history.push("/purchase/orderForm");
-    }
+class purchaseForm extends Component {
 
     // 발주 목록 조회
     orderList = () => {
@@ -37,7 +32,7 @@ class purchaseForm extends Component{
             details: [],
             isPopupOpen: false,
             isD_PopupOpen: false,
-            detailIndex: -1
+            detailIndex: -1 // -1은 유효한 인덱스가 아니라는 의미
         }
     }
 
@@ -45,7 +40,7 @@ class purchaseForm extends Component{
     componentDidMount() {
         const data = window.localStorage.getItem("purchaseFormData");
         console.log(data);
-        if(data != null) {
+        if (data != null) {
             const parsedData = JSON.parse(data);
             this.setState(parsedData);
             window.localStorage.removeItem('purchaseFormData');
@@ -57,15 +52,18 @@ class purchaseForm extends Component{
         this.setState({ isPopupOpen: true });
     }
     openD_Popup = (detailIndex) => {
-        this.setState({isD_PopupOpen: true, detailIndex: detailIndex});
+        this.setState({isD_PopupOpen: true, detailIndex: detailIndex})
     }
+    // openD_Popup = () => {
+    //     this.setState({ isD_PopupOpen: true });
+    // }
 
     // 팝업 닫기
     closePopup = () => {
         this.setState({ isPopupOpen: false });
     }
     closeD_Popup = () => {
-        this.setState({isD_PopupOpen: false});
+        this.setState({ isD_PopupOpen: false });
     }
 
     // 팝업에서 선택한 데이터를 받아오는 콜백 함수
@@ -74,11 +72,28 @@ class purchaseForm extends Component{
         this.setState({ employeeId: data.employeeId, isPopupOpen: false });
     }
     handleD_PopupDdata = (data) => {
-        const detailData = [...this.state.details]; // details 배열 복사
-        detailData[this.state.detailIndex].materialId = data.materialId;
-        detailData[this.state.detailIndex].standard = data.standard;
-        this.setState({details: detailData, isD_PopupOpen: false});
-    }
+        this.setState(prevState => {
+            // details 배열 복사
+            const newDetails = [];
+
+            for (let detailData of data.details) {
+                // 새로운 detail 항목 생성
+                const newDetail = {
+                    materialId: detailData.materialId,
+                    standard: detailData.standard
+                };
+                // details 배열에 새 항목 추가
+                newDetails.push(newDetail);
+            }
+
+            return {
+                ...prevState,
+                details: newDetails,
+                isD_PopupOpen: false
+            };
+        });
+    };
+
 
     // 버튼 클릭시 구매 디테일 행 추가
     addNewField = () => {
@@ -131,12 +146,12 @@ class purchaseForm extends Component{
         } else {
             this.updateField(name, value); // 다른 필드 업데이트
         }
-    };    
+    };
 
     // 추가 요청
     onSubmitAdd = (e) => {
         e.preventDefault();
-        if (!this.state.purchaseId || !this.state.customerId || !this.state.employeeId || !this.state.dueDate || this.state.details.length === 0) {
+        if (!this.state.customerId || !this.state.employeeId || !this.state.dueDate || this.state.details.length === 0) {
             alert('저장 실패');
             return;
         }
@@ -175,8 +190,8 @@ class purchaseForm extends Component{
         });
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <div>
                 {/* 팝업 */}
                 <div>
@@ -189,8 +204,8 @@ class purchaseForm extends Component{
                                 backgroundColor: 'rgba(0, 0, 0, 0.5)',
                             },
                             content: {
-                                width: '700px', 
-                                height: '400px', 
+                                width: '700px',
+                                height: '400px',
                                 top: '50%',
                                 left: '55%',
                                 transform: 'translate(-50%, -50%)'
@@ -199,7 +214,7 @@ class purchaseForm extends Component{
                     >
                         {/* 팝업 컴포넌트에 선택한 데이터를 전달 */}
                         <Popup onPopupData={this.handlePopupData} />
-                        <br/>
+                        <br />
                         <button onClick={this.closePopup}>닫기</button>
                     </Modal>
                 </div>
@@ -213,8 +228,8 @@ class purchaseForm extends Component{
                                 backgroundColor: 'rgba(0, 0, 0, 0.5)',
                             },
                             content: {
-                                width: '700px', 
-                                height: '400px', 
+                                width: '700px',
+                                height: '400px',
                                 top: '50%',
                                 left: '55%',
                                 transform: 'translate(-50%, -50%)'
@@ -223,67 +238,64 @@ class purchaseForm extends Component{
                     >
                         {/* 팝업 컴포넌트에 선택한 데이터를 전달 */}
                         <D_Popup onD_PopupData={this.handleD_PopupDdata} />
-                        <br/>
+                        <br />
                         <button onClick={this.closeD_Popup}>닫기</button>
                     </Modal>
                 </div>
-                    
+
                 <div>
-                    <Typography style={style}>구매 입력</Typography>
+                    <Typography variant="h4" style={style}>구매 입력</Typography>
                 </div>
                 <div>
-                    <Button variant="contained" style={trapezoidButtonF} onClick={this.purchaseForm}>구매 입력</Button>
+                    <Button variant="contained" style={trapezoidButton} onClick={this.purchaseForm}>구매 입력</Button>
                 </div>
                 <div>
-                    <Table style={{marginLeft: 15, width: '80%', backgroundColor:'#F5F5F5'}}>
+                    <Table style={{marginBottom: 15, width: '80%', border: '1px solid lightgray', backgroundColor: 'ghostwhite' }}>
                         <TableBody>
                             <TableRow>
-                                <TableCell>구매코드</TableCell>
-                                <TableCell>
-                                    <input 
-                                        type="text" 
-                                        name="purchaseId" 
-                                        value={this.state.purchaseId} 
-                                        onChange={this.onChangeHandler} 
+                                <TableCell style={{ border: 'none', fontWeight: 'bold' }}>구매 코드</TableCell>
+                                <TableCell style={{ border: 'none' }}>
+                                    <input
+                                        type="text"
+                                        name="purchaseId"
+                                        value={this.state.purchaseId}
+                                        onChange={this.onChangeHandler}
                                         readOnly
                                     />
                                 </TableCell>
-                                <TableCell>거래처</TableCell>
-                                <TableCell>
-                                    <input 
-                                        type="text" 
-                                        name="customerId" 
-                                        value={this.state.customerId} 
-                                        placeholder="거래처코드" 
-                                        onChange={this.onChangeHandler} 
-                                        onClick={this.openPopup} 
+                                <TableCell style={{ border: 'none', fontWeight: 'bold' }}>거래처</TableCell>
+                                <TableCell style={{ border: 'none' }}>
+                                    <input
+                                        type="text"
+                                        name="customerId"
+                                        value={this.state.customerId}
+                                        placeholder="거래처코드"
+                                        onChange={this.onChangeHandler}
+                                        onClick={this.openPopup}
                                         readOnly
-                                        required
                                     />
                                 </TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell>납기일자</TableCell>
-                                <TableCell>
-                                    <input 
-                                        type="date" 
-                                        name="dueDate" 
-                                        value={this.state.dueDate} 
-                                        onChange={this.onChangeHandler} 
-                                        required
+                                <TableCell style={{ border: 'none', fontWeight: 'bold' }}>납기 일자</TableCell>
+                                <TableCell style={{ border: 'none' }}>
+                                    <input
+                                        type="date"
+                                        name="dueDate"
+                                        value={this.state.dueDate}
+                                        onChange={this.onChangeHandler}
                                     />
                                 </TableCell>
-                                <TableCell>담당자</TableCell>
-                                <TableCell>
-                                    <input 
-                                        type="text" 
-                                        name="employeeId" 
-                                        value={this.state.employeeId} 
-                                        placeholder="담당자" 
-                                        onChange={this.onChangeHandler} 
-                                        onClick={this.openPopup} 
+                                <TableCell style={{ border: 'none', fontWeight: 'bold' }}>담당자</TableCell>
+                                <TableCell style={{ border: 'none' }}>
+                                    <input
+                                        type="text"
+                                        name="employeeId"
+                                        value={this.state.employeeId}
+                                        placeholder="담당자"
+                                        onChange={this.onChangeHandler}
+                                        onClick={this.openPopup}
                                         readOnly
-                                        required
                                     />
                                 </TableCell>
                             </TableRow>
@@ -291,86 +303,81 @@ class purchaseForm extends Component{
                     </Table>
                 </div>
                 <div>
-                    <Button variant="outline-success" style={{marginLeft: 15, marginRight:5, backgroundColor: '#D3D3D3'}}>찾기</Button>
-                    <Button variant="outline-success" style={{margin: 5, backgroundColor: '#D3D3D3'}}>정렬</Button>
-                    <Button variant="outline-success" style={{margin: 5, backgroundColor: '#D3D3D3'}} onClick={this.orderList}>발주</Button> 
-                    <Button variant="outline-success" style={{margin: 5, backgroundColor: '#D3D3D3'}} onClick={this.purchaseList}>리스트</Button>
+                    <Button variant="outline-success" style={normalButton}>찾기</Button>
+                    <Button variant="outline-success" style={normalButton} onClick={this.orderList}>발주 목록</Button>
+                    <Button variant="outline-success" style={normalButton} onClick={this.purchaseList}>구매 목록</Button>
                 </div>
                 <div>
-                    <Table style={{margin: 15}}>
-                        <TableHead style={{backgroundColor:'#F5F5F5'}}>
+                    <Table style={{ marginBottom: 15, width: '80%', border: '1px solid lightgray', backgroundColor: 'ghostwhite' }}>
+                        <TableHead style={{borderBottomStyle: '1px solid lightgray'}}>
                             <TableRow>
-                                <TableCell align="center">
-                                    <input type="checkbox" />
+                                <TableCell style={{ border: 'none' }} align="center">
+                                    
                                 </TableCell>
-                                <TableCell align="center">원재료코드</TableCell>
-                                <TableCell align="center">규격</TableCell>
-                                <TableCell align="center">수량</TableCell>
-                                <TableCell align="center">단가</TableCell>
-                                <TableCell align="center">행 삭제</TableCell>
+                                <TableCell style={{ border: 'none', fontWeight: 'bold' }} align="center">원재료코드</TableCell>
+                                <TableCell style={{ border: 'none', fontWeight: 'bold' }} align="center">규격</TableCell>
+                                <TableCell style={{ border: 'none', fontWeight: 'bold' }} align="center">수량</TableCell>
+                                <TableCell style={{ border: 'none', fontWeight: 'bold' }} align="center">단가</TableCell>
+                                <TableCell style={{ border: 'none', fontWeight: 'bold' }} align="center">행 삭제</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {this.state.details.map((detail, index) => (
                                 <TableRow key={index}>
-                                    <TableCell>
-                                        <input type="checkbox" /> {index + 1}
+                                    <TableCell style={{ border: 'none' }} align="center">
+                                        {index + 1}
                                     </TableCell>
-                                    <TableCell>
-                                        <input 
+                                    <TableCell style={{ border: 'none' }} align="center">
+                                        <input
                                             type="text"
                                             name={`details[${index}].materialId`}
                                             size="10"
                                             onChange={this.onChangeHandler}
-                                            // onClick={() => this.openD_Popup(index)}
+                                            onClick={() => this.openD_Popup(index)}
                                             value={detail.materialId}
-                                            required
-                                            // readOnly
+                                            readOnly
                                         />
                                     </TableCell>
-                                    <TableCell>
-                                        <input 
+                                    <TableCell style={{ border: 'none' }} align="center">
+                                        <input
                                             type="text"
                                             name={`details[${index}].standard`}
                                             size="10"
                                             onChange={this.onChangeHandler}
-                                            // onClick={() => this.openD_Popup(index)}
+                                            onClick={() => this.openD_Popup(index)}
                                             value={detail.standard}
-                                            required
-                                            // readOnly
+                                            readOnly
                                         />
                                     </TableCell>
-                                    <TableCell>
-                                        <input 
+                                    <TableCell style={{ border: 'none' }} align="center">
+                                        <input
                                             type="text"
                                             name={`details[${index}].quantity`}
                                             size="10"
                                             onChange={this.onChangeHandler}
                                             value={detail.quantity}
-                                            required
                                         />
                                     </TableCell>
-                                    <TableCell>
-                                        <input 
+                                    <TableCell style={{ border: 'none' }} align="center">
+                                        <input
                                             type="text"
                                             name={`details[${index}].price`}
                                             size="10"
                                             onChange={this.onChangeHandler}
                                             value={detail.price}
-                                            required
                                         />
                                     </TableCell>
-                                    <TableCell>
-                                        <Button variant="contained" style={{margin: 5, backgroundColor: '#D3D3D3'}} onClick={() => this.removeField(index)}>삭제</Button>
+                                    <TableCell style={{ border: 'none' }} align="center">
+                                        <Button variant="contained" style={normalButton} onClick={() => this.removeField(index)}>삭제</Button>
                                     </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
                     <div>
-                        <Button variant="outline-success" style={{margin: 5, backgroundColor: '#D3D3D3'}} onClick={this.onSubmitAdd}>저장</Button>
-                        <Button variant="outline-success" style={{margin: 5, backgroundColor: '#D3D3D3'}} onClick={this.addNewField}>행 추가</Button>
-                        <Button variant="outline-success" style={{margin: 5, backgroundColor: '#D3D3D3'}} onClick={this.onReset}>다시 작성</Button>
+                        <Button variant="outline-success" style={normalButton} onClick={this.onSubmitAdd}>저장</Button>
+                        <Button variant="outline-success" style={normalButton} onClick={this.addNewField}>행 추가</Button>
+                        <Button variant="outline-success" style={normalButton} onClick={this.onReset}>다시 작성</Button>
                     </div>
                 </div>
             </div>
@@ -381,24 +388,26 @@ class purchaseForm extends Component{
 export default purchaseForm;
 
 const style = {
-    display:'flex',
-    justifyContent:'left',
-    margin: 15
+    display: 'flex',
+    justifyContent: 'left'
 }
 
 // 사다리꼴 버튼 속성
 const trapezoidButton = {
-    backgroundColor: '#D3D3D3',
-    clipPath: 'polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)',
+    backgroundColor: 'navy',
+    color: 'white',
+    clipPath: 'polygon(20% 2%, 80% 2%, 100% 100%, 0% 100%)',
     width: '120px',
-    height: '30px',
-    padding: '10px 20px'
+    height: '40px',
+    padding: '10px 20px',
+    borderTopLeftRadius: '100px',
+    borderTopRightRadius: '100px'
 }
 
-const trapezoidButtonF = {
-    backgroundColor: '#D3D3D3',
-    marginLeft: 15,
-    clipPath: 'polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)',
+// 기본 버튼 속성
+const normalButton = {
+    backgroundColor: 'navy',
+    color: 'white',
     width: '120px',
     height: '30px',
     padding: '10px 20px'
