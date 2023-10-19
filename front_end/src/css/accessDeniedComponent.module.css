@@ -1,0 +1,180 @@
+* {
+	margin: 0;
+	padding: 0;
+	font-family: 'Poppins', sans-serif;
+	box-sizing: border-box;
+}
+
+.header {
+	width: 100%;
+	/* height: 100vh; */
+	height: 1000px;
+	background-image: linear-gradient(to top, skyblue, skyblue 20%, transparent), url(https://tecoble.techcourse.co.kr/static/348a6c1ea3a4fa8b6990e3e3bf4e8490/8ac6f/sample2.png);
+	background-size: cover;
+	background-position: center;
+	position: relative;
+}
+
+.header h1 {
+    text-align: left;
+	font-size: 90px;
+	color: whitesmoke;
+	position: relative;
+	top: 200px;
+	left: 95px;
+	font-weight: bold;
+	margin-left: 60px;
+	text-shadow: 2px 2px 4px rgba(0, 0, 5, 5);  /* 좌우 이동량, 상하 이동량, 흐림 정도, 그림자 색상 */
+}
+
+.header h3 {
+    text-align: left;
+	font-size: 45px;
+	color: whitesmoke;
+	position: relative;
+	top: 230px;
+	left: 95px;
+	font-weight: bold;
+	margin-left: 60px;
+	text-shadow: 2px 2px 4px rgba(0, 0, 5, 5);  /* 좌우 이동량, 상하 이동량, 흐림 정도, 그림자 색상 */
+}
+
+.body {
+	background: skyblue;
+}
+
+.footer {
+	background-color: whitesmoke;
+	height: 100px;
+}
+/*--------------- [ .features ] ---------------*/
+
+.features {
+	position: relative;
+	top: -930px;
+	padding: 20px 40px;
+	font-size: 22px;
+}
+
+.features h2 {
+	font-size: 35px;
+	font-weight: 600;
+	color: black;
+}
+
+.features p {
+	font-size: 15px;
+}
+
+.row1 {
+	display: flex;
+    justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	width: 450px;
+	height: 660px;
+	background-color: rgba(255, 255, 255, 0.9);
+	margin: 25px auto;
+	border-radius: 20px;
+	padding: 20px 40px;
+	box-shadow: 0px 10px 50px rgba(0, 0, 0, 0.7);  /*  수평, 수직 오프셋, 흐림 반경, 그림자의 색상 */
+}
+
+.text_col { 
+	width: 100%;
+	padding-bottom: 20px;
+}
+
+.mainImage {
+	padding-right: 20px;
+	padding-top: 13px;
+}
+
+.logInImage {
+	padding-right: 20px;
+	padding-top: 13px;
+}
+
+.mainImage img {
+	width: 40px;
+	height: 40px;
+}
+
+.logInImage img {
+	width: 40px;
+	height: 40px;
+}
+
+.LockImage {
+	width: 300px;
+	height: 300px;
+}
+
+
+.buttonBox {
+	/* display: flex;
+    justify-content: space-evenly; */
+	margin-right: auto;
+}
+
+.mainPageMoveBox {
+	width: 100%;
+	margin-right: auto;
+	padding-top: 8px;
+	border-top: 2px solid darkgray;       /* 위쪽 테두리 */
+	border-bottom: 2px solid darkgray;    /* 아래쪽 테두리 */
+	display: flex;
+    justify-content: space-between;
+}
+
+.loginPageMoveBox {
+	width: 100%;
+	margin-right: auto;
+	padding-top: 8px;
+	border-bottom: 2px solid darkgray;    /* 아래쪽 테두리 */
+	display: flex;
+    justify-content: space-between;
+}
+
+.mainPageMove {
+	margin-right: auto;
+}
+
+.loginPageMove {
+	margin-right: auto;
+}
+
+.mainPageMove h3 {
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.loginPageMove h3 {
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.pageMoveBox h3 {
+	color: black;
+	font-size: 23px;
+	font-weight: bold;
+}
+
+p {
+	color: rgb(118, 118, 118);
+}
+/* .mainMenuBtn {
+	
+}
+
+.loginPageBtn {
+	
+} */
+/* .left_text_col {
+	
+}
+
+.right_text_col {
+	
+} */
+

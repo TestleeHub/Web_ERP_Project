@@ -1,51 +1,97 @@
 import React, { Component } from "react";
 import { Button } from '@mui/material';
+import { NavLink } from 'react-router-dom';
+import accessDeniedComponentStyle from '../../css/accessDeniedComponent.module.css';
 
 class accessDeniedComponent extends Component {
     render() {
-        return (
-            <div className="row justify-content-center">
-                <div className="col-4">
-                    <br /><br /><br />
-                    <br /><br /><br />
-                    <div className="tab-content">
+        return(
+            <>
+                <div className={accessDeniedComponentStyle.header}>
+                    {/* <h1>Page Error</h1> */}
+                </div>
+                <div className={accessDeniedComponentStyle.body}>
+                    <div className={accessDeniedComponentStyle.features}>
+                        <div className={accessDeniedComponentStyle.row1}>
+                            <img className={accessDeniedComponentStyle.LockImage} 
+                                            alt="Lock" 
+                                            src="../images/Lock.png" 
+                            />
+                            <div className={accessDeniedComponentStyle.text_col}>
+                                <h2>
+                                    접근 권한이 없습니다.
+                                </h2>
+                            </div>
+                            
+                            <div className={accessDeniedComponentStyle.mainPageMoveBox} onClick={() => this.props.history.push('/main')}>
+                                <div className={accessDeniedComponentStyle.mainImage}>
+                                    <img alt="Main" src="../images/Main.png"/>
+                                </div>
+                                <div className={accessDeniedComponentStyle.mainPageMove}>
+                                    <h3>메인화면</h3>
+                                    <p>메인화면으로 이동합니다</p>
+                                </div>
+                                {/* <div className={accessDeniedComponentStyle.loginPageMove}>
+                                    <h3>로그인화면</h3>
+                                    <p>로그인화면으로 이동합니다</p>
+                                </div> */}
+                            </div>
+                            <div className={accessDeniedComponentStyle.loginPageMoveBox} onClick={() => this.props.history.push('/login')}>
+                                <div className={accessDeniedComponentStyle.logInImage}>
+                                    <img alt="LogIn" src="../images/LogIn.png"/>
+                                </div>
+                                <div className={accessDeniedComponentStyle.loginPageMove}>
+                                    <h3>로그인화면</h3>
+                                    <p>로그인화면으로 이동합니다</p>
+                                </div>
+                                {/* <div className={accessDeniedComponentStyle.loginPageMove}>
+                                    <h3>로그인화면</h3>
+                                    <p>로그인화면으로 이동합니다</p>
+                                </div> */}
+                            </div>       
 
-                        {/* 로그인 폼 */}
-                        <h1>접근 권한이 없습니다.</h1>
+                        {/* <div className={accessDeniedComponentStyle.buttonBox}>
+                                <div className={accessDeniedComponentStyle.mainMenuBtn}>
+                                    <Button style={mainMenuBtn}> 메인화면 </Button>
+                                    <p>메인화면으로 이동합니다</p>
+                                </div>
+                                <div className={accessDeniedComponentStyle.loginPageBtn}>
+                                    <Button style={loginPageBtn}> 로그인 페이지 </Button>
+                                    <p>로그인 페이지로 이동합니다</p>
+                                </div>
+                            </div> */}
+                        </div>
+                    </div>
 
-                        <Button variant="contained" style={normalButton} onClick={() => this.props.history.push('/login')}>로그인 페이지</Button>
-                        <Button variant="contained" style={normalButton} onClick={() => this.props.history.push('/main')}>메인 화면</Button>
+                        
+                </div>
+                <div className={accessDeniedComponentStyle.footer}>
+                    <div>
                     </div>
                 </div>
-            </div >
+            </>
         );
     }
 }
 
-const style = {
-    display: 'flex',
-    justifyContent: 'left'
+const mainMenuBtn = {
+    backgroundColor: 'whitesmoke',
+    color: 'black',
+    marginRight: '30px',
+    width: '160px',
+    height: '50px',
+    padding: '10px 20px',
+    marginTop: '30px',
+    fontWeight: 'bold'
 }
 
-// 사다리꼴 버튼 속성
-const trapezoidButton = {
-    backgroundColor: 'navy',
-    color: 'white',
-    marginRight: '10px',
-    clipPath: 'polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)',
-    width: '120px',
-    height: '30px',
-    padding: '10px 20px'
+const loginPageBtn = {
+    backgroundColor: 'whitesmoke',
+    color: 'black',
+    width: '160px',
+    height: '50px',
+    padding: '10px 20px',
+    marginTop: '30px',
+    fontWeight: 'bold'
 }
-
-// 기본 버튼 속성
-const normalButton = {
-    backgroundColor: 'navy',
-    color: 'white',
-    marginRight: '10px',
-    width: '150px',
-    height: '30px',
-    padding: '10px 20px'
-}
-
 export default accessDeniedComponent;
