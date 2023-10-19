@@ -51,9 +51,9 @@ public class PurchaseFormDTO {
 	// 작성자(담당자)
 	@Column(name = "EMPLOYEEID")
 	private String employeeId;
-//	@OneToOne
-//	@JoinColumn(name = "EMPLOYEEID")
-//	private UserDTO employee; 			// Employee 테이블 FK
+	@OneToOne
+	@JoinColumn(name = "EMPLOYEEID", insertable = false, updatable = false)
+	private UserDTO employee; 			// Employee 테이블 FK
 	
 	// 납기일
 	@Column(name = "DUEDATE")

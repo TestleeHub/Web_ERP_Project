@@ -80,6 +80,7 @@ public class PurchaseController {
 		dto.setDueDate(new Date(System.currentTimeMillis()));
 		
 		dto.setValidation(1); // 디폴트 값 : 1
+		dto.setAccountReflect(1);
 		// 최초 생성시에만 id를 만들어주고 update 시엔 아이디 따로 생성하지 않음
 		if(dto.getPurchaseId() == null || dto.getPurchaseId().length() == 0) {
 			for(int i = 0; i < dto.getDetails().size(); i++) {
@@ -109,6 +110,7 @@ public class PurchaseController {
 	public void purchaseDelete(@RequestBody PurchaseFormDTO dto) {
 		System.out.println("[PurchaseFormDTO] : " + dto);
 		dto.setValidation(0);
+		dto.setAccountReflect(0);
 		service.updatePurchase(dto);
 	}
 	
@@ -164,6 +166,7 @@ public class PurchaseController {
 		dto.setDueDate(new Date(System.currentTimeMillis()));
 		
 		dto.setValidation(1); // 디폴트 값 : 1
+		dto.setAccountReflect(1);
 		// 최초 생성시에만 id를 만들어주고 update 시엔 아이디 따로 생성하지 않음
 		if(dto.getSalesId() == null || dto.getSalesId().length() == 0) {
 			for(int i = 0; i < dto.getDetails().size(); i++) {
@@ -193,6 +196,7 @@ public class PurchaseController {
 	public void salesDelete(@RequestBody SalesDTO dto) {
 		System.out.println("[SalesDTO] : " + dto);
 		dto.setValidation(0);
+		dto.setAccountReflect(0);
 		service.updateSales(dto);
 	}
 	

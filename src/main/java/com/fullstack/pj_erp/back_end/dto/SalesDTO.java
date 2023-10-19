@@ -46,9 +46,9 @@ public class SalesDTO {
 	
 	@Column(name = "EMPLOYEEID")
 	private String employeeId;
-//	@OneToOne
-//	@JoinColumn(name = "EMPLOYEEID", insertable = false, updatable = false)
-//	private UserDTO employee; 	// Employee 테이블 FK
+	@OneToOne
+	@JoinColumn(name = "EMPLOYEEID", insertable = false, updatable = false)
+	private UserDTO employee; 	// Employee 테이블 FK
 	
 	@Column(name = "DUEDATE")
 	private Date dueDate;
