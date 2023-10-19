@@ -7,7 +7,10 @@ class SalaryStateSelect extends Component{
         super(props);
 
         this.state = {
-            Datas: []
+            datas: [],
+            isLoading: true,
+            displayedDatas: [],
+            showMore: true
         }
     }
 
@@ -23,8 +26,9 @@ class SalaryStateSelect extends Component{
                 const data = response.data
                 const calSalary = data.map((data) => (parseInt(data, 10)*2).toString())
                 this.setState({
-                    Datas: response.data,
-                    
+                    datas: response.data,
+                    displayedDatas: response.data.slice(0, 5),
+                    isLoading: false
                 });
                 console.log('calSalary: ', calSalary.map((data=>data.salary)));
                 console.log('data: ',data.map((data=>data.salary)));
@@ -47,7 +51,19 @@ class SalaryStateSelect extends Component{
         return `${year}-${month}-${day}`;
     }
 
+    handleShowMoreClick = () => {
+        const { datas, displayedDatas } = this.state;
+        const currentLength = displayedDatas.length;
+        const nextChunk = datas.slice(currentLength, currentLength + 5);
+        const newDisplayedData = [...displayedDatas, ...nextChunk];
+        if (newDisplayedData.length === datas.length) {
+            this.setState({ showMore: false }); // 더이상 데이터를 보여줄 필요가 없으면 "더 보기" 버튼을 숨깁니다.
+        }
+        this.setState({ displayedDatas: newDisplayedData });
+    }
+
     render(){
+        const { datas, showMore } = this.state;
         return(
             <div>
                 <div>
@@ -99,47 +115,57 @@ class SalaryStateSelect extends Component{
                                 <TableCell style={tableLineAdd}></TableCell>
                                 <TableCell style={tableLineAdd}></TableCell>
                             </TableRow>
-                            {this.state.Datas.map(data => 
-                                <Fragment>
-                                    <TableRow>
-                                        <TableCell style={tableLine}>{data.name}</TableCell>
-                                        <TableCell style={tableLine}>{data.departmentId}</TableCell>
-                                        <TableCell style={tableLine}>{data.salary}</TableCell>
-                                        <TableCell style={tableLine}>{data.salar.overtimePay}</TableCell>
-                                        <TableCell style={tableLine}>{data.salar.weekendPay}</TableCell>
-                                        <TableCell style={tableLine}>{data.salar.vacationPay}</TableCell>
-                                        <TableCell style={tableLine}></TableCell>
-                                        <TableCell style={tableLine} rowSpan={2}>{data.totalSalary}</TableCell>
-                                        <TableCell style={tableLine}></TableCell>
-                                        <TableCell style={tableLine}></TableCell>
-                                        <TableCell style={tableLine}>{data.nationalPension}</TableCell>
-                                        <TableCell style={tableLine}>{data.healthInsurance}</TableCell>
-                                        <TableCell style={tableLine}>{data.employInsurance}</TableCell>
-                                        <TableCell style={tableLine}></TableCell>
-                                        <TableCell style={tableLine}></TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell style={tableLine}>{data.employeeId}</TableCell>
-                                        <TableCell style={tableLine}>{data.position}</TableCell>
-                                        <TableCell style={tableLine}>{data.DependentFamiliyPay}</TableCell>
-                                        <TableCell style={tableLine}></TableCell>
-                                        <TableCell style={tableLine}>{data.carPay}</TableCell>
-                                        <TableCell style={tableLine}></TableCell>
-                                        <TableCell style={tableLine}></TableCell>
-                                        <TableCell style={tableLine}></TableCell>
-                                        <TableCell style={tableLine}></TableCell>
-                                        <TableCell style={tableLine}></TableCell>
-                                        <TableCell style={tableLine}></TableCell>
-                                        <TableCell style={tableLine}></TableCell>
-                                        <TableCell style={tableLine}>{data.totaldeduction}</TableCell>
-                                        <TableCell style={tableLine}>{data.totalSalaryReal}</TableCell>
-                                        
-                                    </TableRow>
-                                </Fragment>
+                            {this.state.isLoading ? (
+                                <p>로딩 중...</p>
+                            ) : (
+                                this.state.datas.map(data => 
+                                    <Fragment>
+                                        <TableRow>
+                                            <TableCell style={tableLine}>{data.name}</TableCell>
+                                            <TableCell style={tableLine}>{data.departmentId}</TableCell>
+                                            <TableCell style={tableLine}>{data.salary}</TableCell>
+                                            <TableCell style={tableLine}>{data.salar.overtimePay}</TableCell>
+                                            <TableCell style={tableLine}>{data.salar.weekendPay}</TableCell>
+                                            <TableCell style={tableLine}>{data.salar.vacationPay}</TableCell>
+                                            <TableCell style={tableLine}></TableCell>
+                                            <TableCell style={tableLine} rowSpan={2}>{data.totalSalary}</TableCell>
+                                            <TableCell style={tableLine}></TableCell>
+                                            <TableCell style={tableLine}></TableCell>
+                                            <TableCell style={tableLine}>{data.nationalPension}</TableCell>
+                                            <TableCell style={tableLine}>{data.healthInsurance}</TableCell>
+                                            <TableCell style={tableLine}>{data.employInsurance}</TableCell>
+                                            <TableCell style={tableLine}></TableCell>
+                                            <TableCell style={tableLine}></TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell style={tableLine}>{data.employeeId}</TableCell>
+                                            <TableCell style={tableLine}>{data.position}</TableCell>
+                                            <TableCell style={tableLine}>{data.DependentFamiliyPay}</TableCell>
+                                            <TableCell style={tableLine}></TableCell>
+                                            <TableCell style={tableLine}>{data.carPay}</TableCell>
+                                            <TableCell style={tableLine}></TableCell>
+                                            <TableCell style={tableLine}></TableCell>
+                                            <TableCell style={tableLine}></TableCell>
+                                            <TableCell style={tableLine}></TableCell>
+                                            <TableCell style={tableLine}></TableCell>
+                                            <TableCell style={tableLine}></TableCell>
+                                            <TableCell style={tableLine}></TableCell>
+                                            <TableCell style={tableLine}>{data.totaldeduction}</TableCell>
+                                            <TableCell style={tableLine}>{data.totalSalaryReal}</TableCell>
+                                            
+                                        </TableRow>
+                                    </Fragment>
+                                )
                             )}
                         </TableBody>
                     </Table>
                 </div>
+                <br />
+                {showMore && (
+                    <Button variant="contained" style={normalButton} onClick={this.handleShowMoreClick}>더 보기</Button>
+                )}
+                <br />
+                <br />
             </div>
         );
     }
@@ -177,6 +203,15 @@ const tableLine2 = {
 }
 const tableLineAlign = {
     textAlign: 'center'
+}
+// 기본 버튼 속성
+const normalButton = {
+    backgroundColor: 'navy',
+    color: 'white',
+    marginRight: '10px',
+    width: '150px',
+    height: '30px',
+    padding: '10px 20px'
 }
 const tableLineAdd = { ...tableLine, ...tableLineAlign}
 const tableLineAdd2 = { ...tableLine2, ...tableLineAlign}

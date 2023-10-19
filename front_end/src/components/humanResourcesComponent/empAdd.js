@@ -62,6 +62,7 @@ class empAdd extends Component {
         const pw = this.state.password;
         const chkpw = this.state.chkpassword;
         console.log("부서이름:", this.state.departmentId)
+        console.log("전화번호:", this.state.phone)
         if(this.state.departmentId === '') {
             console.log("부서이름 없음")
             return
@@ -144,7 +145,7 @@ class empAdd extends Component {
                                 <TableCell >퇴직사유</TableCell>
                                 <TableCell ><input type="text" name="leaveReason" placeholder="퇴직사유" onChange={this.onChangeEmpHandler} value={this.state.leaveReason} /></TableCell>
                                 <TableCell >전화</TableCell>
-                                <TableCell ><input type="text" name="phone" placeholder="전화" onChange={this.onChangeEmpHandler} value={this.state.phone} /></TableCell>
+                                <TableCell ><input type="text" name="phone" placeholder="전화(010 제외)" onChange={this.onChangeEmpHandler} value={this.state.phone} /></TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell >이메일</TableCell>
