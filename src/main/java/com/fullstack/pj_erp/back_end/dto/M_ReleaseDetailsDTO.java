@@ -34,7 +34,7 @@ public class M_ReleaseDetailsDTO {
 //	@Column(name = "MATERIALRECIVEID")
 //	private String materialReciveId;
 	@Column(name = "MATERIALID")
-	private String maeterialId;
+	private String materialId;
 	private String name;
 	@Column(name = "STORAGEID")
 	private String storageId;
