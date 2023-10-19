@@ -109,6 +109,7 @@ public class PurchaseController {
 	@PutMapping(value = {"/purchase/purchaseDelete"})
 	public void purchaseDelete(@RequestBody PurchaseFormDTO dto) {
 		System.out.println("[PurchaseFormDTO] : " + dto);
+		dto.setPurchaseBookId(" ");
 		dto.setValidation(0);
 		dto.setAccountReflect(0);
 		service.updatePurchase(dto);
@@ -195,6 +196,7 @@ public class PurchaseController {
 	@PutMapping(value = {"/purchase/salesDelete"})
 	public void salesDelete(@RequestBody SalesDTO dto) {
 		System.out.println("[SalesDTO] : " + dto);
+		dto.setSalesBookId(" ");
 		dto.setValidation(0);
 		dto.setAccountReflect(0);
 		service.updateSales(dto);
