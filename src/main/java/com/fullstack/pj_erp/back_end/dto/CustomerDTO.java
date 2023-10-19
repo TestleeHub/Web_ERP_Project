@@ -64,7 +64,7 @@ public class CustomerDTO {
 			// SimpleDateFormat을 사용하여 날짜와 시간을 "yyMMddHHmmss" 형식으로 포맷
 			SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
 			String key = sdf.format(currentDate);
-			// 데이터 베이스에 항목에 PK 컬럼이 VARCHAR2(20)으로 되있는지 확인
+			// 데이터 베이스에 항목에 PK 컬럼이 VARCHAR2(8)으로 되있는지 확인
 			// "DTO의 앞 두글자를 대문자로" + key 값
 			this.customerId = "CT" + key; // 숫자 시퀀스 값을 문자열로 변환하여 PK 값 생성
 			System.out.println(customerId);

@@ -4,6 +4,11 @@ import { request } from "../../helpers/axios_helper";
 
 class salesList extends Component{
 
+    // 판매 목록 조회
+    salesList = () => {
+        this.props.history.push("/purchase/salesList");
+    }
+
     constructor(props) {
         super(props);
         this.state = {
@@ -113,10 +118,10 @@ class salesList extends Component{
         })
     }
 
-    // 거래처 코드 정렬
-    sortUsingCustomerId = () => {
+    // 거래처명 정렬
+    sortUsingCustomerName = () => {
         const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
-            return a.customerId.localeCompare(b.customerId);
+            return a.customer.name.localeCompare(b.customer.name);
         })
         this.setState({
             displayedDatas: sortedData
@@ -158,47 +163,54 @@ class salesList extends Component{
         return(
             <div>
                 <div>
-                    <Typography style={style}>판매 조회</Typography>
+                    <Typography variant="h4" style={style}>판매 조회</Typography>
                 </div>
                 <div>
-                    <Button variant="contained" style={trapezoidButtonF} onClick={this.salesList}>전체</Button>
-                    <Button variant="contained" style={trapezoidButton} onClick={this.salesList}>결제중</Button>
-                    <Button variant="contained" style={trapezoidButton} onClick={this.salesList}>미확인</Button>
-                    <Button variant="contained" style={trapezoidButton} onClick={this.salesList}>확인</Button>
+                    <Button variant="contained" style={trapezoidButton} onClick={this.salesList}>판매 목록</Button>
                 </div>
                 <div>
                     {this.state.isLoading ? (
                         <p>로딩 중...</p>
                     ) : (
-                    <Table style={{marginLeft: 15}}>
-                        <TableHead style={{backgroundColor:'#F5F5F5'}}>
+                    <Table style={{border: '1px solid lightgray', backgroundColor: 'ghostwhite'}}>
+                        <TableHead style={{backgroundColor: 'lightgray'}}>
                             <TableRow>
-                                <TableCell align="center">
-                                    <input type="checkbox" />
-                                </TableCell>
-                                <TableCell onClick={() => this.sortUsingSalesId()} align="center">판매 번호▽</TableCell>
-                                <TableCell onClick={() => this.sortUsingCustomerId()} align="center">거래처 코드▽</TableCell>
-                                <TableCell onClick={() => this.sortUsingProductionItemId()} align="center">품목 코드▽</TableCell>
-                                <TableCell onClick={() => this.sortUsingPrice()} align="center">금액 합계▽</TableCell>
-                                <TableCell onClick={() => this.sortUsingAccountReflect()} align="center">회계 반영 여부▽</TableCell>
-                                <TableCell align="center">추가 작업</TableCell>
+                                <TableCell align="center"></TableCell>
+                                <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingSalesId()} align="center">판매 번호▽</TableCell>
+                                <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingCustomerName()} align="center">거래처명▽</TableCell>
+                                <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingProductionItemId()} align="center">품목 코드▽</TableCell>
+                                <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingPrice()} align="center">금액 합계▽</TableCell>
+                                <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingAccountReflect()} align="center">회계 반영 여부▽</TableCell>
+                                <TableCell style={{fontWeight: 'bold'}} align="center">추가 작업</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {this.state.displayedDatas.map((data, index) => (
                                 <TableRow>
                                     <TableCell align="center">
-                                        <input type="checkbox" /> {index + 1}
+                                        {index + 1}
                                     </TableCell>
-                                    <TableCell>{data.salesId}</TableCell>
-                                    <TableCell>{data.customerId ? data.customerId : 'N/A'}</TableCell>
-                                    <TableCell>{data.details[0].productionItemId ? data.details[0].productionItemId : 'N/A'}</TableCell>
+                                    <TableCell align="center">{data.salesId}</TableCell>
+                                    <TableCell align="center">{data.customer ? data.customer.name : 'N/A'}</TableCell>
+                                    <TableCell align="center">{data.details[0].productionItemId ? data.details[0].productionItemId : 'N/A'}</TableCell>
                                     {/* 수량 * 단가 */}
-                                    <TableCell>{(data.details[0].price*data.details[0].quantity) ? (data.details[0].price*data.details[0].quantity) : 'N/A'}</TableCell>
-                                    <TableCell>{data.accountReflect ? data.accountReflect : 'N/A'}</TableCell>
-                                    <TableCell>
-                                            <Button variant="contained" style={{margin: 5, backgroundColor: '#D3D3D3'}} onClick={() => this.editData(data)}>수정</Button>
-                                            <Button variant="contained" style={{margin: 5, backgroundColor: '#D3D3D3'}} onClick={() => this.deleteData(data)}>삭제</Button>
+                                    <TableCell align="center">{(data.details[0].price*data.details[0].quantity) ? (data.details[0].price*data.details[0].quantity) : 'N/A'}</TableCell>
+                                    <TableCell align="center">{data.accountReflect ? data.accountReflect : 'N/A'}</TableCell>
+                                    <TableCell align="center">
+                                        <Button variant="contained" style={updateButton} onClick={() => this.editData(data)}>수정
+                                            <img className="penImage" 
+                                                alt="pen" 
+                                                src="../images/pen.png" 
+                                                style={{marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)'}} 
+                                            />
+                                        </Button>
+                                        <Button variant="contained" style={deleteButton} onClick={() => this.deleteData(data)}>삭제
+                                            <img className="garbageImage" 
+                                                alt="garbage" 
+                                                src="../images/garbage.png" 
+                                                style={{marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)'}} 
+                                                />
+                                        </Button>
                                     </TableCell>
                                 </TableRow>
                             ))}
@@ -206,7 +218,7 @@ class salesList extends Component{
                     </Table>
                     )}
                     {showMore && (
-                     <Button variant="contained" style={{margin: 5, backgroundColor: '#D3D3D3'}} onClick={this.handleShowMoreClick}>더 보기</Button>
+                     <Button variant="contained" style={normalButton} onClick={this.handleShowMoreClick}>더 보기</Button>
                     )}
                 </div>
             </div>
@@ -217,25 +229,49 @@ class salesList extends Component{
 export default salesList;
 
 const style = {
-    display:'flex',
-    justifyContent:'left',
-    margin: 15
+    display: 'flex',
+    justifyContent: 'left'
 }
 
 // 사다리꼴 버튼 속성
 const trapezoidButton = {
-    backgroundColor: '#D3D3D3',
-    clipPath: 'polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)',
+    backgroundColor: 'navy',
+    color: 'white',
+    clipPath: 'polygon(20% 2%, 80% 2%, 100% 100%, 0% 100%)',
+    width: '120px',
+    height: '40px',
+    padding: '10px 20px',
+    borderTopLeftRadius: '100px',
+    borderTopRightRadius: '100px'
+}
+
+// 기본 버튼 속성
+const normalButton = {
+    backgroundColor: 'navy',
+    color: 'white',
     width: '120px',
     height: '30px',
     padding: '10px 20px'
 }
 
-const trapezoidButtonF = {
-    backgroundColor: '#D3D3D3',
-    marginLeft: 15,
-    clipPath: 'polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)',
-    width: '120px',
-    height: '30px',
-    padding: '10px 20px'
+// 수정 버튼 속성
+const updateButton = {
+    backgroundColor: '#FF8C0A',
+    color: 'white',
+    marginRight: '10px',
+    width: '100px',
+    height: '35px',
+    padding: '10px 20px',
+    borderRadius: '20px'
+}
+
+// 삭제 버튼 속성
+const deleteButton = {
+    backgroundColor: '#A52A2A',
+    color: 'white',
+    marginRight: '10px',
+    width: '100px',
+    height: '35px',
+    padding: '10px 20px',
+    borderRadius: '20px'
 }

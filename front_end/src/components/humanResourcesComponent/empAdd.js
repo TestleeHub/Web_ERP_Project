@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Table, TableBody, TableRow, TableCell, Button } from '@mui/material';
 import { request } from "../../helpers/axios_helper";
 
-class empAdd extends Component{
+class empAdd extends Component {
     constructor(props) {
         super(props);
 
@@ -12,32 +12,35 @@ class empAdd extends Component{
             foreignName: "",
             socialNum: "",
             position: "",
-            leaveDate: "",	 
+            leaveDate: "",
             leaveReason: "",
             phone: "",
-            email: "",		 
+            email: "",
             departmentId: "",
             bankCode: "",
-            account: "",	
-            accountName: "",	  
-            postMail: "",	
+            account: "",
+            accountName: "",
+            postMail: "",
             address: "",
-            salary: "",	
+            salary: "",
             password: "",
-            chkpassword : "",
+            chkpassword: "",
             joinDate: ""
         }
     }
 
     // 수정페이지 처리
     componentDidMount() {
-        const emp = window.localStorage.getItem("emp");
-        console.log("edit:" + emp)
-        if(emp !== null){
-            const parseEmp = JSON.parse(emp);
-            this.setState(parseEmp);
-            window.localStorage.removeItem("emp");
+        const data = window.localStorage.getItem("data");
+        console.log("edit:" + data)
+        if (data !== null) {
+            const parseData = JSON.parse(data);
+            parseData.departmentId =""
+            this.setState(parseData);
+            
+            window.localStorage.removeItem("data");
         }
+       
     }
 
     onChangeEmpHandler = (e) => {
@@ -58,7 +61,12 @@ class empAdd extends Component{
         e.preventDefault();
         const pw = this.state.password;
         const chkpw = this.state.chkpassword;
-        if(pw === chkpw && pw !== "" ){
+        console.log("부서이름:", this.state.departmentId)
+        if(this.state.departmentId === '') {
+            console.log("부서이름 없음")
+            return
+        }
+        if (pw === chkpw && pw !== "") {
             request(
                 "POST",
                 "/humanResources/empAdd",
@@ -68,107 +76,135 @@ class empAdd extends Component{
                     foreignName: this.state.foreignName,
                     socialNum: this.state.socialNum,
                     position: this.state.position,
-                    leaveDate: this.state.leaveDate,	 
+                    leaveDate: this.state.leaveDate,
                     leaveReason: this.state.leaveReason,
                     phone: this.state.phone,
-                    email: this.state.email,		 
+                    email: this.state.email,
                     departmentId: this.state.departmentId,
                     bankCode: this.state.bankCode,
-                    account: this.state.account,	
-                    accountName: this.state.accountName,	  
-                    postMail: this.state.postMail,	
+                    account: this.state.account,
+                    accountName: this.state.accountName,
+                    postMail: this.state.postMail,
                     address: this.state.address,
-                    salary: this.state.salary,	
+                    salary: this.state.salary,
                     password: this.state.password,
                 }).then((response) => {
-                    console.log('response : ', response);   
+                    console.log('response : ', response);
                     this.props.history.push('/humanResources/empList');
                 }).catch((error) => {
-                    console.log('error : ', error); 
-                    if(error.response.status === 403){
+                    console.log('error : ', error);
+                    if (error.response.status === 403) {
                         console.log('접근 권한이 없습니다.');
                         this.props.history.push('/accessDenied');
                     }
                 })
-            
+
         }
     }
-    render(){
-        return(
+
+    searchAddress = () => {
+        new window.daum.Postcode({
+            oncomplete: (data) => {
+                this.setState({
+                    postMail: data.zonecode,
+                    address: data.address
+                });
+            }
+        }).open();
+    }
+
+    render() {
+        return (
             <div>
                 <div>
                     <Button style={trapezoidButton}>사원등록</Button>
                 </div>
-                <div>               
-                    <Table style={{ backgroundColor: 'lightgray'}}>
+                <div>
+                    <Table style={{ backgroundColor: 'ghostwhite' }}>
                         <TableBody>
                             <TableRow>
                                 <TableCell >사원번호</TableCell>
-                                <TableCell ><input type="text" name="employeeId" placeholder="사원번호" onChange={this.onChangeEmpHandler} value={this.state.employeeId}/></TableCell>
+                                <TableCell ><input type="text" name="employeeId" placeholder="사원번호" onChange={this.onChangeEmpHandler} value={this.state.employeeId} /></TableCell>
                                 <TableCell >이름</TableCell>
-                                <TableCell ><input type="text" name="name" placeholder="이름" onChange={this.onChangeEmpHandler} value={this.state.name}/></TableCell>
+                                <TableCell ><input type="text" name="name" placeholder="이름" onChange={this.onChangeEmpHandler} value={this.state.name} /></TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell >외국어성명</TableCell>
-                                <TableCell ><input type="text" name="foreignName" placeholder="외국어성명" onChange={this.onChangeEmpHandler} value={this.state.foreignName}/></TableCell>
+                                <TableCell ><input type="text" name="foreignName" placeholder="외국어성명" onChange={this.onChangeEmpHandler} value={this.state.foreignName} /></TableCell>
                                 <TableCell >주민번호</TableCell>
-                                <TableCell><input type="text" name="socialNum" placeholder="주민번호" onChange={this.onChangeEmpHandler} value={this.state.socialNum}/></TableCell>
+                                <TableCell><input type="text" name="socialNum" placeholder="주민번호" onChange={this.onChangeEmpHandler} value={this.state.socialNum} /></TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell >직책</TableCell>
-                                <TableCell ><input type="text" name="position" placeholder="직책" onChange={this.onChangeEmpHandler} value={this.state.position}/></TableCell>
+                                <TableCell ><input type="text" name="position" placeholder="직책" onChange={this.onChangeEmpHandler} value={this.state.position} /></TableCell>
                                 <TableCell >퇴사일자</TableCell>
-                                <TableCell ><input type="date" name="leaveDate" placeholder="퇴사일자" onChange={this.onChangeEmpHandler} value={this.state.leaveDate}/></TableCell>
+                                <TableCell ><input type="date" name="leaveDate" placeholder="퇴사일자" onChange={this.onChangeEmpHandler} value={this.state.leaveDate} /></TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell >퇴직사유</TableCell>
-                                <TableCell ><input type="text" name="leaveReason" placeholder="퇴직사유" onChange={this.onChangeEmpHandler} value={this.state.leaveReason}/></TableCell>
+                                <TableCell ><input type="text" name="leaveReason" placeholder="퇴직사유" onChange={this.onChangeEmpHandler} value={this.state.leaveReason} /></TableCell>
                                 <TableCell >전화</TableCell>
-                                <TableCell ><input type="text" name="phone" placeholder="전화" onChange={this.onChangeEmpHandler} value={this.state.phone}/></TableCell>
+                                <TableCell ><input type="text" name="phone" placeholder="전화" onChange={this.onChangeEmpHandler} value={this.state.phone} /></TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell >이메일</TableCell>
-                                <TableCell ><input type="text" name="email" placeholder="이메일" onChange={this.onChangeEmpHandler} value={this.state.email}/></TableCell>
-                                <TableCell >부서코드</TableCell>
-                                <TableCell ><input type="text" name="departmentId" placeholder="부서코드" onChange={this.onChangeEmpHandler} value={this.state.departmentId}/></TableCell>
+                                <TableCell ><input type="text" name="email" placeholder="이메일" onChange={this.onChangeEmpHandler} value={this.state.email} /></TableCell>
+                                <TableCell >기본급</TableCell>
+                                <TableCell ><input type="text" name="salary" placeholder="기본급" onChange={this.onChangeEmpHandler} value={this.state.salary} /></TableCell>
+                                
                             </TableRow>
                             <TableRow>
                                 <TableCell >은행</TableCell>
-                                <TableCell ><input type="text" name="bankCode" placeholder="은행" onChange={this.onChangeEmpHandler} value={this.state.bankCode}/></TableCell>
+                                <TableCell ><input type="text" name="bankCode" placeholder="은행" onChange={this.onChangeEmpHandler} value={this.state.bankCode} /></TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell >계좌번호</TableCell>
-                                <TableCell ><input type="text" name="account" placeholder="계좌번호" onChange={this.onChangeEmpHandler} value={this.state.account}/></TableCell>
+                                <TableCell ><input type="text" name="account" placeholder="계좌번호" onChange={this.onChangeEmpHandler} value={this.state.account} /></TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell >예금주</TableCell>
-                                <TableCell ><input type="text" name="accountName" placeholder="예금주" onChange={this.onChangeEmpHandler} value={this.state.accountName}/></TableCell>
+                                <TableCell ><input type="text" name="accountName" placeholder="예금주" onChange={this.onChangeEmpHandler} value={this.state.accountName} /></TableCell>
                             </TableRow>
                             <TableRow>
+
                                 <TableCell >우편번호</TableCell>
-                                <TableCell ><input type="text" name="postMail" placeholder="우편번호" onChange={this.onChangeEmpHandler} value={this.state.postMail}/></TableCell>
+                                <TableCell>
+                                    <Button onClick={this.searchAddress}>주소검색</Button>
+                                    <input type="text" name="postMail" placeholder="우편번호" onChange={this.onChangeEmpHandler} value={this.state.postMail} />
+                                </TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell >주소</TableCell>
-                                <TableCell ><input type="text" name="address" placeholder="주소" onChange={this.onChangeEmpHandler} value={this.state.address}/></TableCell>
+                                <TableCell ><input type="text" name="address" placeholder="주소" onChange={this.onChangeEmpHandler} value={this.state.address} /></TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell >기본급</TableCell>
-                                <TableCell ><input type="text" name="salary" placeholder="기본급" onChange={this.onChangeEmpHandler} value={this.state.salary}/></TableCell>
+                                <TableCell >부서코드</TableCell>
+                                <TableCell>
+                                    <select name="departmentId" onChange={this.onChangeEmpHandler}>
+                                        <option value="">부서선택</option>
+                                        <option value="인사팀">인사팀</option>
+                                        <option value="제조팀">제조팀</option>
+                                        <option value="재무팀">재무팀</option>
+                                        <option value="구매팀">구매팀</option>
+                                        <option value="영업팀">영업팀</option>
+                                        <option value="자재팀">자재팀</option>
+                                    </select>
+                                    {this.state.departmentId === '' ? '부서를 선택해주세요' : ''}
+                                </TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell >비밀번호</TableCell>
-                                <TableCell ><input type="password" name="password" placeholder="비밀번호" onChange={this.onChangeEmpHandler} value={this.state.password}/></TableCell>
+                                <TableCell ><input type="password" name="password" placeholder="비밀번호" onChange={this.onChangeEmpHandler} value={this.state.password} /></TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell >비밀번호 확인</TableCell>
-                                <TableCell ><input type="password" name="chkpassword" placeholder="비밀번호" onChange={this.onChangeEmpHandler} value={this.state.chkpassword}/></TableCell>
+                                <TableCell ><input type="password" name="chkpassword" placeholder="비밀번호" onChange={this.onChangeEmpHandler} value={this.state.chkpassword} /></TableCell>
                                 {this.state.password === this.state.chkpassword ? "암호가 일치합니다." : "암호가 일치하지 않습니다."}
                             </TableRow>
                         </TableBody>
                     </Table>
                     <hr />
-                    <Button onClick={this.onSubmitEmpAdd}>저장</Button>
+                    <Button variant="contained" style={normalButton} onClick={this.onSubmitEmpAdd}>등록</Button>
                 </div>
             </div>
         );
@@ -181,6 +217,16 @@ const trapezoidButton = {
     marginRight: '10px',
     clipPath: 'polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)',
     width: '120px',
+    height: '30px',
+    padding: '10px 20px'
+}
+
+// 기본 버튼 속성
+const normalButton = {
+    backgroundColor: 'navy',
+    color: 'white',
+    marginRight: '10px',
+    width: '150px',
     height: '30px',
     padding: '10px 20px'
 }

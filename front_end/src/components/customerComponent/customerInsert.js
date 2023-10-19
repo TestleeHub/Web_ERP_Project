@@ -85,8 +85,6 @@ class customerInsert extends Component {
 
     }
 
-
-
     searchAddress = () => {
         new window.daum.Postcode({
             oncomplete: (data) => {
@@ -103,7 +101,7 @@ class customerInsert extends Component {
 
             <div>
                 <br />
-                <Typography variant="h4" style={style}> 거래처등록 </Typography>
+                <Typography variant="h4" style={style}> 거래처 등록 </Typography>
                 <br />
                 <div>
                     <Button variant="contained" style={trapezoidButton}>기본</Button>
@@ -226,6 +224,7 @@ class customerInsert extends Component {
                                     placeholder="우편번호"
                                     onChange={this.onChangeHandler}
                                     value={this.state.postMail}
+                                    readOnly
                                 />
                             </TableCell>
                         </TableRow>
@@ -239,6 +238,7 @@ class customerInsert extends Component {
                                     placeholder="상세주소"
                                     onChange={this.onChangeHandler}
                                     value={this.state.address}
+                                    readOnly
                                 />
                             </TableCell>
                         </TableRow>

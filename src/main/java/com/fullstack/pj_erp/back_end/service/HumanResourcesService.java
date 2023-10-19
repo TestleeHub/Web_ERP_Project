@@ -44,6 +44,11 @@ public class HumanResourcesService {
 		repository.save(dto);
 	}
 	
+	// 급여등록
+	public void AddSalary(SalaryDTO dto) {
+		Salaryrepository.save(dto);
+	}
+	
 	// 급여 조회
 	public List<SalaryDTO> listSalary(){
 		

@@ -7,10 +7,10 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.fullstack.pj_erp.back_end.dto.CustomerDTO;
-import com.fullstack.pj_erp.back_end.dto.MaterialRecivesDTO;
-import com.fullstack.pj_erp.back_end.dto.ProductionItemsDTO;
+import com.fullstack.pj_erp.back_end.dto.TradeSlipDTO;
 import com.fullstack.pj_erp.back_end.repository.CustomerRepository;
 import com.fullstack.pj_erp.back_end.repository.TradeHistoryRepository;
+import com.fullstack.pj_erp.back_end.repository.TradeSlipRepository;
 import com.fullstack.pj_erp.back_end.util.EntityValidationFilter;
 
 import lombok.RequiredArgsConstructor;
@@ -20,8 +20,10 @@ import lombok.RequiredArgsConstructor;
 public class CustomerService {
 	
 	private final CustomerRepository customerRepository;
-	private final TradeHistoryRepository tradeHistoryRepository;
+	private final TradeSlipRepository tradeSlipRepository;
+	// private final TradeHistoryRepository tradeHistoryRepository;
 	
+	/* 거래처 관리 부분 시작 */
 	public List<CustomerDTO> getCustomerList(){
 		Sort sort = Sort.by(Sort.Order.desc("customerId"));
 		//validation 체크
@@ -36,7 +38,24 @@ public class CustomerService {
 	public void updateCustomerList(CustomerDTO dto) {
 		customerRepository.save(dto);
 	}
+	/* 거래처 관리 부분 끝 */
 	
+	/* 입금 관리 부분 시작 */
+	public List<TradeSlipDTO> getTradeSlip() {
+		Sort sort = Sort.by(Sort.Order.desc("slipId"));
+		//validation 체크
+		Specification<TradeSlipDTO> filter = new EntityValidationFilter<TradeSlipDTO>().excludeEntitiesWithCondition();
+		return tradeSlipRepository.findAll(filter, sort);
+	}
+	
+	public void addTradeSlip(TradeSlipDTO dto) {
+		tradeSlipRepository.save(dto);
+	}
 
+	public void updateTradeSlip(TradeSlipDTO dto) {
+		tradeSlipRepository.save(dto);
+	}
+	
+	/* 입금 관리 부분 끝 */
 
 }

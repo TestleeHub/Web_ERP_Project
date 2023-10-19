@@ -38,12 +38,6 @@ import salesForm_List from '../purchaseComponent/salesForm_List';
 import salesForm from '../purchaseComponent/salesForm';
 import salesList from '../purchaseComponent/salesList';
 import empAdd from '../humanResourcesComponent/empAdd';
-import orderConfimING from '../purchaseComponent/orderConfimING';
-import orderUnchecked from '../purchaseComponent/orderUnchecked';
-import orderChecked from '../purchaseComponent/orderChecked';
-import orderConfirm from '../purchaseComponent/orderConfirm';
-import purchaseING from '../purchaseComponent/purchaseING';
-import purchaseConfirm from '../purchaseComponent/purchaseConfirm';
 
 import empList from '../humanResourcesComponent/empList';
 import empProofMaking from '../humanResourcesComponent/empProofMaking';
@@ -51,6 +45,7 @@ import salaryReg from '../humanResourcesComponent/salaryReg';
 import SalaryStateSelect from '../humanResourcesComponent/SalaryStateSelect';
 import depList from '../humanResourcesComponent/depList';
 import depAdd from '../humanResourcesComponent/depAdd';
+import myEdit from '../commonComponent/myEdit';
 
 import purchaseBook from '../accountComponent/purchaseBook';
 import salesBook from '../accountComponent/salesBook';
@@ -108,13 +103,6 @@ const AppRouter = () => {
             <Route path='/purchase/salesForm_List' exact={true} component={salesForm_List} />
             <Route path='/purchase/salesForm' exact={true} component={salesForm} />
             <Route path='/purchase/salesList' exact={true} component={salesList} />
-            <Route path='/purchase/orderConfimING' exact={true} component={orderConfimING} />
-            <Route path='/purchase/orderUnchecked' exact={true} component={orderUnchecked} />
-            <Route path='/purchase/orderChecked' exact={true} component={orderChecked} />
-            <Route path='/purchase/orderConfirm' exact={true} component={orderConfirm} />
-
-            <Route path='/purchase/purchaseING' exact={true} component={purchaseING} />
-            <Route path='/purchase/purchaseConfirm' exact={true} component={purchaseConfirm} />
 
             <Route path='/humanResources' exact={true} component={empList} />
             <Route path='/humanResources/empAdd' exact={true} component={empAdd} />
@@ -138,6 +126,7 @@ const AppRouter = () => {
             <Route path='/login' exact={true} component={loginComponent} />
             <Route path='/logout' exact={true} component={logoutComponent} />
             <Route path='/accessDenied' exact={true} component={accessDeniedComponent} />
+            <Route path='/myEdit' exact={true} component={myEdit} />
         </Switch>
     );
 }

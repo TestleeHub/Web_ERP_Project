@@ -38,19 +38,27 @@ public class HumanResourcesController {
 		int carPay = 800000;			
 		int totalSalary = 0;
 		double nationalPension = 0; // 국민연금
-		double healthInsurance = 0;// 건강보험
-		double employInsurance = 0;// 고용보험
+		double healthInsurance = 0; // 건강보험
+		double employInsurance = 0; // 고용보험
+		int overTimePay = 0;		// 야근수당
+		int WeekendPay = 0;			// 주말수당
+		int VacationPay = 0;		// 연차수당
 		// 계산 끝
 		
 		System.out.println("\n<<</humanResources/empList>>>");
 		List<UserDTO> list = service.listEmp();
 		for(UserDTO dto : list) {
-		
+			
+			System.out.println("OvertimePay() - dto: " + dto.getSalar().getOvertimePay());
+			overTimePay = dto.getSalar().getOvertimePay() != null ? dto.getSalar().getOvertimePay() : 0;
+			WeekendPay = dto.getSalar().getWeekendPay() != null ? dto.getSalar().getWeekendPay() : 0;
+			VacationPay = dto.getSalar().getVacationPay() != null ? dto.getSalar().getVacationPay() : 0;
+			
 			// 차량유지비
 			dto.setCarPay(carPay); 
 			
 			// 총지급액
-			totalSalary = dto.getSalary() + carPay + DependentFamiliyPay; 
+			totalSalary = dto.getSalary() + carPay + DependentFamiliyPay + overTimePay + WeekendPay + VacationPay; 
 			dto.setTotalSalary(totalSalary);
 			
 			// 국민연금
@@ -82,8 +90,15 @@ public class HumanResourcesController {
 	@PostMapping(value = {"/humanResources/empAdd"})
 	public void empAdd(@RequestBody UserDTO dto) {
 		System.out.println("<<</humanResources/empAdd>>>");
-		dto.setJoinDate(new Date(System.currentTimeMillis()));
+		
+		if(dto.getJoinDate() == null) {
+			dto.setJoinDate(new Date(System.currentTimeMillis()));
+		}
+		
 		dto.setValidation(1);
+		
+		if(dto.getSalar() == null) dto.setSalar(new SalaryDTO());
+		dto.getSalar().setEmployeeId(dto.getEmployeeId());
 		
 		dto.setPassword(passwordEncoder.encode(CharBuffer.wrap(dto.getPassword())));
 		System.out.println(dto);
@@ -101,8 +116,8 @@ public class HumanResourcesController {
 		service.addEmp(dto);
 	}
 	
-	// emp 회원 수정(1명) 
-	@GetMapping(value = {"/humanResources/empEdit/{employeeId}"})
+	// emp 회원 수정 페이지 - 한명 조회(1명) 
+	@GetMapping(value = {"/myeEditPage/myDetail/{employeeId}"})
 	public UserDTO empEdit(@PathVariable(name = "employeeId") String employeeId){
 		
 		System.out.println("\n<<</humanResources/empEdit>>>");
@@ -111,6 +126,20 @@ public class HumanResourcesController {
 		System.out.println("dto:" + dto);
 		
 		return dto;
+	}
+	
+	// myPage 회원수정 - URL 바꾼거
+	@PostMapping(value = {"/myeEditPage/empUpdate"})
+	public void empUpdate(@RequestBody UserDTO dto) {
+		System.out.println("<<</humanResources/empUpdate>>>");
+
+//		if(dto.getSalar() == null) dto.setSalar(new SalaryDTO());
+//		dto.getSalar().setEmployeeId(dto.getEmployeeId());
+		
+		dto.setPassword(passwordEncoder.encode(CharBuffer.wrap(dto.getPassword())));
+		System.out.println(dto);
+		
+		service.addEmp(dto);
 	}
 	
 	// emp pwCheck 
@@ -123,6 +152,16 @@ public class HumanResourcesController {
 		
 		
 		return null;
+	}
+	
+	// 급여 등록
+	@PostMapping(value = {"/humanResources/salaryAdd"})
+	public void salaryAdd(@RequestBody SalaryDTO dto){
+		System.out.println("\n<<</humanResources/salaryAdd>>>");
+		System.out.println("dto:" + dto);
+		
+		dto.setValidation(1);
+		service.AddSalary(dto);	
 	}
 	
 	// 급여 조회
