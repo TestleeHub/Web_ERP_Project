@@ -97,8 +97,8 @@ public class HumanResourcesController {
 		
 		dto.setValidation(1);
 		
-		if(dto.getSalar() == null) dto.setSalar(new SalaryDTO());
-		dto.getSalar().setEmployeeId(dto.getEmployeeId());
+//		if(dto.getSalar() == null) dto.setSalar(new SalaryDTO());
+//		dto.getSalar().setEmployeeId(dto.getEmployeeId());
 		
 		dto.setPassword(passwordEncoder.encode(CharBuffer.wrap(dto.getPassword())));
 		System.out.println(dto);
