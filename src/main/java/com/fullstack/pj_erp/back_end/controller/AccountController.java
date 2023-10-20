@@ -1,14 +1,15 @@
 package com.fullstack.pj_erp.back_end.controller;
 
+import java.sql.Date;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fullstack.pj_erp.back_end.dto.FixedAssetsDTO;
 import com.fullstack.pj_erp.back_end.dto.PurchaseFormDTO;
 import com.fullstack.pj_erp.back_end.dto.Purchase_DetailDTO;
 import com.fullstack.pj_erp.back_end.dto.SalesDTO;
@@ -61,5 +62,39 @@ public class AccountController {
 		System.out.println(salesBookList);
 		
 		return salesBookList;
+	}
+	
+	// 고정자산 등록
+	@RequestMapping(value= {"/account/fixedAssetForm"})
+	public void fixedAssetsAdd(@RequestBody FixedAssetsDTO dto) {
+		System.out.println("[FixedAssetsDTO]: " + dto);
+		
+		// dto.setRegistDate(new Date(System.currentTimeMillis()));
+		dto.setValidation(1); // default = 1
+		
+		System.out.println("[FixedAssetsDTO] " + dto); // validation = 1 확인하기
+		
+		service.addFixedAsset(dto);
+	}
+	
+	// 고정자산 목록
+	@RequestMapping(value= {"/account/fixedAssetsList"})
+	public List<FixedAssetsDTO> fixedAssetsList() {
+		return service.listFixedAssets();
+	}
+	
+	// 고정자산 수정
+	@RequestMapping(value= {"/account/fixedAssetUpdate"}) // url 수정하기 >> fixedAssetsForm
+	public void fixedAssetUpdate(@RequestBody FixedAssetsDTO dto) {
+		System.out.println("[FixedAssetsDTO]: " + dto);
+		System.out.println(); // 10/16.월 시마이!
+	}
+	
+	// 고정자산 삭제
+	@RequestMapping(value= {"/account/fixedAssetDelete"})
+	public void fixedAssetDelete(@RequestBody FixedAssetsDTO dto) {
+		System.out.println("[FixedAssetsDTO]: " + dto);
+		dto.setValidation(0); // validation = 1 → 0
+		service.updateFixedAsset(dto);
 	}
 }

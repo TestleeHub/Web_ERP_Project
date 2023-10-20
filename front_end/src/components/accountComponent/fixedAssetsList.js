@@ -1,117 +1,257 @@
 // 고정자산목록, fixedAssetsList
 import React, { Component } from "react";
-import { Table, TableBody, TableCell, TableRow, TableHead, Button } from '@mui/material';
+import { Table, TableBody, TableCell, TableRow, TableHead, Button, responsiveFontSizes } from '@mui/material';
 import { Typography } from "@material-ui/core";
+import { request } from "../../helpers/axios_helper";
 
 class fixedAssetsList extends Component{
+
+    // 고정자산 목록 조회
+    fixedAssetsList = () => {
+        this.props.history.push("/account/fixedAssetsList");
+    }
+
+    constructor(props){
+        super(props);
+        this.state = {
+            datas: [],
+            displayedDatas: [],
+            showMore: true,
+            isLoading: true,
+            assetNo: "",
+            assetName: "",
+            assetType: "",
+            assetTitle: "",
+            assetTotal: "",
+            acquistionCost: "",
+            departmentId: "", // 담당부서로
+            registDate: "",
+            depreciation: ""
+        }
+    }
+
+    handleShowMoreClick = () => {
+        const { datas, displayedDatas } = this.state;
+        const currentLength = displayedDatas.length;
+        const nextChunk = datas.slice(currentLength, currentLength + 9);
+        const newDisplayedData = [...displayedDatas, ...nextChunk];
+        if(newDisplayedData.length === datas.length){
+            this.setState({ showMore: false });
+        }
+        this.setState({ displayedDatas: newDisplayedData });
+    }
+
+    // 라이프사이클 중, 콤포넌트 생성 후 사용자에게 노출되기 전까지의 전체 과정
+    componentDidMount(){
+        this.setState({ isLoading: true });
+        this.reloadData(); 
+    }
+
+    // 데이터 요청하기
+    reloadData = (e) => {
+        request(
+            "GET",
+            "/account/fixedAssetsList",
+            {
+
+            }).then((response) =>{
+                this.setState({
+                    datas: response.data,
+                    displayedDatas: response.data.slice(0, 5),
+                    isLoading: false
+                });
+                console.log('response: ', response);
+                
+            }).catch((error) => {
+                console.log('error : ', error);
+                if(error.response.status === 403){
+                    console.log('접근 권한이 없습니다.');
+                    this.props.history.push('/accessDenied');
+                }
+            })
+    }
+
+    // 데이터 수정하기
+    editData = (data) => {
+        window.localStorage.setItem("fixedAssetFormData", JSON.stringify(data));
+        this.props.history.push('/account/fixedAssetForm');
+    }
+
+    // 데이터 삭제하기 >>> validation: 1 → 0
+    deleteData = (targetdata) => {
+        request(
+            "PUT",
+            "/account/fixedAssetDelete",
+            {
+                assetNo: targetdata.assetNo,
+                departmentId: targetdata.departmentId,
+                assetName: targetdata.assetName,
+                assetType: targetdata.assetType,
+                assetTitle: targetdata.assetTitle,
+                assetTotal: targetdata.assetTotal,
+                acquistionCost: targetdata.acquistionCost,
+                registDate: targetdata.registDate,
+                depreciation: targetdata.depreciation
+            }).then((response) => {
+                this.setState({
+                    datas: this.state.datas.filter(data => data.assetNo !== targetdata.assetNo),
+                    displayedDatas: this.state.displayedDatas.filter(data => data.assetNo !== targetdata.assetNo)
+                });
+                console.log('response: ', response);
+            }).catch((error) => {
+                console.log('error: ', error);
+            })
+    }
+
+    formatDate = (timestamp) => {
+        const date = new Date(timestamp);
+        const year = date.getFullYear();
+        const month = (date.getMonth()+1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+
+        return `${year}-${month}-${day}`;
+    }
+
+    // 항목 별, 정렬하기
+    // this.state.displayDatas.slice() 적용 >>> displayDatas 배열 복사 
+    // slice(): 배열 복사 메소드, 원본 배열 수정 x
+    sortUsingAssetNo = () => { // assetNo 정렬
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.assetNo.localeCompare(b.assetNo);
+        })
+        this.setState({
+            displayedDatas: sortedData
+        })
+    }
+    sortUsingDepartmentId = () => { // departmentId 정렬
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.departmentId.localeCompare(b.departmentId);
+        })
+        this.setState({
+            displayedDatas: sortedData
+        })
+    }
+    sortUsingAssetName = () => { // assetName 정렬
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.assetName.localeCompare(b.assetName);
+        })
+        this.setState({
+            displayedDatas: sortedData
+        })
+    }
+    sortUsingAssetType = () => { // assetType 정렬
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.assetType.localeCompare(b.assetType);
+        })
+        this.setState({
+            displayedDatas: sortedData
+        })
+    }
+    sortUsingAssetTitle = () => { // assetTitle 정렬
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.assetTitle.localeCompare(b.assetTitle);
+        })
+        this.setState({
+            displayedDatas: sortedData
+        })
+    }
+    sortUsingAssetTotal = () => { // assetTotal 정렬
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.assetTotal.localeCompare(b.assetTotal);
+        })
+        this.setState({
+            displayedDatas: sortedData
+        })
+    }
+    sortUsingAcquistionCost = () => { // acquistionCost 정렬
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.acquistionCost.localeCompare(b.acquistionCost);
+        })
+        this.setState({
+            displayedDatas: sortedData
+        })
+    }
+    sortUsingRegistDate = () => { // registDate 정렬
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.registDate.localeCompare(b.registDate);
+        })
+        this.setState({
+            displayedDatas: sortedData
+        })
+    }
+
     render(){
+        const { displayedDatas, showMore } = this.state;
         return(
             <div>
-                <br/>
-                    <Typography variant="h4" style={style}> 고정자산대장 조회 </Typography>
-                <br/>
                 <div>
-                    <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>기본</Button>
+                    <Typography variant="h4" style={style}>고정자산 조회</Typography>
                 </div>
-                <Table style={{borderCollapse: 'collapse', border: 'none', backgroundColor: 'lightgray'}}>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell style={{border: 'none'}}>조회일자</TableCell>
-                            <TableCell style={{border: 'none'}}><input type="date" name="dateOfInquiry" value="#" onChange="#" /></TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell style={{border: 'none'}}>부서</TableCell>
-                            <TableCell style={{border: 'none'}}><input type="text" size="50" placeholder="[search] (부서)" /></TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell style={{border: 'none'}}>고정자산계정</TableCell>
-                            <TableCell style={{border: 'none'}}><input type="text" size="50" placeholder="[search] (고정자산계정)" /></TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell style={{border: 'none'}}>고정자산</TableCell>
-                            <TableCell style={{border: 'none'}}><input type="text" size="50" placeholder="[search] (고정자산)" /></TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell style={{border: 'none'}}>감가상각계산여부</TableCell>
-                            <TableCell style={{border: 'none'}}><input type="text" size="50" placeholder="[checkBox] 전체/계산/계산안함" /></TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell style={{border: 'none'}}>상태</TableCell>
-                            <TableCell style={{border: 'none'}}><input type="text" size="50" placeholder="[checkBox] 전체/보유/상각완료" /></TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell style={{border: 'none'}} colSpan={2}>양식 _____________________________________________________________________________ </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell style={{border: 'none'}}>최종수정자</TableCell>
-                            <TableCell style={{border: 'none'}}><input type="text" size="50" placeholder="(jsp기준)sessionID로 호출했듯이..." /></TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell style={{border: 'none'}}>적용양식</TableCell>
-                            <TableCell style={{border: 'none'}}>현황</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell style={{border: 'none'}}>데이터 보기형식</TableCell>
-                            <TableCell style={{border: 'none'}}><input type="text" size="50" placeholder="[search] (양식/그래프..?)" /></TableCell>
-                        </TableRow>
-                    </TableHead>
-                </Table>
-                <Button variant="contained" style={normalButton}>찾기(F8)</Button>
-                <Button variant="contained" style={normalButton}>금일</Button>
-                <Button variant="contained" style={normalButton}>전일</Button>
-                <Button variant="contained" style={normalButton}>금주(~오늘)</Button>
-                <Button variant="contained" style={normalButton}>전주</Button>
-                <Button variant="contained" style={normalButton}>금월(~오늘)</Button>
-                <Button variant="contained" style={normalButton}>전월</Button>
-                <Button variant="contained" style={normalButton}>금년</Button>
-                <Button variant="contained" style={normalButton}>전년</Button>
-                <Button variant="contained" style={normalButton}>종료일</Button>
-                <Button variant="contained" style={normalButton}>설정</Button>
-                <Button variant="contained" style={normalButton}>다시 작성</Button>
-                <br/><br/>
-
-                <Typography variant="h4" style={style}> 고정자산대장 </Typography>
-                <Typography variant="h10" style={style}> 회사명:(주)ERP_web </Typography>
-                <Typography variant="h10" style={style}> 2023/09/30 </Typography>
-                <Table style={{borderRight: '1px solid lightgray'}}>
-                    <TableHead style={{backgroundColor: 'lightgray'}}>
-                        <TableRow>
-                            <TableCell> 고정자산계정명 </TableCell>
-                            <TableCell> 고정자산코드 </TableCell>
-                            <TableCell> 고정자산명 </TableCell>
-                            <TableCell> 취득일자 </TableCell>
-                            <TableCell> 수량 </TableCell>
-                            <TableCell> 취득원가 </TableCell>
-                            <TableCell> 감가상각충당금 </TableCell>
-                            <TableCell> 적요 </TableCell>
-                            <TableCell> 상태 </TableCell>
-                            <TableCell> 감가상각계산여부 </TableCell>
-                            <TableCell> 상세내역 </TableCell>
-                        </TableRow>
-                    </TableHead>
-
-                    <TableBody>
-                        <TableRow style={{backgroundColor: 'ghostwhite'}}>
-                            <TableCell style={{borderRight: '1px solid lightgray'}}>  </TableCell>
-                            <TableCell style={{borderRight: '1px solid lightgray'}}>  </TableCell>
-                            <TableCell style={{borderRight: '1px solid lightgray'}}>  </TableCell>
-                            <TableCell style={{borderRight: '1px solid lightgray'}}>  </TableCell>
-                            <TableCell style={{borderRight: '1px solid lightgray'}}>  </TableCell>
-                            <TableCell style={{borderRight: '1px solid lightgray'}}>  </TableCell>
-                            <TableCell style={{borderRight: '1px solid lightgray'}}>  </TableCell>
-                            <TableCell style={{borderRight: '1px solid lightgray'}}>  </TableCell>
-                            <TableCell style={{borderRight: '1px solid lightgray'}}>  </TableCell>
-                            <TableCell style={{borderRight: '1px solid lightgray'}}>  </TableCell>
-                            <TableCell style={{borderRight: '1px solid lightgray'}}>  </TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
-
-                <br/>
-                
-                <Button variant="contained" style={normalButton}>인쇄</Button>
-                <Button variant="contained" style={normalButton}>리스트</Button>
-                <Button variant="contained" style={normalButton}>닫기</Button>
+                <div>
+                    <Button variant="contained" style={trapezoidButton} onClick={this.orderList}>발주 목록</Button>
+                </div>
+                <div>
+                    {this.state.isLoading ? (
+                            <p>로딩 중...</p>
+                        ) : (
+                        <Table style={{border: '1px solid lightgray', backgroundColor: 'ghostwhite'}}>
+                            <TableHead style={{backgroundColor: 'lightgray'}}>
+                                <TableRow>
+                                    <TableCell align="center">
+                                        
+                                    </TableCell>
+                                    <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingAssetNo()} align="center">고정자산 번호▽</TableCell>
+                                    <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingAssetTitle()} align="center">고정자산계정명▽</TableCell>
+                                    <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingAssetName()} align="center">고정자산명▽</TableCell>
+                                    <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingAssetType()} align="center">고정자산유형▽</TableCell>
+                                    <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingAssetTotal()} align="center">수량▽</TableCell>
+                                    <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingAcquistionCost()} align="center">취득원가▽</TableCell>
+                                    <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingRegistDate()} align="center">취득일자▽</TableCell>
+                                    <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingDepartmentId()} align="center">담당 부서명▽</TableCell>
+                                    <TableCell style={{fontWeight: 'bold'}} align="center">적요</TableCell>
+                                    <TableCell style={{fontWeight: 'bold'}} align="center">추가 작업</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {this.state.displayedDatas.map((data, index) => (
+                                    <TableRow>
+                                        <TableCell align="center">
+                                            {index + 1}
+                                        </TableCell>
+                                        <TableCell align="center">{data.assetNo}</TableCell>
+                                        <TableCell align="center">{data.assetTitle}</TableCell>
+                                        <TableCell align="center">{data.assetName}</TableCell>
+                                        <TableCell align="center">{data.assetType ? data.assetType : 'N/A'}</TableCell>
+                                        <TableCell align="center">{data.assetTotal}</TableCell>
+                                        <TableCell align="center">{data.acquistionCost}</TableCell>
+                                        <TableCell align="center">{this.formatDate(data.registDate)}</TableCell>
+                                        <TableCell align="center">{data.departmentId}</TableCell>
+                                        <TableCell align="center">{data.depreciation ? data.depreciation : 'N/A'}</TableCell>
+                                        <TableCell align="center">
+                                            <Button variant="contained" style={updateButton} onClick={() => this.editData(data)}>수정
+                                                <img className="penImage" 
+                                                    alt="pen" 
+                                                    src="../images/pen.png" 
+                                                    style={{marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)'}} 
+                                                />
+                                            </Button>
+                                            <Button variant="contained" style={deleteButton} onClick={() => this.deleteData(data)}>삭제
+                                                <img className="garbageImage" 
+                                                    alt="garbage" 
+                                                    src="../images/garbage.png" 
+                                                    style={{marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)'}} 
+                                                 />
+                                            </Button>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    )}
+                    {showMore && (
+                     <Button variant="contained" style={normalButton} onClick={this.handleShowMoreClick}>더 보기</Button>
+                    )}
+                </div>
             </div>
         );
     }
@@ -126,21 +266,43 @@ const style = {
 const trapezoidButton = {
     backgroundColor: 'navy',
     color: 'white',
-    marginRight: '10px',
-    clipPath: 'polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)',
+    clipPath: 'polygon(20% 2%, 80% 2%, 100% 100%, 0% 100%)',
     width: '120px',
-    height: '30px',
-    padding: '10px 20px'
+    height: '40px',
+    padding: '10px 20px',
+    borderTopLeftRadius: '100px',
+    borderTopRightRadius: '100px'
 }
 
 // 기본 버튼 속성
 const normalButton = {
     backgroundColor: 'navy',
     color: 'white',
-    marginRight: '10px',
     width: '120px',
     height: '30px',
     padding: '10px 20px'
+}
+
+// 수정 버튼 속성
+const updateButton = {
+    backgroundColor: '#FF8C0A',
+    color: 'white',
+    marginRight: '10px',
+    width: '100px',
+    height: '35px',
+    padding: '10px 20px',
+    borderRadius: '20px'
+}
+
+// 삭제 버튼 속성
+const deleteButton = {
+    backgroundColor: '#A52A2A',
+    color: 'white',
+    marginRight: '10px',
+    width: '100px',
+    height: '35px',
+    padding: '10px 20px',
+    borderRadius: '20px'
 }
 
 export default fixedAssetsList;
