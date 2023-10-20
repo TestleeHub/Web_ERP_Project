@@ -137,8 +137,8 @@ const LeftNavbar = () => {
               <NavLink exact to="/account/fixedAssetsList" activeClassName="activeClicked">
                 - 고정자산 조회<br />
               </NavLink>
-              <NavLink exact to="/account/fixedAssetsAdd" activeClassName="activeClicked">
-                - 고정자산 등록<br />
+              <NavLink exact to="/account/fixedAssetForm" activeClassName="activeClicked">
+                - 고정자산 입력<br />
               </NavLink>
             </div> : <></>}
 

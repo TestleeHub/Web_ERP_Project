@@ -52,7 +52,7 @@ import salesBook from '../accountComponent/salesBook';
 import dailyTrialBalance from '../accountComponent/dailyTrialBalance';
 import monthlyTrialBalance from '../accountComponent/monthlyTrialBalance';
 import fixedAssetsList from '../accountComponent/fixedAssetsList';
-import fixedAssetsAdd from '../accountComponent/fixedAssetsAdd';
+import fixedAssetForm from '../accountComponent/fixedAssetForm';
 
 import loginComponent from '../commonComponent/loginComponent';
 import logoutComponent from '../commonComponent/logoutComponent';
@@ -119,7 +119,7 @@ const AppRouter = () => {
             <Route path='/account/dailyTrialBalance' exact={true} component={dailyTrialBalance} />
             <Route path='/account/monthlyTrialBalance' exact={true} component={monthlyTrialBalance} />
             <Route path='/account/fixedAssetsList' exact={true} component={fixedAssetsList} />
-            <Route path='/account/fixedAssetsAdd' exact={true} component={fixedAssetsAdd} />
+            <Route path='/account/fixedAssetForm' exact={true} component={fixedAssetForm} />
 
             <Route path='/' exact={true} component={mainPage} />
             <Route path='/main' exact={true} component={mainPage} />
