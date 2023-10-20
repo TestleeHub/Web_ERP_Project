@@ -3,10 +3,10 @@ import { withRouter } from "react-router-dom";
 import { Table, TableHead, TableRow, TableCell, TableBody, Button, Typography, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
 import { request } from "../../helpers/axios_helper";
 
-class customerTradeSlipInsert extends Component{
+class customerTradeSlip2Insert extends Component{
     state = {
         slipId: "",
-        tradeType: "입금",
+        tradeType: "출금",
         money: "",
         customerId: "",
         title: "",
@@ -14,10 +14,10 @@ class customerTradeSlipInsert extends Component{
         openDialog: false
     }
 
-    // 입력 성공 후 "거래처 입금 목록" 페이지로 이동
+    // 입력 성공 후 "거래처 출금 목록" 페이지로 이동
     handleCloseDialog = () => {
         this.setState({ openDialog: false });
-        this.props.history.push("/customer/customerTradeSlip"); // "거래처 입금 목록" 페이지 경로
+        this.props.history.push("/customer/customerTradeSlip2"); // "거래처 출금 목록" 페이지 경로
     }
 
     // 라이프 사이클 중 컴포넌트가 생성된 후 사용자에게 보여지기 까지의 전체 과정을 렌더링
@@ -84,17 +84,17 @@ class customerTradeSlipInsert extends Component{
             })
 
     }
-    
-    // 거래처 입금 목록 페이지로 이동 함수
-    goToCustomerTradeSlip = () => {
-        this.props.history.push("/customer/customerTradeSlip");
+
+    // 거래처 출금 목록 페이지로 이동 함수
+    goToCustomerTradeSlip2 = () => {
+        this.props.history.push("/customer/customerTradeSlip2");
     }
 
     render(){
         return(
             <div>
                 <br />
-                <Typography variant="h4" style={style}> 거래처 입금 처리 </Typography>
+                <Typography variant="h4" style={style}> 거래처 출금 처리 </Typography>
                 <br />
                 <div>
                     <Button variant="contained" style={trapezoidButton}>기본</Button>
@@ -124,7 +124,7 @@ class customerTradeSlipInsert extends Component{
                                     name="tradeType"
                                     placeholder="거래유형"
                                     onChange={this.onChangeHandler}
-                                    value="입금"
+                                    value="출금"
                                     readOnly
                                 />
                             </TableCell>
@@ -167,12 +167,12 @@ class customerTradeSlipInsert extends Component{
                                     value={this.state.title}  //
                                 />
                             </TableCell>
-                        </TableRow>
+                        </TableRow>	
                     </TableHead>
                 </Table>
                 <br />
                 <Button variant="contained" style={normalButton} onClick={this.onSubmitAdd}>저장</Button>
-                <Button variant="contained" style={normalButton} onClick={this.goToCustomerTradeSlip}>목록</Button>
+                <Button variant="contained" style={normalButton} onClick={this.goToCustomerTradeSlip2}>목록</Button>
                 <Dialog
                     open={this.state.openDialog}
                     onClose={this.handleCloseDialog}
@@ -218,4 +218,4 @@ const normalButton = {
     padding: '10px 20px'
 }
 
-export default withRouter(customerTradeSlipInsert);
+export default withRouter(customerTradeSlip2Insert);

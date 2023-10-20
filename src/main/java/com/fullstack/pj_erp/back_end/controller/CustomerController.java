@@ -63,15 +63,15 @@ public class CustomerController {
 	/* 거래처 관리 부분 끝 */
 	
 	
-	/* 입금 관리 부분 시작 */
-	// 입금 조회
+	/* 입금/출금 관리 부분 시작 - 테이블은 같이, 입금/출금별 페이지는 다르게 준다. */
+	// 입금/출금 조회
 	@GetMapping(value = { "/customer/tradeSlip" })
 	public List<TradeSlipDTO> tradeSlip() {
 		
 		return service.getTradeSlip();
 	}
 	
-	// 입금 입력
+	// 입금/출금 입력
 	@PostMapping(value = { "/customer/tradeSlipAdd" })
 	public void tradeSlipAdd(@RequestBody TradeSlipDTO dto) {
 		System.out.println(dto);
@@ -84,14 +84,14 @@ public class CustomerController {
 		service.addTradeSlip(dto);
 	}
 	
-	// 입금 수정
+	// 입금/출금 수정
 	@PutMapping(value = { "/customer/tradeSlipUpdate" })
 	public void tradeSlipUpdate(@RequestBody TradeSlipDTO dto) {
 		System.out.println(dto);
 		service.updateTradeSlip(dto);
 	}
 	
-	// 입금 삭제(validation을 "1"에서 "0"으로 바꿔서 보이지 않도록 하는 방식)
+	// 입금/출금 삭제(validation을 "1"에서 "0"으로 바꿔서 보이지 않도록 하는 방식)
 	@PutMapping(value = { "/customer/tradeSlipDelete" })
 	public void tradeSlipDelete(@RequestBody TradeSlipDTO dto) {
 		System.out.println(dto);
@@ -99,6 +99,12 @@ public class CustomerController {
 		service.updateTradeSlip(dto);
 	}
 	
-	/* 입금 관리 부분 끝 */
+	/* 입금/출금 관리 부분 끝 */
+	
+	/* 거래내역 관리 부분 시작 */
+	
+	// 거리처 코드별, 전표번호별, 거래내역 ID별, 기업별, 가격별 오름차순 혹은 내림차순이 가능하게 해야 할 것. 
+	
+	/* 거래내역 관리 부분 끝 */
 	
 }

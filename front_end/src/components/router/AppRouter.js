@@ -58,6 +58,8 @@ import loginComponent from '../commonComponent/loginComponent';
 import logoutComponent from '../commonComponent/logoutComponent';
 import mainPage from '../commonComponent/mainPage';
 import accessDeniedComponent from '../commonComponent/accessDeniedComponent';
+import customerTradeSlip2 from '../customerComponent/customerTradeSlip2';
+import customerTradeSlip2Insert from '../customerComponent/customerTradeSlip2Insert';
 
 // Import other route components...
 
@@ -91,7 +93,9 @@ const AppRouter = () => {
             <Route path='/customer/customerInsert' exact={true} component={customerInsert} />
             <Route path='/customer/customerTradeHistory' exact={true} component={customerTradeHistory} />
             <Route path='/customer/CustomerTradeSlip' exact={true} component={customerTradeSlip} />
+            <Route path='/customer/CustomerTradeSlip2' exact={true} component={customerTradeSlip2} />
             <Route path='/customer/customerTradeSlipInsert' exact={true} component={customerTradeSlipInsert} />
+            <Route path='/customer/customerTradeSlip2Insert' exact={true} component={customerTradeSlip2Insert} />
             <Route path='/customer/customerIncome' exact={true} component={customerIncome} />
 
             <Route path='/purchase' exact={true} component={orderList} />
