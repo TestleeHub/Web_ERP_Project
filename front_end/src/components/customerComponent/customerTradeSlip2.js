@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Table, TableHead, TableRow, TableCell, TableBody, Button, Typography, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import { request } from "../../helpers/axios_helper";
 
-class customerTradeSlip extends Component{
+class customerTradeSlip2 extends Component{
     state = {
         datas: [],
         displayedDatas: [],
@@ -43,7 +43,7 @@ class customerTradeSlip extends Component{
             }).then((response) => {
                 this.setState({
                     datas: response.data,
-                    displayedDatas: response.data.slice(0, 10),
+                    displayedDatas: response.data.slice(0, 5),
                     isLoading: false
                 });
                 console.log('response : ', response);
@@ -56,7 +56,7 @@ class customerTradeSlip extends Component{
     editData = (data) => {
         //반드시 데이터를 한번 가져간 후 localStorage에서 삭제해 줘야 함
         window.localStorage.setItem("tradeSlipData", JSON.stringify(data));
-        this.props.history.push('/customer/customerTradeSlipInsert');
+        this.props.history.push('/customer/customerTradeSlip2Insert');
     }
 
     // delete // 실제 삭제가 아닌 validation만 0으로 변경
@@ -97,7 +97,7 @@ class customerTradeSlip extends Component{
         return (
             <div>
                 <br/>
-                <Typography variant='h4' style={style}> 거래처 입금 목록 </Typography>
+                <Typography variant='h4' style={style}> 거래처 출금 목록 </Typography>
                 <br/>
                 <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>전체</Button>
                 {/* 로딩 상태에 대한 조건부 렌더링 */}
@@ -118,7 +118,7 @@ class customerTradeSlip extends Component{
                         </TableHead>
                         
                         <TableBody>
-                            {this.state.displayedDatas.filter(data => data.tradeType === "입금").map((data, index) => (
+                            {this.state.displayedDatas.filter(data => data.tradeType === "출금").map((data, index) => (
                                 <TableRow>
                                     <TableCell> {data.slipId} </TableCell>
                                     <TableCell> {data.tradeType ? data.tradeType : 'N/A'} </TableCell>
@@ -140,7 +140,7 @@ class customerTradeSlip extends Component{
                 {showMore && (
                     <Button variant="contained" style={normalButton} onClick={this.handleShowMoreClick}>더 보기</Button>
                 )}
-                <Button variant="contained" style={normalButton} onClick={() => this.props.history.push('/customer/customerTradeSlipInsert')}>신규</Button>                  
+                <Button variant="contained" style={normalButton} onClick={() => this.props.history.push('/customer/customerTradeSlip2Insert')}>신규</Button>                  
             </div>
         );
     }
@@ -172,4 +172,4 @@ const normalButton = {
     padding: '10px 20px'
 }
 
-export default customerTradeSlip;
+export default customerTradeSlip2;

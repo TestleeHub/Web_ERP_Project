@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Table, TableHead, TableRow, TableCell, TableBody, Button, Typography, Tab } from '@mui/material';
+import { withRouter } from "react-router-dom";
+import { Table, TableHead, TableRow, TableCell, TableBody, Button, Typography, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import { request } from "../../helpers/axios_helper";
 
 class customerInsert extends Component {
@@ -14,6 +15,12 @@ class customerInsert extends Component {
         account: "",
         postMail: '',
         address: ''
+    }
+
+    // 입력 성공 후 "거래처 목록" 페이지로 이동
+    handleCloseDialog = () => {
+        this.setState({ openDialog: false });
+        this.props.history.push("/customer/customerList"); // "거래처 목록" 페이지 경로
     }
 
     // 라이프 사이클 중 컴포넌트가 생성된 후 사용자에게 보여지기 까지의 전체 과정을 렌더링
@@ -94,6 +101,11 @@ class customerInsert extends Component {
                 });
             }
         }).open();
+    }
+
+    // 거래처 목록 페이지로 이동 함수
+    goToCustomerList = () => {
+        this.props.history.push("/customer/customerList");
     }
 
     render() {
@@ -246,6 +258,21 @@ class customerInsert extends Component {
                 </Table>
                 <br />
                 <Button variant="contained" style={normalButton} onClick={this.onSubmitAdd}>저장</Button>
+                <Button variant="contained" style={normalButton} onClick={this.goToCustomerList}>목록</Button>
+                <Dialog
+                    open={this.state.openDialog}
+                    onClose={this.handleCloseDialog}
+                >
+                    <DialogTitle>알림</DialogTitle>
+                    <DialogContent>
+                        저장되었습니다.
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.handleCloseDialog} color="primary">
+                            확인
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </div>
         );
     }
@@ -277,4 +304,4 @@ const normalButton = {
     padding: '10px 20px'
 }
 
-export default customerInsert;
+export default withRouter(customerInsert);

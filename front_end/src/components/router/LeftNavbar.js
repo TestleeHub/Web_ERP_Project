@@ -191,11 +191,17 @@ const LeftNavbar = () => {
               <NavLink exact to="/customer/customerTradeHistory" activeClassName="activeClicked">
                 - 거래처 거래내역<br />
               </NavLink>
-              <NavLink exact to="/customer/CustomerTradeSlip" activeClassName="activeClicked">
+              <NavLink exact to="/customer/customerTradeSlip" activeClassName="activeClicked">
                 - 거래처 입금 목록<br />
               </NavLink>
               <NavLink exact to="/customer/customerTradeSlipInsert" activeClassName="activeClicked">
                 - 거래처 입금 처리<br />
+              </NavLink>
+              <NavLink exact to="/customer/customerTradeSlip2" activeClassName="activeClicked">
+                - 거래처 출금 목록<br />
+              </NavLink>
+              <NavLink exact to="/customer/customerTradeSlip2Insert" activeClassName="activeClicked">
+                - 거래처 출금 처리<br />
               </NavLink>
             </div> : <></>}
 
