@@ -45,6 +45,7 @@ src/main/resources/application.yml
 
 # testing
 /front_end/coverage
+/front_end.env
 
 # production
 /front_end/build
