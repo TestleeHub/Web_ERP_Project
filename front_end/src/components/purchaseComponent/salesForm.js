@@ -28,7 +28,8 @@ class salesForm extends Component{
             salesId: "",
             customerId: "",
             employeeId: "",
-            dueDate: "",
+            registDate: this.formatDate(new Date().getTime()),
+            salesBookId: "",
             details: [],
             isPopupOpen: false,
             isSD_PopupOpen: false,
@@ -77,7 +78,9 @@ class salesForm extends Component{
                 // 새로운 detail 항목 생성
                 const newDetail = {
                     productionItemId: detailData.productionItemId,
-                    standard: detailData.standard
+                    standard: detailData.standard,
+                    quantity: detailData.quantity,
+                    price: detailData.price
                 };
                 // details 배열에 새 항목 추가
                 newDetails.push(newDetail);
@@ -99,8 +102,8 @@ class salesForm extends Component{
                 {
                     productionItemId: "",
                     standard: "",
-                    quantity: 0,
-                    price: 0
+                    quantity: "",
+                    price: ""
                 }
             ]
         }));
@@ -147,7 +150,7 @@ class salesForm extends Component{
     // 추가 요청
     onSubmitAdd = (e) => {
         e.preventDefault();
-        if (!this.state.customerId || !this.state.employeeId || !this.state.dueDate || this.state.details.length === 0) {
+        if (!this.state.customerId || !this.state.employeeId || this.state.details.length === 0) {
             alert('저장 실패');
             return;
         }
@@ -155,10 +158,11 @@ class salesForm extends Component{
             "POST",
             "/purchase/salesForm",
             {
-                salesFormId: this.state.salesFormId,
+                salesId: this.state.salesId,
                 customerId: this.state.customerId,
                 employeeId: this.state.employeeId,
                 dueDate: this.state.dueDate,
+                salesBookId: this.state.salesBookId,
                 details: this.state.details
             }).then((response) => {
                 console.log('response : ', response);
@@ -171,6 +175,15 @@ class salesForm extends Component{
                     this.props.history.push('/accessDenied');
                 }
             })
+    }
+
+    formatDate = (timestamp) => {
+        const date = new Date(timestamp);
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 +1을 해줍니다.
+        const day = date.getDate().toString().padStart(2, '0');
+
+        return `${year}-${month}-${day}`;
     }
 
     onReset = () => {
@@ -272,13 +285,14 @@ class salesForm extends Component{
                                 </TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell style={{ border: 'none', fontWeight: 'bold' }}>납기 일자</TableCell>
+                                <TableCell style={{ border: 'none', fontWeight: 'bold' }}>판매 일자</TableCell>
                                 <TableCell style={{ border: 'none' }}>
-                                    <input 
-                                        type="date" 
-                                        name="dueDate" 
-                                        value={this.state.dueDate} 
-                                        onChange={this.onChangeHandler} 
+                                    <input
+                                        type="date"
+                                        name="registDate"
+                                        value={this.state.registDate}
+                                        onChange={this.onChangeHandler}
+                                        readOnly
                                     />
                                 </TableCell>
                                 <TableCell style={{ border: 'none', fontWeight: 'bold' }}>담당자</TableCell>
@@ -298,7 +312,6 @@ class salesForm extends Component{
                     </Table>
                 </div>
                 <div>
-                    <Button variant="outline-success" style={normalButton}>찾기</Button>
                     <Button variant="outline-success" style={normalButton} onClick={this.salesForm_List}>주문 목록</Button> 
                     <Button variant="outline-success" style={normalButton} onClick={this.salesForm}>판매 목록</Button>
                 </div>
@@ -317,9 +330,7 @@ class salesForm extends Component{
                         <TableBody>
                             {this.state.details.map((detail, index) => (
                                 <TableRow key={index}>
-                                    <TableCell style={{ border: 'none' }} align="center">
-                                        {index + 1}
-                                    </TableCell>
+                                    <TableCell style={{ border: 'none' }} align="center">{index + 1}</TableCell>
                                     <TableCell style={{ border: 'none' }} align="center">
                                         <input 
                                             type="text"
@@ -328,6 +339,7 @@ class salesForm extends Component{
                                             onChange={this.onChangeHandler}
                                             onClick={() => this.openSD_Popup(index)}
                                             value={detail.productionItemId}
+                                            readOnly
                                         />
                                     </TableCell>
                                     <TableCell style={{ border: 'none' }} align="center">
@@ -336,7 +348,6 @@ class salesForm extends Component{
                                             name={`details[${index}].standard`}
                                             size="10"
                                             onChange={this.onChangeHandler}
-                                            onClick={() => this.openSD_Popup(index)}
                                             value={detail.standard}
                                         />
                                     </TableCell>

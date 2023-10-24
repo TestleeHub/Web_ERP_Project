@@ -43,6 +43,7 @@ class orderForm extends Component {
         const data = window.localStorage.getItem("orderFormData");
         console.log(data);
         if (data != null) {
+            // 반환된 데이터는 주로 JSON 형태의 문자열이므로, 이를 JavaScript 객체로 변환하기 위해 JSON.parse()를 사용할 수 있습니다.
             const parsedData = JSON.parse(data);
             this.setState(parsedData);
             window.localStorage.removeItem('orderFormData');
@@ -92,8 +93,8 @@ class orderForm extends Component {
                 {
                     materialId: "",
                     standard: "",
-                    quantity: 0,
-                    price: 0
+                    quantity: "",
+                    price: ""
                 }
             ]
         }));
@@ -144,6 +145,7 @@ class orderForm extends Component {
             alert('저장 실패');
             return;
         }
+        
         request(
             "POST",
             "/purchase/orderForm",
@@ -164,6 +166,15 @@ class orderForm extends Component {
                     this.props.history.push('/accessDenied');
                 }
             })
+    }
+
+    formatDate = (timestamp) => {
+        const date = new Date(timestamp);
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 +1을 해줍니다.
+        const day = date.getDate().toString().padStart(2, '0');
+
+        return `${year}-${month}-${day}`;
     }
 
     onReset = () => {
@@ -313,7 +324,6 @@ class orderForm extends Component {
                     </Table>
                 </div>
                 <div>
-                    <Button variant="outline-success" style={normalButton}>찾기</Button>
                     <Button variant="outline-success" style={normalButton} onClick={this.orderList}>발주 목록</Button>
                     <Button variant="outline-success" style={normalButton} onClick={this.purchaseList}>구매 목록</Button>
                 </div>
@@ -341,11 +351,11 @@ class orderForm extends Component {
                                             type="text"
                                             name={`details[${index}].materialId`}
                                             size="10"
-                                            placeholder="원자재 코드"
+                                            placeholder="원자재 코드(검색)"
                                             onChange={this.onChangeHandler}
                                             onClick={() => this.openMaterialPopup(index)}
-                                            readOnly
                                             value={detail.materialId}
+                                            readOnly
                                         />
                                     </TableCell>
                                     <TableCell style={{ border: 'none' }} align="center">
@@ -353,6 +363,7 @@ class orderForm extends Component {
                                             type="text"
                                             name={`details[${index}].standard`}
                                             size="10"
+                                            placeholder="규격(입력)"
                                             onChange={this.onChangeHandler}
                                             value={detail.standard}
                                         />

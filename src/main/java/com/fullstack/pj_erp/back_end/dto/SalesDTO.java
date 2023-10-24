@@ -50,8 +50,8 @@ public class SalesDTO {
 	@JoinColumn(name = "EMPLOYEEID", insertable = false, updatable = false)
 	private UserDTO employee; 	// Employee 테이블 FK
 	
-	@Column(name = "DUEDATE")
-	private Date dueDate;
+	@Column(name = "REGISTDATE")
+	private Date registDate;
 	
 	@Column(name = "SALESBOOKID")
 	private String salesBookId;
@@ -71,18 +71,30 @@ public class SalesDTO {
 	
 	@PrePersist
 	private void generateId() {
-		// 현재 날짜와 시간
-		java.util.Date currentDate = new java.util.Date();
+		if(salesId == null || salesId.length() == 0) {
+			// 현재 날짜와 시간
+			java.util.Date currentDate = new java.util.Date();
+			
+			// SimpleDateFormat을 사용하여 날짜와 시간을 "yyMMddHHmmss" 형식으로 포맷
+			SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
+			String key = sdf.format(currentDate);
+			
+			// 데이터베이스 항목에 PK 컬럼이 VARCHAR2(20)으로 되어있는지 확인
+			this.salesId = "SA" + key;
+			System.out.println("판매 ID : " + salesId);
+		}
 		
-		// SimpleDateFormat을 사용하여 날짜와 시간을 "yyMMddHHmmss" 형식으로 포맷
-		SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
-		String key = sdf.format(currentDate);
-		
-		// 데이터베이스 항목에 PK 컬럼이 VARCHAR2(20)으로 되어있는지 확인
-		this.salesId = "SA" + key;
-		System.out.println("판매 ID : " + salesId);
-		
-		this.salesBookId = "SB" + key;
-		System.out.println("판매장 ID : " + salesBookId);
+		if(salesBookId == null || salesBookId.length() == 0) {
+			// 현재 날짜와 시간
+			java.util.Date currentDate = new java.util.Date();
+			
+			// SimpleDateFormat을 사용하여 날짜와 시간을 "yyMMddHHmmss" 형식으로 포맷
+			SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
+			String key = sdf.format(currentDate);
+			
+			// 데이터베이스 항목에 PK 컬럼이 VARCHAR2(20)으로 되어있는지 확인
+			this.salesBookId = "SB" + key;
+			System.out.println("판매장 ID : " + salesBookId);
+		}
 	}
 }

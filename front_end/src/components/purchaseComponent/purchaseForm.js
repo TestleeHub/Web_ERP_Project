@@ -28,7 +28,9 @@ class purchaseForm extends Component {
             purchaseId: "",
             customerId: "",
             employeeId: "",
-            dueDate: "",
+            registDate: this.formatDate(new Date().getTime()),
+            purchaseBookId: "",
+            orderFormId:"",
             details: [],
             isPopupOpen: false,
             isD_PopupOpen: false,
@@ -54,9 +56,6 @@ class purchaseForm extends Component {
     openD_Popup = (detailIndex) => {
         this.setState({isD_PopupOpen: true, detailIndex: detailIndex})
     }
-    // openD_Popup = () => {
-    //     this.setState({ isD_PopupOpen: true });
-    // }
 
     // 팝업 닫기
     closePopup = () => {
@@ -68,6 +67,7 @@ class purchaseForm extends Component {
 
     // 팝업에서 선택한 데이터를 받아오는 콜백 함수
     handlePopupData = (data) => {
+        this.setState({ orderFormId: data.orderFormId, isPopupOpen: false });
         this.setState({ customerId: data.customerId, isPopupOpen: false });
         this.setState({ employeeId: data.employeeId, isPopupOpen: false });
     }
@@ -80,7 +80,9 @@ class purchaseForm extends Component {
                 // 새로운 detail 항목 생성
                 const newDetail = {
                     materialId: detailData.materialId,
-                    standard: detailData.standard
+                    standard: detailData.standard,
+                    quantity: detailData.quantity,
+                    price: detailData.price
                 };
                 // details 배열에 새 항목 추가
                 newDetails.push(newDetail);
@@ -103,8 +105,8 @@ class purchaseForm extends Component {
                 {
                     materialId: "",
                     standard: "",
-                    quantity: 0,
-                    price: 0
+                    quantity: "",
+                    price: ""
                 }
             ]
         }));
@@ -151,7 +153,7 @@ class purchaseForm extends Component {
     // 추가 요청
     onSubmitAdd = (e) => {
         e.preventDefault();
-        if (!this.state.customerId || !this.state.employeeId || !this.state.dueDate || this.state.details.length === 0) {
+        if (!this.state.customerId || !this.state.employeeId || this.state.details.length === 0) {
             alert('저장 실패');
             return;
         }
@@ -159,10 +161,12 @@ class purchaseForm extends Component {
             "POST",
             "/purchase/purchaseForm",
             {
-                purcahseId: this.state.purchaseId,
+                purchaseId: this.state.purchaseId,
                 customerId: this.state.customerId,
                 employeeId: this.state.employeeId,
-                dueDate: this.state.dueDate,
+                registDate: this.state.registDate,
+                purchaseBookId: this.state.purchaseBookId,
+                orderFormId: this.state.orderFormId,
                 details: this.state.details
             }).then((response) => {
                 console.log('response : ', response);
@@ -177,12 +181,22 @@ class purchaseForm extends Component {
             })
     }
 
+    formatDate = (timestamp) => {
+        const date = new Date(timestamp);
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 +1을 해줍니다.
+        const day = date.getDate().toString().padStart(2, '0');
+
+        return `${year}-${month}-${day}`;
+    }
+
     onReset = () => {
         this.setState({
             purchaseId: "",
             customerId: "",
             employeeId: "",
-            dueDate: "",
+            registDate: "",
+            orderFormId: "",
             details: [],
             isPopupOpen: false,
             isD_PopupOpen: false,
@@ -277,13 +291,14 @@ class purchaseForm extends Component {
                                 </TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell style={{ border: 'none', fontWeight: 'bold' }}>납기 일자</TableCell>
+                                <TableCell style={{ border: 'none', fontWeight: 'bold' }}>구매 일자</TableCell>
                                 <TableCell style={{ border: 'none' }}>
                                     <input
                                         type="date"
-                                        name="dueDate"
-                                        value={this.state.dueDate}
+                                        name="registDate"
+                                        value={this.state.registDate}
                                         onChange={this.onChangeHandler}
+                                        readOnly
                                     />
                                 </TableCell>
                                 <TableCell style={{ border: 'none', fontWeight: 'bold' }}>담당자</TableCell>
@@ -303,7 +318,6 @@ class purchaseForm extends Component {
                     </Table>
                 </div>
                 <div>
-                    <Button variant="outline-success" style={normalButton}>찾기</Button>
                     <Button variant="outline-success" style={normalButton} onClick={this.orderList}>발주 목록</Button>
                     <Button variant="outline-success" style={normalButton} onClick={this.purchaseList}>구매 목록</Button>
                 </div>
@@ -311,9 +325,7 @@ class purchaseForm extends Component {
                     <Table style={{ marginBottom: 15, width: '80%', border: '1px solid lightgray', backgroundColor: 'ghostwhite' }}>
                         <TableHead style={{borderBottomStyle: '1px solid lightgray'}}>
                             <TableRow>
-                                <TableCell style={{ border: 'none' }} align="center">
-                                    
-                                </TableCell>
+                                <TableCell style={{ border: 'none', fontWeight: 'bold' }} align="center"></TableCell>
                                 <TableCell style={{ border: 'none', fontWeight: 'bold' }} align="center">원재료코드</TableCell>
                                 <TableCell style={{ border: 'none', fontWeight: 'bold' }} align="center">규격</TableCell>
                                 <TableCell style={{ border: 'none', fontWeight: 'bold' }} align="center">수량</TableCell>
@@ -324,9 +336,7 @@ class purchaseForm extends Component {
                         <TableBody>
                             {this.state.details.map((detail, index) => (
                                 <TableRow key={index}>
-                                    <TableCell style={{ border: 'none' }} align="center">
-                                        {index + 1}
-                                    </TableCell>
+                                    <TableCell style={{ border: 'none' }} align="center">{index + 1}</TableCell>
                                     <TableCell style={{ border: 'none' }} align="center">
                                         <input
                                             type="text"
@@ -344,9 +354,7 @@ class purchaseForm extends Component {
                                             name={`details[${index}].standard`}
                                             size="10"
                                             onChange={this.onChangeHandler}
-                                            onClick={() => this.openD_Popup(index)}
                                             value={detail.standard}
-                                            readOnly
                                         />
                                     </TableCell>
                                     <TableCell style={{ border: 'none' }} align="center">

@@ -35,8 +35,6 @@ public class PurchaseController {
 	public void orderForm(@RequestBody OrderFormDTO dto) {
 		System.out.println("[OrderFormDTO] : " + dto);
 		
-		dto.setDueDate(new Date(System.currentTimeMillis()));
-		
 		dto.setValidation(1); // 디폴트 값 : 1
 		// 최초 생성시에만 id를 만들어주고 update 시엔 아이디 따로 생성하지 않음
 		if(dto.getOrderFormId() == null || dto.getOrderFormId().length() == 0) {
@@ -77,8 +75,7 @@ public class PurchaseController {
 	public void purchaseForm(@RequestBody PurchaseFormDTO dto) {
 		System.out.println("[PurchaseFormDTO] : " + dto);
 		
-		dto.setDueDate(new Date(System.currentTimeMillis()));
-		
+		dto.setRegistDate(new Date(System.currentTimeMillis()));
 		dto.setValidation(1); // 디폴트 값 : 1
 		dto.setAccountReflect(1);
 		// 최초 생성시에만 id를 만들어주고 update 시엔 아이디 따로 생성하지 않음
@@ -122,8 +119,6 @@ public class PurchaseController {
 	public void salesForm_Form(@RequestBody SalesFormDTO dto) {
 		System.out.println("[SalesFormDTO] : " + dto);
 		
-		dto.setDueDate(new Date(System.currentTimeMillis()));
-		
 		dto.setValidation(1); // 디폴트 값 : 1
 		// 최초 생성시에만 id를 만들어주고 update 시엔 아이디 따로 생성하지 않음
 		if(dto.getSalesFormId() == null || dto.getSalesFormId().length() == 0) {
@@ -164,8 +159,7 @@ public class PurchaseController {
 	public void salesForm(@RequestBody SalesDTO dto) {
 		System.out.println("[SalesDTO] : " + dto);
 		
-		dto.setDueDate(new Date(System.currentTimeMillis()));
-		
+		dto.setRegistDate(new Date(System.currentTimeMillis()));
 		dto.setValidation(1); // 디폴트 값 : 1
 		dto.setAccountReflect(1);
 		// 최초 생성시에만 id를 만들어주고 update 시엔 아이디 따로 생성하지 않음

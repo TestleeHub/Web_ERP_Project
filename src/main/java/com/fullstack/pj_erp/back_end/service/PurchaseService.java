@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class PurchaseService {
 
-	private final  OrderFormRepository repository;
+	private final OrderFormRepository repository;
 	private final PurchaseFormRepository p_repository;
 	private final SalesFormRepository sf_repository;
 	private final SalesRepository s_repository;
@@ -62,7 +62,7 @@ public class PurchaseService {
 	public List<PurchaseFormDTO> listPurchase() {
 		System.out.println("구매 목록 - listPurchase");
 		
-		Sort sort = Sort.by(Sort.Order.desc("dueDate"));
+		Sort sort = Sort.by(Sort.Order.desc("registDate"));
 		
 		// validation 체크
 		Specification<PurchaseFormDTO> filter = new EntityValidationFilter<PurchaseFormDTO>().excludeEntitiesWithCondition();
@@ -110,7 +110,7 @@ public class PurchaseService {
 	public List<SalesDTO> listSales() {
 		System.out.println("판매 목록 - listSales");
 		
-		Sort sort = Sort.by(Sort.Order.desc("dueDate"));
+		Sort sort = Sort.by(Sort.Order.desc("registDate"));
 		
 		// validation 체크
 		Specification<SalesDTO> filter = new EntityValidationFilter<SalesDTO>().excludeEntitiesWithCondition();

@@ -128,8 +128,8 @@ class salesList extends Component{
         })
     }
 
-    // 품목 코드 정렬
-    sortUsingProductionItemId = () => {
+    // 품목명 정렬
+    sortUsingProductionItemName = () => {
         const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
             return a.details[0].productionItemId.localeCompare(b.details[0].productionItemId);
         })
@@ -178,7 +178,7 @@ class salesList extends Component{
                                 <TableCell align="center"></TableCell>
                                 <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingSalesId()} align="center">판매 번호▽</TableCell>
                                 <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingCustomerName()} align="center">거래처명▽</TableCell>
-                                <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingProductionItemId()} align="center">품목 코드▽</TableCell>
+                                <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingProductionItemName()} align="center">품목 코드▽</TableCell>
                                 <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingPrice()} align="center">금액 합계▽</TableCell>
                                 <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingAccountReflect()} align="center">회계 반영 여부▽</TableCell>
                                 <TableCell style={{fontWeight: 'bold'}} align="center">추가 작업</TableCell>
@@ -193,9 +193,18 @@ class salesList extends Component{
                                     <TableCell align="center">{data.salesId}</TableCell>
                                     <TableCell align="center">{data.customer ? data.customer.name : 'N/A'}</TableCell>
                                     <TableCell align="center">{data.details[0].productionItemId ? data.details[0].productionItemId : 'N/A'}</TableCell>
-                                    {/* 수량 * 단가 */}
-                                    <TableCell align="center">{(data.details[0].price*data.details[0].quantity) ? (data.details[0].price*data.details[0].quantity) : 'N/A'}</TableCell>
-                                    <TableCell align="center">{data.accountReflect ? data.accountReflect : 'N/A'}</TableCell>
+                                    <TableCell align="center">
+                                        {
+                                            (() => { 
+                                                const grandTotal = data.details.reduce((total, item) => {
+                                                    return total + (item.price * item.quantity); 
+                                                }, 0); 
+                                                const grandTotalNumber = parseInt(grandTotal, 10);
+                                                return <div>{grandTotalNumber > 0 ? grandTotalNumber.toLocaleString()+'원' : 'N/A'}</div>; 
+                                            })()
+                                        }
+                                    </TableCell>
+                                    <TableCell align="center">{data.accountReflect ? "반영 완료" : 'N/A'}</TableCell>
                                     <TableCell align="center">
                                         <Button variant="contained" style={updateButton} onClick={() => this.editData(data)}>수정
                                             <img className="penImage" 

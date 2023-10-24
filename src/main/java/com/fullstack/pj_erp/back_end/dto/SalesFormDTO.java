@@ -64,15 +64,17 @@ public class SalesFormDTO {
 	
 	@PrePersist
 	private void generateId() {
-		// 현재 날짜와 시간
-		java.util.Date currentDate = new java.util.Date();
-		
-		// SimpleDateFormat을 사용하여 날짜와 시간을 "yyMMddHHmmss" 형식으로 포맷
-		SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
-		String key = sdf.format(currentDate);
-		
-		// 데이터베이스 항목에 PK 컬럼이 VARCHAR2(20)으로 되어있는지 확인
-		this.salesFormId = "SF" + key;
-		System.out.println("주문서 ID : " + salesFormId);
+		if(salesFormId == null || salesFormId.length() == 0) {
+			// 현재 날짜와 시간
+			java.util.Date currentDate = new java.util.Date();
+			
+			// SimpleDateFormat을 사용하여 날짜와 시간을 "yyMMddHHmmss" 형식으로 포맷
+			SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
+			String key = sdf.format(currentDate);
+			
+			// 데이터베이스 항목에 PK 컬럼이 VARCHAR2(20)으로 되어있는지 확인
+			this.salesFormId = "SF" + key;
+			System.out.println("주문서 ID : " + salesFormId);
+		}
 	}
 }

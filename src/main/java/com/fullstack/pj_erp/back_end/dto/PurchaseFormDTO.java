@@ -56,8 +56,8 @@ public class PurchaseFormDTO {
 	private UserDTO employee; 			// Employee 테이블 FK
 	
 	// 납기일
-	@Column(name = "DUEDATE")
-	private Date dueDate;
+	@Column(name = "REGISTDATE")
+	private Date registDate;
 	
 	// 구매장 아이디
 	@Column(name = "PURCHASEBOOKID")
@@ -65,6 +65,13 @@ public class PurchaseFormDTO {
 //	@OneToOne
 //	@JoinColumn(name = "PURCHASEBOOKID")
 //	private PurchaseBook purchaseBook; 	// PurchaseBook 테이블 FK
+	
+	// 발주 아이디
+	@Column(name = "ORDERFORMID")
+	private String orderFormId;
+	@OneToOne
+	@JoinColumn(name = "ORDERFORMID", insertable = false, updatable = false)
+	private OrderFormDTO orderId;
 	
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "PURCHASEID")
@@ -78,18 +85,30 @@ public class PurchaseFormDTO {
 	
 	@PrePersist
 	private void generateId() {
-		// 현재 날짜와 시간
-		java.util.Date currentDate = new java.util.Date();
+		if(purchaseId == null || purchaseId.length() == 0) {
+			// 현재 날짜와 시간
+			java.util.Date currentDate = new java.util.Date();
+			
+			// SimpleDateFormat을 사용하여 날짜와 시간을 "yyMMddHHmmss" 형식으로 포맷
+			SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
+			String key = sdf.format(currentDate);
+			
+			// 데이터베이스 항목에 PK 컬럼이 VARCHAR2(20)으로 되어있는지 확인
+			this.purchaseId = "PU" + key;
+			System.out.println("구매 ID : " + purchaseId);
+		}
 		
-		// SimpleDateFormat을 사용하여 날짜와 시간을 "yyMMddHHmmss" 형식으로 포맷
-		SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
-		String key = sdf.format(currentDate);
-		
-		// 데이터베이스 항목에 PK 컬럼이 VARCHAR2(20)으로 되어있는지 확인
-		this.purchaseId = "PU" + key;
-		System.out.println("구매 ID : " + purchaseId);
-		
-		this.purchaseBookId = "PB" + key;
-		System.out.println("구매장 ID : " + purchaseBookId);
+		if(purchaseBookId == null || purchaseBookId.length() == 0) {
+			// 현재 날짜와 시간
+			java.util.Date currentDate = new java.util.Date();
+			
+			// SimpleDateFormat을 사용하여 날짜와 시간을 "yyMMddHHmmss" 형식으로 포맷
+			SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
+			String key = sdf.format(currentDate);
+			
+			// 데이터베이스 항목에 PK 컬럼이 VARCHAR2(20)으로 되어있는지 확인
+			this.purchaseBookId = "PB" + key;
+			System.out.println("구매장 ID : " + purchaseBookId);
+		}
 	}
 }
