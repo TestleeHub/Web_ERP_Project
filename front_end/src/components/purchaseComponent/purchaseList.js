@@ -19,7 +19,7 @@ class purchaseList extends Component{
             purchaseId: "",
             customerId: "",
             employeeId: "",
-            dueDate: "",
+            registDate: "",
             accountReflect: 0,
             details: []
         }
@@ -82,7 +82,7 @@ class purchaseList extends Component{
                 customerId: targetdata.customerId,
                 employeeId: targetdata.employeeId,
                 details: targetdata.details,
-                dueDate : targetdata.dueDate
+                registDate : targetdata.registDate
             }).then((response) => {
                 this.setState({
                     datas: this.state.datas.filter(data => data.purchaseId !== targetdata.purchaseId),
@@ -128,10 +128,10 @@ class purchaseList extends Component{
         })
     }
 
-    // 원재료 코드 정렬
-    sortUsingMaterialId = () => {
+    // 원재료명 정렬
+    sortUsingMaterialName = () => {
         const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
-            return a.details[0].materialId.localeCompare(b.details[0].materialId);
+            return a.details[0].material.name.localeCompare(b.details[0].material.name);
         })
         this.setState({
             displayedDatas: sortedData
@@ -178,7 +178,7 @@ class purchaseList extends Component{
                                 <TableCell align="center"></TableCell>
                                 <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingPurchaseId()} align="center">구매 번호▽</TableCell>
                                 <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingCustomerName()} align="center">거래처명▽</TableCell>
-                                <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingMaterialId()} align="center">원재료 코드▽</TableCell>
+                                <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingMaterialName()} align="center">원재료명▽</TableCell>
                                 <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingPrice()} align="center">금액 합계▽</TableCell>
                                 <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingAccountReflect()} align="center">회계 반영 여부▽</TableCell>
                                 <TableCell style={{fontWeight: 'bold'}} align="center">추가 작업</TableCell>
@@ -192,10 +192,19 @@ class purchaseList extends Component{
                                     </TableCell>
                                     <TableCell align="center">{data.purchaseId}</TableCell>
                                     <TableCell align="center">{data.customer ? data.customer.name : 'N/A'}</TableCell>
-                                    <TableCell align="center">{data.details[0].materialId ? data.details[0].materialId : 'N/A'}</TableCell>
-                                    {/* 수량 * 단가 */}
-                                    <TableCell align="center">{(data.details[0].price*data.details[0].quantity) ? (data.details[0].price*data.details[0].quantity) : 'N/A'}</TableCell>
-                                    <TableCell align="center">{data.accountReflect ? data.accountReflect : 'N/A'}</TableCell>
+                                    <TableCell align="center">{data.details[0].material ? data.details[0].material.name : 'N/A'}</TableCell>
+                                    <TableCell align="center">
+                                        {
+                                            (() => {  // () => : 즉시 실행되는 함수(IIFE)
+                                                const grandTotal = data.details.reduce((total, item) => { // reduce : 배열의 각 요소에 대해 함수를 실행하고 하나의 결과값을 반환하는 메서드
+                                                    return total + (item.price * item.quantity);  // 각 항목의 가격과 수량을 곱한 후 누적 합산합니다.
+                                                }, 0);  // 초기 total 값은 0입니다.
+                                                const grandTotalNumber = parseInt(grandTotal, 10);
+                                                return <div>{grandTotalNumber > 0 ? grandTotalNumber.toLocaleString()+'원' : 'N/A'}</div>;  // grandTotal 값이 0보다 큰 경우 grandTotal을 출력하고, 그렇지 않으면 'N/A'를 출력합니다.
+                                            })()
+                                        }
+                                    </TableCell>
+                                    <TableCell align="center">{data.accountReflect ? "반영 완료" : 'N/A'}</TableCell>
                                     <TableCell align="center">
                                         <Button variant="contained" style={updateButton} onClick={() => this.editData(data)}>수정
                                             <img className="penImage" 

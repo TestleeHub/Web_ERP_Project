@@ -132,9 +132,9 @@ class salesForm_List extends Component{
     }
 
     // 담당자 정렬
-    sortUsingEmployeeId = () => {
+    sortUsingEmployeeName = () => {
         const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
-            return a.employeeId.localeCompare(b.employeeId);
+            return a.employee.name.localeCompare(b.employee.name);
         })
         this.setState({
             displayedDatas: sortedData
@@ -183,7 +183,7 @@ class salesForm_List extends Component{
                                 </TableCell>
                                 <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingSalesFormId()} align="center">주문 번호▽</TableCell>
                                 <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingCustomerName()} align="center">거래처명▽</TableCell>
-                                <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingEmployeeId()} align="center">담당자▽</TableCell>
+                                <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingEmployeeName()} align="center">담당자▽</TableCell>
                                 <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingDueDate()} align="center">납기일▽</TableCell>
                                 <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingPrice()} align="center">금액▽</TableCell>
                                 <TableCell style={{fontWeight: 'bold'}} align="center">진행 상태</TableCell>
@@ -198,7 +198,7 @@ class salesForm_List extends Component{
                                     </TableCell>
                                     <TableCell align="center">{data.salesFormId}</TableCell>
                                     <TableCell align="center">{data.customer ? data.customer.name : 'N/A'}</TableCell>
-                                    <TableCell align="center">{data.employeeId ? data.employeeId : 'N/A'}</TableCell>
+                                    <TableCell align="center">{data.employee ? data.employee.name : 'N/A'}</TableCell>
                                     <TableCell align="center">{this.formatDate(data.dueDate) ? this.formatDate(data.dueDate) : 'N/A'}</TableCell>
                                     {/* 수량 * 단가 */}
                                     <TableCell align="center">{(data.details[0].price*data.details[0].quantity) ? (data.details[0].price*data.details[0].quantity) : 'N/A'}</TableCell> 

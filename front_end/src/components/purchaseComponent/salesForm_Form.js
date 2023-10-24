@@ -93,8 +93,8 @@ class salesForm_Form extends Component{
                 {
                     productionItemId: "",
                     standard: "",
-                    quantity: 0,
-                    price: 0
+                    quantity: "",
+                    price: ""
                 }
             ]
         }));
@@ -143,12 +143,7 @@ class salesForm_Form extends Component{
     onSubmitAdd = (e) => {
         e.preventDefault();
         if (!this.state.customerId || !this.state.employeeId || !this.state.dueDate || this.state.details.length === 0) {
-            console.log(this.state.salesFormId)
-            console.log(this.state.customerId)
-            console.log(this.state.employeeId)
-            console.log(this.state.dueDate)
-            console.log(this.state.details.length)
-            alert('저장 실패');
+           alert('저장 실패');
             return;
         }
         request(
@@ -312,14 +307,12 @@ class salesForm_Form extends Component{
                                         onChange={this.onChangeHandler} 
                                         onClick={this.openEmployeePopup}
                                     />
-                                    <Button variant="outline-success">Search</Button>
                                 </TableCell>
                             </TableRow>
                         </TableBody>
                     </Table>
                 </div>
                 <div>
-                    <Button variant="outline-success" style={normalButton}>찾기</Button>
                     <Button variant="outline-success" style={normalButton} onClick={this.salesForm_List}>주문 목록</Button>
                     <Button variant="outline-success" style={normalButton} onClick={this.salesList}>판매 목록</Button>
                 </div>

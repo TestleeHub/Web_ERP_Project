@@ -74,7 +74,7 @@ class Popup extends Component {
                 <TableBody>
                   {this.state.datas.map((data, index) => (
                     <TableRow onClick={() => this.handleDataSelection(data)}>
-                      <TableCell> {data.orderFormId} </TableCell>
+                      <TableCell> {data.orderFormId ? data.orderFormId : 'N/A'} </TableCell>
                       <TableCell> {data.customerId ? data.customerId : 'N/A'} </TableCell>
                       <TableCell> {data.employeeId ? data.employeeId : 'N/A'} </TableCell>
                       <TableCell> {this.formatDate(data.dueDate) ? this.formatDate(data.dueDate) : 'N/A'} </TableCell>
