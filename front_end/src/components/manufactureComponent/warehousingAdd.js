@@ -5,6 +5,7 @@ import ProductionPopup from "../popUp/productionPopup";
 import InstructionPopup from "../popUp/instructionPopup";
 import CustomerPopup from "../popUp/customerPopup";
 import MaterialPopup from "../popUp/materialPopup";
+import MaterialPurchasePopup from "../popUp/materialPurchasePopup";
 import Modal from 'react-modal';
 
 class warehousingAdd extends Component {
@@ -77,8 +78,9 @@ class warehousingAdd extends Component {
     handleMaterialPopupData = (data) => {
         const updatedDetails = [...this.state.details]; // details 배열 복사
         updatedDetails[this.state.detailIndex].materialId = data.materialId; // 속성 업데이트
-        updatedDetails[this.state.detailIndex].name = data.name; // 속성 업데이트
-        updatedDetails[this.state.detailIndex].storageId = data.storageId; // 속성 업데이트
+        updatedDetails[this.state.detailIndex].name = data.material.name; // 속성 업데이트
+        updatedDetails[this.state.detailIndex].storageId = data.material.storageId; // 속성 업데이트
+        updatedDetails[this.state.detailIndex].quantity = data.quantity; // 속성 업데이트
         this.setState({ details: updatedDetails, isMaterialPopupOpen: false }); // 상태 업데이트
     }
 
@@ -273,7 +275,7 @@ class warehousingAdd extends Component {
                         }}
                     >
                         {/* 팝업 컴포넌트에 선택한 데이터를 전달 */}
-                        <MaterialPopup onPopupData={this.handleMaterialPopupData} />
+                        <MaterialPurchasePopup onPopupData={this.handleMaterialPopupData} />
 
                         <button onClick={this.closeMaterialPopup}>닫기</button>
                     </Modal>
