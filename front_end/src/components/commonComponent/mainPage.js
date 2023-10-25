@@ -163,10 +163,6 @@ class mainPage extends Component{
                         </div>
                     </div>
                 </div>
-                <div className={mainPageStyle.footer}>
-                    <div>
-                    </div>
-                </div>
             </>
         );
     }

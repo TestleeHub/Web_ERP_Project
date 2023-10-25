@@ -32,12 +32,18 @@ public class InventoryDTO {
 	private String productionItemId;    // 제품 코드
 	@Column(name = "REGISTDATE")
 	private Date registDate;			// 등록일
+	
 	@Column(name = "MANAGER")
-	private String manager;				// 담당자
+	private String managerId;				// 담당자
+	@OneToOne
+	@JoinColumn(name = "MANAGER", referencedColumnName = "EMPLOYEEID", insertable = false, updatable = false)
+	private UserDTO manager;
+	
 	@Column(name = "QUANTITY")
 	private Integer quantity;			// 수량
 	@Column(name = "RECORD")
 	private Date record;				// 이력 - 연우님한테 여쭤보기(이력이 필요한지)
+	
 	@Column(name = "STORAGEID")
 	private String storageId;			// 창고 코드
 	@OneToOne

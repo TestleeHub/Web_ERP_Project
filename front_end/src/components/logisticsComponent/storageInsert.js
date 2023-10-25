@@ -90,7 +90,6 @@ class storageInsert extends Component {
                     this.props.history.push('/accessDenied');
                 }
             })
-
     }
 
 
@@ -98,13 +97,10 @@ class storageInsert extends Component {
         return (
 
             <div>
-                <br />
                 <Typography variant="h4" style={style}> 창고 등록 </Typography>
                 <br />
-                <div>
-                    <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>기본</Button>
-                    <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>창고정보</Button>
-                    <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>부가정보</Button>
+                <div style={divLineStyle}>
+                    <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>등록</Button>
                     {/* <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>품목 정보</Button>
                     <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>수량</Button>
                     <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>단가</Button>
@@ -112,64 +108,69 @@ class storageInsert extends Component {
                     <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>부가 정보</Button>
                     <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>관리 대상</Button> */}
                 </div>
-                <Table style={{ border: '1px solid lightgray', backgroundColor: 'ghostwhite' }}>
+                <Table style={tableStyle}>
                     <TableHead>
                         <TableRow>
-                            <TableCell style={{ border: 'none' }}>창고코드</TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
+                            <TableCell style={tableCellTitleStyle}>창고코드</TableCell>
+                            <TableCell style={tableCellStyle}>
+                                <input style={longInputStyle}
                                     readOnly
                                     type="text"
                                     name="storageId"
+                                    className="redPlaceholder"
                                     size="70"
-                                    placeholder="창고 코드"
+                                    placeholder="창고 코드는 자동으로 생성됩니다."
                                     onChange={this.onChangeHandler}
                                     value={this.state.storageId}
                                 />
                             </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell style={{ border: 'none' }}>창고명</TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
+                            <TableCell style={tableCellTitleStyle}>창고명</TableCell>
+                            <TableCell style={tableCellStyle}>
+                                <input style={longInputStyle}
                                     type="text"
                                     name="storageName"
                                     size="70"
                                     placeholder="창고명"
                                     onChange={this.onChangeHandler}
                                     value={this.state.storageName}
-                                />
+                                /> 
                             </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell style={{ border: 'none' }}>구분</TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
-                                    type="checkbox"
-                                    name="category"
-                                    onChange={this.onChangeHandler}
-                                    value="창고"
-                                    checked={this.state.category === "창고"}
-                                /> 창고
-                                <input
-                                    type="checkbox"
-                                    name="category"
-                                    onChange={this.onChangeHandler}
-                                    value="공장" 
-                                    checked={this.state.category === "공장"}
-                                    style={{ marginLeft: '10px' }}
-                                /> 공장
-                                <input
-                                    type="checkbox"
-                                    name="category"
-                                    onChange={this.onChangeHandler}
-                                    value="공장(외주비관리)"
-                                    checked={this.state.category === "공장(외주비관리)"}
-                                    style={{ marginLeft: '10px' }}
-                                /> 공장(외주비관리)
+                            <TableCell style={tableCellTitleStyle}>구분</TableCell>
+                            <TableCell style={tableCellStyle}>
+                                <label style={labelStyle}>
+                                    <input style={checkBoxStyle}
+                                        type="checkbox"
+                                        name="category"
+                                        onChange={this.onChangeHandler}
+                                        value="창고"
+                                        checked={this.state.category === "창고"}
+                                    /> 창고
+                                </label>
+                                <label style={labelStyle}>
+                                    <input style={checkBoxStyle}
+                                        type="checkbox"
+                                        name="category"
+                                        onChange={this.onChangeHandler}
+                                        value="공장" 
+                                        checked={this.state.category === "공장"}
+                                    /> 공장
+                                </label>
+                                <label style={labelStyle}>
+                                    <input style={checkBoxStyle}
+                                        type="checkbox"
+                                        name="category"
+                                        onChange={this.onChangeHandler}
+                                        value="공장(외주비관리)"
+                                        checked={this.state.category === "공장(외주비관리)"}
+                                    /> 공장(외주비관리)
+                                </label>
                             </TableCell>
                         </TableRow>
-                        <TableRow>
+                        {/* <TableRow>
                             <TableCell style={{ border: 'none' }}>
                                 <select style={{ width: '100px', height: '30px' }}>
                                     <option selected>거래처</option>
@@ -179,8 +180,8 @@ class storageInsert extends Component {
                                 </select>
                             </TableCell>
                             <TableCell style={{ border: 'none' }}><input type="text" size="70" placeholder="거래처 검색" /></TableCell>
-                        </TableRow>
-                        <TableRow>
+                        </TableRow> */}
+                        {/* <TableRow>
                             <TableCell style={{ border: 'none' }}>
                                 <select style={{ width: '100px', height: '30px' }}>
                                     <option selected>제품</option>
@@ -190,7 +191,7 @@ class storageInsert extends Component {
                                 </select>
                             </TableCell>
                             <TableCell style={{ border: 'none' }}><input type="text" size="70" placeholder="제품 검색" /></TableCell>
-                        </TableRow>
+                        </TableRow> */}
                     </TableHead>
                 </Table>
                 <Button variant="contained" style={normalButton} onClick={this.onSubmitAdd}>저장</Button>
@@ -200,6 +201,25 @@ class storageInsert extends Component {
             </div>
         );
     }
+}
+
+// 테이블 스타일
+const tableStyle = {
+    border: '1px solid lightgray',
+    backgroundColor: 'ghostwhite',  // 배경색 ghost white
+}
+
+// 테이블 셀 이름 스타일
+const tableCellTitleStyle = {
+    width: '20%',
+    fontSize: '20px',
+    border: 'none',
+    paddingLeft: '30px'
+}
+
+// 테이블 셀 스타일
+const tableCellStyle = {
+    border: 'none'
 }
 
 const style = {
@@ -213,11 +233,12 @@ const trapezoidButton = {
     color: 'white',
     marginRight: '10px',
     clipPath: 'polygon(20% 2%, 80% 2%, 100% 100%, 0% 100%)',
-    width: '120px',
-    height: '40px',
+    width: '160px',
+    height: '50px',
     padding: '10px 20px',
     borderTopLeftRadius: '100px',
     borderTopRightRadius: '100px',
+    fontSize: '18px'
 }
 
 // 기본 버튼 속성
@@ -225,9 +246,43 @@ const normalButton = {
     backgroundColor: 'navy',
     color: 'white',
     marginRight: '10px',
-    width: '120px',
-    height: '30px',
-    padding: '10px 20px'
+    width: '150px',
+    height: '40px',
+    padding: '10px 20px',
+    fontSize: '18px'
 }
+
+// 500px input 창
+const longInputStyle = {
+    width: '500px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+// 300px input 창
+const shortInputStyle = {
+    width: '300px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+const labelStyle = {
+    fontSize: '20px',
+    display: 'flex',
+    float: 'left',
+    alignItems: 'center',
+    paddingRight: '20px'
+};
+
+const checkBoxStyle = {
+    width: '30px',
+    height: '30px',
+    marginRight: '5px'
+};
+
+const divLineStyle = {
+    borderBottom: '3px solid navy'
+};
+
 
 export default storageInsert;

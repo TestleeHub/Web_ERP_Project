@@ -1,6 +1,5 @@
 import './App.css';
 
-
 import LeftNavbar from './components/router/LeftNavbar';
 import Header from './components/router/Header';
 import Footer from './components/router/Footer';
@@ -21,11 +20,11 @@ function App() {
               <div className='routerContent'>
                 <AppRouter />
               </div>
+              <Footer />
             </div>
           </Router>
         </div>
       </div>
-      <Footer />
     </div>
   );
 }

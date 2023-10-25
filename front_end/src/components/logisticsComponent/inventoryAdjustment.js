@@ -3,7 +3,7 @@ import {Table, TableHead, TableBody, TableRow, TableCell, Typography, Button} fr
 import { request } from "../../helpers/axios_helper";
 import Popup from "../popUp/productionPopup";
 import Modal from 'react-modal';
-
+import customButtonStyle from '../../css/customButton.module.css';
 
 // 재고 입력(inventoryAdjustment)
 class inventoryAdjustment extends Component{
@@ -129,9 +129,9 @@ class inventoryAdjustment extends Component{
                 </div>
 
                 <br/>
-                    <Typography variant="h4" style={style}>재고 입력</Typography>
+                    <Typography variant="h4" style={customButtonStyle.style}>재고 입력</Typography>
                 <br/>
-                <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>전체</Button>
+                <Button variant="contained" style={customButtonStyle.trapezoidButton} onClick={this.addSample}>전체</Button>
                 <Table style={{border: '1px solid lightgray', backgroundColor: 'ghostwhite'}}>
                     <TableHead>
                         <TableRow>
@@ -142,7 +142,7 @@ class inventoryAdjustment extends Component{
                                     type="text"
                                     name="productionItemId"
                                     className="redPlaceholder"
-                                    style={longInputStyle}
+                                    style={customButtonStyle.longInputStyle}
                                     placeholder="제품 코드는 자동으로 생성됩니다."
                                     onChange={this.onChangeHandler}
                                     value={this.state.productionItemId}
@@ -156,7 +156,7 @@ class inventoryAdjustment extends Component{
                                     readOnly
                                     type="text"
                                     name="storageId"
-                                    style={longInputStyle}
+                                    style={customButtonStyle.longInputStyle}
                                     placeholder="창고 코드"
                                     onChange={this.onChangeHandler}
                                     value={this.state.storageId}
@@ -170,7 +170,7 @@ class inventoryAdjustment extends Component{
                                     readOnly
                                     type="text"
                                     name="manager"
-                                    style={longInputStyle}
+                                    style={customButtonStyle.longInputStyle}
                                     placeholder="담당자"
                                     onChange={this.onChangeHandler}
                                     value={this.state.manager}
@@ -184,7 +184,7 @@ class inventoryAdjustment extends Component{
                                     readOnly
                                     type="date"
                                     name="registDate"
-                                    style={shortInputStyle}
+                                    style={customButtonStyle.shortInputStyle}
                                     placeholder="등록일"
                                     onChange={this.onChangeHandler}
                                     value={this.formatDate(this.state.registDate)}
@@ -198,7 +198,7 @@ class inventoryAdjustment extends Component{
                                     type="number"
                                     name="quantity"
                                     min="0"
-                                    style={shortInputStyle}
+                                    style={customButtonStyle.shortInputStyle}
                                     placeholder="0"
                                     onChange={this.onChangeHandler}
                                     value={this.state.quantity}
@@ -212,62 +212,23 @@ class inventoryAdjustment extends Component{
                                     readOnly
                                     type="date"
                                     name="record"
-                                    style={shortInputStyle}
+                                    style={customButtonStyle.shortInputStyle}
                                     placeholder="이력"
                                     onChange={this.onChangeHandler}
                                     value={this.state.record}
                                 />
                             </TableCell>
                         </TableRow>
-                   
                     </TableHead>
                 </Table>
-                <Button variant="contained" style={normalButton} onClick={this.onSubmitAdd}>저장</Button>
-                <Button variant="contained" style={normalButton} onClick={this.addSample}>단계별 재고실사</Button>
-                <Button variant="contained" style={normalButton} onClick={this.addSample}>재고조정</Button>
+                <Button variant="contained" style={customButtonStyle.normalButton} onClick={this.onSubmitAdd}>저장</Button>
+                <Button variant="contained" style={customButtonStyle.normalButton} onClick={this.addSample}>단계별 재고실사</Button>
+                <Button variant="contained" style={customButtonStyle.normalButton} onClick={this.addSample}>재고조정</Button>
             </div>
         );
     }
 }
 
-const style = {
-    display: 'flex',
-    justifyContent: 'left'
-}
 
-// 사다리꼴 버튼 속성
-const trapezoidButton = {
-    backgroundColor: 'navy',
-    color: 'white',
-    marginRight: '10px',
-    clipPath: 'polygon(20% 2%, 80% 2%, 100% 100%, 0% 100%)',
-    width: '120px',
-    height: '40px',
-    padding: '10px 20px',
-    borderTopLeftRadius: '100px',
-    borderTopRightRadius: '100px',
-}
-
-// 기본 버튼 속성
-const normalButton = {
-    backgroundColor: 'navy',
-    color: 'white',
-    marginRight: '10px',
-    width: '150px',
-    height: '30px',
-    padding: '10px 20px'
-}
-
-// 300px input 창
-const shortInputStyle = {
-    width: '300px',
-    padding: '5px 10px',
-};
-
-// 700px input 창
-const longInputStyle = {
-    width: '700px',
-    padding: '5px 10px',
-};
 
 export default inventoryAdjustment;
