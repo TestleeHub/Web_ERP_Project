@@ -260,26 +260,29 @@ class purchaseForm extends Component {
                 <div>
                     <Typography variant="h4" style={style}>구매 입력</Typography>
                 </div>
-                <div>
+                <br/>
+                <div style={divLineStyle}>
                     <Button variant="contained" style={trapezoidButton} onClick={this.purchaseForm}>구매 입력</Button>
                 </div>
                 <div>
-                    <Table style={{marginBottom: 15, width: '80%', border: '1px solid lightgray', backgroundColor: 'ghostwhite' }}>
+                    <Table style={tableStyle}>
                         <TableBody>
                             <TableRow>
-                                <TableCell style={{ border: 'none', fontWeight: 'bold' }}>구매 코드</TableCell>
-                                <TableCell style={{ border: 'none' }}>
-                                    <input
+                                <TableCell style={tableCellTitleStyle}>구매 코드</TableCell>
+                                <TableCell style={tableCellStyle}>
+                                    <input style={InputStyle300px}
                                         type="text"
                                         name="purchaseId"
+                                        className="redPlaceholder"
+                                        placeholder="구매 코드는 자동으로 생성됩니다."
                                         value={this.state.purchaseId}
                                         onChange={this.onChangeHandler}
                                         readOnly
                                     />
                                 </TableCell>
-                                <TableCell style={{ border: 'none', fontWeight: 'bold' }}>거래처</TableCell>
-                                <TableCell style={{ border: 'none' }}>
-                                    <input
+                                <TableCell style={tableCellTitleStyle}>거래처</TableCell>
+                                <TableCell style={tableCellStyle}>
+                                    <input style={InputStyle300px}
                                         type="text"
                                         name="customerId"
                                         value={this.state.customerId}
@@ -291,9 +294,9 @@ class purchaseForm extends Component {
                                 </TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell style={{ border: 'none', fontWeight: 'bold' }}>구매 일자</TableCell>
-                                <TableCell style={{ border: 'none' }}>
-                                    <input
+                                <TableCell style={tableCellTitleStyle}>납기 일자</TableCell>
+                                <TableCell style={tableCellStyle}>
+                                    <input style={InputStyle300px}
                                         type="date"
                                         name="registDate"
                                         value={this.state.registDate}
@@ -301,9 +304,9 @@ class purchaseForm extends Component {
                                         readOnly
                                     />
                                 </TableCell>
-                                <TableCell style={{ border: 'none', fontWeight: 'bold' }}>담당자</TableCell>
-                                <TableCell style={{ border: 'none' }}>
-                                    <input
+                                <TableCell style={tableCellTitleStyle}>담당자</TableCell>
+                                <TableCell style={tableCellStyle}>
+                                    <input style={InputStyle300px}
                                         type="text"
                                         name="employeeId"
                                         value={this.state.employeeId}
@@ -321,62 +324,73 @@ class purchaseForm extends Component {
                     <Button variant="outline-success" style={normalButton} onClick={this.orderList}>발주 목록</Button>
                     <Button variant="outline-success" style={normalButton} onClick={this.purchaseList}>구매 목록</Button>
                 </div>
-                <div>
-                    <Table style={{ marginBottom: 15, width: '80%', border: '1px solid lightgray', backgroundColor: 'ghostwhite' }}>
+                <div style={tableInterval}>
+                    <Table style={tableStyle}>
                         <TableHead style={{borderBottomStyle: '1px solid lightgray'}}>
-                            <TableRow>
-                                <TableCell style={{ border: 'none', fontWeight: 'bold' }} align="center"></TableCell>
-                                <TableCell style={{ border: 'none', fontWeight: 'bold' }} align="center">원재료코드</TableCell>
-                                <TableCell style={{ border: 'none', fontWeight: 'bold' }} align="center">규격</TableCell>
-                                <TableCell style={{ border: 'none', fontWeight: 'bold' }} align="center">수량</TableCell>
-                                <TableCell style={{ border: 'none', fontWeight: 'bold' }} align="center">단가</TableCell>
-                                <TableCell style={{ border: 'none', fontWeight: 'bold' }} align="center">행 삭제</TableCell>
+                            <TableRow style={{backgroundColor: 'lightgray'}}>
+                                <TableCell style={{...tableCellTitleStyle2, textAlign: 'center'}}>No.</TableCell>
+                                <TableCell style={tableCellTitleStyle2}>원재료코드</TableCell>
+                                <TableCell style={tableCellTitleStyle2}>규격</TableCell>
+                                <TableCell style={tableCellTitleStyle2}>수량</TableCell>
+                                <TableCell style={tableCellTitleStyle2}>단가</TableCell>
+                                <TableCell style={{...tableCellTitleStyle2, textAlign: 'center'}}>행 삭제</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {this.state.details.map((detail, index) => (
                                 <TableRow key={index}>
-                                    <TableCell style={{ border: 'none' }} align="center">{index + 1}</TableCell>
-                                    <TableCell style={{ border: 'none' }} align="center">
-                                        <input
+                                    <TableCell style={{...tableCellTitleStyle2, backgroundColor: 'lightgray', textAlign: 'center'}}>
+                                        {index + 1}
+                                    </TableCell>
+
+                                    <TableCell style={tableCellTitleStyle2}>
+                                        <input style={InputStyle200px}
                                             type="text"
                                             name={`details[${index}].materialId`}
-                                            size="10"
+                                            placeholder="원재료 코드"
                                             onChange={this.onChangeHandler}
                                             onClick={() => this.openD_Popup(index)}
                                             value={detail.materialId}
                                             readOnly
                                         />
                                     </TableCell>
-                                    <TableCell style={{ border: 'none' }} align="center">
-                                        <input
+
+                                    <TableCell style={tableCellTitleStyle2}>
+                                        <input style={InputStyle200px}
                                             type="text"
                                             name={`details[${index}].standard`}
-                                            size="10"
+                                            placeholder="규격"
                                             onChange={this.onChangeHandler}
                                             value={detail.standard}
                                         />
                                     </TableCell>
-                                    <TableCell style={{ border: 'none' }} align="center">
-                                        <input
+
+                                    <TableCell style={tableCellTitleStyle2}>
+                                        <input style={quantityInputStyle}
                                             type="text"
                                             name={`details[${index}].quantity`}
-                                            size="10"
                                             onChange={this.onChangeHandler}
                                             value={detail.quantity}
                                         />
                                     </TableCell>
-                                    <TableCell style={{ border: 'none' }} align="center">
-                                        <input
+
+                                    <TableCell style={tableCellTitleStyle2}>
+                                        <input style={quantityInputStyle}
                                             type="text"
                                             name={`details[${index}].price`}
-                                            size="10"
                                             onChange={this.onChangeHandler}
                                             value={detail.price}
                                         />
                                     </TableCell>
-                                    <TableCell style={{ border: 'none' }} align="center">
-                                        <Button variant="contained" style={normalButton} onClick={() => this.removeField(index)}>삭제</Button>
+
+                                    <TableCell style={{...tableCellTitleStyle2, display: 'flex', justifyContent: 'center'}}>
+                                        <Button variant="contained" style={deleteButton} onClick={() => this.removeField(index)}> 삭제
+                                            <img className="garbageImage" 
+                                                alt="garbage" 
+                                                src="../images/garbage.png" 
+                                                style={{marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)'}} 
+                                            />
+                                        </Button>
                                     </TableCell>
                                 </TableRow>
                             ))}
@@ -398,25 +412,121 @@ export default purchaseForm;
 const style = {
     display: 'flex',
     justifyContent: 'left'
+};
+
+// 테이블 스타일
+const tableStyle = {
+    border: '1px solid lightgray',
+    backgroundColor: 'ghostwhite',  // 배경색 ghost white
+};
+
+// 테이블 셀 이름 스타일(테이블 1)
+const tableCellTitleStyle = {
+    width: '20%',
+    fontSize: '20px',
+    border: 'none',
+    paddingLeft: '30px'
 }
+
+// 테이블 셀 이름 스타일(테이블2)
+const tableCellTitleStyle2 = {
+    width: '240px',
+    height: '50px',
+    fontSize: '20px',
+    border: 'none',
+};
+
+// 테이블 셀 속성
+const tableCellStyle = {
+    border: 'none',
+};
+
+// 500px input창 속성
+const InputStyle500px = {
+    width: '500px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+// 300px input창 속성
+const InputStyle300px = {
+    width: '300px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+// width 200px input창 속성
+const InputStyle200px = {
+    width: '200px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+// 수량 입력창 속성(100px)
+const quantityInputStyle = {
+    width: '100px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+const labelStyle = {
+    fontSize: '20px',
+    display: 'flex',
+    float: 'left',
+    alignItems: 'center',
+    paddingRight: '20px'
+};
+
+// 체크박스 속성
+const checkBoxStyle = {
+    width: '30px',
+    height: '30px',
+    marginRight: '5px'
+};
 
 // 사다리꼴 버튼 속성
 const trapezoidButton = {
     backgroundColor: 'navy',
     color: 'white',
+    marginRight: '10px',
     clipPath: 'polygon(20% 2%, 80% 2%, 100% 100%, 0% 100%)',
-    width: '120px',
-    height: '40px',
+    width: '160px',
+    height: '50px',
     padding: '10px 20px',
     borderTopLeftRadius: '100px',
-    borderTopRightRadius: '100px'
-}
+    borderTopRightRadius: '100px',
+    fontSize: '18px'
+};
 
 // 기본 버튼 속성
 const normalButton = {
     backgroundColor: 'navy',
     color: 'white',
-    width: '120px',
-    height: '30px',
-    padding: '10px 20px'
-}
+    marginRight: '10px',
+    width: '150px',
+    height: '40px',
+    padding: '10px 20px',
+    fontSize: '18px',
+};
+
+// 삭제 버튼 속성
+const deleteButton = {
+    backgroundColor: '#A52A2A',
+    color: 'white',
+    marginRight: '10px',
+    width: '150px',
+    height: '40px',
+    padding: '10px 20px',
+    borderRadius: '20px',
+    fontSize: '18px'
+};
+
+// 밑줄
+const divLineStyle = {
+    borderBottom: '3px solid navy'
+};
+
+// 테이블 간격 조정(테이블 2개 이상시)
+const tableInterval = {
+    paddingTop: '50px'
+};

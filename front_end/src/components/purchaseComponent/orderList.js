@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Table, TableBody, TableCell, TableRow, Typography, Button, TableHead } from "@mui/material";
 import { request } from "../../helpers/axios_helper";
 
-class orderList extends Component{
+class orderList extends Component {
 
     // 발주 목록 조회
     orderList = () => {
@@ -59,7 +59,7 @@ class orderList extends Component{
                 console.log('response : ', response);
             }).catch((error) => {
                 console.log('error : ', error);
-                if(error.response.status === 403){
+                if (error.response.status === 403) {
                     console.log('접근 권한이 없습니다.');
                     this.props.history.push('/accessDenied');
                 }
@@ -83,7 +83,7 @@ class orderList extends Component{
                 customerId: targetdata.customerId,
                 employeeId: targetdata.employeeId,
                 details: targetdata.details,
-                dueDate : targetdata.dueDate,
+                dueDate: targetdata.dueDate,
                 price: targetdata.price,
                 progress: targetdata.progress
             }).then((response) => {
@@ -149,79 +149,82 @@ class orderList extends Component{
 
     // 금액 기준 정렬
     sortUsingPrice = () => {
-            const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
-                return (a.details[0].price * a.details[0].quantity) - (b.details[0].price * b.details[0].quantity);
-            });
-            this.setState({
-                displayedDatas: sortedData
-            });
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return (a.details[0].price * a.details[0].quantity) - (b.details[0].price * b.details[0].quantity);
+        });
+        this.setState({
+            displayedDatas: sortedData
+        });
     }
 
-    render(){
+    render() {
         const { displayedDatas, showMore } = this.state;
-        return(
+        return (
             <div>
                 <div>
                     <Typography variant="h4" style={style}>발주서 조회</Typography>
                 </div>
-                <div>
+                <br />
+                <div style={divLineStyle}>
                     <Button variant="contained" style={trapezoidButton} onClick={this.orderList}>발주 목록</Button>
                 </div>
                 <div>
                     {this.state.isLoading ? (
-                            <p>로딩 중...</p>
-                        ) : (
-                        <Table style={{border: '1px solid lightgray', backgroundColor: 'ghostwhite'}}>
-                            <TableHead style={{backgroundColor: 'lightgray'}}>
+                        <p>로딩 중...</p>
+                    ) : (
+                        <Table style={tableStyle}>
+                            <TableHead style={{ backgroundColor: 'lightgray' }}>
                                 <TableRow>
-                                    <TableCell align="center">
-                                        
+                                    <TableCell style={tableCellStyle}>
+
                                     </TableCell>
-                                    <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingOrderFormId()} align="center">발주 번호▽</TableCell>
-                                    <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingCustomerName()} align="center">거래처명▽</TableCell>
-                                    <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingEmployeeName()} align="center">담당자▽</TableCell>
-                                    <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingDueDate()} align="center">납기일▽</TableCell>
-                                    <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingPrice()} align="center">금액▽</TableCell>
-                                    <TableCell style={{fontWeight: 'bold'}} align="center">진행 상태</TableCell>
-                                    <TableCell style={{fontWeight: 'bold'}} align="center">추가 작업</TableCell>
+                                    <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingOrderFormId()} align="center">발주 번호▽</TableCell>
+                                    <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingCustomerName()} align="center">거래처명▽</TableCell>
+                                    <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingEmployeeId()} align="center">담당자▽</TableCell>
+                                    <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingDueDate()} align="center">납기일▽</TableCell>
+                                    <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingPrice()} align="center">금액▽</TableCell>
+                                    <TableCell style={tableCellTitleStyle} align="center">진행 상태</TableCell>
+                                    <TableCell style={tableCellTitleStyle} align="center">추가 작업</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                                 {this.state.displayedDatas.map((data, index) => (
                                     <TableRow>
-                                        <TableCell align="center">
+                                        <TableCell style={{ ...tableCellStyle, backgroundColor: 'lightgray' }}>
                                             {index + 1}
                                         </TableCell>
-                                        <TableCell align="center">{data.orderFormId}</TableCell>
-                                        <TableCell align="center">{data.customer ? data.customer.name : 'N/A'}</TableCell>
-                                        <TableCell align="center">{data.employee ? data.employee.name : 'N/A'}</TableCell>
-                                        <TableCell align="center">{data.dueDate ? this.formatDate(data.dueDate) : 'N/A'}</TableCell>
-                                        <TableCell align="center">
+                                        <TableCell style={tableCellTitleStyle}>{data.orderFormId}</TableCell>
+                                        <TableCell style={tableCellTitleStyle}>{data.customer ? data.customer.name : 'N/A'}</TableCell>
+                                        <TableCell style={tableCellTitleStyle}>{data.employeeId ? data.employeeId : 'N/A'}</TableCell>
+                                        <TableCell style={tableCellTitleStyle}>{this.formatDate(data.dueDate)}</TableCell>
+                                        {/* 수량 * 단가 */}
+                                        <TableCell style={tableCellTitleStyle}>
                                             {
-                                                (() => { 
+                                                (() => {
                                                     const grandTotal = data.details.reduce((total, item) => {
-                                                        return total + (item.price * item.quantity); 
-                                                    }, 0); 
+                                                        return total + (item.price * item.quantity);
+                                                    }, 0);
                                                     const grandTotalNumber = parseInt(grandTotal, 10);
-                                                    return <div>{grandTotalNumber > 0 ? grandTotalNumber.toLocaleString()+'원' : 'N/A'}</div>; 
+                                                    return <div>{grandTotalNumber > 0 ? grandTotalNumber.toLocaleString() + '원' : 'N/A'}</div>;
                                                 })()
                                             }
-                                        </TableCell> 
-                                        <TableCell align="center">{data.progress ? '진행 완료' : '진행 중'}</TableCell>
-                                        <TableCell align="center">
+                                        </TableCell>
+                                        {/* progress 조건문으로 */}
+                                        <TableCell style={tableCellTitleStyle}>{data.Progress ? data.Progress : 'N/A'}</TableCell>
+                                        <TableCell style={tableCellTitleStyle}>
                                             <Button variant="contained" style={updateButton} onClick={() => this.editData(data)}>수정
-                                                <img className="penImage" 
-                                                    alt="pen" 
-                                                    src="../images/pen.png" 
-                                                    style={{marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)'}} 
+                                                <img className="penImage"
+                                                    alt="pen"
+                                                    src="../images/pen.png"
+                                                    style={{ marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)' }}
                                                 />
                                             </Button>
                                             <Button variant="contained" style={deleteButton} onClick={() => this.deleteData(data)}>삭제
-                                                <img className="garbageImage" 
-                                                    alt="garbage" 
-                                                    src="../images/garbage.png" 
-                                                    style={{marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)'}} 
-                                                 />
+                                                <img className="garbageImage"
+                                                    alt="garbage"
+                                                    src="../images/garbage.png"
+                                                    style={{ marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)' }}
+                                                />
                                             </Button>
                                         </TableCell>
                                     </TableRow>
@@ -230,12 +233,32 @@ class orderList extends Component{
                         </Table>
                     )}
                     {showMore && (
-                     <Button variant="contained" style={normalButton} onClick={this.handleShowMoreClick}>더 보기</Button>
+                        <Button variant="contained" style={normalButton} onClick={this.handleShowMoreClick}>더 보기</Button>
                     )}
                 </div>
             </div>
         );
     }
+}
+
+// 테이블 스타일
+const tableStyle = {
+    border: '1px solid lightgray',
+    backgroundColor: 'ghostwhite',  // 배경색 ghost white
+}
+
+// 테이블 셀 이름 스타일
+const tableCellTitleStyle = {
+    width: '15%',
+    fontSize: '20px',
+    paddingLeft: '30px',
+    textAlign: 'center'
+}
+
+// 테이블 셀 스타일
+const tableCellStyle = {
+    fontSize: '20px',
+    border: 'none'
 }
 
 const style = {
@@ -247,22 +270,58 @@ const style = {
 const trapezoidButton = {
     backgroundColor: 'navy',
     color: 'white',
+    marginRight: '10px',
     clipPath: 'polygon(20% 2%, 80% 2%, 100% 100%, 0% 100%)',
-    width: '120px',
-    height: '40px',
+    width: '160px',
+    height: '50px',
     padding: '10px 20px',
     borderTopLeftRadius: '100px',
-    borderTopRightRadius: '100px'
+    borderTopRightRadius: '100px',
+    fontSize: '18px'
 }
 
 // 기본 버튼 속성
 const normalButton = {
     backgroundColor: 'navy',
     color: 'white',
-    width: '120px',
-    height: '30px',
-    padding: '10px 20px'
+    marginRight: '10px',
+    width: '150px',
+    height: '40px',
+    padding: '10px 20px',
+    fontSize: '18px'
 }
+
+// 500px input 창
+const longInputStyle = {
+    width: '500px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+// 300px input 창
+const shortInputStyle = {
+    width: '300px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+const labelStyle = {
+    fontSize: '20px',
+    display: 'flex',
+    float: 'left',
+    alignItems: 'center',
+    paddingRight: '20px'
+};
+
+const checkBoxStyle = {
+    width: '30px',
+    height: '30px',
+    marginRight: '5px'
+};
+
+const divLineStyle = {
+    borderBottom: '3px solid navy'
+};
 
 // 수정 버튼 속성
 const updateButton = {
@@ -273,7 +332,7 @@ const updateButton = {
     height: '35px',
     padding: '10px 20px',
     borderRadius: '20px'
-}
+};
 
 // 삭제 버튼 속성
 const deleteButton = {
@@ -284,6 +343,6 @@ const deleteButton = {
     height: '35px',
     padding: '10px 20px',
     borderRadius: '20px'
-}
+};
 
 export default orderList;

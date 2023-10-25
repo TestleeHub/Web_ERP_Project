@@ -218,7 +218,7 @@ class instructionList extends Component {
                                     <TableCell> {data.customer ? data.customer.name : 'N/A'} </TableCell>
                                     <TableCell> {data.manager ? data.manager.name : 'N/A'} </TableCell>
                                     <TableCell> {data.name ? data.name : 'N/A'} </TableCell>
-                                    <TableCell> {data.quantity ? data.quantity : 'N/A'} </TableCell>
+                                    <TableCell> {data.quantity ? data.quantity.toLocaleString()+'개' : 'N/A'} </TableCell>
                                     <TableCell> {data.completion === "N" ? '진행 중' : '완료'} </TableCell>
                                     <TableCell> {data.storage ? data.storage.storageName : 'N/A'} </TableCell>
                                     <TableCell> {data.dueDate ? this.formatDate(data.dueDate) : 'N/A'} </TableCell>

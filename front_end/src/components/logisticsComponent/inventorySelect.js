@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {Table, TableHead, TableBody, TableRow, TableCell, Typography, Button} from '@mui/material';
 import { request } from "../../helpers/axios_helper";
 
-
 // 재고 조회(storageSelect)
 class storageSelect extends Component{
     constructor(props) {
@@ -120,38 +119,37 @@ class storageSelect extends Component{
                 <br/>
                     <Typography variant="h4" style={style}>재고 조회</Typography>
                 <br/>
-                <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>전체</Button>
-                <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>결재중</Button>
-                <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>미확인</Button>
-                <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>확인</Button>
+                <div style={divLineStyle}>
+                    <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>조회</Button>
+                </div>
                 {/* 로딩 상태에 대한 조건부 렌더링 */}
                 {this.state.isLoading ? (
                     <p>로딩 중...</p>
                 ) : (
-                <Table style={{border: '1px solid lightgray', backgroundColor: 'ghostwhite'}}>
+                <Table style={tableStyle}>
                     <TableHead style={{backgroundColor: 'lightgray'}}>
                         <TableRow>
-                            <TableCell> 제품 코드 </TableCell>
-                            <TableCell> 창고 </TableCell>
-                            <TableCell> 담당자 </TableCell>
-                            <TableCell> 등록일 </TableCell>
-                            <TableCell> 수량 </TableCell>
-                            <TableCell> 이력 </TableCell>
-                            <TableCell> </TableCell>
+                            <TableCell style={tableCellTitleStyle}> 제품 코드 </TableCell>
+                            <TableCell style={tableCellTitleStyle}> 창고 </TableCell>
+                            <TableCell style={tableCellTitleStyle}> 담당자 </TableCell>
+                            <TableCell style={tableCellTitleStyle}> 등록일 </TableCell>
+                            <TableCell style={tableCellTitleStyle}> 수량 </TableCell>
+                            <TableCell style={tableCellTitleStyle}> 이력 </TableCell>
+                            <TableCell style={tableCellTitleStyle}> </TableCell>
                         </TableRow>
                     </TableHead>
 
                     <TableBody>
                         {this.state.displayedDatas.map((data, index) => (
                             <TableRow>
-                                <TableCell> {data.productionItemId} </TableCell>
-                                <TableCell> {data.storage.storageName} </TableCell>
-                                <TableCell> {data.manager} </TableCell>
-                                <TableCell> {this.formatDate(data.registDate)} </TableCell>
-                                <TableCell> {data.quantity} </TableCell>
-                                <TableCell> {this.formatDate(data.record)} </TableCell>
+                                <TableCell style={tableCellTitleStyle}> {data.productionItemId} </TableCell>
+                                <TableCell style={tableCellTitleStyle}> {data.storage.storageName} </TableCell>
+                                <TableCell style={tableCellTitleStyle}> {data.manager.name} </TableCell>
+                                <TableCell style={tableCellTitleStyle}> {this.formatDate(data.registDate)} </TableCell>
+                                <TableCell style={tableCellTitleStyle}> {data.quantity} </TableCell>
+                                <TableCell style={tableCellTitleStyle}> {this.formatDate(data.record)} </TableCell>
 
-                                <TableCell>
+                                <TableCell style={tableCellStyle}>
                                     <Button variant="contained" style={updateButton} onClick={() => this.editData(data)}>수정
                                         <img className="penImage" 
                                              alt="pen" 
@@ -176,13 +174,29 @@ class storageSelect extends Component{
                 {showMore && (
                     <Button variant="contained" style={normalButton} onClick={this.handleShowMoreClick}>더 보기</Button>
                 )}
-                <Button variant="contained" style={normalButton} onClick={this.addSample}>신규(F2)</Button>
-                <Button variant="contained" style={normalButton} onClick={this.addSample}>전자결재</Button>
-                <Button variant="contained" style={normalButton} onClick={this.addSample}>선택삭제</Button>
                 <br/><br/>
             </div>
         );
     }
+}
+
+// 테이블 스타일
+const tableStyle = {
+    border: '1px solid lightgray',
+    backgroundColor: 'ghostwhite',  // 배경색 ghost white
+}
+
+// 테이블 셀 이름 스타일
+const tableCellTitleStyle = {
+    width: '20%',
+    fontSize: '20px',
+    border: 'none',
+    paddingLeft: '30px'
+}
+
+// 테이블 셀 스타일
+const tableCellStyle = {
+    border: 'none'
 }
 
 const style = {
@@ -196,11 +210,12 @@ const trapezoidButton = {
     color: 'white',
     marginRight: '10px',
     clipPath: 'polygon(20% 2%, 80% 2%, 100% 100%, 0% 100%)',
-    width: '120px',
-    height: '40px',
+    width: '160px',
+    height: '50px',
     padding: '10px 20px',
     borderTopLeftRadius: '100px',
     borderTopRightRadius: '100px',
+    fontSize: '18px'
 }
 
 // 기본 버튼 속성
@@ -208,10 +223,43 @@ const normalButton = {
     backgroundColor: 'navy',
     color: 'white',
     marginRight: '10px',
-    width: '100px',
-    height: '30px',
-    padding: '10px 20px'
+    width: '150px',
+    height: '40px',
+    padding: '10px 20px',
+    fontSize: '18px'
 }
+
+// 500px input 창
+const longInputStyle = {
+    width: '500px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+// 300px input 창
+const shortInputStyle = {
+    width: '300px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+const labelStyle = {
+    fontSize: '20px',
+    display: 'flex',
+    float: 'left',
+    alignItems: 'center',
+    paddingRight: '20px'
+};
+
+const checkBoxStyle = {
+    width: '30px',
+    height: '30px',
+    marginRight: '5px'
+};
+
+const divLineStyle = {
+    borderBottom: '3px solid navy'
+};
 
 // 수정 버튼 속성
 const updateButton = {
@@ -222,7 +270,7 @@ const updateButton = {
     height: '35px',
     padding: '10px 20px',
     borderRadius: '20px'
-}
+};
 
 // 삭제 버튼 속성
 const deleteButton = {
@@ -233,6 +281,6 @@ const deleteButton = {
     height: '35px',
     padding: '10px 20px',
     borderRadius: '20px'
-}
+};
 
 export default storageSelect;
