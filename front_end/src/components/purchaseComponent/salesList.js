@@ -19,7 +19,7 @@ class salesList extends Component{
             salesId: "",
             customerId: "",
             employeeId: "",
-            dueDate: "",
+            registDate: "",
             accountReflect: 0,
             details: []
         }
@@ -82,7 +82,7 @@ class salesList extends Component{
                 customerId: targetdata.customerId,
                 employeeId: targetdata.employeeId,
                 details: targetdata.details,
-                dueDate : targetdata.dueDate
+                registDate : targetdata.registDate
             }).then((response) => {
                 this.setState({
                     datas: this.state.datas.filter(data => data.salesId !== targetdata.salesId),

@@ -21,7 +21,7 @@ class orderList extends Component{
             employeeId: "",
             dueDate: "",
             price: "",
-            Progress: "",
+            progress: "",
             details: []
         }
     }
@@ -85,7 +85,7 @@ class orderList extends Component{
                 details: targetdata.details,
                 dueDate : targetdata.dueDate,
                 price: targetdata.price,
-                Progress: targetdata.Progress
+                progress: targetdata.progress
             }).then((response) => {
                 this.setState({
                     datas: this.state.datas.filter(data => data.orderFormId !== targetdata.orderFormId),
@@ -156,7 +156,6 @@ class orderList extends Component{
                 displayedDatas: sortedData
             });
     }
-    
 
     render(){
         const { displayedDatas, showMore } = this.state;
@@ -197,10 +196,18 @@ class orderList extends Component{
                                         <TableCell align="center">{data.customer ? data.customer.name : 'N/A'}</TableCell>
                                         <TableCell align="center">{data.employee ? data.employee.name : 'N/A'}</TableCell>
                                         <TableCell align="center">{data.dueDate ? this.formatDate(data.dueDate) : 'N/A'}</TableCell>
-                                        {/* 수량 * 단가 */}
-                                        <TableCell align="center">{(data.details[0].price*data.details[0].quantity) ? (data.details[0].price*data.details[0].quantity) : 'N/A'}</TableCell> 
-                                        {/* progress 조건문으로 */}
-                                        <TableCell align="center">{data.Progress ? data.Progress : 'N/A'}</TableCell>
+                                        <TableCell align="center">
+                                            {
+                                                (() => { 
+                                                    const grandTotal = data.details.reduce((total, item) => {
+                                                        return total + (item.price * item.quantity); 
+                                                    }, 0); 
+                                                    const grandTotalNumber = parseInt(grandTotal, 10);
+                                                    return <div>{grandTotalNumber > 0 ? grandTotalNumber.toLocaleString()+'원' : 'N/A'}</div>; 
+                                                })()
+                                            }
+                                        </TableCell> 
+                                        <TableCell align="center">{data.progress ? '진행 완료' : '진행 중'}</TableCell>
                                         <TableCell align="center">
                                             <Button variant="contained" style={updateButton} onClick={() => this.editData(data)}>수정
                                                 <img className="penImage" 

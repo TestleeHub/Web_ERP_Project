@@ -59,6 +59,13 @@ public class SalesDTO {
 //	@JoinColumn(name = "SALESBOOKID")
 //	private PurchaseBook salesBook; 		// PurchaseBook 테이블 FK
 	
+	// 주문 아이디
+	@Column(name ="SALESFORMID")
+	private String salesFormId;
+	@OneToOne
+	@JoinColumn(name = "SALESFORMID", insertable = false, updatable = false)
+	private SalesFormDTO salesFId;
+	
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "SALESID")
 	private List<Sales_DetailDTO> details;

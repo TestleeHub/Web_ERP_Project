@@ -55,7 +55,7 @@ public class PurchaseFormDTO {
 	@JoinColumn(name = "EMPLOYEEID", insertable = false, updatable = false)
 	private UserDTO employee; 			// Employee 테이블 FK
 	
-	// 납기일
+	// 구매 일자
 	@Column(name = "REGISTDATE")
 	private Date registDate;
 	

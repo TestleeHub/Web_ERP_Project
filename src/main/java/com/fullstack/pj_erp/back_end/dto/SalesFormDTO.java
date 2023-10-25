@@ -45,7 +45,7 @@ public class SalesFormDTO {
 	
 	// 진행 상태
 	@Column(name = "PROGRESS")
-	private int Progress;
+	private int progress;
 	
 	// 작성자(담당자)
 	@Column(name = "EMPLOYEEID")

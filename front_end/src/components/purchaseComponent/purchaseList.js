@@ -148,16 +148,6 @@ class purchaseList extends Component{
         });
     }
 
-    // 회계 반영 여부 정렬
-    sortUsingAccountReflect = () => {
-        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
-            return a.accountReflect - b.accountReflect;
-        })
-        this.setState({
-            displayedDatas: sortedData
-        })
-    }
-
     render(){
         const { displayedDatas, showMore } = this.state;
         return(
@@ -180,7 +170,7 @@ class purchaseList extends Component{
                                 <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingCustomerName()} align="center">거래처명▽</TableCell>
                                 <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingMaterialName()} align="center">원재료명▽</TableCell>
                                 <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingPrice()} align="center">금액 합계▽</TableCell>
-                                <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingAccountReflect()} align="center">회계 반영 여부▽</TableCell>
+                                <TableCell style={{fontWeight: 'bold'}} align="center">회계 반영 여부</TableCell>
                                 <TableCell style={{fontWeight: 'bold'}} align="center">추가 작업</TableCell>
                             </TableRow>
                         </TableHead>

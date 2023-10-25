@@ -30,6 +30,7 @@ class salesForm extends Component{
             employeeId: "",
             registDate: this.formatDate(new Date().getTime()),
             salesBookId: "",
+            salesFormId: "",
             details: [],
             isPopupOpen: false,
             isSD_PopupOpen: false,
@@ -66,6 +67,7 @@ class salesForm extends Component{
 
     // 팝업에서 선택한 데이터를 받아오는 콜백 함수
     handlePopupData = (data) => {
+        this.setState({ salesFormId: data.salesFormId, isPopupOpen: false });
         this.setState({ customerId: data.customerId, isPopupOpen: false });
         this.setState({ employeeId: data.employeeId, isPopupOpen: false });
     }
@@ -161,8 +163,9 @@ class salesForm extends Component{
                 salesId: this.state.salesId,
                 customerId: this.state.customerId,
                 employeeId: this.state.employeeId,
-                dueDate: this.state.dueDate,
+                registDate: this.state.registDate,
                 salesBookId: this.state.salesBookId,
+                salesFormId: this.state.salesFormId,
                 details: this.state.details
             }).then((response) => {
                 console.log('response : ', response);
@@ -191,7 +194,8 @@ class salesForm extends Component{
             salesId: "",
             customerId: "",
             employeeId: "",
-            dueDate: "",
+            registDate: "",
+            salesFormId: "",
             details: [],
             isPopupOpen: false,
             isSD_PopupOpen: false,
