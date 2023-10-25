@@ -28,11 +28,11 @@ public class TradeSlipDTO {
 	private String slipId;   // 전표번호, PK
 	
 	@Column(name = "CUSTOMERID")
-	private String customerId;
+	private String customerId;	// 거래처코드
 	
 	@OneToOne
 	@JoinColumn(name = "CUSTOMERID", insertable = false, updatable = false)
-	private CustomerDTO customer;  // 거래처코드, FK
+	private CustomerDTO customer;  // 거래처코드를 FK로 등록
 	
 	@Column(name = "TRADETYPE")
 	private String tradeType;   // 거래유형(입금, 출금) 

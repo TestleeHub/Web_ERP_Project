@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { Table, TableHead, TableRow, TableCell, TableBody, Button, Typography, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
 import { request } from "../../helpers/axios_helper";
+import CustomerPopup from "../popUp/customerPopup";
+import Modal from 'react-modal';
 
-class customerTradeSlipInsert extends Component{
+class customerTradeSlipInsert extends Component {
     state = {
         slipId: "",
         tradeType: "입금",
@@ -11,7 +13,20 @@ class customerTradeSlipInsert extends Component{
         customerId: "",
         title: "",
         regDate: "",
-        openDialog: false
+        openDialog: false,
+        isCustomerPopupOpen: false
+    }
+    // 팝업 열기
+    openCustomerPopup = () => {
+        this.setState({ isCustomerPopupOpen: true });
+    }
+    // 팝업 닫기
+    closeCustomerPopup = () => {
+        this.setState({ isCustomerPopupOpen: false });
+    }
+    // 팝업에서 선택한 데이터를 받아오는 콜백 함수
+    handleCustomerPopupData = (data) => {
+        this.setState({ customerId: data.customerId, isCustomerPopupOpen: false });
     }
 
     // 입력 성공 후 "거래처 입금 목록" 페이지로 이동
@@ -78,21 +93,54 @@ class customerTradeSlipInsert extends Component{
                 title: this.state.title
             }).then((response) => {
                 console.log('response : ', response);
-                this.setState({ openDialog: true });
+                window.confirm("등록에 성공하였습니다.")
+                this.props.history.push('/customer/customerTradeSlip');
             }).catch((error) => {
+                alert("등록에 실패하였습니다.!")
                 console.log('error : ', error);
+                if(error.response.status === 403){
+                    console.log('접근 권한이 없습니다.');
+                    this.props.history.push('/accessDenied');
+                }
             })
 
     }
-    
+
     // 거래처 입금 목록 페이지로 이동 함수
     goToCustomerTradeSlip = () => {
         this.props.history.push("/customer/customerTradeSlip");
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <div>
+                {/* 팝업 시작 */}
+                <div>
+                    <Modal
+                        isOpen={this.state.isCustomerPopupOpen}
+                        onRequestClose={this.closeCustomerPopup}
+                        contentLabel="팝업"
+                        style={{
+                            overlay: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                            },
+                            content: {
+                                width: '700px', // 원하는 폭으로 설정
+                                height: '400px', // 원하는 높이로 설정
+                                top: '50%', // 원하는 수직 위치로 설정
+                                left: '55%', // 원하는 수평 위치로 설정
+                                transform: 'translate(-50%, -50%)'
+                            },
+                        }}
+                    >
+                        {/* 팝업 컴포넌트에 선택한 데이터를 전달 */}
+                        <CustomerPopup onPopupData={this.handleCustomerPopupData} />
+
+                        <button onClick={this.closeCustomerPopup}>닫기</button>
+                    </Modal>
+                </div>
+                {/* 팝업 끝 */}
+
                 <br />
                 <Typography variant="h4" style={style}> 거래처 입금 처리 </Typography>
                 <br />
@@ -151,6 +199,7 @@ class customerTradeSlipInsert extends Component{
                                     name="customerId"
                                     placeholder="거래처코드"
                                     onChange={this.onChangeHandler}
+                                    onClick={this.openCustomerPopup}
                                     value={this.state.customerId}
                                 />
                             </TableCell>
@@ -172,8 +221,8 @@ class customerTradeSlipInsert extends Component{
                 </Table>
                 <br />
                 <Button variant="contained" style={normalButton} onClick={this.onSubmitAdd}>저장</Button>
-                <Button variant="contained" style={normalButton} onClick={this.goToCustomerTradeSlip}>목록</Button>
-                <Dialog
+                <Button variant="contained" style={normalButton} onClick={this.goToCustomerTradeSlip}>입금목록</Button>
+                {/* <Dialog
                     open={this.state.openDialog}
                     onClose={this.handleCloseDialog}
                 >
@@ -186,7 +235,7 @@ class customerTradeSlipInsert extends Component{
                             확인
                         </Button>
                     </DialogActions>
-                </Dialog>
+                </Dialog> */}
             </div>
         );
     }

@@ -38,18 +38,18 @@ class customerTradeSlip2 extends Component{
         request(
             "GET",
             "/customer/tradeSlip",
-            {
-
-            }).then((response) => {
-                this.setState({
-                    datas: response.data,
-                    displayedDatas: response.data.slice(0, 5),
-                    isLoading: false
-                });
-                console.log('response : ', response);
-            }).catch((error) => {
-                console.log('error : ', error);
-            })
+            {}
+        ).then((response) => {
+            const filteredData = response.data.filter(item => item.tradeType === "출금");
+            this.setState({
+                datas: filteredData,
+                displayedDatas: filteredData.slice(0, 5),
+                isLoading: false
+            });
+            console.log('response : ', response);
+        }).catch((error) => {
+            console.log('error : ', error);
+        })
     }
 
     // update
@@ -110,7 +110,7 @@ class customerTradeSlip2 extends Component{
                                 <TableCell>전표번호</TableCell>
                                 <TableCell>거래유형</TableCell>
                                 <TableCell>금액</TableCell>
-                                <TableCell>거래처코드</TableCell>
+                                <TableCell>거래처명</TableCell>
                                 <TableCell>제목</TableCell>
                                 <TableCell>등록일</TableCell>
                                 <TableCell></TableCell>
@@ -118,16 +118,17 @@ class customerTradeSlip2 extends Component{
                         </TableHead>
                         
                         <TableBody>
-                            {this.state.displayedDatas.filter(data => data.tradeType === "출금").map((data, index) => (
+                            {this.state.displayedDatas.map((data, index) => (
                                 <TableRow>
                                     <TableCell> {data.slipId} </TableCell>
                                     <TableCell> {data.tradeType ? data.tradeType : 'N/A'} </TableCell>
-                                    <TableCell> {data.money ? data.money : 'N/A'} </TableCell>
-                                    <TableCell> {data.customerId ? data.customerId : 'N/A'} </TableCell>
+                                    <TableCell> {data.money ? data.money.toLocaleString() : '0'}원 </TableCell>
+                                    <TableCell> {data.customer ? data.customer.name : 'N/A'} </TableCell>
                                     <TableCell> {data.title ? data.title : 'N/A'} </TableCell>
                                     <TableCell> {data.regDate ? this.formatDate(data.regDate) : 'N/A'} </TableCell>
                                     <TableCell>
                                         <Button variant="contained" style={normalButton} onClick={() => this.editData(data)}>수정</Button>
+                                        <br /><br />
                                         <Button variant="contained" style={normalButton} onClick={() => this.deleteData(data)}>삭제</Button>
                                     </TableCell>
                                 </TableRow>    
@@ -140,7 +141,9 @@ class customerTradeSlip2 extends Component{
                 {showMore && (
                     <Button variant="contained" style={normalButton} onClick={this.handleShowMoreClick}>더 보기</Button>
                 )}
-                <Button variant="contained" style={normalButton} onClick={() => this.props.history.push('/customer/customerTradeSlip2Insert')}>신규</Button>                  
+                <Button variant="contained" style={normalButton} onClick={() => this.props.history.push('/customer/customerTradeSlip2Insert')}>신규</Button>
+                <Button variant="contained" style={normalButton} onClick={() =>  this.props.history.push('/customer/customerList')}>거래처목록</Button>
+                <Button variant="contained" style={normalButton} onClick={() =>  this.props.history.push('/customer/customerTradeSlip')}>입금목록</Button>                  
             </div>
         );
     }

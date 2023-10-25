@@ -135,6 +135,7 @@ class customerList extends Component {
                                     <TableCell> {data.address ? data.address : 'N/A'} </TableCell>
                                     <TableCell>
                                         <Button variant="contained" style={normalButton} onClick={() => this.editData(data)}>수정</Button>
+                                        <br /><br />
                                         <Button variant="contained" style={normalButton} onClick={() => this.deleteData(data)}>삭제</Button>
                                     </TableCell>
                                 </TableRow>
@@ -147,11 +148,10 @@ class customerList extends Component {
                 {showMore && (
                     <Button variant="contained" style={normalButton} onClick={this.handleShowMoreClick}>더 보기</Button>
                 )}
-                <br />
-                <br />
                 <Button variant="contained" style={normalButton} onClick={() =>  this.props.history.push('/customer/customerInsert')}>신규</Button>
-                <Button variant="contained" style={normalButton} onClick={this.addSample}>단계별 재고실사</Button>
-                <Button variant="contained" style={normalButton} onClick={this.addSample}>재고조정</Button>
+                <Button variant="contained" style={normalButton} onClick={() =>  this.props.history.push('/customer/customerTradeHistory')}>거래내역</Button>
+                <Button variant="contained" style={normalButton} onClick={() =>  this.props.history.push('/customer/customerTradeSlip')}>입금목록</Button>
+                <Button variant="contained" style={normalButton} onClick={() =>  this.props.history.push('/customer/customerTradeSlip2')}>출금목록</Button>
             </div>
         );
     }
