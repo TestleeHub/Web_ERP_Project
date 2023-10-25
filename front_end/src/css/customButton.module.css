@@ -1,0 +1,25 @@
+style {
+    display: flex;
+    justify-content: left;
+}
+
+/* 사다리꼴 버튼 속성 */
+trapezoidButton {
+    background-color: navy;
+    color: white;
+    margin-right: 10px;
+    clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+    width: 120px;
+    height: 30px;
+    padding: 10px 20px;
+}
+
+/*  기본 버튼 속성 */
+normalButton {
+    background-color: navy;
+    color: white;
+    margin-right: 10px;
+    width: 120px;
+    height: 30px;
+    padding: 10px 20px;
+}

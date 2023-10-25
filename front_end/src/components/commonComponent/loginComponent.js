@@ -1,6 +1,7 @@
 import { Component } from "react";
 import classNames from 'classnames';
 import { request, setAuthToken, setUserId, setUserRole } from "../../helpers/axios_helper";
+import loginPageStyle from '../../css/loginPage.module.css';
 
 class loginComponent extends Component {
     constructor(props) {
@@ -47,31 +48,44 @@ class loginComponent extends Component {
 
     render() {
         return (
-            <div className="row justify-content-center">
-                <div className="col-4">
-                    <br/><br/><br/>
-                    <br/><br/><br/>
-                    <h3>Wep ERP 로그인</h3>
-                    <div className="tab-content">
-
-                            {/* 로그인 폼 */}
-                            <form onSubmit={this.onSubmitLogin}>
-                                <div className="form outline mb-4">
-                                    <label className="form-label" htmlFor="loginName">ID</label>
-                                    <input type="text" id="loginName" name="id" className="form-control" onChange={this.onChangeHandler} />
+            <>
+                <div className={loginPageStyle.header}>
+                    {/* <h1>Page Error</h1> */}
+                </div>
+                <div className={loginPageStyle.body}>
+                    <div className={loginPageStyle.features}>
+                        <div className={loginPageStyle.row1}>
+                            <div className={loginPageStyle.box1}>
+                                <div className={loginPageStyle.text_col}>
+                                    <h3>
+                                        Wep ERP 로그인
+                                    </h3>
                                 </div>
-                                <div className="form outline mb-4">
-                                    <label className="form-label" htmlFor="loginPassword">Password</label>
-                                    <input type="password" id="loginPassword" name="password" className="form-control" onChange={this.onChangeHandler} />
+                                <div className={loginPageStyle.inputBox}>
 
+                                    {/* 로그인 폼 */}
+                                    <form onSubmit={this.onSubmitLogin}>
+                                        <div className={loginPageStyle.loginId}>
+                                            <label className="form-label" htmlFor="loginName"></label>
+                                            <input type="text" id="loginName" name="id" className={loginPageStyle.inputId} placeholder="ID 또는 이메일 주소" onChange={this.onChangeHandler} />
+                                        </div>
+                                        <div className={loginPageStyle.loginPassword}>
+                                            <label className="form-label" htmlFor="loginPassword"></label>
+                                            <input type="password" id="-fologinPassword" name="password" className={loginPageStyle.inputPassword} placeholder="비밀번호" onChange={this.onChangeHandler} />
+                                        </div>
+                                        <div className={loginPageStyle.buttonBox}>
+                                            <button type="submit" className={loginPageStyle.loginButton}>로그인</button>
+                                        </div>
+                                    </form>
                                 </div>
-                                <button type="submit" className="btn btn-primary btn-block mb-4">Sign In</button>
-                            </form>
-                        
-
+                                {/* <div className={loginPageStyle.smallText}> */}
+                                    <p>Web ERP 회원이 아닌가요?<br/> 지금 가입하세요.</p>
+                                {/* </div> */}
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div >
+            </>
         );
     }
 }

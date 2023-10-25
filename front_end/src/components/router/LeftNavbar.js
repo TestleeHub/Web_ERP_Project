@@ -206,12 +206,12 @@ const LeftNavbar = () => {
               :
               <></>}
             {logisticsshow === true ? <div style={{ textAlign: 'left', margin: '0px 30px' }}>
-              <NavLink exact to="/logistics/mainPage" activeClassName="activeClicked">
+              {/* <NavLink exact to="/logistics/mainPage" activeClassName="activeClicked">
                 - 메인 페이지 테스트<br />
-              </NavLink>
-              <NavLink exact to="/logistics/inventoryAdjustment" activeClassName="activeClicked">
+              </NavLink> */}
+              {/* <NavLink exact to="/logistics/inventoryAdjustment" activeClassName="activeClicked">
                 - 재고 조정<br />
-              </NavLink>
+              </NavLink> */}
               <NavLink exact to="/logistics/inventorySelect" activeClassName="inventorySelect">
                 - 재고 조회<br />
               </NavLink>

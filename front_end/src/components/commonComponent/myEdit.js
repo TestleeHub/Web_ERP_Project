@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Table, TableBody, TableRow, TableCell, Button } from '@mui/material';
 import { request, getUserId } from "../../helpers/axios_helper";
+import myEditStyle from "../../css/myEdit.module.css";
 
 class empAdd extends Component{
     constructor(props) {
@@ -142,7 +143,7 @@ class empAdd extends Component{
                     <Table style={{ backgroundColor: 'ghostwhite'}}>
                         <TableBody>
                             <TableRow>
-                                <TableCell >사원번호</TableCell>
+                                <TableCell cellSpan={2}>사원번호</TableCell>
                                 <TableCell ><input type="text" name="employeeId" placeholder="사원번호" onChange={this.onChangeEmpHandler} value={this.state.employeeId} readOnly/></TableCell>
                                 <TableCell >이름</TableCell>
                                 <TableCell ><input type="text" name="name" placeholder="이름" onChange={this.onChangeEmpHandler} value={this.state.name}/></TableCell>

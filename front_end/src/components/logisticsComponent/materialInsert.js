@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {Table, TableHead, TableBody, TableRow, TableCell, Typography, Button} from '@mui/material';
 import { request } from "../../helpers/axios_helper";
-import Popup from "../popUp/productionPopup";
+import StoragePopup from "../popUp/storagePopup";
 import Modal from 'react-modal';
 
 // 원재료 등록(materialInsert)
@@ -61,7 +61,7 @@ class materialInsert extends Component{
 
     // 팝업에서 선택한 데이터를 받아오는 콜백 함수
     handlePopupData = (data) => {
-        this.setState({ productionItemId: data.productionItemId, isPopupOpen: false });
+        this.setState({ storageId: data.storageId, isPopupOpen: false });
     }
 
 
@@ -128,29 +128,30 @@ class materialInsert extends Component{
                         }}
                     >
                         {/* 팝업 컴포넌트에 선택한 데이터를 전달 */}
-                        <Popup onPopupData={this.handlePopupData} />
+                        <StoragePopup onPopupData={this.handlePopupData} />
 
                         <button onClick={this.closePopup}>닫기</button>
                     </Modal>
                 </div>
                 
-                <br/>
-                    <Typography variant="h4" style={style}> 원재료 등록 </Typography>
-                <br/>
                 <div>
-                    <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>원재료 등록</Button>
+                    <Typography variant="h4" style={style}> 원재료 등록 </Typography>
+                    <br/>
                 </div>
-                <Table style={{ border: '1px solid lightgray', backgroundColor: 'ghostwhite' }}>
+                <div style={divLineStyle}>
+                    <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>등록</Button>
+                </div>
+                
+                <Table style={tableStyle}>
                     <TableHead>
                         <TableRow>
-                            <TableCell style={{border: 'none'}}> 원재료 코드 </TableCell>
-                            <TableCell style={{border: 'none'}}>
-                                <input
+                            <TableCell style={tableCellTitleStyle}> 원재료 코드 </TableCell>
+                            <TableCell style={tableCellStyle}>
+                                <input style={longInputStyle}
                                     readOnly
                                     type="text" 
                                     name="materialId" 
                                     className="redPlaceholder"
-                                    style={longInputStyle}
                                     placeholder="원재료 코드는 자동으로 생성됩니다." 
                                     onChange={this.onChangeHandler} 
                                     value={this.state.materialId}
@@ -158,12 +159,11 @@ class materialInsert extends Component{
                             </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell style={{border: 'none'}}> 원재료 이름 </TableCell>
-                            <TableCell style={{border: 'none'}}>
-                                <input 
+                            <TableCell style={tableCellTitleStyle}> 원재료 이름 </TableCell>
+                            <TableCell style={tableCellStyle}>
+                                <input style={longInputStyle}
                                     type="text" 
                                     name="name" 
-                                    style={longInputStyle}
                                     placeholder="원재료 이름" 
                                     onChange={this.onChangeHandler} 
                                     value={this.state.name}
@@ -171,12 +171,11 @@ class materialInsert extends Component{
                             </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell style={{border: 'none'}}> 수량 </TableCell>
-                            <TableCell style={{border: 'none'}}>
-                                <input 
+                            <TableCell style={tableCellTitleStyle}> 수량 </TableCell>
+                            <TableCell style={tableCellStyle}>
+                                <input style={quantityInputStyle}
                                     type="number" 
                                     name="quantity" 
-                                    style={shortInputStyle}
                                     placeholder="수량" 
                                     onChange={this.onChangeHandler} 
                                     value={this.state.quantity}
@@ -184,15 +183,15 @@ class materialInsert extends Component{
                             </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell style={{border: 'none'}}> 창고 코드 </TableCell>
-                            <TableCell style={{border: 'none'}}>
-                                <input
+                            <TableCell style={tableCellTitleStyle}> 창고 코드 </TableCell>
+                            <TableCell style={tableCellStyle}>
+                                <input style={longInputStyle}
                                     readOnly
                                     type="text" 
                                     name="storageId" 
-                                    style={longInputStyle}
                                     placeholder="창고 코드" 
                                     onChange={this.onChangeHandler} 
+                                    onClick={this.openPopup}
                                     value={this.state.storageId}
                                 />
                             </TableCell>
@@ -255,10 +254,30 @@ class materialInsert extends Component{
     }
 }
 
+
+// 테이블 스타일
+const tableStyle = {
+    border: '1px solid lightgray',
+    backgroundColor: 'ghostwhite',  // 배경색 ghost white
+};
+
+// 테이블 셀 이름 스타일
+const tableCellTitleStyle = {
+    width: '20%',
+    fontSize: '20px',
+    border: 'none',
+    paddingLeft: '30px',
+};
+
+// 테이블 셀 스타일
+const tableCellStyle = {
+    border: 'none'
+};
+
 const style = {
     display: 'flex',
     justifyContent: 'left'
-}
+};
 
 // 사다리꼴 버튼 속성
 const trapezoidButton = {
@@ -266,12 +285,13 @@ const trapezoidButton = {
     color: 'white',
     marginRight: '10px',
     clipPath: 'polygon(20% 2%, 80% 2%, 100% 100%, 0% 100%)',
-    width: '120px',
-    height: '40px',
+    width: '160px',
+    height: '50px',
     padding: '10px 20px',
     borderTopLeftRadius: '100px',
     borderTopRightRadius: '100px',
-}
+    fontSize: '18px'
+};
 
 // 기본 버튼 속성
 const normalButton = {
@@ -279,20 +299,51 @@ const normalButton = {
     color: 'white',
     marginRight: '10px',
     width: '150px',
-    height: '30px',
-    padding: '10px 20px'
-}
+    height: '40px',
+    padding: '10px 20px',
+    fontSize: '18px'
+};
+
+// 500px input 창
+const longInputStyle = {
+    width: '500px',
+    height: '50px',
+    padding: '5px 10px',
+};
 
 // 300px input 창
 const shortInputStyle = {
     width: '300px',
+    height: '50px',
     padding: '5px 10px',
 };
 
-// 700px input 창
-const longInputStyle = {
-    width: '700px',
+// 수량 입력 창
+const quantityInputStyle = {
+    width: '100px',
+    height: '50px',
     padding: '5px 10px',
 };
+
+const labelStyle = {
+    fontSize: '20px',
+    display: 'flex',
+    float: 'left',
+    alignItems: 'center',
+    paddingRight: '20px'
+};
+
+// 체크박스 스타일
+const checkBoxStyle = {
+    width: '30px',
+    height: '30px',
+    marginRight: '5px'
+};
+
+// 밑줄
+const divLineStyle = {
+    borderBottom: '3px solid navy'
+};
+
 
 export default materialInsert;
