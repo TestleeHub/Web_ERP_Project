@@ -46,7 +46,29 @@ class empList extends Component {
 
     // 라이프사이클 중 컴포넌트가 생성된 후 사용자에게 보여지기까지의 전체 과정을 렌더링
     componentDidMount() {
+        console.log("시작")
         this.reloadData();
+    }
+
+    // 페이지 다시 호출할때
+    componentDidUpdate(prevProps) {
+        if (this.props.location !== prevProps.location) {
+            // 경로가 변경될 때 실행할 코드
+            // 예: 데이터 로딩 또는 초기화 작업
+            this.reloadData();
+            this.setState({isLoading: true});
+        }
+    }
+
+    // 검색
+    onChangeHandler = (search) => {
+        const searchText = search.target.value;
+
+        // 검색어를 기반으로 displayedDatas 업데이트
+        const filteredData = this.state.datas.filter((data) =>
+            data.employeeId.toLowerCase().includes(searchText.toLowerCase())
+        );
+        this.setState({ displayedDatas: filteredData });
     }
 
     // emplist 정보
@@ -103,7 +125,9 @@ class empList extends Component {
                     datas: this.state.datas.filter(data => data.customerId !== targetdata.customerId),
                     displayedDatas: this.state.displayedDatas.filter(data => data.customerId !== targetdata.customerId)
                 });
+                this.props.history.push('/humanResources/empList');
                 console.log('response : ', response);
+                
             }).catch((error) => {
                 console.log('error: ', error);
                 if(error.response.status === 403){
@@ -141,6 +165,8 @@ class empList extends Component {
         return `${year}-${month}-${day}`;
     }
 
+    
+
     render() {
         const { displayedDatas, showMore } = this.state;
 
@@ -156,6 +182,17 @@ class empList extends Component {
                 ) : (
                     <Table border="1" style={{ border: '1px solid lightgray', backgroundColor: 'ghostwhite' }}>
                         <TableHead style={{ backgroundColor: 'lightgray' }}>
+                            <TableRow>
+                                <TableCell>
+                                    검색
+                                    <input 
+                                        type="text" 
+                                        name="search" 
+                                        placeholder="검색" 
+                                        onChange={this.onChangeHandler} 
+                                    />
+                                </TableCell>
+                            </TableRow>
                             <TableRow>
                                 <TableCell>사원번호</TableCell>
                                 <TableCell>성명</TableCell>

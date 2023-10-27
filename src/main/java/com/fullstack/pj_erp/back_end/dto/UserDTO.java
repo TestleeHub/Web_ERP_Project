@@ -63,7 +63,7 @@ public class UserDTO {
 	@Transient
 	private String role;
 	@Transient
-	private int DependentFamiliyPay; // 부양가족수당
+	private int dependentFamiliyPay; // 부양가족수당
 	@Transient
 	private int totalSalary; // 지급총액
 	@Transient

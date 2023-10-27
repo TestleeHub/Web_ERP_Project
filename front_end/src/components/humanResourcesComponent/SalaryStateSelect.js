@@ -19,20 +19,18 @@ class SalaryStateSelect extends Component{
         request(
             "GET",
             "/humanResources/empList",
-            // "/humanResources/salary",
             {
 
             }).then((response) => {
                 const data = response.data
-                const calSalary = data.map((data) => (parseInt(data, 10)*2).toString())
+                
                 this.setState({
                     datas: response.data,
                     displayedDatas: response.data.slice(0, 5),
                     isLoading: false
                 });
-                console.log('calSalary: ', calSalary.map((data=>data.salary)));
-                console.log('data: ',data.map((data=>data.salary)));
-                console.log('response: ',response);
+                console.log(data)
+                
             }).catch((error) => {
                 console.log('error: ', error);
                 if(error.response.status === 403){
@@ -118,40 +116,40 @@ class SalaryStateSelect extends Component{
                             {this.state.isLoading ? (
                                 <p>로딩 중...</p>
                             ) : (
-                                this.state.datas.map(data => 
+                                this.state.displayedDatas.map(data => 
                                     <Fragment>
                                         <TableRow>
                                             <TableCell style={tableLine}>{data.name}</TableCell>
                                             <TableCell style={tableLine}>{data.departmentId}</TableCell>
-                                            <TableCell style={tableLine}>{data.salary}</TableCell>
-                                            <TableCell style={tableLine}>{data.salar.overtimePay}</TableCell>
-                                            <TableCell style={tableLine}>{data.salar.weekendPay}</TableCell>
-                                            <TableCell style={tableLine}>{data.salar.vacationPay}</TableCell>
+                                            <TableCell style={tableLine}>{parseFloat(data.salary).toLocaleString()}</TableCell>
+                                            <TableCell style={tableLine}>{parseFloat(data.salar.overtimePay).toLocaleString()}</TableCell>
+                                            <TableCell style={tableLine}>{parseFloat(data.salar.weekendPay).toLocaleString()}</TableCell>
+                                            <TableCell style={tableLine}>{parseFloat(data.salar.vacationPay).toLocaleString()}</TableCell>
                                             <TableCell style={tableLine}></TableCell>
-                                            <TableCell style={tableLine} rowSpan={2}>{data.totalSalary}</TableCell>
+                                            <TableCell style={tableLine} rowSpan={2}>{parseFloat(data.totalSalary).toLocaleString()}</TableCell>
                                             <TableCell style={tableLine}></TableCell>
                                             <TableCell style={tableLine}></TableCell>
-                                            <TableCell style={tableLine}>{data.nationalPension}</TableCell>
-                                            <TableCell style={tableLine}>{data.healthInsurance}</TableCell>
-                                            <TableCell style={tableLine}>{data.employInsurance}</TableCell>
+                                            <TableCell style={tableLine}>{parseFloat(data.nationalPension).toLocaleString()}</TableCell>
+                                            <TableCell style={tableLine}>{parseFloat(data.healthInsurance).toLocaleString()}</TableCell>
+                                            <TableCell style={tableLine}>{parseFloat(data.employInsurance).toLocaleString()}</TableCell>
                                             <TableCell style={tableLine}></TableCell>
                                             <TableCell style={tableLine}></TableCell>
                                         </TableRow>
                                         <TableRow>
                                             <TableCell style={tableLine}>{data.employeeId}</TableCell>
                                             <TableCell style={tableLine}>{data.position}</TableCell>
-                                            <TableCell style={tableLine}>{data.DependentFamiliyPay}</TableCell>
+                                            <TableCell style={tableLine}>{parseFloat(data.dependentFamiliyPay).toLocaleString()}</TableCell>
                                             <TableCell style={tableLine}></TableCell>
-                                            <TableCell style={tableLine}>{data.carPay}</TableCell>
-                                            <TableCell style={tableLine}></TableCell>
-                                            <TableCell style={tableLine}></TableCell>
+                                            <TableCell style={tableLine}>{parseFloat(data.carPay).toLocaleString()}</TableCell>
                                             <TableCell style={tableLine}></TableCell>
                                             <TableCell style={tableLine}></TableCell>
                                             <TableCell style={tableLine}></TableCell>
                                             <TableCell style={tableLine}></TableCell>
                                             <TableCell style={tableLine}></TableCell>
-                                            <TableCell style={tableLine}>{data.totaldeduction}</TableCell>
-                                            <TableCell style={tableLine}>{data.totalSalaryReal}</TableCell>
+                                            <TableCell style={tableLine}></TableCell>
+                                            <TableCell style={tableLine}></TableCell>
+                                            <TableCell style={tableLine}>{parseFloat(data.totaldeduction).toLocaleString()}</TableCell>
+                                            <TableCell style={tableLine}>{parseFloat(data.totalSalaryReal).toLocaleString()}</TableCell>
                                             
                                         </TableRow>
                                     </Fragment>

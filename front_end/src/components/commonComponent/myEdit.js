@@ -31,14 +31,14 @@ class empAdd extends Component{
 
     // 수정페이지 처리
     componentDidMount() {
-        // console.log("myedit:" + window.localStorage.getItem("employeeId"))
-        // const employeeId = window.localStorage.getItem("employeeId");
-        // const parseEmployeeId = JSON.parse(employeeId);
-        // const UserId = window.localStorage.getItem('user_id');
+        this.reloadData();
+
+    }
+    
+    reloadData = (e) => {
         const UserId = getUserId();
         console.log("현재 아이디:", UserId)
-
-
+        
         request(
             "GET",
             "/myeEditPage/myDetail/" + UserId,
@@ -70,6 +70,7 @@ class empAdd extends Component{
             }).catch((error) => {
                 console.log('error: ', error);
             })
+
     }
 
     onChangeEmpHandler = (e) => {
@@ -104,7 +105,7 @@ class empAdd extends Component{
         if(pw === chkpw && pw !== "" ){
             request(
                 "POST",
-                "/humanResources/empAdd",
+                "/myeEditPage/empUpdate",
                 {
                     employeeId: this.state.employeeId,
                     name: this.state.name,
@@ -123,6 +124,7 @@ class empAdd extends Component{
                     address: this.state.address,
                     salary: this.state.salary,	
                     password: this.state.password,
+                    joinDate: this.state.joinDate
                 }).then((response) => {
                     console.log('response : ', response);   
                     this.props.history.push('/humanResources/empList');
@@ -200,12 +202,18 @@ class empAdd extends Component{
                             </TableRow>
                             <TableRow>
                                 <TableCell >비밀번호</TableCell>
-                                <TableCell ><input type="password" name="password" placeholder="비밀번호" onChange={this.onChangeEmpHandler} value={this.state.password}/></TableCell>
+                                <TableCell >
+                                    <input type="password" name="password" placeholder="비밀번호" onChange={this.onChangeEmpHandler} value={this.state.password}/>
+                                    {
+                                        (this.state.password === "") ? "암호를 입력해주세요" :
+                                        (this.state.chkpassword === "") ? "확인을 입력해주세요" :
+                                        (this.state.password === this.state.chkpassword) ? "암호가 일치합니다." : "암호가 일치하지 않습니다."
+                                    }
+                                </TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell >비밀번호 확인</TableCell>
                                 <TableCell ><input type="password" name="chkpassword" placeholder="비밀번호" onChange={this.onChangeEmpHandler} value={this.state.chkpassword}/></TableCell>
-                                {this.state.password === this.state.chkpassword ? "암호가 일치합니다." : "암호가 일치하지 않습니다."}
                             </TableRow>
                         </TableBody>
                     </Table>
