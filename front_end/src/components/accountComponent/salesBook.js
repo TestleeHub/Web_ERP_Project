@@ -126,45 +126,46 @@ class salesBookList extends Component{
     render(){
         const { displayedDatas, showMore } = this.state;
         return(
-            <div>
+            <div style={{padding:'30px'}}>
                 <div>
-                    <Typography style={style}>매출장 조회</Typography>
+                    <Typography variant="h4" style={style}>매출장 조회</Typography>
                 </div>
-                <div>
+                <br />
+                <div style={divLineStyle}>
                     <Button variant="contained" style={trapezoidButton} onClick={this.salesBookList}>전체</Button>
                 </div>
                 <div>
                     {this.state.isLoading ? (
                             <p>로딩 중...</p>
                         ) : (
-                            <Table style={{border: '1px solid lightgray', backgroundColor: 'ghostwhite'}}>
+                            <Table style={tableStyle}>
                             <TableHead style={{backgroundColor: 'lightgray'}}>
                             <TableRow>
-                                <TableCell align="center">
-                                    <input type="checkbox" />
-                                </TableCell>
-                                <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingSalesBookId()} align="center">매출장 번호▽</TableCell>
-                                <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingCustomerName()} align="center">거래처명▽</TableCell>
-                                <TableCell style={{fontWeight: 'bold'}} align="center">세부 내역</TableCell>
-                                <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingTotalPrice()} align="center">매입공급가액▽</TableCell>
-                                <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingVat()} align="center">매입 부가세▽</TableCell>
-                                <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingRegistDate()} align="center">납기일▽</TableCell>
-                                <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingEmployeeName()} align="center">최종수정자▽</TableCell>
+                                <TableCell style={tableCellStyle}>
+
+                                </TableCell>  
+                                <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingSalesBookId()} align="center">매출장 번호▽</TableCell>
+                                <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingCustomerName()} align="center">거래처명▽</TableCell>
+                                <TableCell style={tableCellTitleStyle} align="center">세부 내역</TableCell>
+                                <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingTotalPrice()} align="center">매입공급가액▽</TableCell>
+                                <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingVat()} align="center">매입 부가세▽</TableCell>
+                                <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingRegistDate()} align="center">납기일▽</TableCell>
+                                <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingEmployeeName()} align="center">최종수정자▽</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {this.state.displayedDatas.map((data, index) => (
                                 <TableRow>
-                                    <TableCell align="center">
-                                        <input type="checkbox" /> {index + 1}
+                                    <TableCell style={{ ...tableCellStyle, backgroundColor: 'lightgray' }} align="center">
+                                        {index + 1}
                                     </TableCell>
-                                    <TableCell>{data.salesBookId}</TableCell>
-                                    <TableCell>{data.customer ? data.customer.name : "N/A"}</TableCell>
-                                    <TableCell>{data.details && data.details.length > 0 ? data.details[0].materialId + ' 외' : ''}  {data.details ? data.details.length : 0} 건 </TableCell>
-                                    <TableCell>{data.totalPrice ? data.totalPrice : "0"}원</TableCell>
-                                    <TableCell>{data.vat ? data.vat : "0"}원</TableCell>
-                                    <TableCell>{data.registDate ? this.formatDate(data.registDate) : "N/A"}</TableCell>
-                                    <TableCell>{data.employee ? data.employee.name : "N/A"}</TableCell>
+                                    <TableCell style={tableCellTitleStyle}>{data.salesBookId}</TableCell>
+                                    <TableCell style={tableCellTitleStyle}>{data.customer ? data.customer.name : "N/A"}</TableCell>
+                                    <TableCell style={tableCellTitleStyle}>{data.details && data.details.length > 0 ? data.details[0].materialId + ' 외' : ''}  {data.details ? data.details.length : 0} 건 </TableCell>
+                                    <TableCell style={tableCellTitleStyle}>{data.totalPrice ? data.totalPrice : "0"}원</TableCell>
+                                    <TableCell style={tableCellTitleStyle}>{data.vat ? data.vat : "0"}원</TableCell>
+                                    <TableCell style={tableCellTitleStyle}>{data.registDate ? this.formatDate(data.registDate) : "N/A"}</TableCell>
+                                    <TableCell style={tableCellTitleStyle}>{data.employee ? data.employee.name : "N/A"}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -181,6 +182,26 @@ class salesBookList extends Component{
 
 export default salesBookList;
 
+// 테이블 스타일
+const tableStyle = {
+    border: '1px solid lightgray',
+    backgroundColor: 'ghostwhite',  // 배경색 ghost white
+}
+
+// 테이블 셀 이름 스타일
+const tableCellTitleStyle = {
+    width: '14%',
+    fontSize: '20px',
+    paddingLeft: '30px',
+    textAlign: 'center'
+}
+
+// 테이블 셀 스타일
+const tableCellStyle = {
+    fontSize: '20px',
+    border: 'none'
+}
+
 const style = {
     display: 'flex',
     justifyContent: 'left'
@@ -190,19 +211,77 @@ const style = {
 const trapezoidButton = {
     backgroundColor: 'navy',
     color: 'white',
+    marginRight: '10px',
     clipPath: 'polygon(20% 2%, 80% 2%, 100% 100%, 0% 100%)',
-    width: '120px',
-    height: '40px',
+    width: '160px',
+    height: '50px',
     padding: '10px 20px',
     borderTopLeftRadius: '100px',
-    borderTopRightRadius: '100px'
+    borderTopRightRadius: '100px',
+    fontSize: '18px'
 }
 
 // 기본 버튼 속성
 const normalButton = {
     backgroundColor: 'navy',
     color: 'white',
-    width: '120px',
-    height: '30px',
-    padding: '10px 20px'
+    marginRight: '10px',
+    width: '150px',
+    height: '40px',
+    padding: '10px 20px',
+    fontSize: '18px'
 }
+
+// 500px input 창
+const longInputStyle = {
+    width: '500px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+// 300px input 창
+const shortInputStyle = {
+    width: '300px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+const labelStyle = {
+    fontSize: '20px',
+    display: 'flex',
+    float: 'left',
+    alignItems: 'center',
+    paddingRight: '20px'
+};
+
+const checkBoxStyle = {
+    width: '30px',
+    height: '30px',
+    marginRight: '5px'
+};
+
+const divLineStyle = {
+    borderBottom: '3px solid navy'
+};
+
+// 수정 버튼 속성
+const updateButton = {
+    backgroundColor: '#FF8C0A',
+    color: 'white',
+    width: '140px',
+    height: '40px',
+    padding: '10px 20px',
+    borderRadius: '20px',
+    fontSize: '18px'
+};
+
+// 삭제 버튼 속성
+const deleteButton = {
+    backgroundColor: '#A52A2A',
+    color: 'white',
+    width: '140px',
+    height: '40px',
+    padding: '10px 20px',
+    borderRadius: '20px',
+    fontSize: '18px'
+};

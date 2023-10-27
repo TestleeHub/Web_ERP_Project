@@ -179,7 +179,7 @@ class customerTradeSlipInsert extends Component {
                         <TableRow>
                             <TableCell style={tableCellTitleStyle}> 금액 </TableCell>
                             <TableCell style={tableCellStyle}>
-                                <input style={InputStyle500px}
+                                <input style={quantityInputStyle}
                                     type="text"
                                     name="money"
                                     placeholder="금액"

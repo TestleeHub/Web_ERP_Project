@@ -89,12 +89,11 @@ class dailyTrialBalance extends Component {
     render() {
         const { displayedDatas, showMore } = this.state;
         return (
-            <div>
+            <div style={{padding:'30px'}}>
                 <div>
                     <Typography variant="h4" style={style}>일계표 조회</Typography>
                 </div>
-                <br />
-
+                
                 <div>
                     {this.state.isLoading ? (
                         <p>로딩 중...</p>
@@ -108,6 +107,9 @@ class dailyTrialBalance extends Component {
                                     <Table style={tableStyle}>
                                         <TableHead style={{ backgroundColor: 'lightgray' }}>
                                             <TableRow>
+                                                <TableCell style={tableCellStyle} align="center">
+
+                                                </TableCell>
                                                 <TableCell style={tableCellTitleStyle} align="center">차변합계</TableCell>
                                                 <TableCell style={tableCellTitleStyle} align="center">차변대체</TableCell>
                                                 <TableCell style={tableCellTitleStyle} align="center">차변현금(출금)</TableCell>
@@ -120,6 +122,9 @@ class dailyTrialBalance extends Component {
                                         <TableBody>
                                             {data.details.map((detail, index) => (
                                                 <TableRow>
+                                                    <TableCell style={{ ...tableCellStyle, backgroundColor: 'lightgray' }}>
+                                                        {index + 1}
+                                                    </TableCell>
                                                     <TableCell style={tableCellTitleStyle}>{detail ? (detail.debitSubstitution + detail.debitCash).toLocaleString() : '0'}원</TableCell>
                                                     <TableCell style={tableCellTitleStyle}>{detail.debitSubstitution ? detail.debitSubstitution.toLocaleString() : '0'}원</TableCell>
                                                     <TableCell style={tableCellTitleStyle}>{detail.debitCash ? detail.debitCash.toLocaleString() : '0'}원</TableCell>
@@ -131,6 +136,9 @@ class dailyTrialBalance extends Component {
                                             ))}
                                         </TableBody>
                                         <TableBody>
+                                            <TableCell style={{ ...tableCellStyle, backgroundColor: 'lightgray' }}>
+
+                                            </TableCell>
                                             <TableCell style={tableCellTitleStyle}>{data ? data.debitTotal.toLocaleString() : '0'}원</TableCell>
                                             <TableCell style={tableCellTitleStyle}>{data ? data.debitTotal.toLocaleString() : '0'}원</TableCell>
                                             <TableCell style={tableCellTitleStyle}></TableCell>
@@ -140,7 +148,6 @@ class dailyTrialBalance extends Component {
                                             <TableCell style={tableCellTitleStyle}>{data ? data.creditTotal.toLocaleString() : '0'}원</TableCell>
                                         </TableBody>
                                     </Table>
-                                    <br /><br />
                                 </div>
                             ))}
                         </div>
@@ -162,7 +169,7 @@ const tableStyle = {
 
 // 테이블 셀 이름 스타일
 const tableCellTitleStyle = {
-    width: '15%',
+    width: '14%',
     fontSize: '20px',
     paddingLeft: '30px',
     textAlign: 'center'
@@ -181,6 +188,7 @@ const style = {
 
 // 사다리꼴 버튼 속성
 const trapezoidButton = {
+    marginTop: '30px',
     backgroundColor: 'navy',
     color: 'white',
     marginRight: '10px',

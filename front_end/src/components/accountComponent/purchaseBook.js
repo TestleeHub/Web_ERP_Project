@@ -126,7 +126,7 @@ class purchaseBookList extends Component{
     render(){
         const { displayedDatas, showMore } = this.state;
         return(
-            <div>
+            <div style={{padding:'30px'}}>
                 <div>
                     <Typography variant="h4" style={style}>매입장 조회</Typography>
                 </div>
@@ -138,12 +138,12 @@ class purchaseBookList extends Component{
                     {this.state.isLoading ? (
                             <p>로딩 중...</p>
                         ) : (
-                        <Table style={{border: '1px solid lightgray', backgroundColor: 'ghostwhite'}}>
+                        <Table style={tableStyle}>
                             <TableHead style={{backgroundColor: 'lightgray'}}>
                                 <TableRow>
-                                    <TableCell style={tableCellTitleStyle} align="center">
-                                        #
-                                    </TableCell>
+                                    <TableCell style={tableCellStyle}>
+
+                                    </TableCell>    
                                     <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingPurchaseBookId()} align="center">매입장 번호▽</TableCell>
                                     <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingCustomerName()} align="center">거래처명▽</TableCell>
                                     <TableCell style={tableCellTitleStyle} align="center">세부 내역</TableCell>
@@ -188,7 +188,7 @@ const tableStyle = {
 
 // 테이블 셀 이름 스타일
 const tableCellTitleStyle = {
-    width: '15%',
+    width: '14%',
     fontSize: '20px',
     paddingLeft: '30px',
     textAlign: 'center'

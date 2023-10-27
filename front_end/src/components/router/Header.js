@@ -17,7 +17,7 @@ function Header() {
                 crossorigin="anonymous"
             />
 
-            <Navbar bg="dark" data-bs-theme="dark" expand="xl" style={{ minWidth: '1500px' }}>
+            <Navbar bg="dark" data-bs-theme="dark" expand="xl" style={{ minWidth: '1500px', height:'75px' }}>
                 <Container fluid>
                     <Navbar.Brand href="#">Web-ERP Service</Navbar.Brand>
                     <Navbar.Toggle aria-controls="navbarScroll" />
