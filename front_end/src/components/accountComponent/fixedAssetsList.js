@@ -139,14 +139,7 @@ class fixedAssetsList extends Component{
             displayedDatas: sortedData
         })
     }
-    sortUsingAssetType = () => { // assetType 정렬
-        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
-            return a.assetType.localeCompare(b.assetType);
-        })
-        this.setState({
-            displayedDatas: sortedData
-        })
-    }
+
     sortUsingAssetTitle = () => { // assetTitle 정렬
         const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
             return a.assetTitle.localeCompare(b.assetTitle);
@@ -155,17 +148,17 @@ class fixedAssetsList extends Component{
             displayedDatas: sortedData
         })
     }
-    sortUsingAssetTotal = () => { // assetTotal 정렬
+    sortUsingAssetTotal = () => { // assetTotal 정렬 => 자료형 int 기준 정렬
         const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
-            return a.assetTotal.localeCompare(b.assetTotal);
+            return a.assetTotal - b.assetTotal;
         })
         this.setState({
             displayedDatas: sortedData
         })
     }
-    sortUsingAcquistionCost = () => { // acquistionCost 정렬
+    sortUsingAcquistionCost = () => { // acquistionCost 정렬 => 자료형 int 기준 정렬
         const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
-            return a.acquistionCost.localeCompare(b.acquistionCost);
+            return a.acquistionCost - b.acquistionCost;
         })
         this.setState({
             displayedDatas: sortedData
@@ -173,7 +166,7 @@ class fixedAssetsList extends Component{
     }
     sortUsingRegistDate = () => { // registDate 정렬
         const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
-            return a.registDate.localeCompare(b.registDate);
+            return a.registDate - b.registDate;
         })
         this.setState({
             displayedDatas: sortedData
@@ -188,7 +181,7 @@ class fixedAssetsList extends Component{
                     <Typography variant="h4" style={style}>고정자산 조회</Typography>
                 </div>
                 <div>
-                    <Button variant="contained" style={trapezoidButton} onClick={this.orderList}>발주 목록</Button>
+                    <Button variant="contained" style={trapezoidButton} onClick={this.fixedAssetsList}>전체</Button>
                 </div>
                 <div>
                     {this.state.isLoading ? (
@@ -203,7 +196,7 @@ class fixedAssetsList extends Component{
                                     <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingAssetNo()} align="center">고정자산 번호▽</TableCell>
                                     <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingAssetTitle()} align="center">고정자산계정명▽</TableCell>
                                     <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingAssetName()} align="center">고정자산명▽</TableCell>
-                                    <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingAssetType()} align="center">고정자산유형▽</TableCell>
+                                    <TableCell style={{fontWeight: 'bold'}} align="center">고정자산유형</TableCell>
                                     <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingAssetTotal()} align="center">수량▽</TableCell>
                                     <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingAcquistionCost()} align="center">취득원가▽</TableCell>
                                     <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingRegistDate()} align="center">취득일자▽</TableCell>
@@ -256,7 +249,6 @@ class fixedAssetsList extends Component{
         );
     }
 }
-
 const style = {
     display: 'flex',
     justifyContent: 'left'
