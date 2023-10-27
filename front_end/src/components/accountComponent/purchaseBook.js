@@ -19,7 +19,7 @@ class purchaseBookList extends Component{
             purchaseId: "",
             customerId: "",
             employeeId: "",
-            dueDate: "",
+            registDate: "",
             accountReflect: 0,
             details: [], //Purchase_DetailDTO를 배열로 생성 및 선언
             totalPrice: "",	
@@ -34,7 +34,7 @@ class purchaseBookList extends Component{
         const nextChunk = datas.slice(currentLength, currentLength + 5);
         const newDisplayedData = [...displayedDatas, ...nextChunk];
         if (newDisplayedData.length === datas.length) {
-            this.setState({ showMore: false }); // 더이상 데이터를 보여줄 필요가 없으면 "더 보기" 버튼을 숨깁니다.
+            this.setState({ showMore: false }); // 모든 데이터 출력시, "더보기 버튼" 숨김
         }
         this.setState({ displayedDatas: newDisplayedData });
     }
@@ -73,56 +73,106 @@ class purchaseBookList extends Component{
         return `${year}-${month}-${day}`;
     }
 
+    // 정렬
+    sortUsingPurchaseBookId = () => {
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.purchaseBookId.localeCompare(b.purchaseBookId);
+        })
+        this.setState({
+            displayedDatas: sortedData
+        })
+    }
+    sortUsingCustomerName = () => {
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.customer.name.localeCompare(b.customer.name);
+        })
+        this.setState({
+            displayedDatas: sortedData
+        })
+    }
+    sortUsingTotalPrice = () => {
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.totalPrice - b.totalPrice;
+        })
+        this.setState({
+            displayedDatas: sortedData
+        })
+    }
+    sortUsingVat = () => {
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.vat - b.vat;
+        })
+        this.setState({
+            displayedDatas: sortedData
+        })
+    }
+    sortUsingRegistDate = () => {
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.registDate- b.registDate;
+        })
+        this.setState({
+            displayedDatas: sortedData
+        })
+    }
+    sortUsingEmployeeName = () => {
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            return a.employee.name.localeCompare(b.employee.name);
+        })
+        this.setState({
+            displayedDatas: sortedData
+        })
+    }
+
     render(){
         const { displayedDatas, showMore } = this.state;
         return(
             <div>
                 <div>
-                    <Typography style={style}>매입장 조회</Typography>
+                    <Typography variant="h4" style={style}>매입장 조회</Typography>
                 </div>
-                <div>
-                    <Button variant="contained" style={trapezoidButtonF} onClick={this.purchaseList}>전체</Button>
+                <br />
+                <div style={divLineStyle}>
+                <Button variant="contained" style={trapezoidButton} onClick={this.purchaseList}>전체</Button>
                 </div>
                 <div>
                     {this.state.isLoading ? (
                             <p>로딩 중...</p>
                         ) : (
-                    <Table style={{marginLeft: 15}}>
-                        <TableHead style={{backgroundColor:'#F5F5F5'}}>
-                            <TableRow>
-                                <TableCell align="center">
-                                    <input type="checkbox" />
-                                </TableCell>
-                                <TableCell align="center">매입장 번호</TableCell>
-                                <TableCell align="center">거래처 코드</TableCell>
-                                <TableCell align="center">세부 내역</TableCell>
-                                <TableCell align="center">매입공급가액</TableCell>
-                                <TableCell align="center">매입 부가세</TableCell>
-                                <TableCell align="center">납기일</TableCell>
-                                <TableCell align="center">최종수정자</TableCell>
-                            </TableRow>
+                        <Table style={{border: '1px solid lightgray', backgroundColor: 'ghostwhite'}}>
+                            <TableHead style={{backgroundColor: 'lightgray'}}>
+                                <TableRow>
+                                    <TableCell style={tableCellTitleStyle} align="center">
+                                        #
+                                    </TableCell>
+                                    <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingPurchaseBookId()} align="center">매입장 번호▽</TableCell>
+                                    <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingCustomerName()} align="center">거래처명▽</TableCell>
+                                    <TableCell style={tableCellTitleStyle} align="center">세부 내역</TableCell>
+                                    <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingTotalPrice()} align="center">매입공급가액▽</TableCell>
+                                    <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingVat()} align="center">매입 부가세▽</TableCell>
+                                    <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingRegistDate()} align="center">납기일▽</TableCell>
+                                    <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingEmployeeName()} align="center">최종수정자▽</TableCell>
+                                </TableRow>
                         </TableHead>
                         <TableBody>
                             {this.state.displayedDatas.map((data, index) => (
                                 <TableRow>
-                                    <TableCell align="center">
-                                        <input type="checkbox" /> {index + 1}
+                                    <TableCell style={{ ...tableCellStyle, backgroundColor: 'lightgray' }} align="center">
+                                        {index + 1}
                                     </TableCell>
-                                    <TableCell>{data.purchaseBookId}</TableCell>
-                                    <TableCell>{data.customerId ? data.customerId : "N/A"}</TableCell>
-                                    <TableCell>{data.details && data.details.length > 0 ? data.details[0].materialId + ' 외' : ''}  {data.details ? data.details.length : 0} 건 </TableCell>
-                                    <TableCell>{data.totalPrice ? data.totalPrice : "0"}원</TableCell>
-                                    <TableCell>{data.vat ? data.vat : "0"}원</TableCell>
-                                    <TableCell>{data.dueDate ? this.formatDate(data.dueDate) : "N/A"}</TableCell>
-                                    <TableCell>{data.employeeId ? data.employeeId : "N/A"}</TableCell>
-                                    <TableCell>  </TableCell>
+                                    <TableCell style={tableCellTitleStyle}>{data.purchaseBookId}</TableCell>
+                                    <TableCell style={tableCellTitleStyle}>{data.customer ? data.customer.name : "N/A"}</TableCell>
+                                    <TableCell style={tableCellTitleStyle}>{data.details && data.details.length > 0 ? data.details[0].materialId + ' 외' : ''}  {data.details ? data.details.length : 0} 건 </TableCell>
+                                    <TableCell style={tableCellTitleStyle}>{data.totalPrice ? data.totalPrice : "0"}원</TableCell>
+                                    <TableCell style={tableCellTitleStyle}>{data.vat ? data.vat : "0"}원</TableCell>
+                                    <TableCell style={tableCellTitleStyle}>{data.registDate ? this.formatDate(data.registDate) : "N/A"}</TableCell>
+                                    <TableCell style={tableCellTitleStyle}>{data.employee ? data.employee.name : "N/A"}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
                     )}
                     {showMore && (
-                     <Button variant="contained" style={{margin: 5, backgroundColor: '#D3D3D3'}} onClick={this.handleShowMoreClick}>더 보기</Button>
+                     <Button variant="contained" style={normalButton} onClick={this.handleShowMoreClick}>더 보기</Button>
                     )}
                 </div>
             </div>
@@ -130,28 +180,108 @@ class purchaseBookList extends Component{
     }
 }
 
-export default purchaseBookList;
+// 테이블 스타일
+const tableStyle = {
+    border: '1px solid lightgray',
+    backgroundColor: 'ghostwhite',  // 배경색 ghost white
+}
+
+// 테이블 셀 이름 스타일
+const tableCellTitleStyle = {
+    width: '15%',
+    fontSize: '20px',
+    paddingLeft: '30px',
+    textAlign: 'center'
+}
+
+// 테이블 셀 스타일
+const tableCellStyle = {
+    fontSize: '20px',
+    border: 'none'
+}
 
 const style = {
-    display:'flex',
-    justifyContent:'left',
-    margin: 15
+    display: 'flex',
+    justifyContent: 'left'
 }
 
 // 사다리꼴 버튼 속성
 const trapezoidButton = {
-    backgroundColor: '#D3D3D3',
-    clipPath: 'polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)',
-    width: '120px',
-    height: '30px',
-    padding: '10px 20px'
+    backgroundColor: 'navy',
+    color: 'white',
+    marginRight: '10px',
+    clipPath: 'polygon(20% 2%, 80% 2%, 100% 100%, 0% 100%)',
+    width: '160px',
+    height: '50px',
+    padding: '10px 20px',
+    borderTopLeftRadius: '100px',
+    borderTopRightRadius: '100px',
+    fontSize: '18px'
 }
 
-const trapezoidButtonF = {
-    backgroundColor: '#D3D3D3',
-    marginLeft: 15,
-    clipPath: 'polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)',
-    width: '120px',
-    height: '30px',
-    padding: '10px 20px'
+// 기본 버튼 속성
+const normalButton = {
+    backgroundColor: 'navy',
+    color: 'white',
+    marginRight: '10px',
+    width: '150px',
+    height: '40px',
+    padding: '10px 20px',
+    fontSize: '18px'
 }
+
+// 500px input 창
+const longInputStyle = {
+    width: '500px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+// 300px input 창
+const shortInputStyle = {
+    width: '300px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+const labelStyle = {
+    fontSize: '20px',
+    display: 'flex',
+    float: 'left',
+    alignItems: 'center',
+    paddingRight: '20px'
+};
+
+const checkBoxStyle = {
+    width: '30px',
+    height: '30px',
+    marginRight: '5px'
+};
+
+const divLineStyle = {
+    borderBottom: '3px solid navy'
+};
+
+// 수정 버튼 속성
+const updateButton = {
+    backgroundColor: '#FF8C0A',
+    color: 'white',
+    marginRight: '10px',
+    width: '100px',
+    height: '35px',
+    padding: '10px 20px',
+    borderRadius: '20px'
+};
+
+// 삭제 버튼 속성
+const deleteButton = {
+    backgroundColor: '#A52A2A',
+    color: 'white',
+    marginRight: '10px',
+    width: '100px',
+    height: '35px',
+    padding: '10px 20px',
+    borderRadius: '20px'
+};
+
+export default purchaseBookList;

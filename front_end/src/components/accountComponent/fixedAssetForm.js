@@ -277,4 +277,5 @@ const normalButton = {
     padding: '10px 20px'
 }
 
+
 export default fixedAssetForm;
