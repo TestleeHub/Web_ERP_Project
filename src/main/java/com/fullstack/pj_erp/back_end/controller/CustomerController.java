@@ -109,8 +109,7 @@ public class CustomerController {
 	/* 입금/출금 관리 부분 끝 */
 	
 	
-	/* 거래내역 관리 부분 시작 - 거리처 코드별, 전표번호별, 거래내역 ID별, 기업별, 가격별 
-	 * 오름차순 혹은 내림차순이 가능하게 해야 할 것. */
+	/* 거래내역 관리 부분 시작*/
 	// 거래내역 조회
 	@GetMapping(value = { "/customer/tradeHistory" })
 	public List<TradeHistoryDTO> tradeHistory() {
@@ -118,7 +117,7 @@ public class CustomerController {
 		return service.getTradeHistory();
 	}
 	
-	// 입력, 수정, 삭제는 테이블 특징상 제외. 대신 항목별 분류가 관건이다.
+	// 입력, 수정, 삭제는 테이블 특징상 제외.
 	
 	/* 거래내역 관리 부분 끝 */
 }

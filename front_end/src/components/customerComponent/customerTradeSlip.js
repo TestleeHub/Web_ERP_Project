@@ -13,7 +13,9 @@ class customerTradeSlip extends Component{
         money: "",
         customerId: "",
         title: "",
-        regDate: ""
+        regDate: "",
+        sortDirection: "ascending",  // 클릭 시 초기 정렬은 오름차순
+        sortColumn: ""               // 정렬되는 컬럼명을 저장
     }
 
     handleShowMoreClick = () => {
@@ -91,6 +93,48 @@ class customerTradeSlip extends Component{
         return `${year}-${month}-${day}`;
     }
 
+    // 항목 정렬
+    // 각 항목을 클릭할 때마다 오름차순과 내림차순 번갈아 정렬
+    // 클릭할 때마다 다른 항목에 간섭하지 않고 한번에 한 항목씩만 정렬하는 방법
+    handleSort = (columnKey) => {
+        let direction = "ascending";
+        
+        // 클릭한 컬럼이 현재 정렬 중인 컬럼이라면, 정렬 방향을 변경합니다.
+        if (this.state.sortColumn === columnKey) {
+            direction = this.state.sortDirection === "ascending" ? "descending" : "ascending";
+        } else {
+            // 클릭한 컬럼이 현재 정렬 중인 컬럼이 아니라면, 초기 정렬 방향(오름차순)을 사용합니다.
+            direction = "ascending";
+        }
+
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            let aValue = a[columnKey];
+            let bValue = b[columnKey];
+    
+            // 'customer' 항목의 경우, 'name' 속성을 사용하여 정렬
+            if (columnKey === 'customer') {
+                aValue = aValue.name;
+                bValue = bValue.name;
+            }
+
+            if (typeof aValue === 'string') {
+            // 문자열의 경우, 대소문자를 구분하지 않고 정렬
+            aValue = aValue.toLowerCase();
+            bValue = bValue.toLowerCase();
+            }
+
+            if (aValue < bValue) {
+                return direction === "ascending" ? -1 : 1;
+            }
+            if (aValue > bValue) {
+                return direction === "ascending" ? 1 : -1;
+            }
+            return 0;
+        });
+    
+        this.setState({ displayedDatas: sortedData, sortDirection: direction, sortColumn: columnKey });
+    }
+    
     render() {
         const { displayedDatas, showMore } = this.state;
 
@@ -107,12 +151,12 @@ class customerTradeSlip extends Component{
                     <Table border="1" style={{ border: '1px solid lightgray', backgroundColor: 'ghostwhite' }}>
                         <TableHead style={{ backgroundColor: 'lightgray' }}>
                             <TableRow>
-                                <TableCell>전표번호</TableCell>
+                                <TableCell onClick={() => this.handleSort('slipId')}>전표번호▽</TableCell>
                                 <TableCell>거래유형</TableCell>
-                                <TableCell>금액</TableCell>
-                                <TableCell>거래처명</TableCell>
-                                <TableCell>제목</TableCell>
-                                <TableCell>등록일</TableCell>
+                                <TableCell onClick={() => this.handleSort('money')}>금액▽</TableCell>
+                                <TableCell onClick={() => this.handleSort('customer')}>거래처명▽</TableCell>
+                                <TableCell onClick={() => this.handleSort('title')}>제목▽</TableCell>
+                                <TableCell onClick={() => this.handleSort('regDate')}>등록일▽</TableCell>
                                 <TableCell></TableCell>
                             </TableRow>
                         </TableHead>

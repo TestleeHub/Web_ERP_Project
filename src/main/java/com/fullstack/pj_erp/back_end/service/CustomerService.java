@@ -57,6 +57,12 @@ public class CustomerService {
 		tradeSlipRepository.save(dto);
 		
 		// TradeSlip테이블에 입력한 데이터에 맞추어 TradeHistory테이블에 데이터를 생성하고 저장
+		
+		// TradeSlip테이블의 TradeType컬럼 항목의 값이 "입금"인 데이터라면, 
+		// TradeSlip테이블의 Money컬럼 항목의 값 자체가 TradeHistory테이블에서는 Income컬럼에 입력되도록 반영
+		
+		// TradeSlip테이블의 TradeType컬럼 항목의 값이 "출금"인 데이터라면, 
+		// TradeSlip테이블의 Money컬럼 항목의 값 자체가 TradeHistory테이블에서는 Expend컬럼에 입력되도록 반영
 		TradeHistoryDTO tradeHistoryDTO = new TradeHistoryDTO();
 		tradeHistoryDTO.setCustomerId(dto.getCustomerId());
 		tradeHistoryDTO.setTitle(dto.getTitle());

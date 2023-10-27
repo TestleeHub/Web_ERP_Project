@@ -13,7 +13,9 @@ class customerTradeHistory extends Component{
         title: "",
         income: "",
         expend: "",
-        regDate: ""
+        regDate: "",
+        sortDirection: "ascending",  // 클릭 시 초기 정렬은 오름차순
+        sortColumn: ""               // 정렬되는 컬럼명을 저장
     }
 
     handleShowMoreClick = () => {
@@ -61,6 +63,37 @@ class customerTradeHistory extends Component{
         return `${year}-${month}-${day}`;
     }
 
+    // 항목 정렬
+    // 각 항목을 클릭할 때마다 오름차순과 내림차순 번갈아 정렬
+    // 클릭할 때마다 다른 항목에 간섭하지 않고 한번에 한 항목씩만 정렬하는 방법
+    handleSort = (columnKey, isString = false, isDate = false) => {
+        let direction = "ascending"; 
+
+        // 클릭된 컬럼이 이전에 정렬된 컬럼과 같으면 정렬 방향을 반전
+        if (this.state.sortColumn === columnKey) {
+            direction = this.state.sortDirection === "ascending" ? "descending" : "ascending";
+        }
+
+        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
+            let keys = columnKey.split('.'); 
+            let aValue = keys.reduce((obj, key) => (obj && obj[key] !== 'undefined') ? obj[key] : null, a);
+            let bValue = keys.reduce((obj, key) => (obj && obj[key] !== 'undefined') ? obj[key] : null, b);
+
+            if (isDate) {
+                return direction === "ascending" ? new Date(aValue) - new Date(bValue) : new Date(bValue) - new Date(aValue);
+            } else if (isString) {
+                if (!aValue) aValue = '';
+                if (!bValue) bValue = '';
+                return direction === "ascending" ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+            } else {
+                return direction === "ascending" ? aValue - bValue : bValue - aValue;
+            }
+        });
+        
+        // 상태 업데이트: 정렬된 데이터와, 정렬 방향, 정렬된 컬럼
+        this.setState({ displayedDatas: sortedData, sortDirection: direction, sortColumn: columnKey });
+    }
+    
     render(){
         const { displayedDatas, showMore } = this.state;
 
@@ -77,12 +110,12 @@ class customerTradeHistory extends Component{
                     <Table border="1" style={{ border: '1px solid lightgray', backgroundColor: 'ghostwhite' }}>
                     <TableHead style={{ backgroundColor: 'lightgray' }}>
                         <TableRow>
-                            <TableCell>거래내역 Id</TableCell>
-                            <TableCell>거래처</TableCell>
-                            <TableCell>제목</TableCell>
-                            <TableCell>거래 수입금</TableCell>
-                            <TableCell>거래 지줄금</TableCell>
-                            <TableCell>등록일</TableCell>
+                            <TableCell style={{fontWeight: 'bold'}} onClick={() => this.handleSort('tradeHistoryId', true)} align="center">거래내역 Id▽</TableCell>
+                            <TableCell style={{fontWeight: 'bold'}} onClick={() => this.handleSort('customer.name', true)} align="center">거래처명▽</TableCell>
+                            <TableCell style={{fontWeight: 'bold'}} onClick={() => this.handleSort('title', true)} align="center">제목▽</TableCell>
+                            <TableCell style={{fontWeight: 'bold'}} onClick={() => this.handleSort('income')} align="center">거래 수입금▽</TableCell>
+                            <TableCell style={{fontWeight: 'bold'}} onClick={() => this.handleSort('expend')} align="center">거래 지줄금▽</TableCell>
+                            <TableCell style={{fontWeight: 'bold'}} onClick={() => this.handleSort('regDate', false, true)} align="center">등록일▽</TableCell>
                             <TableCell></TableCell>
                         </TableRow>
                     </TableHead>
