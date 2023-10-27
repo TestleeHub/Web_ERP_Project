@@ -206,7 +206,7 @@ class purchaseForm extends Component {
 
     render() {
         return (
-            <div>
+            <div style={{padding:'30px'}}>
                 {/* 팝업 */}
                 <div>
                     <Modal

@@ -184,7 +184,7 @@ class salesForm_Form extends Component{
 
     render(){
         return(
-            <div>
+            <div style={{padding:'30px'}}>
                 <div>
                 <Modal
                         isOpen={this.state.isCustomerPopupOpen}
@@ -300,9 +300,9 @@ class salesForm_Form extends Component{
                                         onChange={this.onChangeHandler} 
                                     />
                                 </TableCell>
-                                <TableCell style={{ border: 'none', fontWeight: 'bold' }}>담당자</TableCell>
-                                <TableCell style={{ border: 'none' }}>
-                                    <input 
+                                <TableCell style={tableCellTitleStyle}>담당자</TableCell>
+                                <TableCell style={tableCellStyle}>
+                                    <input style={InputStyle300px}
                                         type="text" 
                                         name="employeeId" 
                                         value={this.state.employeeId} 
@@ -319,69 +319,70 @@ class salesForm_Form extends Component{
                     <Button variant="outline-success" style={normalButton} onClick={this.salesForm_List}>주문 목록</Button>
                     <Button variant="outline-success" style={normalButton} onClick={this.salesList}>판매 목록</Button>
                 </div>
-                <div>
-                    <Table style={{ marginBottom: 15, width: '80%', border: '1px solid lightgray', backgroundColor: 'ghostwhite' }}>
-                        <TableHead style={{borderBottomStyle: '1px solid lightgray'}}>
-                            <TableRow>
-                                <TableCell style={{ border: 'none' }} align="center">
-                                </TableCell>
-                                <TableCell style={{ border: 'none', fontWeight: 'bold' }} align="center">품목코드</TableCell>
-                                <TableCell style={{ border: 'none', fontWeight: 'bold' }} align="center">규격</TableCell>
-                                <TableCell style={{ border: 'none', fontWeight: 'bold' }} align="center">수량</TableCell>
-                                <TableCell style={{ border: 'none', fontWeight: 'bold' }} align="center">단가</TableCell>
-                                <TableCell style={{ border: 'none', fontWeight: 'bold' }} align="center">행 삭제</TableCell>
+                <div style={tableInterval}>
+                    <Table style={tableStyle}>
+                        <TableHead>
+                            <TableRow style={{backgroundColor: 'lightgray'}}>
+                                <TableCell style={{...tableCellTitleStyle2, textAlign: 'center'}}>No.</TableCell>
+                                <TableCell style={tableCellTitleStyle2}>품목코드</TableCell>
+                                <TableCell style={tableCellTitleStyle2}>규격</TableCell>
+                                <TableCell style={tableCellTitleStyle2}>수량</TableCell>
+                                <TableCell style={tableCellTitleStyle2}>단가</TableCell>
+                                <TableCell style={{...tableCellTitleStyle2, textAlign: 'center'}}>행 삭제</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {this.state.details.map((detail, index) => (
                                 <TableRow key={index}>
-                                    <TableCell style={{ border: 'none' }} align="center">
+                                    <TableCell style={{...tableCellTitleStyle2, backgroundColor: 'lightgray', textAlign: 'center'}}>
                                         {index + 1}
                                     </TableCell>
-                                    <TableCell style={{ border: 'none' }} align="center">
-                                        <input
+                                    <TableCell style={tableCellTitleStyle2}>
+                                        <input style={InputStyle200px}
                                             type="text"
                                             name={`details[${index}].productionItemId`}
-                                            size="10"
-                                            placeholder="품목코드(검색)"
+                                            placeholder="품목 코드"
                                             onChange={this.onChangeHandler}
                                             onClick={() => this.openProductionPopup(index)}
                                             value={detail.productionItemId}
                                             readOnly
                                         />
                                     </TableCell>
-                                    <TableCell style={{ border: 'none' }} align="center">
-                                        <input
+                                    <TableCell style={tableCellTitleStyle2}>
+                                        <input style={InputStyle200px}
                                             type="text"
                                             name={`details[${index}].standard`}
-                                            size="10"
-                                            placeholder="규격(검색)"
+                                            placeholder="규격"
                                             onChange={this.onChangeHandler}
                                             onClick={() => this.openProductionPopup(index)}
                                             value={detail.standard}
                                             readOnly
                                         />
                                     </TableCell>
-                                    <TableCell style={{ border: 'none' }} align="center">
-                                        <input 
+                                    <TableCell style={tableCellTitleStyle2}>
+                                        <input style={quantityInputStyle}
                                             type="text"
                                             name={`details[${index}].quantity`}
-                                            size="10"
                                             onChange={this.onChangeHandler}
                                             value={detail.quantity}
                                         />
                                     </TableCell>
-                                    <TableCell style={{ border: 'none' }} align="center">
-                                        <input 
+                                    <TableCell style={tableCellTitleStyle2}>
+                                        <input style={quantityInputStyle}
                                             type="text"
                                             name={`details[${index}].price`}
-                                            size="10"
                                             onChange={this.onChangeHandler}
                                             value={detail.price}
                                         />
                                     </TableCell>
-                                    <TableCell style={{ border: 'none' }} align="center">
-                                        <Button variant="contained" style={normalButton} onClick={() => this.removeField(index)}>삭제</Button>
+                                    <TableCell style={{...tableCellTitleStyle2, display: 'flex', justifyContent: 'center'}}>
+                                        <Button variant="contained" style={deleteButton} onClick={() => this.removeField(index)}>삭제
+                                            <img className="garbageImage" 
+                                                alt="garbage" 
+                                                src="../images/garbage.png" 
+                                                style={{marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)'}} 
+                                            />
+                                        </Button>
                                     </TableCell>
                                 </TableRow>
                             ))}

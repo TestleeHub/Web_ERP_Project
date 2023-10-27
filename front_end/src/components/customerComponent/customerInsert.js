@@ -111,152 +111,146 @@ class customerInsert extends Component {
     render() {
         return (
 
-            <div>
-                <br />
-                <Typography variant="h4" style={style}> 거래처 등록 </Typography>
-                <br />
+            <div style={{padding:'30px'}}>
                 <div>
-                    <Button variant="contained" style={trapezoidButton}>기본</Button>
+                    <Typography variant="h4" style={style}> 거래처 등록 </Typography>
                 </div>
-                <Table style={{ border: '1px solid lightgray', backgroundColor: 'ghostwhite' }}>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell style={{ border: 'none' }}> 거래처코드 </TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
-                                    type="text"
-                                    size="70"
-                                    name="customerId"
-                                    placeholder="거래처코드"
-                                    onChange={this.onChangeHandler}
-                                    value={this.state.customerId}
-                                    readOnly
-                                />
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell style={{ border: 'none' }}>거래처명(이름)</TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
-                                    type="text"
-                                    size="70"
-                                    name="name"
-                                    placeholder="거래처명(이름)"
-                                    onChange={this.onChangeHandler}
-                                    value={this.state.name}
-                                />
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell style={{ border: 'none' }}>대표자명</TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
-                                    type="text"
-                                    size="70"
-                                    name="ceoName"
-                                    placeholder="대표자명"
-                                    onChange={this.onChangeHandler}
-                                    value={this.state.ceoName}
-                                />
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell style={{ border: 'none' }}>전화번호</TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
-                                    type="text"
-                                    size="70"
-                                    name="phone"
-                                    placeholder="전화번호"
-                                    onChange={this.onChangeHandler}
-                                    value={this.state.phone}
-                                />
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell style={{ border: 'none' }}>팩스번호</TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
-                                    type="text"
-                                    size="70"
-                                    name="faxNumber"
-                                    placeholder="팩스번호"
-                                    onChange={this.onChangeHandler}
-                                    value={this.state.faxNumber}
-                                />
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell style={{ border: 'none' }}>업종</TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
-                                    type="text"
-                                    size="70"
-                                    name="type"
-                                    placeholder="업종"
-                                    onChange={this.onChangeHandler}
-                                    value={this.state.type}
-                                />
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell style={{ border: 'none' }}>은행</TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
-                                    type="text"
-                                    size="70"
-                                    name="bank"
-                                    placeholder="은행"
-                                    onChange={this.onChangeHandler}
-                                    value={this.state.bank}
-                                />
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell style={{ border: 'none' }}>계좌번호</TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
-                                    type="text"
-                                    size="70"
-                                    name="account"
-                                    placeholder="계좌번호"
-                                    onChange={this.onChangeHandler}
-                                    value={this.state.account}
-                                />
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell style={{ border: 'none' }}>우편번호</TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <Button onClick={this.searchAddress}>주소검색</Button>
-                                <input
-                                    type="text"
-                                    size="60"
-                                    name="postMail"
-                                    placeholder="우편번호"
-                                    onChange={this.onChangeHandler}
-                                    value={this.state.postMail}
-                                    readOnly
-                                />
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell style={{ border: 'none' }}>상세주소</TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
-                                    type="text"
-                                    size="70"
-                                    name="address"
-                                    placeholder="상세주소"
-                                    onChange={this.onChangeHandler}
-                                    value={this.state.address}
-                                    readOnly
-                                />
-                            </TableCell>
-                        </TableRow>
-                    </TableHead>
-                </Table>
                 <br />
+                <div style={divLineStyle}>
+                    <Button variant="contained" style={trapezoidButton} onClick={this.customerInsert}>기본</Button>
+                </div>
+                <div>
+                    <Table style={tableStyle}>
+                        <TableBody>
+                            <TableRow>
+                                <TableCell style={tableCellTitleStyle}> 거래처 코드 </TableCell>
+                                <TableCell style={tableCellStyle}>
+                                    <input style={InputStyle500px}
+                                        type="text"
+                                        name="customerId"
+                                        className="redPlaceholder"
+                                        placeholder="거래처 코드는 자동으로 생성됩니다."
+                                        onChange={this.onChangeHandler}
+                                        value={this.state.customerId}
+                                        readOnly
+                                    />
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell style={tableCellTitleStyle}>거래처명</TableCell>
+                                <TableCell style={tableCellStyle}>
+                                    <input style={InputStyle500px}
+                                        type="text"
+                                        name="name"
+                                        placeholder="거래처명(이름)"
+                                        onChange={this.onChangeHandler}
+                                        value={this.state.name}
+                                    />
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell style={tableCellTitleStyle}>대표자명</TableCell>
+                                <TableCell style={tableCellStyle}>
+                                    <input style={InputStyle500px}
+                                        type="text"
+                                        name="ceoName"
+                                        placeholder="대표자명"
+                                        onChange={this.onChangeHandler}
+                                        value={this.state.ceoName}
+                                    />
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell style={tableCellTitleStyle}>전화번호</TableCell>
+                                <TableCell style={tableCellStyle}>
+                                    <input style={InputStyle500px}
+                                        type="text"
+                                        name="phone"
+                                        placeholder="전화번호"
+                                        onChange={this.onChangeHandler}
+                                        value={this.state.phone}
+                                    />
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell style={tableCellTitleStyle}>팩스번호</TableCell>
+                                <TableCell style={tableCellStyle}>
+                                    <input style={InputStyle500px}
+                                        type="text"
+                                        name="faxNumber"
+                                        placeholder="팩스번호"
+                                        onChange={this.onChangeHandler}
+                                        value={this.state.faxNumber}
+                                    />
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell style={tableCellTitleStyle}>업종</TableCell>
+                                <TableCell style={tableCellStyle}>
+                                    <input style={InputStyle500px}
+                                        type="text"
+                                        name="type"
+                                        placeholder="업종"
+                                        onChange={this.onChangeHandler}
+                                        value={this.state.type}
+                                    />
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell style={tableCellTitleStyle}>은행</TableCell>
+                                <TableCell style={tableCellStyle}>
+                                    <input style={InputStyle500px}
+                                        type="text"
+                                        name="bank"
+                                        placeholder="은행"
+                                        onChange={this.onChangeHandler}
+                                        value={this.state.bank}
+                                    />
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell style={tableCellTitleStyle}>계좌번호</TableCell>
+                                <TableCell style={tableCellStyle}>
+                                    <input style={InputStyle500px}
+                                        type="text"
+                                        name="account"
+                                        placeholder="계좌번호"
+                                        onChange={this.onChangeHandler}
+                                        value={this.state.account}
+                                    />
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell style={tableCellTitleStyle}>우편번호</TableCell>
+                                <TableCell style={tableCellStyle}>
+                                <Button onClick={this.searchAddress}>주소검색</Button>
+                                <br />
+                                    <input style={InputStyle500px}
+                                        type="text"
+                                        name="postMail"
+                                        placeholder="우편번호"
+                                        onChange={this.onChangeHandler}
+                                        value={this.state.postMail}
+                                        readOnly
+                                    />
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell style={tableCellTitleStyle}>상세주소</TableCell>
+                                <TableCell style={tableCellStyle}>
+                                    <input style={InputStyle500px}
+                                        type="text"
+                                        name="address"
+                                        placeholder="상세주소"
+                                        onChange={this.onChangeHandler}
+                                        value={this.state.address}
+                                        readOnly
+                                    />
+                                </TableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                </div>
                 <Button variant="contained" style={normalButton} onClick={this.onSubmitAdd}>저장</Button>
                 <Button variant="contained" style={normalButton} onClick={this.goToCustomerList}>목록</Button>
                 <Dialog
@@ -281,27 +275,122 @@ class customerInsert extends Component {
 const style = {
     display: 'flex',
     justifyContent: 'left'
+};
+
+// 테이블 스타일
+const tableStyle = {
+    border: '1px solid lightgray',
+    backgroundColor: 'ghostwhite',  // 배경색 ghost white
+};
+
+// 테이블 셀 이름 스타일(테이블 1)
+const tableCellTitleStyle = {
+    width: '20%',
+    fontSize: '20px',
+    border: 'none',
+    paddingLeft: '30px'
 }
+
+// 테이블 셀 이름 스타일(테이블2)
+const tableCellTitleStyle2 = {
+    width: '240px',
+    height: '50px',
+    fontSize: '20px',
+    border: 'none',
+};
+
+// 테이블 셀 속성
+const tableCellStyle = {
+    border: 'none',
+};
+
+// 500px input창 속성
+const InputStyle500px = {
+    width: '500px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+// 300px input창 속성
+const InputStyle300px = {
+    width: '300px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+// width 200px input창 속성
+const InputStyle200px = {
+    width: '200px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+// 수량 입력창 속성(100px)
+const quantityInputStyle = {
+    width: '100px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+const labelStyle = {
+    fontSize: '20px',
+    display: 'flex',
+    float: 'left',
+    alignItems: 'center',
+    paddingRight: '20px'
+};
+
+// 체크박스 속성
+const checkBoxStyle = {
+    width: '30px',
+    height: '30px',
+    marginRight: '5px'
+};
 
 // 사다리꼴 버튼 속성
 const trapezoidButton = {
     backgroundColor: 'navy',
     color: 'white',
     marginRight: '10px',
-    clipPath: 'polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)',
-    width: '120px',
-    height: '30px',
-    padding: '10px 20px'
-}
+    clipPath: 'polygon(20% 2%, 80% 2%, 100% 100%, 0% 100%)',
+    width: '160px',
+    height: '50px',
+    padding: '10px 20px',
+    borderTopLeftRadius: '100px',
+    borderTopRightRadius: '100px',
+    fontSize: '18px'
+};
 
 // 기본 버튼 속성
 const normalButton = {
     backgroundColor: 'navy',
     color: 'white',
     marginRight: '10px',
-    width: '120px',
-    height: '30px',
-    padding: '10px 20px'
-}
+    width: '150px',
+    height: '40px',
+    padding: '10px 20px',
+    fontSize: '18px',
+};
 
+// 삭제 버튼 속성
+const deleteButton = {
+    backgroundColor: '#A52A2A',
+    color: 'white',
+    marginRight: '10px',
+    width: '150px',
+    height: '40px',
+    padding: '10px 20px',
+    borderRadius: '20px',
+    fontSize: '18px'
+};
+
+// 밑줄
+const divLineStyle = {
+    borderBottom: '3px solid navy'
+};
+
+// 테이블 간격 조정(테이블 2개 이상시)
+const tableInterval = {
+    paddingTop: '50px'
+};
 export default withRouter(customerInsert);

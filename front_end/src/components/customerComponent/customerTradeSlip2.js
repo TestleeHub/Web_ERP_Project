@@ -95,41 +95,69 @@ class customerTradeSlip2 extends Component{
         const { displayedDatas, showMore } = this.state;
 
         return (
-            <div>
+            <div style={{padding:'30px'}}>
+                <div>
+                    <Typography variant='h4' style={style}> 거래처 출금 목록 </Typography>
+                </div>
                 <br/>
-                <Typography variant='h4' style={style}> 거래처 출금 목록 </Typography>
-                <br/>
-                <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>전체</Button>
+                <div style={divLineStyle}>
+                    <Button variant="contained" style={trapezoidButton} onClick={this.customerTradeSlip2}>전체</Button>
+                </div>
                 {/* 로딩 상태에 대한 조건부 렌더링 */}
                 {this.state.isLoading ? (
                     <p>로딩 중...</p>
                 ) : (
-                    <Table border="1" style={{ border: '1px solid lightgray', backgroundColor: 'ghostwhite' }}>
+                    <Table style={tableStyle}>
                         <TableHead style={{ backgroundColor: 'lightgray' }}>
                             <TableRow>
-                                <TableCell>전표번호</TableCell>
-                                <TableCell>거래유형</TableCell>
-                                <TableCell>금액</TableCell>
-                                <TableCell>거래처명</TableCell>
-                                <TableCell>제목</TableCell>
-                                <TableCell>등록일</TableCell>
-                                <TableCell></TableCell>
+                                <TableCell style={tableCellStyle}>
+
+                                </TableCell>
+                                <TableCell style={tableCellTitleStyle} align="center">전표번호</TableCell>
+                                <TableCell style={tableCellTitleStyle} align="center">거래유형</TableCell>
+                                <TableCell style={tableCellTitleStyle} align="center">금액</TableCell>
+                                <TableCell style={tableCellTitleStyle} align="center">거래처명</TableCell>
+                                <TableCell style={tableCellTitleStyle} align="center">제목</TableCell>
+                                <TableCell style={tableCellTitleStyle} align="center">등록일</TableCell>
+                                <TableCell style={tableCellTitleStyle} align="center">추가작업</TableCell>
                             </TableRow>
                         </TableHead>
                         
                         <TableBody>
                             {this.state.displayedDatas.map((data, index) => (
                                 <TableRow>
-                                    <TableCell> {data.slipId} </TableCell>
-                                    <TableCell> {data.tradeType ? data.tradeType : 'N/A'} </TableCell>
-                                    <TableCell> {data.money ? data.money.toLocaleString() : '0'}원 </TableCell>
-                                    <TableCell> {data.customer ? data.customer.name : 'N/A'} </TableCell>
-                                    <TableCell> {data.title ? data.title : 'N/A'} </TableCell>
-                                    <TableCell> {data.regDate ? this.formatDate(data.regDate) : 'N/A'} </TableCell>
-                                    <TableCell>
-                                        <Button variant="contained" style={normalButton} onClick={() => this.editData(data)}>수정</Button>
-                                        <br /><br />
-                                        <Button variant="contained" style={normalButton} onClick={() => this.deleteData(data)}>삭제</Button>
+                                    <TableCell style={{ ...tableCellStyle, backgroundColor: 'lightgray' }}>
+                                        {index + 1}
+                                    </TableCell>
+                                    <TableCell style={tableCellTitleStyle}> {data.slipId} </TableCell>
+                                    <TableCell style={tableCellTitleStyle}> {data.tradeType ? data.tradeType : 'N/A'} </TableCell>
+                                    <TableCell style={tableCellTitleStyle}> {data.money ? data.money.toLocaleString() : '0'}원 </TableCell>
+                                    <TableCell style={tableCellTitleStyle}> {data.customer ? data.customer.name : 'N/A'} </TableCell>
+                                    <TableCell style={tableCellTitleStyle}> {data.title ? data.title : 'N/A'} </TableCell>
+                                    <TableCell style={tableCellTitleStyle}> {data.regDate ? this.formatDate(data.regDate) : 'N/A'} </TableCell>
+                                    <TableCell style={tableCellTitleStyle}>
+                                        <div style={{paddingBottom: '8px'}}>
+                                        <Button variant="contained" style={updateButton} onClick={() => this.editData(data)}>
+                                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                수정
+                                                <img className="penImage" 
+                                                    alt="pen" 
+                                                    src="../images/pen.png" 
+                                                    style={{marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)'}} 
+                                                />
+                                            </div>
+                                        </Button>
+                                        </div>
+                                        <Button variant="contained" style={deleteButton} onClick={() => this.deleteData(data)}> 
+                                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                삭제
+                                                <img className="garbageImage" 
+                                                    alt="garbage" 
+                                                    src="../images/garbage.png" 
+                                                    style={{marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)'}} 
+                                                />
+                                            </div>
+                                        </Button>
                                     </TableCell>
                                 </TableRow>    
                             ))}
@@ -137,7 +165,6 @@ class customerTradeSlip2 extends Component{
                     </Table>
                 )}
 
-                <br />
                 {showMore && (
                     <Button variant="contained" style={normalButton} onClick={this.handleShowMoreClick}>더 보기</Button>
                 )}
@@ -147,6 +174,26 @@ class customerTradeSlip2 extends Component{
             </div>
         );
     }
+}
+
+// 테이블 스타일
+const tableStyle = {
+    border: '1px solid lightgray',
+    backgroundColor: 'ghostwhite',  // 배경색 ghost white
+}
+
+// 테이블 셀 이름 스타일
+const tableCellTitleStyle = {
+    width: '15%',
+    fontSize: '20px',
+    paddingLeft: '30px',
+    textAlign: 'center'
+}
+
+// 테이블 셀 스타일
+const tableCellStyle = {
+    fontSize: '20px',
+    border: 'none'
 }
 
 const style = {
@@ -159,10 +206,13 @@ const trapezoidButton = {
     backgroundColor: 'navy',
     color: 'white',
     marginRight: '10px',
-    clipPath: 'polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)',
-    width: '120px',
-    height: '30px',
-    padding: '10px 20px'
+    clipPath: 'polygon(20% 2%, 80% 2%, 100% 100%, 0% 100%)',
+    width: '160px',
+    height: '50px',
+    padding: '10px 20px',
+    borderTopLeftRadius: '100px',
+    borderTopRightRadius: '100px',
+    fontSize: '18px'
 }
 
 // 기본 버튼 속성
@@ -171,8 +221,63 @@ const normalButton = {
     color: 'white',
     marginRight: '10px',
     width: '150px',
-    height: '30px',
-    padding: '10px 20px'
+    height: '40px',
+    padding: '10px 20px',
+    fontSize: '18px'
 }
+
+// 500px input 창
+const longInputStyle = {
+    width: '500px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+// 300px input 창
+const shortInputStyle = {
+    width: '300px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+const labelStyle = {
+    fontSize: '20px',
+    display: 'flex',
+    float: 'left',
+    alignItems: 'center',
+    paddingRight: '20px'
+};
+
+const checkBoxStyle = {
+    width: '30px',
+    height: '30px',
+    marginRight: '5px'
+};
+
+const divLineStyle = {
+    borderBottom: '3px solid navy'
+};
+
+// 수정 버튼 속성
+const updateButton = {
+    backgroundColor: '#FF8C0A',
+    color: 'white',
+    width: '140px',
+    height: '40px',
+    padding: '10px 20px',
+    borderRadius: '20px',
+    fontSize: '18px'
+};
+
+// 삭제 버튼 속성
+const deleteButton = {
+    backgroundColor: '#A52A2A',
+    color: 'white',
+    width: '140px',
+    height: '40px',
+    padding: '10px 20px',
+    borderRadius: '20px',
+    fontSize: '18px'
+};
 
 export default customerTradeSlip2;
