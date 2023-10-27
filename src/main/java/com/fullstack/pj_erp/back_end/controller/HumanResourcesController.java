@@ -2,6 +2,7 @@ package com.fullstack.pj_erp.back_end.controller;
 
 import java.nio.CharBuffer;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fullstack.pj_erp.back_end.dto.AttendanceDTO;
 import com.fullstack.pj_erp.back_end.dto.SalaryDTO;
 import com.fullstack.pj_erp.back_end.dto.UserDTO;
 import com.fullstack.pj_erp.back_end.service.HumanResourcesService;
@@ -34,7 +36,7 @@ public class HumanResourcesController {
 	public List<UserDTO> empList(){
 
 		// 계산 시작
-		int DependentFamiliyPay = 300000; // 부양가족수당
+		int dependentFamiliyPay = 300000; // 부양가족수당
 		int carPay = 800000;			
 		int totalSalary = 0;
 		double nationalPension = 0; // 국민연금
@@ -53,11 +55,14 @@ public class HumanResourcesController {
 			WeekendPay = dto.getSalar().getWeekendPay() != null ? dto.getSalar().getWeekendPay() : 0;
 			VacationPay = dto.getSalar().getVacationPay() != null ? dto.getSalar().getVacationPay() : 0;
 			
+			// 부양가족수당
+			dto.setDependentFamiliyPay(dependentFamiliyPay);
+			
 			// 차량유지비
 			dto.setCarPay(carPay); 
 			
 			// 총지급액
-			totalSalary = dto.getSalary() + carPay + DependentFamiliyPay + overTimePay + WeekendPay + VacationPay; 
+			totalSalary = dto.getSalary() + carPay + dto.getDependentFamiliyPay() + overTimePay + WeekendPay + VacationPay; 
 			dto.setTotalSalary(totalSalary);
 			
 			// 국민연금
@@ -90,14 +95,12 @@ public class HumanResourcesController {
 	public void empAdd(@RequestBody UserDTO dto) {
 		System.out.println("<<</humanResources/empAdd>>>");
 		
+		// 처음 등록할때만 현재 날짜로 등록
 		if(dto.getJoinDate() == null) {
 			dto.setJoinDate(new Date(System.currentTimeMillis()));
 		}
 		
 		dto.setValidation(1);
-		
-//		if(dto.getSalar() == null) dto.setSalar(new SalaryDTO());
-//		dto.getSalar().setEmployeeId(dto.getEmployeeId());
 		
 		dto.setPassword(passwordEncoder.encode(CharBuffer.wrap(dto.getPassword())));
 		System.out.println(dto);
@@ -132,8 +135,13 @@ public class HumanResourcesController {
 	public void empUpdate(@RequestBody UserDTO dto) {
 		System.out.println("<<</humanResources/empUpdate>>>");
 
-//		if(dto.getSalar() == null) dto.setSalar(new SalaryDTO());
-//		dto.getSalar().setEmployeeId(dto.getEmployeeId());
+		// 처음 등록할때만 현재 날짜로 등록
+		if(dto.getJoinDate() == null) {
+			System.out.println("myeEditPage :첫번째");
+			dto.setJoinDate(new Date(System.currentTimeMillis()));
+		}else {
+			System.out.println("myeEditPage :두번째");
+		}
 		
 		dto.setPassword(passwordEncoder.encode(CharBuffer.wrap(dto.getPassword())));
 		System.out.println(dto);
@@ -147,8 +155,6 @@ public class HumanResourcesController {
 		
 		System.out.println("\n<<</humanResources/empPwCheck>>>");
 		System.out.println("dto: " + dto);
-//		UserDTO dto = service.getEmp(employeeId);
-		
 		
 		return null;
 	}
@@ -173,6 +179,80 @@ public class HumanResourcesController {
 		
 		return list;
 	}
+	
+	// 출근 
+	@PostMapping(value = {"/humanResources/checkIn"})
+	public String checkIn(@RequestBody AttendanceDTO dto){
+		System.out.println("\n<<</humanResources/checkIn>>>");
+		
+		Timestamp checkInTime = new Timestamp(System.currentTimeMillis()); // 현재 시간으로 Timestamp 생성
+		dto.setGotoWorkDay(checkInTime);
+		
+		String getGotoWorkDay1 = dto.getGotoWorkDay().toString().split(" ")[0];
+		String getGotoWorkDay2 = "";
+		
+		// 같은 아이디로 현재 날짜를 추가할려고 하면 안되게 하기
+		List<AttendanceDTO> existingAttendances = service.oneAttendance(dto.getEmployeeId());
+		System.out.println("existingAttendances:" + existingAttendances);
+		// 처음 아무것도 없을때
+		if(existingAttendances.isEmpty()) {
+			service.addAttendance(dto);
+			return "출근 완료";
+		}else {
+			for(int i=0; i<existingAttendances.size(); i++) {
+				
+				AttendanceDTO dtoExit = existingAttendances.get(i);
+				getGotoWorkDay2 = dtoExit.getGotoWorkDay().toString().split(" ")[0];
+				
+				if(getGotoWorkDay1.equals(getGotoWorkDay2)) {
+					return "이미 출근 했습니다";
+				}
+					
+			}
+			service.addAttendance(dto);
+			return "출근 완료";
+		}
+	}
+	
+	// 퇴근
+	@PostMapping(value = {"/humanResources/checkOut"})
+	public void checkOut(@RequestBody AttendanceDTO dto){
+		System.out.println("\n<<</humanResources/checkOut>>>");
+		
+		List<AttendanceDTO> existingAttendances = service.oneAttendance(dto.getEmployeeId());
+		for(int i=0; i<existingAttendances.size(); i++) {
+			AttendanceDTO dtoExit = existingAttendances.get(i);
+			if(dtoExit.getLeaveWorkDay() == null) {
+				dto.setAttendanceKey(dtoExit.getAttendanceKey());
+			}
+		}
+		System.out.println("dto키: " + dto.getAttendanceKey());
+		Timestamp checkInTime = new Timestamp(System.currentTimeMillis()); // 현재 시간으로 Timestamp 생성
+		dto.setLeaveWorkDay(checkInTime);
+		service.addAttendance(dto);
+	}
+	
+	// 근태 조회
+	@GetMapping(value = {"/humanResources/attendanceList"})
+	public List<AttendanceDTO> attendanceList(){
+		
+		System.out.println("\n<<</humanResources/attendanceList>>>");
+		List<AttendanceDTO> list = service.listAttendance();
 
+		System.out.println("attendanceList:" + list);
+		return list;
+	}
+	
+	// 한명 출근시간 조회
+	@GetMapping(value = {"/humanResources/attendanceCheckTime/{employeeId}"})
+	public Timestamp attendanceCheckTime(@PathVariable(name = "employeeId") String employeeId){
+		System.out.println("\n<<</humanResources/empEdit>>>");
+		System.out.println("\n id:" + employeeId);
+		List<AttendanceDTO> existingAttendances = service.oneAttendance(employeeId);
+		int ListIndex = existingAttendances.size() - 1;
+		Timestamp LastCheckIn = existingAttendances.get(ListIndex).getGotoWorkDay();
+		
+		return LastCheckIn; 
+	}
 	
 }

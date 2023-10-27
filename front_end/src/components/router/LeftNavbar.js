@@ -72,12 +72,13 @@ const LeftNavbar = () => {
                 <NavLink exact to="/humanResources/SalaryStateSelect" activeClassName="activeClicked">
                   - 급여조회<br />
                 </NavLink>
-                <NavLink exact to="/humanResources/depList" activeClassName="activeClicked">
-                  - 부서 목록 페이지 제작<br />
+                <NavLink exact to="/humanResources/attendanceList" activeClassName="activeClicked">
+                  - 출퇴근 기록부<br />
                 </NavLink>
-                <NavLink exact to="/humanResources/depAdd" activeClassName="activeClicked">
+
+                {/* <NavLink exact to="/humanResources/depAdd" activeClassName="activeClicked">
                   - 부서 추가<br />
-                </NavLink>
+                </NavLink> */}
               </div> : <></>}
 
             {getUserRole() === 'ROLE_ADMIN' || getUserRole() === 'ROLE_MF' ?

@@ -31,6 +31,7 @@ class empAdd extends Component {
 
     // 수정페이지 처리
     componentDidMount() {
+        console.log("호출")
         const data = window.localStorage.getItem("data");
         console.log("edit:" + data)
         if (data !== null) {
@@ -43,6 +44,35 @@ class empAdd extends Component {
        
     }
 
+    // 다시 호출했을때 삭제하기 수정 -> 등록 살려줘
+    componentDidUpdate(prevProps) {
+        // 현재 페이지가 다시 호출될 때 (예: 라우팅 변경 시) 기존 값을 초기화
+        console.log("componentDidUpdate호출")
+        if (this.props.location !== prevProps.location) {
+          this.setState({
+            // 초기화하고자 하는 상태 값
+            employeeId: "",
+            name: "",
+            foreignName: "",
+            socialNum: "",
+            position: "",
+            leaveDate: "",
+            leaveReason: "",
+            phone: "",
+            email: "",
+            departmentId: "",
+            bankCode: "",
+            account: "",
+            accountName: "",
+            postMail: "",
+            address: "",
+            salary: "",
+            password: "",
+            chkpassword: "",
+            joinDate: ""
+          });
+        }
+      }
     onChangeEmpHandler = (e) => {
         let fieldName = e.target.name;
         let value = e.target.value;
@@ -56,13 +86,14 @@ class empAdd extends Component {
 
     }
 
+
+
     // 직원 추가/수정/삭제
     onSubmitEmpAdd = (e) => {
         e.preventDefault();
         const pw = this.state.password;
         const chkpw = this.state.chkpassword;
-        console.log("부서이름:", this.state.departmentId)
-        console.log("전화번호:", this.state.phone)
+        
         if(this.state.departmentId === '') {
             console.log("부서이름 없음")
             return
@@ -89,6 +120,7 @@ class empAdd extends Component {
                     address: this.state.address,
                     salary: this.state.salary,
                     password: this.state.password,
+                    joinDate: this.state.joinDate
                 }).then((response) => {
                     console.log('response : ', response);
                     this.props.history.push('/humanResources/empList');
@@ -239,15 +271,17 @@ class empAdd extends Component {
                                 <TableCell style={tableCellTitleStyle}>비밀번호</TableCell>
                                 <TableCell style={tableCellTitleStyle}>
                                     <input type="password" style={shortInputStyle} name="password" placeholder="비밀번호" onChange={this.onChangeEmpHandler} value={this.state.password} />
+                                    {
+                                        (this.state.password === "") ? "암호를 입력해주세요" :
+                                        (this.state.chkpassword === "") ? "확인을 입력해주세요" :
+                                        (this.state.password === this.state.chkpassword) ? "암호가 일치합니다." : "암호가 일치하지 않습니다."
+                                    }
                                 </TableCell>
                             </TableRow>
 
                             <TableRow>
                                 <TableCell style={tableCellTitleStyle}>비밀번호 확인</TableCell>
-                                <TableCell style={tableCellTitleStyle}>
-                                    <input type="password" style={shortInputStyle} name="chkpassword" placeholder="비밀번호" onChange={this.onChangeEmpHandler} value={this.state.chkpassword} />
-                                </TableCell>
-                                {this.state.password === this.state.chkpassword ? "암호가 일치합니다." : "암호가 일치하지 않습니다."}
+                                <TableCell style={tableCellTitleStyle}><input type="password" style={shortInputStyle} name="chkpassword" placeholder="비밀번호" onChange={this.onChangeEmpHandler} value={this.state.chkpassword} /></TableCell>
                             </TableRow>
                         </TableBody>
                     </Table>

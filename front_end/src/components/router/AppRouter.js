@@ -38,6 +38,8 @@ import salesForm_List from '../purchaseComponent/salesForm_List';
 import salesForm from '../purchaseComponent/salesForm';
 import salesList from '../purchaseComponent/salesList';
 import empAdd from '../humanResourcesComponent/empAdd';
+import attendanceList from '../humanResourcesComponent/attendanceList';
+
 
 import empList from '../humanResourcesComponent/empList';
 import empProofMaking from '../humanResourcesComponent/empProofMaking';
@@ -114,6 +116,7 @@ const AppRouter = () => {
             <Route path='/humanResources/empProofMaking' exact={true} component={empProofMaking} />
             <Route path='/humanResources/salaryReg' exact={true} component={salaryReg} />
             <Route path='/humanResources/SalaryStateSelect' exact={true} component={SalaryStateSelect} />
+            <Route path='/humanResources/attendanceList' exact={true} component={attendanceList} />
             <Route path='/humanResources/depList' exact={true} component={depList} />
             <Route path='/humanResources/depAdd' exact={true} component={depAdd} />
 

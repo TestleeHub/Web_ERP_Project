@@ -50,8 +50,12 @@ class empProofMaking extends Component{
                     </TableHead>
                     <TableBody>
                         <TableRow>
-                            <TableCell style={tableBodyLeft}>성명</TableCell>
+                            <TableCell style={tableBodyLeft}>사번</TableCell>
                             <TableCell style={tableBodyRight}>{this.state.employeeId}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell style={tableBodyLeft}>성명</TableCell>
+                            <TableCell style={tableBodyRight}>{this.state.name}</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell style={tableBodyLeft}>주민등록번호</TableCell>

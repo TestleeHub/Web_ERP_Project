@@ -6,8 +6,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.fullstack.pj_erp.back_end.dto.AttendanceDTO;
 import com.fullstack.pj_erp.back_end.dto.SalaryDTO;
 import com.fullstack.pj_erp.back_end.dto.UserDTO;
+import com.fullstack.pj_erp.back_end.repository.HumanAttendanceRepository;
 import com.fullstack.pj_erp.back_end.repository.HumanResourcesRepository;
 import com.fullstack.pj_erp.back_end.repository.HumanSalaryRepository;
 import com.fullstack.pj_erp.back_end.util.EntityValidationFilter;
@@ -19,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class HumanResourcesService {
 	private final HumanResourcesRepository repository;
 	private final HumanSalaryRepository Salaryrepository; 
+	private final HumanAttendanceRepository Attendancepository;
 	
 	// 사원리스트
 	public List<UserDTO> listEmp(){
@@ -56,5 +59,21 @@ public class HumanResourcesService {
 		return Salaryrepository.findAll(filter);
 	}
 	
+	// 근태 등록
+	public void addAttendance(AttendanceDTO dto) {
+		Attendancepository.save(dto);
+	}
+	
+	// 근태 조회
+	public List<AttendanceDTO> listAttendance(){
+		
+		return Attendancepository.findAll();
+	}
+	
+	// 특정 조회
+	public List<AttendanceDTO> oneAttendance(String id){
+		List<AttendanceDTO> list = Attendancepository.findByEmployeeId(id);
+		return list;
+	}
 
 }
