@@ -32,11 +32,16 @@ class loginComponent extends Component {
                 password:this.state.password
             }).then((response) => {
                 console.log('response : ', response);
-                setAuthToken(response.data.token);
-                setUserId(response.data.employeeId);
-                setUserRole(response.data.role);
-                this.props.history.push('/main');
-                window.location.reload();
+                if(response.data ==''){
+                    alert('아이디 또는 패스워드를 확인해 주세요');
+                }
+                else{
+                    setAuthToken(response.data.token);
+                    setUserId(response.data.employeeId);
+                    setUserRole(response.data.role);
+                    this.props.history.push('/main');
+                    window.location.reload();
+                }
             }).catch((error) => {
                 console.log('error : ', error);
                 setAuthToken(null);
