@@ -65,7 +65,7 @@ class SalaryStateSelect extends Component{
     render(){
         const { datas, showMore } = this.state;
         return(
-            <div>
+            <div style={{padding: '30px'}}>
                 <div>
                     <Button style={trapezoidButton}>급여조회</Button>
                 </div>

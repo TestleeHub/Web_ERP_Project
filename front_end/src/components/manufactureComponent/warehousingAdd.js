@@ -182,7 +182,7 @@ class warehousingAdd extends Component {
 
     render() {
         return (
-            <div>
+            <div style={{padding: '30px'}}>
                 {/* 팝업 */}
                 <div>
                     <Modal
@@ -281,34 +281,34 @@ class warehousingAdd extends Component {
                     </Modal>
                 </div>
                 {/* 팝업 끝 */}
-
-                <br />
-                <Typography variant="h4" style={style}> 생산 입고 등록 </Typography>
-                <br />
                 <div>
+                    <Typography variant="h4" style={style}> 생산 입고 등록 </Typography>
+                </div>
+                <br/>
+                <div style={divLineStyle}>
                     <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>입고입력</Button>
                 </div>
-                <Table style={{ borderCollapse: 'collapse', border: 'none', backgroundColor: 'lightgray' }}>
+                <Table style={tableStyle}>
                     <TableHead>
                         <TableRow>
-                            <TableCell style={{ border: 'none' }} >생산 입고 코드 </TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
+                            <TableCell style={tableCellTitleStyle} >생산 입고 코드 </TableCell>
+                            <TableCell style={tableCellStyle}>
+                                <input style={InputStyle300px}
                                     type="text"
                                     name="materialReciveId"
-                                    size="10"
-                                    placeholder="생산 불출 코드"
+                                    className="redPlaceholder"
+                                    placeholder="생산 입고 코드는 자동으로 생성됩니다." 
                                     onChange={this.onChangeHandler}
                                     readOnly
                                     value={this.state.materialReciveId}
                                 />
                             </TableCell>
-                            <TableCell style={{ border: 'none' }}>생산 품목 코드</TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
+
+                            <TableCell style={tableCellTitleStyle}>생산 품목 코드</TableCell>
+                            <TableCell style={tableCellStyle}>
+                                <input style={InputStyle300px}
                                     type="text"
                                     name="productionItemId"
-                                    size="10"
                                     placeholder="생산 품목 코드(검색)"
                                     onChange={this.onChangeHandler}
                                     onClick={this.openProductionPopup}
@@ -316,24 +316,26 @@ class warehousingAdd extends Component {
                                     value={this.state.productionItemId} />
                             </TableCell>
                         </TableRow>
+
                         <TableRow>
-                            <TableCell style={{ border: 'none' }}>작업 지시서 코드</TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
+                            <TableCell style={tableCellTitleStyle}>작업 지시서 코드</TableCell>
+                            <TableCell style={tableCellStyle}>
+                                <input style={InputStyle300px}
                                     type="text"
                                     name="workOrderId"
-                                    size="10"
                                     placeholder="작업 지시서 코드(검색)"
                                     onChange={this.onChangeHandler}
                                     onClick={this.openInstructionPopup}
                                     readOnly
-                                    value={this.state.workOrderId} /></TableCell>
-                            <TableCell style={{ border: 'none' }}>거래처 코드</TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
+                                    value={this.state.workOrderId}
+                                />
+                            </TableCell>
+
+                            <TableCell style={tableCellTitleStyle}>거래처 코드</TableCell>
+                            <TableCell style={tableCellStyle}>
+                                <input style={InputStyle300px}
                                     type="text"
                                     name="businessRelationId"
-                                    size="10"
                                     placeholder="거래처 코드(검색)"
                                     onChange={this.onChangeHandler}
                                     onClick={this.openCustomerPopup}
@@ -344,113 +346,221 @@ class warehousingAdd extends Component {
                         </TableRow>
                     </TableHead>
                 </Table>
-                <Button variant="contained" style={normalButton} onClick={this.addSample}>찾기(F3)</Button>
-                <Button variant="contained" style={normalButton} onClick={this.addSample}>정렬</Button>
-
-                <br /><br />
-
-                <Table style={{ borderRight: '1px solid lightgray' }}>
-                    <TableHead style={{ backgroundColor: 'lightgray' }}>
-                        <TableRow>
-                            <TableCell style={{ border: 'none' }}>  </TableCell>
-                            <TableCell> 원자재 코드 </TableCell>
-                            <TableCell> 원자재 이름 </TableCell>
-                            <TableCell> 창고코드 </TableCell>
-                            <TableCell> 수량 </TableCell>
-                            <TableCell> 새로운 항목 추가 </TableCell>
-                        </TableRow>
-                    </TableHead>
-
-                    <TableBody>
-                        {this.state.details.map((detail, index) => (
-                            <TableRow key={index} style={{ backgroundColor: 'ghostwhite' }}>
-                                <TableCell style={{ backgroundColor: 'lightgray' }}> {index + 1} </TableCell>
-                                <TableCell style={{ borderRight: '1px solid lightgray' }}>
-                                    <input
-                                        type="text"
-                                        name={`details[${index}].materialId`}
-                                        size="10"
-                                        placeholder="원자재 코드(검색)"
-                                        onChange={this.onChangeHandler}
-                                        onClick={() => this.openMaterialPopup(index)}
-                                        readOnly
-                                        value={detail.materialId}
-                                    />
-                                </TableCell>
-                                <TableCell style={{ borderRight: '1px solid lightgray' }}>
-                                    <input
-                                        type="text"
-                                        name={`details[${index}].name`}
-                                        size="10"
-                                        placeholder="원자재 이름"
-                                        onChange={this.onChangeHandler}
-                                        readOnly
-                                        value={detail.name}
-                                    />
-                                </TableCell>
-                                <TableCell style={{ borderRight: '1px solid lightgray' }}>
-                                    <input
-                                        type="text"
-                                        name={`details[${index}].storageId`}
-                                        size="10"
-                                        placeholder="창고코드"
-                                        onChange={this.onChangeHandler}
-                                        readOnly
-                                        value={detail.storageId}
-                                    />
-                                </TableCell>
-                                <TableCell style={{ borderRight: '1px solid lightgray' }}>
-                                    <input
-                                        type="text"
-                                        name={`details[${index}].quantity`}
-                                        size="10"
-                                        placeholder="수량"
-                                        onChange={this.onChangeHandler}
-                                        value={detail.quantity}
-                                    />
-                                </TableCell>
-                                <TableCell>
-                                    <Button variant="contained" style={normalButton} onClick={() => this.removeField(index)}>삭제</Button>
-                                </TableCell>
+                <div>
+                    <Button variant="contained" style={normalButton} onClick={this.addSample}>찾기(F3)</Button>
+                    <Button variant="contained" style={normalButton} onClick={this.addSample}>정렬</Button>
+                </div>
+                
+                <div style={tableInterval}>
+                    <Table style={tableStyle}>
+                        <TableHead style={{borderBottomStyle: '1px solid lightgray'}}>
+                            <TableRow style={{backgroundColor: 'lightgray'}}>
+                                <TableCell style={{...tableCellTitleStyle2, textAlign: 'center'}}>No.</TableCell>
+                                <TableCell style={tableCellTitleStyle2}> 원자재 코드 </TableCell>
+                                <TableCell style={tableCellTitleStyle2}> 원자재 이름 </TableCell>
+                                <TableCell style={tableCellTitleStyle2}> 창고코드 </TableCell>
+                                <TableCell style={tableCellTitleStyle2}> 수량 </TableCell>
+                                <TableCell style={{...tableCellTitleStyle2, textAlign: 'center'}}>행 삭제</TableCell>
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
+                        </TableHead>
 
-                <br />
+                        <TableBody>
+                            {this.state.details.map((detail, index) => (
+                                <TableRow key={index}>
+                                    <TableCell style={{...tableCellTitleStyle2, backgroundColor: 'lightgray', textAlign: 'center'}}>
+                                        {index + 1}
+                                    </TableCell>
 
-                <Button variant="contained" style={normalButton} onClick={this.onSubmitAdd}>저장</Button>
-                <Button variant="contained" style={normalButton} onClick={this.addNewField}>항목 추가</Button>
-                <Button variant="contained" style={normalButton} onClick={this.onReset}>초기화</Button>
+                                    <TableCell style={tableCellTitleStyle2}>
+                                        <input style={InputStyle200px}
+                                            type="text"
+                                            name={`details[${index}].materialId`}
+                                            placeholder="원자재 코드(검색)"
+                                            onChange={this.onChangeHandler}
+                                            onClick={() => this.openMaterialPopup(index)}
+                                            readOnly
+                                            value={detail.materialId}
+                                        />
+                                    </TableCell>
+
+                                    <TableCell style={tableCellTitleStyle2}>
+                                        <input style={InputStyle200px}
+                                            type="text"
+                                            name={`details[${index}].name`}
+                                            size="10"
+                                            placeholder="원자재 이름"
+                                            onChange={this.onChangeHandler}
+                                            readOnly
+                                            value={detail.name}
+                                        />
+                                    </TableCell>
+
+                                    <TableCell style={tableCellTitleStyle2}>
+                                        <input style={InputStyle200px}
+                                            type="text"
+                                            name={`details[${index}].storageId`}
+                                            size="10"
+                                            placeholder="창고코드"
+                                            onChange={this.onChangeHandler}
+                                            readOnly
+                                            value={detail.storageId}
+                                        />
+                                    </TableCell>
+
+                                    <TableCell style={tableCellTitleStyle2}>
+                                        <input style={quantityInputStyle}
+                                            type="text"
+                                            name={`details[${index}].quantity`}
+                                            placeholder="수량"
+                                            onChange={this.onChangeHandler}
+                                            value={detail.quantity}
+                                        />
+                                    </TableCell>
+
+                                    <TableCell style={{...tableCellTitleStyle2, display: 'flex', justifyContent: 'center'}}>
+                                        <Button variant="contained" style={deleteButton} onClick={() => this.removeField(index)}> 삭제
+                                            <img className="garbageImage" 
+                                                alt="garbage" 
+                                                src="../images/garbage.png" 
+                                                style={{marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)'}} 
+                                            />
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                    <div>
+                        <Button variant="contained" style={normalButton} onClick={this.onSubmitAdd}>저장</Button>
+                        <Button variant="contained" style={normalButton} onClick={this.addNewField}>항목 추가</Button>
+                        <Button variant="contained" style={normalButton} onClick={this.onReset}>초기화</Button>
+                    </div>
+                </div>
             </div>
         );
     }
 }
 
+export default warehousingAdd;
+
 const style = {
     display: 'flex',
     justifyContent: 'left'
+};
+
+// 테이블 스타일
+const tableStyle = {
+    border: '1px solid lightgray',
+    backgroundColor: 'ghostwhite',  // 배경색 ghost white
+};
+
+// 테이블 셀 이름 스타일(테이블 1)
+const tableCellTitleStyle = {
+    width: '20%',
+    fontSize: '20px',
+    border: 'none',
+    paddingLeft: '30px'
 }
+
+// 테이블 셀 이름 스타일(테이블2)
+const tableCellTitleStyle2 = {
+    width: '240px',
+    height: '50px',
+    fontSize: '20px',
+    border: 'none',
+};
+
+// 테이블 셀 속성
+const tableCellStyle = {
+    border: 'none',
+};
+
+// 500px input창 속성
+const InputStyle500px = {
+    width: '500px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+// 300px input창 속성
+const InputStyle300px = {
+    width: '300px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+// width 200px input창 속성
+const InputStyle200px = {
+    width: '200px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+// 수량 입력창 속성(100px)
+const quantityInputStyle = {
+    width: '100px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+const labelStyle = {
+    fontSize: '20px',
+    display: 'flex',
+    float: 'left',
+    alignItems: 'center',
+    paddingRight: '20px'
+};
+
+// 체크박스 속성
+const checkBoxStyle = {
+    width: '30px',
+    height: '30px',
+    marginRight: '5px'
+};
 
 // 사다리꼴 버튼 속성
 const trapezoidButton = {
     backgroundColor: 'navy',
     color: 'white',
     marginRight: '10px',
-    clipPath: 'polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)',
-    width: '120px',
-    height: '30px',
-    padding: '10px 20px'
-}
+    clipPath: 'polygon(20% 2%, 80% 2%, 100% 100%, 0% 100%)',
+    width: '160px',
+    height: '50px',
+    padding: '10px 20px',
+    borderTopLeftRadius: '100px',
+    borderTopRightRadius: '100px',
+    fontSize: '18px'
+};
 
 // 기본 버튼 속성
 const normalButton = {
     backgroundColor: 'navy',
     color: 'white',
     marginRight: '10px',
-    width: '120px',
-    height: '30px',
-    padding: '10px 20px'
-}
+    width: '150px',
+    height: '40px',
+    padding: '10px 20px',
+    fontSize: '18px',
+};
 
-export default warehousingAdd;
+// 삭제 버튼 속성
+const deleteButton = {
+    backgroundColor: '#A52A2A',
+    color: 'white',
+    marginRight: '10px',
+    width: '150px',
+    height: '40px',
+    padding: '10px 20px',
+    borderRadius: '20px',
+    fontSize: '18px'
+};
+
+// 밑줄
+const divLineStyle = {
+    borderBottom: '3px solid navy'
+};
+
+// 테이블 간격 조정(테이블 2개 이상시)
+const tableInterval = {
+    paddingTop: '50px'
+};

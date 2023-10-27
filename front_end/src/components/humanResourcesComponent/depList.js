@@ -4,7 +4,7 @@ import Image from '../../image/humanResourceImg/depList.PNG'
 class depList extends Component{
     render(){
         return(
-            <div>
+            <div style={{padding: '30px'}}>
                 <img src={Image}/>
             </div>
         );

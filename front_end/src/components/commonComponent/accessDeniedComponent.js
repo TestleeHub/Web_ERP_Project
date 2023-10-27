@@ -23,7 +23,7 @@ class accessDeniedComponent extends Component {
                                 </h2>
                             </div>
                             
-                            <div className={accessDeniedComponentStyle.mainPageMoveBox} onClick={() => this.props.history.push('/main')}>
+                            <div className={accessDeniedComponentStyle.mainPageMoveBox} style={{cursor: 'pointer'}} onClick={() => this.props.history.push('/main')}>
                                 <div className={accessDeniedComponentStyle.mainImage}>
                                     <img alt="Main" src="../images/Main.png"/>
                                 </div>
@@ -36,7 +36,7 @@ class accessDeniedComponent extends Component {
                                     <p>로그인화면으로 이동합니다</p>
                                 </div> */}
                             </div>
-                            <div className={accessDeniedComponentStyle.loginPageMoveBox} onClick={() => this.props.history.push('/login')}>
+                            <div className={accessDeniedComponentStyle.loginPageMoveBox} style={{cursor: 'pointer'}} onClick={() => this.props.history.push('/login')}>
                                 <div className={accessDeniedComponentStyle.logInImage}>
                                     <img alt="LogIn" src="../images/LogIn.png"/>
                                 </div>
