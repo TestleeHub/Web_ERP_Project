@@ -250,6 +250,8 @@ class orderList extends Component {
     }
 }
 
+export default orderList;
+
 // 테이블 스타일
 const tableStyle = {
     border: '1px solid lightgray',
@@ -353,5 +355,3 @@ const deleteButton = {
     borderRadius: '20px',
     fontSize: '18px'
 };
-
-export default orderList;

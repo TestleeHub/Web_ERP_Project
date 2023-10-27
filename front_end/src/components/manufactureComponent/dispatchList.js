@@ -141,53 +141,79 @@ class dispatchList extends Component {
         const { displayedDatas, showMore } = this.state;
 
         return (
-            <div>
-                <br />
-                <Typography variant="h4" style={style}> 생산 불출 조회</Typography>
-                <br />
-                <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>전체</Button>
+            <div style={{padding: '30px'}}>
+                <div>
+                    <Typography variant="h4" style={style}> 생산 불출 조회</Typography>
+                </div>
+                <br/>
+                <div style={divLineStyle}>
+                    <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>전체</Button>
+                </div>
                 {/* 로딩 상태에 대한 조건부 렌더링 */}
                 {this.state.isLoading ? (
                     <p>로딩 중...</p>
                 ) : (
-                    <Table border="1" style={{ border: '1px solid lightgray', backgroundColor: 'ghostwhite' }}>
+                    <Table style={tableStyle}>
                         <TableHead style={{ backgroundColor: 'lightgray' }}>
                             <TableRow>
-                                <TableCell onClick={() => this.sortUsingMaterialReleaseId()}> 불출코드▽ </TableCell>
-                                <TableCell onClick={() => this.sortUsingProductionItemName()}> 생산 상품명▽ </TableCell>
-                                <TableCell> 작업지시서 </TableCell>
-                                <TableCell onClick={() => this.sortUsingBusinessRelationName()}> 거래처▽ </TableCell>
-                                <TableCell> 상세 내용 </TableCell>
-                                <TableCell onClick={() => this.sortUsingRegistDate()}> 등록일▽ </TableCell>
-                                <TableCell> 추가 작업 </TableCell>
+                                <TableCell style={tableCellStyle}> No.
+
+                                </TableCell>
+                                <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingMaterialReleaseId()}> 불출코드▽ </TableCell>
+                                <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingProductionItemName()}> 생산 상품명▽ </TableCell>
+                                <TableCell style={tableCellTitleStyle}> 작업지시서 </TableCell>
+                                <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingBusinessRelationName()}> 거래처▽ </TableCell>
+                                <TableCell style={tableCellTitleStyle}> 상세 내용 </TableCell>
+                                <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingRegistDate()}> 등록일▽ </TableCell>
+                                <TableCell style={tableCellTitleStyle}> 추가 작업 </TableCell>
                             </TableRow>
                         </TableHead>
 
                         <TableBody>
                             {this.state.displayedDatas.map((data, index) => (
                                 <TableRow>
-                                    <TableCell> {data.materialReleaseId} </TableCell>
-                                    <TableCell> {data.productionItem ? data.productionItem.name : 'N/A'} </TableCell>
-                                    <TableCell> {data.workOrderId ? data.workOrder.name : 'N/A'} </TableCell>
-                                    <TableCell> {data.businessRelationId ? data.businessRelation.name : 'N/A'} </TableCell>
-                                    <TableCell> {data.details && data.details.length > 0 ? data.details[0].name + ' 외' : ''}  {data.details ? data.details.length : 0} 건 </TableCell>
-                                    <TableCell> {this.formatDate(data.registDate)} </TableCell>
-                                    <TableCell>
-                                        <Button variant="contained" style={updateButton} onClick={() => this.editData(data)}>수정</Button>
-                                        <Button variant="contained" style={deleteButton} onClick={() => this.deleteData(data)}>삭제</Button>
+                                    <TableCell style={{ ...tableCellStyle, backgroundColor: 'lightgray' }}>
+                                        {index + 1}
+                                    </TableCell>
+                                    <TableCell style={tableCellTitleStyle}> {data.materialReleaseId} </TableCell>
+                                    <TableCell style={tableCellTitleStyle}> {data.productionItem ? data.productionItem.name : 'N/A'} </TableCell>
+                                    <TableCell style={tableCellTitleStyle}> {data.workOrderId ? data.workOrder.name : 'N/A'} </TableCell>
+                                    <TableCell style={tableCellTitleStyle}> {data.businessRelationId ? data.businessRelation.name : 'N/A'} </TableCell>
+                                    <TableCell style={tableCellTitleStyle}> {data.details && data.details.length > 0 ? data.details[0].name + ' 외' : ''}  {data.details ? data.details.length : 0} 건 </TableCell>
+                                    <TableCell style={tableCellTitleStyle}> {this.formatDate(data.registDate)} </TableCell>
+                                    <TableCell style={tableCellTitleStyle}>
+                                        <div style={{paddingBottom: '8px'}}>
+                                            <Button variant="contained" style={updateButton} onClick={() => this.editData(data)}>
+                                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                    수정
+                                                    <img className="penImage" 
+                                                        alt="pen" 
+                                                        src="../images/pen.png" 
+                                                        style={{marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)'}} 
+                                                    />
+                                                </div>
+                                            </Button>
+                                        </div>
+                                        <Button variant="contained" style={deleteButton} onClick={() => this.deleteData(data)}> 
+                                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                삭제
+                                                <img className="garbageImage" 
+                                                    alt="garbage" 
+                                                    src="../images/garbage.png" 
+                                                    style={{marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)'}} 
+                                                />
+                                            </div>
+                                        </Button>
                                     </TableCell>
                                 </TableRow>
                             ))}
-
                         </TableBody>
                     </Table>
                 )}
-
-                <br />
                 {showMore && (
                     <Button variant="contained" style={normalButton} onClick={this.handleShowMoreClick}>더 보기</Button>
                 )}
-                                <br />
+                <br />
                 <br />
                 <Button variant="contained" style={normalButton} onClick={() => this.props.history.push('/logistics/inventorySelect')}>재고 조회</Button>
                 <Button variant="contained" style={normalButton} onClick={() => this.props.history.push('/logistics/materialSelect')}>원자재 조회</Button>
@@ -197,20 +223,77 @@ class dispatchList extends Component {
     }
 }
 
+export default dispatchList;
+
+// 테이블 스타일
+const tableStyle = {
+    border: '1px solid lightgray',
+    backgroundColor: 'ghostwhite',  // 배경색 ghost white
+}
+
+// 테이블 셀 이름 스타일
+const tableCellTitleStyle = {
+    width: '17%',
+    fontSize: '20px',
+    paddingLeft: '30px',
+    textAlign: 'center'
+}
+
+// 테이블 셀 스타일
+const tableCellStyle = {
+    fontSize: '20px',
+    border: 'none'
+}
+
 const style = {
     display: 'flex',
     justifyContent: 'left'
 }
+
+// 500px input 창
+const longInputStyle = {
+    width: '500px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+// 300px input 창
+const shortInputStyle = {
+    width: '300px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+const labelStyle = {
+    fontSize: '20px',
+    display: 'flex',
+    float: 'left',
+    alignItems: 'center',
+    paddingRight: '20px'
+};
+
+const checkBoxStyle = {
+    width: '30px',
+    height: '30px',
+    marginRight: '5px'
+};
+
+const divLineStyle = {
+    borderBottom: '3px solid navy'
+};
 
 // 사다리꼴 버튼 속성
 const trapezoidButton = {
     backgroundColor: 'navy',
     color: 'white',
     marginRight: '10px',
-    clipPath: 'polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)',
-    width: '120px',
-    height: '30px',
-    padding: '10px 20px'
+    clipPath: 'polygon(20% 2%, 80% 2%, 100% 100%, 0% 100%)',
+    width: '160px',
+    height: '50px',
+    padding: '10px 20px',
+    borderTopLeftRadius: '100px',
+    borderTopRightRadius: '100px',
+    fontSize: '18px'
 }
 
 // 기본 버튼 속성
@@ -219,29 +302,29 @@ const normalButton = {
     color: 'white',
     marginRight: '10px',
     width: '150px',
-    height: '30px',
-    padding: '10px 20px'
+    height: '40px',
+    padding: '10px 20px',
+    fontSize: '18px'
 }
 
 // 수정 버튼 속성
 const updateButton = {
     backgroundColor: '#FF8C0A',
     color: 'white',
-    marginRight: '10px',
-    width: '100px',
-    height: '35px',
+    width: '140px',
+    height: '40px',
     padding: '10px 20px',
-    borderRadius: '20px'
-}
+    borderRadius: '20px',
+    fontSize: '18px'
+};
 
 // 삭제 버튼 속성
 const deleteButton = {
     backgroundColor: '#A52A2A',
     color: 'white',
-    marginRight: '10px',
-    width: '100px',
-    height: '35px',
+    width: '140px',
+    height: '40px',
     padding: '10px 20px',
-    borderRadius: '20px'
-}
-export default dispatchList;
+    borderRadius: '20px',
+    fontSize: '18px'
+};

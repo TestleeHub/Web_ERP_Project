@@ -107,7 +107,7 @@ class materialInsert extends Component{
 
     render(){
         return(
-            <div>
+            <div style={{padding: '30px'}}>
                 {/* 팝업 */}
                 <div>
                     <Modal
@@ -254,6 +254,7 @@ class materialInsert extends Component{
     }
 }
 
+export default materialInsert;
 
 // 테이블 스타일
 const tableStyle = {
@@ -344,6 +345,3 @@ const checkBoxStyle = {
 const divLineStyle = {
     borderBottom: '3px solid navy'
 };
-
-
-export default materialInsert;

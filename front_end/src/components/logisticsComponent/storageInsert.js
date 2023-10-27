@@ -96,7 +96,7 @@ class storageInsert extends Component {
     render() {
         return (
 
-            <div>
+            <div style={{padding: '30px'}}>
                 <Typography variant="h4" style={style}> 창고 등록 </Typography>
                 <br />
                 <div style={divLineStyle}>

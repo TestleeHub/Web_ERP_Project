@@ -145,59 +145,108 @@ class empList extends Component {
         const { displayedDatas, showMore } = this.state;
 
         return (
-            <div>
+            <div style={{padding: '30px'}}>
+                <div>
+                    <Typography variant="h4" style={style}> 사원 목록 </Typography>
+                </div>
                 <br />
-                <Typography variant="h4" style={style}> 사원 목록 </Typography>
-                <br />
-                <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>전체</Button>
+                <div style={divLineStyle}>
+                    <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>전체</Button>
+                </div>
                 {/* 로딩 상태에 대한 조건부 렌더링 */}
                 {this.state.isLoading ? (
                     <p>로딩 중...</p>
                 ) : (
-                    <Table border="1" style={{ border: '1px solid lightgray', backgroundColor: 'ghostwhite' }}>
+                    <Table style={tableStyle}>
                         <TableHead style={{ backgroundColor: 'lightgray' }}>
                             <TableRow>
-                                <TableCell>사원번호</TableCell>
-                                <TableCell>성명</TableCell>
-                                <TableCell>부서코드</TableCell>
-                                <TableCell>직책</TableCell>
-                                <TableCell>이메일</TableCell>
-                                <TableCell>입사일자</TableCell>
-                                <TableCell></TableCell>
+                                <TableCell style={tableCellStyle}> No. </TableCell>
+                                <TableCell style={tableCellTitleStyle}>사원번호</TableCell>
+                                <TableCell style={tableCellTitleStyle}>성명</TableCell>
+                                <TableCell style={tableCellTitleStyle}>부서코드</TableCell>
+                                <TableCell style={tableCellTitleStyle}>직책</TableCell>
+                                <TableCell style={tableCellTitleStyle}>이메일</TableCell>
+                                <TableCell style={tableCellTitleStyle}>입사일자</TableCell>
+                                <TableCell style={tableCellTitleStyle}> 추가 작업 </TableCell>
                             </TableRow>
                         </TableHead>
 
                         <TableBody>
                             {this.state.displayedDatas.map((data, index) => (
                                 <TableRow>
-                                    <TableCell> {data.employeeId} </TableCell>
-                                    <TableCell> {data.name ? data.name : 'N/A'} </TableCell>
-                                    <TableCell> {data.departmentId ? data.departmentId : 'N/A'} </TableCell>
-                                    <TableCell> {data.position ? data.position : 'N/A'} </TableCell>
-                                    <TableCell> {data.email ? data.email : 'N/A'} </TableCell>
-                                    <TableCell> {data.joinDate ? this.formatDate(data.joinDate) : 'N/A'} </TableCell>
-                                    <TableCell>
-                                        <Button variant="contained" style={normalButton} onClick={() => this.editData(data)}>수정</Button>
-                                        <Button variant="contained" style={normalButton} onClick={() => this.deleteData(data)}>삭제</Button>
-                                        <Button variant="contained" style={normalButton} onClick={() => this.tenure(data)}>재직증명서</Button>
+                                    <TableCell style={{ ...tableCellStyle, backgroundColor: 'lightgray' }}>
+                                        {index + 1}
+                                    </TableCell>
+                                    <TableCell style={tableCellTitleStyle}> {data.employeeId} </TableCell>
+                                    <TableCell style={tableCellTitleStyle}> {data.name ? data.name : 'N/A'} </TableCell>
+                                    <TableCell style={tableCellTitleStyle}> {data.departmentId ? data.departmentId : 'N/A'} </TableCell>
+                                    <TableCell style={tableCellTitleStyle}> {data.position ? data.position : 'N/A'} </TableCell>
+                                    <TableCell style={tableCellTitleStyle}> {data.email ? data.email : 'N/A'} </TableCell>
+                                    <TableCell style={tableCellTitleStyle}> {data.joinDate ? this.formatDate(data.joinDate) : 'N/A'} </TableCell>
+                                    <TableCell style={tableCellTitleStyle}>
+                                        <div style={{paddingBottom: '8px'}}>
+                                            <Button variant="contained" style={updateButton} onClick={() => this.editData(data)}>
+                                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                    수정
+                                                    <img className="penImage" 
+                                                            alt="pen" 
+                                                            src="../images/pen.png" 
+                                                            style={{marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)'}} 
+                                                    />
+                                                </div>
+                                            </Button>
+                                        </div>
+                                        <div style={{paddingBottom: '8px'}}>
+                                            <Button variant="contained" style={deleteButton} onClick={() => this.deleteData(data)}>
+                                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                    삭제
+                                                    <img className="garbageImage" 
+                                                        alt="garbage" 
+                                                        src="../images/garbage.png" 
+                                                        style={{marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)'}} 
+                                                    />
+                                                </div>
+                                            </Button>
+                                        </div>
+                                        <Button variant="contained" style={empListButton} onClick={() => this.tenure(data)}>
+                                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                재직증명서
+                                            </div>
+                                        </Button>
                                     </TableCell>
                                 </TableRow>
                             ))}
-
                         </TableBody>
                     </Table>
                 )}
-
-                <br />
                 {showMore && (
                     <Button variant="contained" style={normalButton} onClick={this.handleShowMoreClick}>더 보기</Button>
                 )}
-                <br />
-                <br />
-               
             </div>
         );
     }
+}
+
+export default empList;
+
+// 테이블 스타일
+const tableStyle = {
+    border: '1px solid lightgray',
+    backgroundColor: 'ghostwhite',  // 배경색 ghost white
+}
+
+// 테이블 셀 이름 스타일
+const tableCellTitleStyle = {
+    width: '15%',
+    fontSize: '20px',
+    paddingLeft: '30px',
+    textAlign: 'center'
+}
+
+// 테이블 셀 스타일
+const tableCellStyle = {
+    fontSize: '20px',
+    border: 'none'
 }
 
 const style = {
@@ -205,15 +254,50 @@ const style = {
     justifyContent: 'left'
 }
 
+// 500px input 창
+const longInputStyle = {
+    width: '500px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+// 300px input 창
+const shortInputStyle = {
+    width: '300px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+const labelStyle = {
+    fontSize: '20px',
+    display: 'flex',
+    float: 'left',
+    alignItems: 'center',
+    paddingRight: '20px'
+};
+
+const checkBoxStyle = {
+    width: '30px',
+    height: '30px',
+    marginRight: '5px'
+};
+
+const divLineStyle = {
+    borderBottom: '3px solid navy'
+};
+
 // 사다리꼴 버튼 속성
 const trapezoidButton = {
     backgroundColor: 'navy',
     color: 'white',
     marginRight: '10px',
-    clipPath: 'polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)',
-    width: '120px',
-    height: '30px',
-    padding: '10px 20px'
+    clipPath: 'polygon(20% 2%, 80% 2%, 100% 100%, 0% 100%)',
+    width: '160px',
+    height: '50px',
+    padding: '10px 20px',
+    borderTopLeftRadius: '100px',
+    borderTopRightRadius: '100px',
+    fontSize: '18px'
 }
 
 // 기본 버튼 속성
@@ -222,8 +306,40 @@ const normalButton = {
     color: 'white',
     marginRight: '10px',
     width: '150px',
-    height: '30px',
-    padding: '10px 20px'
+    height: '40px',
+    padding: '10px 20px',
+    fontSize: '18px'
 }
 
-export default empList;
+// 수정 버튼 속성
+const updateButton = {
+    backgroundColor: '#FF8C0A',
+    color: 'white',
+    width: '140px',
+    height: '40px',
+    padding: '10px 20px',
+    borderRadius: '20px',
+    fontSize: '18px'
+};
+
+// 삭제 버튼 속성
+const deleteButton = {
+    backgroundColor: '#A52A2A',
+    color: 'white',
+    width: '140px',
+    height: '40px',
+    padding: '10px 20px',
+    borderRadius: '20px',
+    fontSize: '18px'
+};
+
+// 재직증명서 버튼 속성
+const empListButton = {
+    backgroundColor: '#469fc2',
+    color: 'white',
+    width: '140px',
+    height: '40px',
+    padding: '10px 20px',
+    borderRadius: '20px',
+    fontSize: '18px'
+};

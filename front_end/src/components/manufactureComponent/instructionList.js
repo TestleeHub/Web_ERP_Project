@@ -185,51 +185,68 @@ class instructionList extends Component {
         const { displayedDatas, showMore } = this.state;
 
         return (
-            <div>
-                <br />
-                <Typography variant="h4" style={style}> 작업지시서 조회</Typography>
-                <br />
-                <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>전체</Button>
+            <div style={{padding: '30px'}}>
+                <div>
+                    <Typography variant="h4" style={style}> 작업지시서 조회</Typography>
+                </div>
+                <br/>
+                <div style={divLineStyle}>
+                    <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>전체</Button>
+                </div>
                 {/* 로딩 상태에 대한 조건부 렌더링 */}
                 {this.state.isLoading ? (
                     <p>로딩 중...</p>
                 ) : (
-                    <Table border="1" style={{ border: '1px solid lightgray', backgroundColor: 'ghostwhite' }}>
+                    <Table style={tableStyle}>
                         <TableHead style={{ backgroundColor: 'lightgray' }}>
                             <TableRow>
-                                <TableCell onClick={() => this.sortUsingWorkOrderId()}> 지시서 코드▽ </TableCell>
-                                <TableCell> 거래처 </TableCell>
-                                <TableCell> 담당자 </TableCell>
-                                <TableCell> 지시서명 </TableCell>
-                                <TableCell> 수량 </TableCell>
-                                <TableCell onClick={() => this.sortUsingCompletion()}> 완료 여부▽ </TableCell>
-                                <TableCell> 받는창고 </TableCell>
-                                <TableCell onClick={() => this.sortUsingDueDate()}> 납기일▽ </TableCell>
-                                <TableCell> 생산품 </TableCell>
-                                <TableCell onClick={() => this.sortUsingRegistDate()}> 등록일▽ </TableCell>
-                                <TableCell>  </TableCell>
+                                <TableCell style={tableCellStyle}> No. </TableCell>
+                                <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingWorkOrderId()}> 지시서 코드▽ </TableCell>
+                                <TableCell style={tableCellTitleStyle}> 거래처 </TableCell>
+                                <TableCell style={tableCellTitleStyle}> 담당자 </TableCell>
+                                <TableCell style={tableCellTitleStyle}> 지시서명 </TableCell>
+                                <TableCell style={tableCellTitleStyle}> 수량 </TableCell>
+                                <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingCompletion()}> 완료 여부▽ </TableCell>
+                                <TableCell style={tableCellTitleStyle}> 받는창고 </TableCell>
+                                <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingDueDate()}> 납기일▽ </TableCell>
+                                <TableCell style={tableCellTitleStyle}> 생산품 </TableCell>
+                                <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingRegistDate()}> 등록일▽ </TableCell>
+                                <TableCell style={tableCellTitleStyle}> 추가 작업 </TableCell>
                             </TableRow>
                         </TableHead>
 
                         <TableBody>
                             {this.state.displayedDatas.map((data, index) => (
                                 <TableRow>
-                                    <TableCell> {data.workOrderId} </TableCell>
-                                    <TableCell> {data.customer ? data.customer.name : 'N/A'} </TableCell>
-                                    <TableCell> {data.manager ? data.manager.name : 'N/A'} </TableCell>
-                                    <TableCell> {data.name ? data.name : 'N/A'} </TableCell>
-                                    <TableCell> {data.quantity ? data.quantity.toLocaleString()+'개' : 'N/A'} </TableCell>
-                                    <TableCell> {data.completion === "N" ? '진행 중' : '완료'} </TableCell>
-                                    <TableCell> {data.storage ? data.storage.storageName : 'N/A'} </TableCell>
-                                    <TableCell> {data.dueDate ? this.formatDate(data.dueDate) : 'N/A'} </TableCell>
-                                    <TableCell> {data.productionItem ? data.productionItem.name : 'N/A'} </TableCell>
-                                    <TableCell> {data.registDate ? this.formatDate(data.registDate) : 'N/A'} </TableCell>
-                                    <TableCell>
-                                        {data.completion === "N" ?
-                                            <Button variant="contained" style={updateButton} onClick={() => this.editcompleteData(data)}>완료처리</Button>
-                                            :
-                                            ''}
-                                        <Button variant="contained" style={deleteButton} onClick={() => this.deleteData(data)}>삭제</Button>
+                                    <TableCell style={{ ...tableCellStyle, backgroundColor: 'lightgray' }}>
+                                        {index + 1}
+                                    </TableCell>
+                                    <TableCell style={tableCellTitleStyle}> {data.workOrderId} </TableCell>
+                                    <TableCell style={tableCellTitleStyle}> {data.customer ? data.customer.name : 'N/A'} </TableCell>
+                                    <TableCell style={tableCellTitleStyle}> {data.manager ? data.manager.name : 'N/A'} </TableCell>
+                                    <TableCell style={tableCellTitleStyle}> {data.name ? data.name : 'N/A'} </TableCell>
+                                    <TableCell style={tableCellTitleStyle}> {data.quantity ? data.quantity.toLocaleString()+'개' : 'N/A'} </TableCell>
+                                    <TableCell style={tableCellTitleStyle}> {data.completion === "N" ? '진행 중' : '완료'} </TableCell>
+                                    <TableCell style={tableCellTitleStyle}> {data.storage ? data.storage.storageName : 'N/A'} </TableCell>
+                                    <TableCell style={tableCellTitleStyle}> {data.dueDate ? this.formatDate(data.dueDate) : 'N/A'} </TableCell>
+                                    <TableCell style={tableCellTitleStyle}> {data.productionItem ? data.productionItem.name : 'N/A'} </TableCell>
+                                    <TableCell style={tableCellTitleStyle}> {data.registDate ? this.formatDate(data.registDate) : 'N/A'} </TableCell>
+                                    <TableCell style={tableCellTitleStyle}>
+                                        <div style={{paddingBottom: '8px'}}>
+                                            {data.completion === "N" ?
+                                                <Button variant="contained" style={updateButton} onClick={() => this.editcompleteData(data)}>
+                                                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                        완료처리
+                                                    </div>
+                                                </Button>
+                                                :
+                                                ''}
+                                        </div>
+                                        <Button variant="contained" style={deleteButton} onClick={() => this.deleteData(data)}>
+                                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                삭제
+                                            </div>
+                                        </Button>
                                     </TableCell>
                                 </TableRow>
                             ))}
@@ -252,20 +269,77 @@ class instructionList extends Component {
     }
 }
 
+export default instructionList;
+
+// 테이블 스타일
+const tableStyle = {
+    border: '1px solid lightgray',
+    backgroundColor: 'ghostwhite',  // 배경색 ghost white
+}
+
+// 테이블 셀 이름 스타일
+const tableCellTitleStyle = {
+    width: '8%',
+    fontSize: '20px',
+    paddingLeft: '30px',
+    textAlign: 'center'
+}
+
+// 테이블 셀 스타일
+const tableCellStyle = {
+    fontSize: '20px',
+    border: 'none'
+}
+
 const style = {
     display: 'flex',
     justifyContent: 'left'
 }
+
+// 500px input 창
+const longInputStyle = {
+    width: '500px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+// 300px input 창
+const shortInputStyle = {
+    width: '300px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+const labelStyle = {
+    fontSize: '20px',
+    display: 'flex',
+    float: 'left',
+    alignItems: 'center',
+    paddingRight: '20px'
+};
+
+const checkBoxStyle = {
+    width: '30px',
+    height: '30px',
+    marginRight: '5px'
+};
+
+const divLineStyle = {
+    borderBottom: '3px solid navy'
+};
 
 // 사다리꼴 버튼 속성
 const trapezoidButton = {
     backgroundColor: 'navy',
     color: 'white',
     marginRight: '10px',
-    clipPath: 'polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)',
-    width: '120px',
-    height: '30px',
-    padding: '10px 20px'
+    clipPath: 'polygon(20% 2%, 80% 2%, 100% 100%, 0% 100%)',
+    width: '160px',
+    height: '50px',
+    padding: '10px 20px',
+    borderTopLeftRadius: '100px',
+    borderTopRightRadius: '100px',
+    fontSize: '18px'
 }
 
 // 기본 버튼 속성
@@ -274,30 +348,29 @@ const normalButton = {
     color: 'white',
     marginRight: '10px',
     width: '150px',
-    height: '30px',
-    padding: '10px 20px'
+    height: '40px',
+    padding: '10px 20px',
+    fontSize: '18px'
 }
 
 // 수정 버튼 속성
 const updateButton = {
     backgroundColor: '#FF8C0A',
     color: 'white',
-    marginRight: '10px',
-    width: '100px',
-    height: '35px',
+    width: '140px',
+    height: '40px',
     padding: '10px 20px',
-    borderRadius: '20px'
-}
+    borderRadius: '20px',
+    fontSize: '18px'
+};
 
 // 삭제 버튼 속성
 const deleteButton = {
     backgroundColor: '#A52A2A',
     color: 'white',
-    marginRight: '10px',
-    width: '100px',
-    height: '35px',
+    width: '140px',
+    height: '40px',
     padding: '10px 20px',
-    borderRadius: '20px'
-}
-
-export default instructionList;
+    borderRadius: '20px',
+    fontSize: '18px'
+};
