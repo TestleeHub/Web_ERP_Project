@@ -45,8 +45,6 @@ import empList from '../humanResourcesComponent/empList';
 import empProofMaking from '../humanResourcesComponent/empProofMaking';
 import salaryReg from '../humanResourcesComponent/salaryReg';
 import SalaryStateSelect from '../humanResourcesComponent/SalaryStateSelect';
-import depList from '../humanResourcesComponent/depList';
-import depAdd from '../humanResourcesComponent/depAdd';
 import myEdit from '../commonComponent/myEdit';
 
 import purchaseBook from '../accountComponent/purchaseBook';
@@ -117,8 +115,6 @@ const AppRouter = () => {
             <Route path='/humanResources/salaryReg' exact={true} component={salaryReg} />
             <Route path='/humanResources/SalaryStateSelect' exact={true} component={SalaryStateSelect} />
             <Route path='/humanResources/attendanceList' exact={true} component={attendanceList} />
-            <Route path='/humanResources/depList' exact={true} component={depList} />
-            <Route path='/humanResources/depAdd' exact={true} component={depAdd} />
 
             <Route path='/account' exact={true} component={fixedAssetsList} />
             <Route path='/account/purchaseBook' exact={true} component={purchaseBook} />

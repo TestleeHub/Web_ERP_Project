@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Table, TableHead, TableRow, TableCell, TableBody, Button, Typography, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
-import { request } from "../../helpers/axios_helper";
+import { request, setAuthToken, setUserId, setUserRole} from "../../helpers/axios_helper";
 
 class customerList extends Component {
     state = {
@@ -53,6 +53,21 @@ class customerList extends Component {
                 console.log('response : ', response);
             }).catch((error) => {
                 console.log('error : ', error);
+                if(error.response.status === 403){
+                    setAuthToken(null);
+                    setUserId(null);
+                    setUserRole(null);
+                    console.log('접근 권한이 없습니다.');
+                    this.props.history.push('/accessDenied');
+                    window.location.reload();
+                }else if(error.response.status === 401){
+                    alert('로그인이 필요합니다.')
+                    setAuthToken(null);
+                    setUserId(null);
+                    setUserRole(null);
+                    this.props.history.push('/login');
+                    window.location.reload();
+                }
             })
     }
 
@@ -119,8 +134,6 @@ class customerList extends Component {
                                     <TableCell style={tableCellTitleStyle} align="center">전화번호</TableCell>
                                     <TableCell style={tableCellTitleStyle} align="center">팩스번호</TableCell>
                                     <TableCell style={tableCellTitleStyle} align="center">업종</TableCell>
-                                    <TableCell style={tableCellTitleStyle} align="center">은행코드</TableCell>
-                                    <TableCell style={tableCellTitleStyle} align="center">계좌번호</TableCell>
                                     <TableCell style={tableCellTitleStyle} align="center">우편번호</TableCell>
                                     <TableCell style={tableCellTitleStyle} align="center">상세주소</TableCell>
                                     <TableCell style={tableCellTitleStyle} align="center">추가작업</TableCell>
@@ -139,8 +152,6 @@ class customerList extends Component {
                                         <TableCell style={tableCellTitleStyle}> {data.phone ? data.phone : 'N/A'} </TableCell>
                                         <TableCell style={tableCellTitleStyle}> {data.faxNumber ? data.faxNumber : 'N/A'} </TableCell>
                                         <TableCell style={tableCellTitleStyle}> {data.type ? data.type : 'N/A'} </TableCell>
-                                        <TableCell style={tableCellTitleStyle}> {data.bank ? data.bank : 'N/A'} </TableCell>
-                                        <TableCell style={tableCellTitleStyle}> {data.account ? data.account : 'N/A'} </TableCell>
                                         <TableCell style={tableCellTitleStyle}> {data.postMail ? data.postMail : 'N/A'} </TableCell>
                                         <TableCell style={tableCellTitleStyle}> {data.address ? data.address : 'N/A'} </TableCell>
                                         <TableCell style={tableCellTitleStyle}>
@@ -196,7 +207,7 @@ const tableStyle = {
 
 // 테이블 셀 이름 스타일
 const tableCellTitleStyle = {
-    width: '8%',
+    width: '10%',
     fontSize: '20px',
     paddingLeft: '30px',
     textAlign: 'center'

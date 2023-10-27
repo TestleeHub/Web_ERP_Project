@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { Table, TableHead, TableRow, TableCell, TableBody, Button, Typography, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
-import { request } from "../../helpers/axios_helper";
+import { request, setAuthToken, setUserId, setUserRole} from "../../helpers/axios_helper";
 import CustomerPopup from "../popUp/customerPopup";
 import Modal from 'react-modal';
 
@@ -96,11 +96,21 @@ class customerTradeSlip2Insert extends Component {
                 window.confirm("등록에 성공하였습니다.")
                 this.props.history.push('/customer/customerTradeSlip2');
             }).catch((error) => {
-                alert("등록에 실패하였습니다.!")
                 console.log('error : ', error);
                 if(error.response.status === 403){
+                    setAuthToken(null);
+                    setUserId(null);
+                    setUserRole(null);
                     console.log('접근 권한이 없습니다.');
                     this.props.history.push('/accessDenied');
+                    window.location.reload();
+                }else if(error.response.status === 401){
+                    alert('로그인이 필요합니다.')
+                    setAuthToken(null);
+                    setUserId(null);
+                    setUserRole(null);
+                    this.props.history.push('/login');
+                    window.location.reload();
                 }
             })
 

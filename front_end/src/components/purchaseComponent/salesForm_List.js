@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Table, TableBody, TableCell, TableRow, Typography, Button, TableHead } from "@mui/material";
-import { request } from "../../helpers/axios_helper";
+import { request, setAuthToken, setUserId, setUserRole} from "../../helpers/axios_helper";
 
 class salesForm_List extends Component{
 
@@ -60,8 +60,19 @@ class salesForm_List extends Component{
             }).catch((error) => {
                 console.log('error : ', error);
                 if(error.response.status === 403){
+                    setAuthToken(null);
+                    setUserId(null);
+                    setUserRole(null);
                     console.log('접근 권한이 없습니다.');
                     this.props.history.push('/accessDenied');
+                    window.location.reload();
+                }else if(error.response.status === 401){
+                    alert('로그인이 필요합니다.')
+                    setAuthToken(null);
+                    setUserId(null);
+                    setUserRole(null);
+                    this.props.history.push('/login');
+                    window.location.reload();
                 }
             })
     }
@@ -95,8 +106,19 @@ class salesForm_List extends Component{
             }).catch((error) => {
                 console.log('error : ', error);
                 if(error.response.status === 403){
+                    setAuthToken(null);
+                    setUserId(null);
+                    setUserRole(null);
                     console.log('접근 권한이 없습니다.');
                     this.props.history.push('/accessDenied');
+                    window.location.reload();
+                }else if(error.response.status === 401){
+                    alert('로그인이 필요합니다.')
+                    setAuthToken(null);
+                    setUserId(null);
+                    setUserRole(null);
+                    this.props.history.push('/login');
+                    window.location.reload();
                 }
             })
     }

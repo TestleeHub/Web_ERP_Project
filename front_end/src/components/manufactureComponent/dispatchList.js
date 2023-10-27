@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Table, TableHead, TableBody, TableRow, TableCell, Typography, Button } from '@mui/material';
-import { request } from "../../helpers/axios_helper";
+import { request, setAuthToken, setUserId, setUserRole} from "../../helpers/axios_helper";
 
 class dispatchList extends Component {
     constructor(props) {
@@ -52,6 +52,21 @@ class dispatchList extends Component {
                 console.log('response : ', response);
             }).catch((error) => {
                 console.log('error : ', error);
+                if(error.response.status === 403){
+                    setAuthToken(null);
+                    setUserId(null);
+                    setUserRole(null);
+                    console.log('접근 권한이 없습니다.');
+                    this.props.history.push('/accessDenied');
+                    window.location.reload();
+                }else if(error.response.status === 401){
+                    alert('로그인이 필요합니다.')
+                    setAuthToken(null);
+                    setUserId(null);
+                    setUserRole(null);
+                    this.props.history.push('/login');
+                    window.location.reload();
+                }
             })
     }
 
@@ -83,8 +98,19 @@ class dispatchList extends Component {
             }).catch((error) => {
                 console.log('error : ', error);
                 if(error.response.status === 403){
+                    setAuthToken(null);
+                    setUserId(null);
+                    setUserRole(null);
                     console.log('접근 권한이 없습니다.');
                     this.props.history.push('/accessDenied');
+                    window.location.reload();
+                }else if(error.response.status === 401){
+                    alert('로그인이 필요합니다.')
+                    setAuthToken(null);
+                    setUserId(null);
+                    setUserRole(null);
+                    this.props.history.push('/login');
+                    window.location.reload();
                 }
             })
     }

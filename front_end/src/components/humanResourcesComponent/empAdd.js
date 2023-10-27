@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Table, TableBody, TableRow, TableCell, Typography, Button } from '@mui/material';
-import { request } from "../../helpers/axios_helper";
+import { request, setAuthToken, setUserId, setUserRole } from "../../helpers/axios_helper";
 
 class empAdd extends Component {
     constructor(props) {
@@ -36,12 +36,12 @@ class empAdd extends Component {
         console.log("edit:" + data)
         if (data !== null) {
             const parseData = JSON.parse(data);
-            parseData.departmentId =""
+            parseData.departmentId = ""
             this.setState(parseData);
-            
+
             window.localStorage.removeItem("data");
         }
-       
+
     }
 
     // 다시 호출했을때 삭제하기 수정 -> 등록 살려줘
@@ -49,30 +49,30 @@ class empAdd extends Component {
         // 현재 페이지가 다시 호출될 때 (예: 라우팅 변경 시) 기존 값을 초기화
         console.log("componentDidUpdate호출")
         if (this.props.location !== prevProps.location) {
-          this.setState({
-            // 초기화하고자 하는 상태 값
-            employeeId: "",
-            name: "",
-            foreignName: "",
-            socialNum: "",
-            position: "",
-            leaveDate: "",
-            leaveReason: "",
-            phone: "",
-            email: "",
-            departmentId: "",
-            bankCode: "",
-            account: "",
-            accountName: "",
-            postMail: "",
-            address: "",
-            salary: "",
-            password: "",
-            chkpassword: "",
-            joinDate: ""
-          });
+            this.setState({
+                // 초기화하고자 하는 상태 값
+                employeeId: "",
+                name: "",
+                foreignName: "",
+                socialNum: "",
+                position: "",
+                leaveDate: "",
+                leaveReason: "",
+                phone: "",
+                email: "",
+                departmentId: "",
+                bankCode: "",
+                account: "",
+                accountName: "",
+                postMail: "",
+                address: "",
+                salary: "",
+                password: "",
+                chkpassword: "",
+                joinDate: ""
+            });
         }
-      }
+    }
     onChangeEmpHandler = (e) => {
         let fieldName = e.target.name;
         let value = e.target.value;
@@ -93,8 +93,8 @@ class empAdd extends Component {
         e.preventDefault();
         const pw = this.state.password;
         const chkpw = this.state.chkpassword;
-        
-        if(this.state.departmentId === '') {
+
+        if (this.state.departmentId === '') {
             console.log("부서이름 없음")
             return
         }
@@ -127,8 +127,19 @@ class empAdd extends Component {
                 }).catch((error) => {
                     console.log('error : ', error);
                     if (error.response.status === 403) {
+                        setAuthToken(null);
+                        setUserId(null);
+                        setUserRole(null);
                         console.log('접근 권한이 없습니다.');
                         this.props.history.push('/accessDenied');
+                        window.location.reload();
+                    } else if (error.response.status === 401) {
+                        alert('로그인이 필요합니다.')
+                        setAuthToken(null);
+                        setUserId(null);
+                        setUserRole(null);
+                        this.props.history.push('/login');
+                        window.location.reload();
                     }
                 })
 
@@ -148,11 +159,11 @@ class empAdd extends Component {
 
     render() {
         return (
-            <div style={{padding: '30px'}}>
+            <div style={{ padding: '30px' }}>
                 <div>
                     <Typography variant="h4" style={style}> 사원 등록 </Typography>
                 </div>
-                <br/>
+                <br />
                 <div style={divLineStyle}>
                     <Button style={trapezoidButton}>사원등록</Button>
                 </div>
@@ -262,7 +273,7 @@ class empAdd extends Component {
                                         <option value="영업팀">영업팀</option>
                                         <option value="자재팀">자재팀</option>
                                     </select>
-                                    <br/>
+                                    <br />
                                     {this.state.departmentId === '' ? '부서를 선택해주세요' : ''}
                                 </TableCell>
                             </TableRow>
@@ -273,8 +284,8 @@ class empAdd extends Component {
                                     <input type="password" style={shortInputStyle} name="password" placeholder="비밀번호" onChange={this.onChangeEmpHandler} value={this.state.password} />
                                     {
                                         (this.state.password === "") ? "암호를 입력해주세요" :
-                                        (this.state.chkpassword === "") ? "확인을 입력해주세요" :
-                                        (this.state.password === this.state.chkpassword) ? "암호가 일치합니다." : "암호가 일치하지 않습니다."
+                                            (this.state.chkpassword === "") ? "확인을 입력해주세요" :
+                                                (this.state.password === this.state.chkpassword) ? "암호가 일치합니다." : "암호가 일치하지 않습니다."
                                     }
                                 </TableCell>
                             </TableRow>

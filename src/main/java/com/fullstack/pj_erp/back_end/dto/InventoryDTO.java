@@ -30,6 +30,11 @@ public class InventoryDTO {
 	@Id
 	@Column(name = "PRODUCTIONITEMID")
 	private String productionItemId;    // 제품 코드
+	
+	@OneToOne
+	@JoinColumn(name = "PRODUCTIONITEMID", referencedColumnName = "PRODUCTIONITEMID", insertable = false, updatable = false)
+	private ProductionItemsDTO ProductionItem;
+	
 	@Column(name = "REGISTDATE")
 	private Date registDate;			// 등록일
 	

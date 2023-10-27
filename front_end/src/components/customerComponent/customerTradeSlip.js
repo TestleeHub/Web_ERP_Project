@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Table, TableHead, TableRow, TableCell, TableBody, Button, Typography, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
-import { request } from "../../helpers/axios_helper";
+import { request, setAuthToken, setUserId, setUserRole} from "../../helpers/axios_helper";
 
 class customerTradeSlip extends Component{
     state = {
@@ -51,6 +51,21 @@ class customerTradeSlip extends Component{
             console.log('response : ', response);
         }).catch((error) => {
             console.log('error : ', error);
+                if(error.response.status === 403){
+                    setAuthToken(null);
+                    setUserId(null);
+                    setUserRole(null);
+                    console.log('접근 권한이 없습니다.');
+                    this.props.history.push('/accessDenied');
+                    window.location.reload();
+                }else if(error.response.status === 401){
+                    alert('로그인이 필요합니다.')
+                    setAuthToken(null);
+                    setUserId(null);
+                    setUserRole(null);
+                    this.props.history.push('/login');
+                    window.location.reload();
+                }
         })
     }
 
@@ -81,6 +96,21 @@ class customerTradeSlip extends Component{
                 console.log('response : ', response);
             }).catch((error) => {
                 console.log('error : ', error);
+                if(error.response.status === 403){
+                    setAuthToken(null);
+                    setUserId(null);
+                    setUserRole(null);
+                    console.log('접근 권한이 없습니다.');
+                    this.props.history.push('/accessDenied');
+                    window.location.reload();
+                }else if(error.response.status === 401){
+                    alert('로그인이 필요합니다.')
+                    setAuthToken(null);
+                    setUserId(null);
+                    setUserRole(null);
+                    this.props.history.push('/login');
+                    window.location.reload();
+                }
             })
     }
 
@@ -163,6 +193,7 @@ class customerTradeSlip extends Component{
                                 <TableCell style={tableCellTitleStyle} onClick={() => this.handleSort('customer')} align="center">거래처명</TableCell>
                                 <TableCell style={tableCellTitleStyle} onClick={() => this.handleSort('title')} align="center">제목</TableCell>
                                 <TableCell style={tableCellTitleStyle} onClick={() => this.handleSort('regDate')} align="center">등록일</TableCell>
+                                <TableCell style={tableCellTitleStyle} ></TableCell>
                             </TableRow>
                         </TableHead>
                         

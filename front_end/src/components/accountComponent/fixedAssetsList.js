@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import { Table, TableBody, TableCell, TableRow, TableHead, Button, responsiveFontSizes } from '@mui/material';
 import { Typography } from "@material-ui/core";
-import { request } from "../../helpers/axios_helper";
+import { request, setAuthToken, setUserId, setUserRole} from "../../helpers/axios_helper";
 
 class fixedAssetsList extends Component{
 
@@ -65,8 +65,19 @@ class fixedAssetsList extends Component{
             }).catch((error) => {
                 console.log('error : ', error);
                 if(error.response.status === 403){
+                    setAuthToken(null);
+                    setUserId(null);
+                    setUserRole(null);
                     console.log('접근 권한이 없습니다.');
                     this.props.history.push('/accessDenied');
+                    window.location.reload();
+                }else if(error.response.status === 401){
+                    alert('로그인이 필요합니다.')
+                    setAuthToken(null);
+                    setUserId(null);
+                    setUserRole(null);
+                    this.props.history.push('/login');
+                    window.location.reload();
                 }
             })
     }
@@ -99,7 +110,22 @@ class fixedAssetsList extends Component{
                 });
                 console.log('response: ', response);
             }).catch((error) => {
-                console.log('error: ', error);
+                console.log('error : ', error);
+                if(error.response.status === 403){
+                    setAuthToken(null);
+                    setUserId(null);
+                    setUserRole(null);
+                    console.log('접근 권한이 없습니다.');
+                    this.props.history.push('/accessDenied');
+                    window.location.reload();
+                }else if(error.response.status === 401){
+                    alert('로그인이 필요합니다.')
+                    setAuthToken(null);
+                    setUserId(null);
+                    setUserRole(null);
+                    this.props.history.push('/login');
+                    window.location.reload();
+                }
             })
     }
 
@@ -216,7 +242,7 @@ class fixedAssetsList extends Component{
                                         <TableCell style={tableCellTitleStyle}>{data.assetName}</TableCell>
                                         <TableCell style={tableCellTitleStyle}>{data.assetType ? data.assetType : 'N/A'}</TableCell>
                                         <TableCell style={tableCellTitleStyle}>{data.assetTotal}</TableCell>
-                                        <TableCell style={tableCellTitleStyle}>{data.acquistionCost}</TableCell>
+                                        <TableCell style={tableCellTitleStyle}>{data.acquistionCost.toLocaleString()}원</TableCell>
                                         <TableCell style={tableCellTitleStyle}>{this.formatDate(data.registDate)}</TableCell>
                                         <TableCell style={tableCellTitleStyle}>{data.departmentId}</TableCell>
                                         <TableCell style={tableCellTitleStyle}>{data.depreciation ? data.depreciation : 'N/A'}</TableCell>

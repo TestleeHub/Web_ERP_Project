@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Table, TableBody, TableCell, TableRow, Typography, Button, TableHead } from "@mui/material";
-import { request } from "../../helpers/axios_helper";
+import { request, setAuthToken, setUserId, setUserRole} from "../../helpers/axios_helper";
 
 class purchaseBookList extends Component{
 
@@ -61,6 +61,21 @@ class purchaseBookList extends Component{
                 console.log('response : ', response);
             }).catch((error) => {
                 console.log('error : ', error);
+                if(error.response.status === 403){
+                    setAuthToken(null);
+                    setUserId(null);
+                    setUserRole(null);
+                    console.log('접근 권한이 없습니다.');
+                    this.props.history.push('/accessDenied');
+                    window.location.reload();
+                }else if(error.response.status === 401){
+                    alert('로그인이 필요합니다.')
+                    setAuthToken(null);
+                    setUserId(null);
+                    setUserRole(null);
+                    this.props.history.push('/login');
+                    window.location.reload();
+                }
             })
     }
 
@@ -161,7 +176,7 @@ class purchaseBookList extends Component{
                                     </TableCell>
                                     <TableCell style={tableCellTitleStyle}>{data.purchaseBookId}</TableCell>
                                     <TableCell style={tableCellTitleStyle}>{data.customer ? data.customer.name : "N/A"}</TableCell>
-                                    <TableCell style={tableCellTitleStyle}>{data.details && data.details.length > 0 ? data.details[0].materialId + ' 외' : ''}  {data.details ? data.details.length : 0} 건 </TableCell>
+                                    <TableCell style={tableCellTitleStyle}>{data.details && data.details.length > 0 ? data.details[0].material.name + ' 외' : ''}  {data.details ? data.details.length : 0} 건 </TableCell>
                                     <TableCell style={tableCellTitleStyle}>{data.totalPrice ? data.totalPrice : "0"}원</TableCell>
                                     <TableCell style={tableCellTitleStyle}>{data.vat ? data.vat : "0"}원</TableCell>
                                     <TableCell style={tableCellTitleStyle}>{data.registDate ? this.formatDate(data.registDate) : "N/A"}</TableCell>
