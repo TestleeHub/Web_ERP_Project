@@ -118,7 +118,7 @@ class productionAdd extends Component {
 
     render() {
         return (
-            <div>
+            <div style={{padding: '30px'}}>
                 {/* 팝업 */}
                 <div>
                     <Modal
@@ -169,22 +169,23 @@ class productionAdd extends Component {
                     </Modal>
                 </div>
                 {/* 팝업 끝 */}
-                <br />
-                <Typography variant="h4" style={style}> 품목등록 </Typography>
-                <br />
                 <div>
+                    <Typography variant="h4" style={style}> 품목등록 </Typography>
+                </div>
+                <br/>
+                <div style={divLineStyle}>
                     <Button variant="contained" style={trapezoidButton}>기본</Button>
                 </div>
-                <Table style={{ border: '1px solid lightgray', backgroundColor: 'ghostwhite' }}>
+                <Table style={tableStyle}>
                     <TableHead>
                         <TableRow>
-                            <TableCell style={{ border: 'none' }}> 상품코드 </TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
+                            <TableCell style={tableCellTitleStyle}> 상품코드 </TableCell>
+                            <TableCell style={tableCellStyle}>
+                                <input style={longInputStyle}
                                     type="text"
-                                    size="70"
                                     name="productionItemId"
-                                    placeholder="상품코드"
+                                    className="redPlaceholder"
+                                    placeholder="상품 코드는 자동으로 생성됩니다." 
                                     onChange={this.onChangeHandler}
                                     value={this.state.productionItemId}
                                     readOnly
@@ -192,11 +193,10 @@ class productionAdd extends Component {
                             </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell style={{ border: 'none' }}>제품명</TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
+                            <TableCell style={tableCellTitleStyle}>제품명</TableCell>
+                            <TableCell style={tableCellStyle}>
+                                <input style={longInputStyle}
                                     type="text"
-                                    size="70"
                                     name="name"
                                     placeholder="제품명"
                                     onChange={this.onChangeHandler}
@@ -205,11 +205,10 @@ class productionAdd extends Component {
                             </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell style={{ border: 'none' }}>공정명</TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
+                            <TableCell style={tableCellTitleStyle}>공정명</TableCell>
+                            <TableCell style={tableCellStyle}>
+                                <input style={longInputStyle}
                                     type="text"
-                                    size="70"
                                     name="process"
                                     placeholder="공정명"
                                     onChange={this.onChangeHandler}
@@ -218,11 +217,10 @@ class productionAdd extends Component {
                             </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell style={{ border: 'none' }}>규격</TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
+                            <TableCell style={tableCellTitleStyle}>규격</TableCell>
+                            <TableCell style={tableCellStyle}>
+                                <input style={quantityInputStyle}
                                     type="text"
-                                    size="70"
                                     name="standard"
                                     placeholder="규격"
                                     onChange={this.onChangeHandler}
@@ -231,11 +229,10 @@ class productionAdd extends Component {
                             </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell style={{ border: 'none' }}>담당자</TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
+                            <TableCell style={tableCellTitleStyle}>담당자</TableCell>
+                            <TableCell style={tableCellStyle}>
+                                <input style={longInputStyle}
                                     type="text"
-                                    size="70"
                                     name="managerId"
                                     placeholder="담당자(검색)"
                                     onChange={this.onChangeHandler}
@@ -246,11 +243,10 @@ class productionAdd extends Component {
                             </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell style={{ border: 'none' }}>받는창고</TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
+                            <TableCell style={tableCellTitleStyle}>받는창고</TableCell>
+                            <TableCell style={tableCellStyle}>
+                                <input style={longInputStyle}
                                     type="text"
-                                    size="70"
                                     name="storageId"
                                     placeholder="받는창고(검색)"
                                     onChange={this.onChangeHandler}
@@ -262,37 +258,100 @@ class productionAdd extends Component {
                         </TableRow>
                     </TableHead>
                 </Table>
-                <br />
                 <Button variant="contained" style={normalButton} onClick={this.onSubmitAdd}>저장</Button>
             </div>
         );
     }
 }
 
+export default productionAdd;
+
+// 테이블 스타일
+const tableStyle = {
+    border: '1px solid lightgray',
+    backgroundColor: 'ghostwhite',  // 배경색 ghost white
+};
+
+// 테이블 셀 이름 스타일
+const tableCellTitleStyle = {
+    width: '20%',
+    fontSize: '20px',
+    border: 'none',
+    paddingLeft: '30px',
+};
+
+// 테이블 셀 스타일
+const tableCellStyle = {
+    border: 'none'
+};
+
 const style = {
     display: 'flex',
     justifyContent: 'left'
-}
+};
 
 // 사다리꼴 버튼 속성
 const trapezoidButton = {
     backgroundColor: 'navy',
     color: 'white',
     marginRight: '10px',
-    clipPath: 'polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)',
-    width: '120px',
-    height: '30px',
-    padding: '10px 20px'
-}
+    clipPath: 'polygon(20% 2%, 80% 2%, 100% 100%, 0% 100%)',
+    width: '160px',
+    height: '50px',
+    padding: '10px 20px',
+    borderTopLeftRadius: '100px',
+    borderTopRightRadius: '100px',
+    fontSize: '18px'
+};
 
 // 기본 버튼 속성
 const normalButton = {
     backgroundColor: 'navy',
     color: 'white',
     marginRight: '10px',
-    width: '120px',
-    height: '30px',
-    padding: '10px 20px'
-}
+    width: '150px',
+    height: '40px',
+    padding: '10px 20px',
+    fontSize: '18px'
+};
 
-export default productionAdd;
+// 500px input 창
+const longInputStyle = {
+    width: '500px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+// 300px input 창
+const shortInputStyle = {
+    width: '300px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+// 수량 입력 창
+const quantityInputStyle = {
+    width: '100px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+const labelStyle = {
+    fontSize: '20px',
+    display: 'flex',
+    float: 'left',
+    alignItems: 'center',
+    paddingRight: '20px'
+};
+
+// 체크박스 스타일
+const checkBoxStyle = {
+    width: '30px',
+    height: '30px',
+    marginRight: '5px'
+};
+
+// 밑줄
+const divLineStyle = {
+    borderBottom: '3px solid navy'
+};

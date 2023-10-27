@@ -98,44 +98,51 @@ class customerTradeHistory extends Component{
         const { displayedDatas, showMore } = this.state;
 
         return(
-            <div>
+            <div style={{padding:'30px'}}>
+                <div>
+                    <Typography variant='h4' style={style}> 거래처 거래내역 </Typography>
+                </div>
                 <br/>
-                <Typography variant='h4' style={style}> 거래처 거래내역 </Typography>
-                <br/>
-                <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>전체</Button>
+                <div style={divLineStyle}>
+                    <Button variant="contained" style={trapezoidButton} onClick={this.customerTradeHistory}>전체</Button>
+                </div>
                 {/* 로딩 상태에 대한 조건부 렌더링 */}
                 {this.state.isLoading ? (
                     <p>로딩 중...</p>
                 ) : (
-                    <Table border="1" style={{ border: '1px solid lightgray', backgroundColor: 'ghostwhite' }}>
+                    <Table style={tableStyle}>
                     <TableHead style={{ backgroundColor: 'lightgray' }}>
                         <TableRow>
-                            <TableCell style={{fontWeight: 'bold'}} onClick={() => this.handleSort('tradeHistoryId', true)} align="center">거래내역 Id▽</TableCell>
-                            <TableCell style={{fontWeight: 'bold'}} onClick={() => this.handleSort('customer.name', true)} align="center">거래처명▽</TableCell>
-                            <TableCell style={{fontWeight: 'bold'}} onClick={() => this.handleSort('title', true)} align="center">제목▽</TableCell>
-                            <TableCell style={{fontWeight: 'bold'}} onClick={() => this.handleSort('income')} align="center">거래 수입금▽</TableCell>
-                            <TableCell style={{fontWeight: 'bold'}} onClick={() => this.handleSort('expend')} align="center">거래 지줄금▽</TableCell>
-                            <TableCell style={{fontWeight: 'bold'}} onClick={() => this.handleSort('regDate', false, true)} align="center">등록일▽</TableCell>
-                            <TableCell></TableCell>
+                            <TableCell style={tableCellStyle}>
+
+                            </TableCell>
+                            <TableCell style={tableCellTitleStyle} onClick={() => this.handleSort('tradeHistoryId', true)} align="center">거래내역 Id</TableCell>
+                            <TableCell style={tableCellTitleStyle} onClick={() => this.handleSort('customer.name', true)} align="center">거래처</TableCell>
+                            <TableCell style={tableCellTitleStyle} onClick={() => this.handleSort('title', true)} align="center">제목</TableCell>
+                            <TableCell style={tableCellTitleStyle} onClick={() => this.handleSort('income')} align="center">거래 수입금</TableCell>
+                            <TableCell style={tableCellTitleStyle} onClick={() => this.handleSort('expend')} align="center">거래 지줄금</TableCell>
+                            <TableCell style={tableCellTitleStyle} onClick={() => this.handleSort('regDate', false, true)} align="center">등록일</TableCell>
                         </TableRow>
                     </TableHead>
                     
                     <TableBody>
                         {this.state.displayedDatas.map((data, index) => (
                             <TableRow>
-                                <TableCell> {data.tradeHistoryId} </TableCell>
-                                <TableCell> {data.customer ? data.customer.name : 'N/A'} </TableCell>
-                                <TableCell> {data.title ? data.title : 'N/A'} </TableCell>
-                                <TableCell> {data.income ? data.income.toLocaleString() : '0'}원 </TableCell>
-                                <TableCell> {data.expend ? data.expend.toLocaleString() : '0'}원 </TableCell>
-                                <TableCell> {data.regDate ? this.formatDate(data.regDate) : 'N/A'} </TableCell>
+                                <TableCell style={{ ...tableCellStyle, backgroundColor: 'lightgray' }}>
+                                    {index + 1}
+                                </TableCell>
+                                <TableCell style={tableCellTitleStyle}> {data.tradeHistoryId} </TableCell>
+                                <TableCell style={tableCellTitleStyle}> {data.customer ? data.customer.name : 'N/A'} </TableCell>
+                                <TableCell style={tableCellTitleStyle}> {data.title ? data.title : 'N/A'} </TableCell>
+                                <TableCell style={tableCellTitleStyle}> {data.income ? data.income.toLocaleString() : '0'}원 </TableCell>
+                                <TableCell style={tableCellTitleStyle}> {data.expend ? data.expend.toLocaleString() : '0'}원 </TableCell>
+                                <TableCell style={tableCellTitleStyle}> {data.regDate ? this.formatDate(data.regDate) : 'N/A'} </TableCell>
                             </TableRow>    
                         ))}
                     </TableBody>
                 </Table>   
                 )}
 
-                <br />
                 {showMore && (
                     <Button variant="contained" style={normalButton} onClick={this.handleShowMoreClick}>더 보기</Button>
                 )}
@@ -145,6 +152,26 @@ class customerTradeHistory extends Component{
             </div>
         );
     }
+}
+
+// 테이블 스타일
+const tableStyle = {
+    border: '1px solid lightgray',
+    backgroundColor: 'ghostwhite',  // 배경색 ghost white
+}
+
+// 테이블 셀 이름 스타일
+const tableCellTitleStyle = {
+    width: '17%',
+    fontSize: '20px',
+    paddingLeft: '30px',
+    textAlign: 'center'
+}
+
+// 테이블 셀 스타일
+const tableCellStyle = {
+    fontSize: '20px',
+    border: 'none'
 }
 
 const style = {
@@ -157,10 +184,13 @@ const trapezoidButton = {
     backgroundColor: 'navy',
     color: 'white',
     marginRight: '10px',
-    clipPath: 'polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)',
-    width: '120px',
-    height: '30px',
-    padding: '10px 20px'
+    clipPath: 'polygon(20% 2%, 80% 2%, 100% 100%, 0% 100%)',
+    width: '160px',
+    height: '50px',
+    padding: '10px 20px',
+    borderTopLeftRadius: '100px',
+    borderTopRightRadius: '100px',
+    fontSize: '18px'
 }
 
 // 기본 버튼 속성
@@ -169,8 +199,42 @@ const normalButton = {
     color: 'white',
     marginRight: '10px',
     width: '150px',
-    height: '30px',
-    padding: '10px 20px'
+    height: '40px',
+    padding: '10px 20px',
+    fontSize: '18px'
 }
+
+// 500px input 창
+const longInputStyle = {
+    width: '500px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+// 300px input 창
+const shortInputStyle = {
+    width: '300px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+const labelStyle = {
+    fontSize: '20px',
+    display: 'flex',
+    float: 'left',
+    alignItems: 'center',
+    paddingRight: '20px'
+};
+
+const checkBoxStyle = {
+    width: '30px',
+    height: '30px',
+    marginRight: '5px'
+};
+
+const divLineStyle = {
+    borderBottom: '3px solid navy'
+};
+
 
 export default customerTradeHistory;

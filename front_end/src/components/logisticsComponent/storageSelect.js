@@ -100,8 +100,10 @@ class storageSelect extends Component{
         const { displayedDatas, showMore } = this.state;
 
         return(
-            <div>
+            <div style={{padding: '30px'}}>
+                <div>
                     <Typography variant="h4" style={style}>창고 조회</Typography>
+                </div>
                 <br/>
                 <div style={divLineStyle}>
                     <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>조회</Button>
@@ -113,34 +115,48 @@ class storageSelect extends Component{
                 <Table style={tableStyle}>
                     <TableHead style={{backgroundColor: 'lightgray'}}>
                         <TableRow>
+                            <TableCell style={tableCellStyle}> No.
+
+                            </TableCell>
                             <TableCell style={tableCellTitleStyle}> 창고 코드 </TableCell>
                             <TableCell style={tableCellTitleStyle}> 창고명 </TableCell>
                             <TableCell style={tableCellTitleStyle}> 구분 </TableCell>
-                            <TableCell>  </TableCell>
+                            <TableCell style={tableCellTitleStyle}> 추가 작업 </TableCell>
                         </TableRow>
                     </TableHead>
 
                     <TableBody>
                         {this.state.displayedDatas.map((data, index) => (
                             <TableRow>
+                                <TableCell style={{ ...tableCellStyle, backgroundColor: 'lightgray' }}>
+                                    {index + 1}
+                                </TableCell>
                                 <TableCell style={tableCellTitleStyle}> {data.storageId} </TableCell>
                                 <TableCell style={tableCellTitleStyle}> {data.storageName} </TableCell>
                                 <TableCell style={tableCellTitleStyle} > {data.category} </TableCell>
                                 
                                 <TableCell style={tableCellTitleStyle}>
-                                    <Button variant="contained" style={updateButton} onClick={() => this.editData(data)}>수정
-                                        <img className="penImage" 
-                                             alt="pen" 
-                                             src="../images/pen.png" 
-                                             style={{marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)'}} 
-                                        />
+                                    <div style={{paddingBottom: '8px'}}>
+                                    <Button variant="contained" style={updateButton} onClick={() => this.editData(data)}>
+                                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                                            수정
+                                            <img className="penImage" 
+                                                alt="pen" 
+                                                src="../images/pen.png" 
+                                                style={{marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)'}} 
+                                            />
+                                        </div>
                                     </Button>
-                                    <Button variant="contained" style={deleteButton} onClick={() => this.deleteData(data)}> 삭제
-                                        <img className="garbageImage" 
-                                             alt="garbage" 
-                                             src="../images/garbage.png" 
-                                             style={{marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)'}} 
-                                        />
+                                    </div>
+                                    <Button variant="contained" style={deleteButton} onClick={() => this.deleteData(data)}> 
+                                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                                            삭제
+                                            <img className="garbageImage" 
+                                                alt="garbage" 
+                                                src="../images/garbage.png" 
+                                                style={{marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)'}} 
+                                            />
+                                        </div>
                                     </Button>
                                 </TableCell>
                             </TableRow>
@@ -158,6 +174,8 @@ class storageSelect extends Component{
     }
 }
 
+export default storageSelect;
+
 // 테이블 스타일
 const tableStyle = {
     border: '1px solid lightgray',
@@ -166,45 +184,21 @@ const tableStyle = {
 
 // 테이블 셀 이름 스타일
 const tableCellTitleStyle = {
-    width: '20%',
+    width: '25%',
     fontSize: '20px',
-    border: 'none',
-    paddingLeft: '30px'
+    paddingLeft: '30px',
+    textAlign: 'center'
 }
 
 // 테이블 셀 스타일
 const tableCellStyle = {
+    fontSize: '20px',
     border: 'none'
 }
 
 const style = {
     display: 'flex',
     justifyContent: 'left'
-}
-
-// 사다리꼴 버튼 속성
-const trapezoidButton = {
-    backgroundColor: 'navy',
-    color: 'white',
-    marginRight: '10px',
-    clipPath: 'polygon(20% 2%, 80% 2%, 100% 100%, 0% 100%)',
-    width: '160px',
-    height: '50px',
-    padding: '10px 20px',
-    borderTopLeftRadius: '100px',
-    borderTopRightRadius: '100px',
-    fontSize: '18px'
-}
-
-// 기본 버튼 속성
-const normalButton = {
-    backgroundColor: 'navy',
-    color: 'white',
-    marginRight: '10px',
-    width: '150px',
-    height: '40px',
-    padding: '10px 20px',
-    fontSize: '18px'
 }
 
 // 500px input 창
@@ -239,26 +233,50 @@ const divLineStyle = {
     borderBottom: '3px solid navy'
 };
 
+// 사다리꼴 버튼 속성
+const trapezoidButton = {
+    backgroundColor: 'navy',
+    color: 'white',
+    marginRight: '10px',
+    clipPath: 'polygon(20% 2%, 80% 2%, 100% 100%, 0% 100%)',
+    width: '160px',
+    height: '50px',
+    padding: '10px 20px',
+    borderTopLeftRadius: '100px',
+    borderTopRightRadius: '100px',
+    fontSize: '18px'
+}
+
+// 기본 버튼 속성
+const normalButton = {
+    backgroundColor: 'navy',
+    color: 'white',
+    marginRight: '10px',
+    width: '150px',
+    height: '40px',
+    padding: '10px 20px',
+    fontSize: '18px'
+}
+
 // 수정 버튼 속성
 const updateButton = {
     backgroundColor: '#FF8C0A',
     color: 'white',
-    marginRight: '10px',
-    width: '100px',
-    height: '35px',
+    width: '140px',
+    height: '40px',
     padding: '10px 20px',
-    borderRadius: '20px'
+    borderRadius: '20px',
+    fontSize: '18px'
 };
 
 // 삭제 버튼 속성
 const deleteButton = {
     backgroundColor: '#A52A2A',
     color: 'white',
-    marginRight: '10px',
-    width: '100px',
-    height: '35px',
+    width: '140px',
+    height: '40px',
     padding: '10px 20px',
-    borderRadius: '20px'
+    borderRadius: '20px',
+    fontSize: '18px'
 };
 
-export default storageSelect;

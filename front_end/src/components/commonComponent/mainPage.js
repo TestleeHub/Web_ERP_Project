@@ -29,7 +29,7 @@ class mainPage extends Component{
                 </div>
                 <div className={mainPageStyle.body}>
                     <div className={mainPageStyle.features}>
-                        <div className={mainPageStyle.row1} onClick={() => this.toggleVisibility('isRow1Visible')}>
+                        <div className={mainPageStyle.row1} style={{cursor: 'pointer'}} onClick={() => this.toggleVisibility('isRow1Visible')}>
                             <div className={mainPageStyle.text_col}>
                                 <h2>
                                     인적 관리
@@ -52,11 +52,11 @@ class mainPage extends Component{
                             </div>
                         </div>
 
-                        <div className={mainPageStyle.row2} onClick={() => this.toggleVisibility('isRow2Visible')}>
+                        <div className={mainPageStyle.row2} style={{cursor: 'pointer'}} onClick={() => this.toggleVisibility('isRow2Visible')}>
                             <div className={mainPageStyle.right_imoji}>
                             <img className={mainPageStyle.ManufacturingImage} 
                                     alt="Manufacturing" 
-                                    src="../images/Manufacturing.png" 
+                                    src="../images/Manufacturing.png"
                             />
                             </div>
                             <div className={mainPageStyle.text_col}>
@@ -74,7 +74,7 @@ class mainPage extends Component{
                             </div>
                         </div>
 
-                        <div className={mainPageStyle.row3} onClick={() => this.toggleVisibility('isRow3Visible')}>
+                        <div className={mainPageStyle.row3} style={{cursor: 'pointer'}} onClick={() => this.toggleVisibility('isRow3Visible')}>
                             <div className={mainPageStyle.text_col}>
                                 <h2>
                                     회계 관리
@@ -96,7 +96,7 @@ class mainPage extends Component{
                             </div>
                         </div>
 
-                        <div className={mainPageStyle.row4} onClick={() => this.toggleVisibility('isRow4Visible')}>
+                        <div className={mainPageStyle.row4} style={{cursor: 'pointer'}} onClick={() => this.toggleVisibility('isRow4Visible')}>
                             <div className={mainPageStyle.right_imoji}>
                                 <img className={mainPageStyle.PurchaseImage} 
                                         alt="Purchase" 
@@ -118,7 +118,7 @@ class mainPage extends Component{
                             </div>
                         </div>
 
-                        <div className={mainPageStyle.row5} onClick={() => this.toggleVisibility('isRow5Visible')}>
+                        <div className={mainPageStyle.row5} style={{cursor: 'pointer'}} onClick={() => this.toggleVisibility('isRow5Visible')}>
                             <div className={mainPageStyle.text_col}>
                                 <h2>
                                     고객 관리
@@ -135,17 +135,17 @@ class mainPage extends Component{
                             <div className={mainPageStyle.left_imoji}>
                                 <img className={mainPageStyle.ClientImage} 
                                         alt="Client" 
-                                        src="../images/Client.png" 
+                                        src="../images/Client.png"
                                 />
                             </div>
                         </div>
 
-                        <div className={mainPageStyle.row6} onClick={() => this.toggleVisibility('isRow6Visible')}>
+                        <div className={mainPageStyle.row6} style={{cursor: 'pointer'}} onClick={() => this.toggleVisibility('isRow6Visible')}>
                             <div className={mainPageStyle.right_imoji}>
                                 <img className={mainPageStyle.LogisticsImage} 
                                     alt="Logistics" 
                                     src="../images/Logistics.png" 
-                                />
+                                />  
                             </div>
                             <div className={mainPageStyle.text_col}>
                                 <h2>

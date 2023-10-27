@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Table, TableHead, TableBody, TableRow, TableCell, Typography, Button } from '@mui/material';
-import { request } from "../../helpers/axios_helper";
+import { request, setAuthToken, setUserId, setUserRole} from "../../helpers/axios_helper";
 
 class productionList extends Component {
     constructor(props) {
@@ -53,6 +53,21 @@ class productionList extends Component {
                 console.log('response : ', response);
             }).catch((error) => {
                 console.log('error : ', error);
+                if(error.response.status === 403){
+                    setAuthToken(null);
+                    setUserId(null);
+                    setUserRole(null);
+                    console.log('접근 권한이 없습니다.');
+                    this.props.history.push('/accessDenied');
+                    window.location.reload();
+                }else if(error.response.status === 401){
+                    alert('로그인이 필요합니다.')
+                    setAuthToken(null);
+                    setUserId(null);
+                    setUserRole(null);
+                    this.props.history.push('/login');
+                    window.location.reload();
+                }
             })
     }
 
@@ -85,6 +100,9 @@ class productionList extends Component {
             }).catch((error) => {
                 console.log('error : ', error);
                 if(error.response.status === 403){
+                    setAuthToken(null);
+                    setUserId(null);
+                    setUserRole(null);
                     console.log('접근 권한이 없습니다.');
                     this.props.history.push('/accessDenied');
                 }
@@ -161,51 +179,76 @@ class productionList extends Component {
         const { displayedDatas, showMore } = this.state;
 
         return (
-            <div>
-                <br />
-                <Typography variant="h4" style={style}> 생산 품목 조회</Typography>
-                <br />
-                <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>전체</Button>
+            <div style={{padding: '30px'}}>
+                <div>
+                    <Typography variant="h4" style={style}> 생산 품목 조회</Typography>
+                </div>
+                <br/>
+                <div style={divLineStyle}>
+                    <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>전체</Button>
+                </div>
                 {/* 로딩 상태에 대한 조건부 렌더링 */}
                 {this.state.isLoading ? (
                     <p>로딩 중...</p>
                 ) : (
-                    <Table border="1" style={{ border: '1px solid lightgray', backgroundColor: 'ghostwhite' }}>
+                    <Table style={tableStyle}>
                         <TableHead style={{ backgroundColor: 'lightgray' }}>
                             <TableRow>
-                                <TableCell onClick={() => this.sortUsingProductionItemId()}> 상품코드▽ </TableCell>
-                                <TableCell onClick={() => this.sortUsingProcess()}> 공정명▽ </TableCell>
-                                <TableCell onClick={() => this.sortUsingName()}> 상품명▽ </TableCell>
-                                <TableCell> 규격 </TableCell>
-                                <TableCell onClick={() => this.sortUsingManagerName()}> 담당자▽ </TableCell>
-                                <TableCell onClick={() => this.sortUsingStorageName()}> 받는창고▽ </TableCell>
-                                <TableCell onClick={() => this.sortUsingRegistDate()}> 등록일▽ </TableCell>
-                                <TableCell>  </TableCell>
+                                <TableCell style={tableCellStyle}> No.
+                                </TableCell>
+                                <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingProductionItemId()}> 상품코드▽ </TableCell>
+                                <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingProcess()}> 공정명▽ </TableCell>
+                                <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingName()}> 상품명▽ </TableCell>
+                                <TableCell style={tableCellTitleStyle}> 규격 </TableCell>
+                                <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingManagerName()}> 담당자▽ </TableCell>
+                                <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingStorageName()}> 받는창고▽ </TableCell>
+                                <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingRegistDate()}> 등록일▽ </TableCell>
+                                <TableCell style={tableCellTitleStyle}> 추가 작업 </TableCell>
                             </TableRow>
                         </TableHead>
 
                         <TableBody>
                             {this.state.displayedDatas.map((data, index) => (
                                 <TableRow>
-                                    <TableCell> {data.productionItemId} </TableCell>
-                                    <TableCell> {data.process ? data.process : 'N/A'} </TableCell>
-                                    <TableCell> {data.name ? data.name : 'N/A'} </TableCell>
-                                    <TableCell> {data.standard ? data.standard : 'N/A'} </TableCell>
-                                    <TableCell> {data.managerId ? data.manager.name : 'N/A'} </TableCell>
-                                    <TableCell> {data.storageId ? data.storage.storageName : 'N/A'} </TableCell>
-                                    <TableCell> {data.registDate ? this.formatDate(data.registDate) : 'N/A'} </TableCell>
-                                    <TableCell>
-                                        <Button variant="contained" style={updateButton} onClick={() => this.editData(data)}>수정</Button>
-                                        <Button variant="contained" style={deleteButton} onClick={() => this.deleteData(data)}>삭제</Button>
+                                    <TableCell style={{ ...tableCellStyle, backgroundColor: 'lightgray' }}>
+                                        {index + 1}
+                                    </TableCell>
+                                    <TableCell style={tableCellTitleStyle}> {data.productionItemId} </TableCell>
+                                    <TableCell style={tableCellTitleStyle}> {data.process ? data.process : 'N/A'} </TableCell>
+                                    <TableCell style={tableCellTitleStyle}> {data.name ? data.name : 'N/A'} </TableCell>
+                                    <TableCell style={tableCellTitleStyle}> {data.standard ? data.standard : 'N/A'} </TableCell>
+                                    <TableCell style={tableCellTitleStyle}> {data.managerId ? data.manager.name : 'N/A'} </TableCell>
+                                    <TableCell style={tableCellTitleStyle}> {data.storageId ? data.storage.storageName : 'N/A'} </TableCell>
+                                    <TableCell style={tableCellTitleStyle}> {data.registDate ? this.formatDate(data.registDate) : 'N/A'} </TableCell>
+                                    <TableCell style={tableCellTitleStyle}>
+                                        <div style={{paddingBottom: '8px'}}>
+                                            <Button variant="contained" style={updateButton} onClick={() => this.editData(data)}>
+                                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                    수정
+                                                    <img className="penImage" 
+                                                        alt="pen" 
+                                                        src="../images/pen.png" 
+                                                        style={{marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)'}} 
+                                                    />
+                                                </div>
+                                            </Button>
+                                        </div>
+                                        <Button variant="contained" style={deleteButton} onClick={() => this.deleteData(data)}> 
+                                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                삭제
+                                                <img className="garbageImage" 
+                                                    alt="garbage" 
+                                                    src="../images/garbage.png" 
+                                                    style={{marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)'}} 
+                                                />
+                                            </div>
+                                        </Button>
                                     </TableCell>
                                 </TableRow>
                             ))}
-
                         </TableBody>
                     </Table>
                 )}
-
-                <br />
                 {showMore && (
                     <Button variant="contained" style={normalButton} onClick={this.handleShowMoreClick}>더 보기</Button>
                 )}
@@ -219,20 +262,77 @@ class productionList extends Component {
     }
 }
 
+export default productionList;
+
+// 테이블 스타일
+const tableStyle = {
+    border: '1px solid lightgray',
+    backgroundColor: 'ghostwhite',  // 배경색 ghost white
+}
+
+// 테이블 셀 이름 스타일
+const tableCellTitleStyle = {
+    width: '14%',
+    fontSize: '20px',
+    paddingLeft: '30px',
+    textAlign: 'center'
+}
+
+// 테이블 셀 스타일
+const tableCellStyle = {
+    fontSize: '20px',
+    border: 'none'
+}
+
 const style = {
     display: 'flex',
     justifyContent: 'left'
 }
+
+// 500px input 창
+const longInputStyle = {
+    width: '500px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+// 300px input 창
+const shortInputStyle = {
+    width: '300px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+const labelStyle = {
+    fontSize: '20px',
+    display: 'flex',
+    float: 'left',
+    alignItems: 'center',
+    paddingRight: '20px'
+};
+
+const checkBoxStyle = {
+    width: '30px',
+    height: '30px',
+    marginRight: '5px'
+};
+
+const divLineStyle = {
+    borderBottom: '3px solid navy'
+};
 
 // 사다리꼴 버튼 속성
 const trapezoidButton = {
     backgroundColor: 'navy',
     color: 'white',
     marginRight: '10px',
-    clipPath: 'polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)',
-    width: '120px',
-    height: '30px',
-    padding: '10px 20px'
+    clipPath: 'polygon(20% 2%, 80% 2%, 100% 100%, 0% 100%)',
+    width: '160px',
+    height: '50px',
+    padding: '10px 20px',
+    borderTopLeftRadius: '100px',
+    borderTopRightRadius: '100px',
+    fontSize: '18px'
 }
 
 // 기본 버튼 속성
@@ -241,30 +341,29 @@ const normalButton = {
     color: 'white',
     marginRight: '10px',
     width: '150px',
-    height: '30px',
-    padding: '10px 20px'
+    height: '40px',
+    padding: '10px 20px',
+    fontSize: '18px'
 }
 
 // 수정 버튼 속성
 const updateButton = {
     backgroundColor: '#FF8C0A',
     color: 'white',
-    marginRight: '10px',
-    width: '100px',
-    height: '35px',
+    width: '140px',
+    height: '40px',
     padding: '10px 20px',
-    borderRadius: '20px'
-}
+    borderRadius: '20px',
+    fontSize: '18px'
+};
 
 // 삭제 버튼 속성
 const deleteButton = {
     backgroundColor: '#A52A2A',
     color: 'white',
-    marginRight: '10px',
-    width: '100px',
-    height: '35px',
+    width: '140px',
+    height: '40px',
     padding: '10px 20px',
-    borderRadius: '20px'
-}
-
-export default productionList;
+    borderRadius: '20px',
+    fontSize: '18px'
+};

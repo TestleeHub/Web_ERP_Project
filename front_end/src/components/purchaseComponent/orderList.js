@@ -160,7 +160,7 @@ class orderList extends Component {
     render() {
         const { displayedDatas, showMore } = this.state;
         return (
-            <div>
+            <div style={{padding:'30px'}}>
                 <div>
                     <Typography variant="h4" style={style}>발주서 조회</Typography>
                 </div>
@@ -180,7 +180,7 @@ class orderList extends Component {
                                     </TableCell>
                                     <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingOrderFormId()} align="center">발주 번호▽</TableCell>
                                     <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingCustomerName()} align="center">거래처명▽</TableCell>
-                                    <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingEmployeeId()} align="center">담당자▽</TableCell>
+                                    <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingEmployeeName()} align="center">담당자▽</TableCell>
                                     <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingDueDate()} align="center">납기일▽</TableCell>
                                     <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingPrice()} align="center">금액▽</TableCell>
                                     <TableCell style={tableCellTitleStyle} align="center">진행 상태</TableCell>
@@ -210,21 +210,29 @@ class orderList extends Component {
                                             }
                                         </TableCell>
                                         {/* progress 조건문으로 */}
-                                        <TableCell style={tableCellTitleStyle}>{data.Progress ? data.Progress : 'N/A'}</TableCell>
+                                        <TableCell style={tableCellTitleStyle}>{data.progress ? '진행 완료' : '진행 중'}</TableCell>
                                         <TableCell style={tableCellTitleStyle}>
-                                            <Button variant="contained" style={updateButton} onClick={() => this.editData(data)}>수정
-                                                <img className="penImage"
-                                                    alt="pen"
-                                                    src="../images/pen.png"
-                                                    style={{ marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)' }}
-                                                />
+                                            <div style={{paddingBottom: '8px'}}>
+                                            <Button variant="contained" style={updateButton} onClick={() => this.editData(data)}>
+                                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                    수정
+                                                    <img className="penImage" 
+                                                        alt="pen" 
+                                                        src="../images/pen.png" 
+                                                        style={{marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)'}} 
+                                                    />
+                                                </div>
                                             </Button>
-                                            <Button variant="contained" style={deleteButton} onClick={() => this.deleteData(data)}>삭제
-                                                <img className="garbageImage"
-                                                    alt="garbage"
-                                                    src="../images/garbage.png"
-                                                    style={{ marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)' }}
-                                                />
+                                            </div>
+                                            <Button variant="contained" style={deleteButton} onClick={() => this.deleteData(data)}> 
+                                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                    삭제
+                                                    <img className="garbageImage" 
+                                                        alt="garbage" 
+                                                        src="../images/garbage.png" 
+                                                        style={{marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)'}} 
+                                                    />
+                                                </div>
                                             </Button>
                                         </TableCell>
                                     </TableRow>
@@ -235,11 +243,14 @@ class orderList extends Component {
                     {showMore && (
                         <Button variant="contained" style={normalButton} onClick={this.handleShowMoreClick}>더 보기</Button>
                     )}
+                    <Button variant="contained" style={normalButton} onClick={() =>  this.props.history.push('/purchase/orderForm')}>신규</Button>
                 </div>
             </div>
         );
     }
 }
+
+export default orderList;
 
 // 테이블 스타일
 const tableStyle = {
@@ -327,22 +338,20 @@ const divLineStyle = {
 const updateButton = {
     backgroundColor: '#FF8C0A',
     color: 'white',
-    marginRight: '10px',
-    width: '100px',
-    height: '35px',
+    width: '140px',
+    height: '40px',
     padding: '10px 20px',
-    borderRadius: '20px'
+    borderRadius: '20px',
+    fontSize: '18px'
 };
 
 // 삭제 버튼 속성
 const deleteButton = {
     backgroundColor: '#A52A2A',
     color: 'white',
-    marginRight: '10px',
-    width: '100px',
-    height: '35px',
+    width: '140px',
+    height: '40px',
     padding: '10px 20px',
-    borderRadius: '20px'
+    borderRadius: '20px',
+    fontSize: '18px'
 };
-
-export default orderList;

@@ -193,7 +193,7 @@ class orderForm extends Component {
 
     render() {
         return (
-            <div>
+            <div style={{padding:'30px'}}>
                 <div>
                     <Modal
                         isOpen={this.state.isCustomerPopupOpen}
@@ -326,10 +326,12 @@ class orderForm extends Component {
                         </TableBody>
                     </Table>
                 </div>
+
                 <div>
                     <Button variant="outline-success" style={normalButton} onClick={this.orderList}>발주 목록</Button>
                     <Button variant="outline-success" style={normalButton} onClick={this.purchaseList}>구매 목록</Button>
                 </div>
+                
                 <div style={tableInterval}>
                     <Table style={tableStyle}>
                         <TableHead>

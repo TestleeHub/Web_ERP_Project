@@ -8,7 +8,7 @@
 	width: 100%;
 	/* height: 100vh; */
 	height: 1000px;
-	background-image: linear-gradient(to top, skyblue, skyblue 20%, transparent), url(https://tecoble.techcourse.co.kr/static/348a6c1ea3a4fa8b6990e3e3bf4e8490/8ac6f/sample2.png);
+	background-image: linear-gradient(to top, rgb(70, 159, 194), skyblue 20%, transparent), url(https://tecoble.techcourse.co.kr/static/348a6c1ea3a4fa8b6990e3e3bf4e8490/8ac6f/sample2.png);
 	background-size: cover;
 	background-position: center;
 	position: relative;

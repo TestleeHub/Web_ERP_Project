@@ -113,7 +113,7 @@ class customerTradeSlip2Insert extends Component {
 
     render() {
         return (
-            <div>
+            <div style={{padding:'30px'}}>
                 {/* 팝업 시작 */}
                 <div>
                     <Modal
@@ -140,22 +140,23 @@ class customerTradeSlip2Insert extends Component {
                     </Modal>
                 </div>
                 {/* 팝업 끝 */}
-                <br />
-                <Typography variant="h4" style={style}> 거래처 출금 처리 </Typography>
-                <br />
                 <div>
+                    <Typography variant="h4" style={style}> 거래처 출금 처리 </Typography>
+                </div>
+                <br />
+                <div style={divLineStyle}>
                     <Button variant="contained" style={trapezoidButton}>기본</Button>
                 </div>
-                <Table style={{ border: '1px solid lightgray', backgroundColor: 'ghostwhite' }}>
-                    <TableHead>
+                <Table style={tableStyle}>
+                    <TableBody>
                         <TableRow>
-                            <TableCell style={{ border: 'none' }}> 전표번호 </TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
+                            <TableCell style={tableCellTitleStyle}> 전표번호 </TableCell>
+                            <TableCell style={tableCellStyle}>
+                                <input style={InputStyle500px}
                                     type="text"
-                                    size="70"
                                     name="slipId"
-                                    placeholder="전표번호"
+                                    className="redPlaceholder"
+                                    placeholder="전표 번호는 자동으로 생성됩니다."
                                     onChange={this.onChangeHandler}
                                     value={this.state.slipId}
                                     readOnly
@@ -163,11 +164,10 @@ class customerTradeSlip2Insert extends Component {
                             </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell style={{ border: 'none' }}> 거래유형 </TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
+                            <TableCell style={tableCellTitleStyle}> 거래유형 </TableCell>
+                            <TableCell style={tableCellStyle}>
+                                <input style={InputStyle500px}
                                     type="text"
-                                    size="70"
                                     name="tradeType"
                                     placeholder="거래유형"
                                     onChange={this.onChangeHandler}
@@ -177,11 +177,10 @@ class customerTradeSlip2Insert extends Component {
                             </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell style={{ border: 'none' }}> 금액 </TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
+                            <TableCell style={tableCellTitleStyle}> 금액 </TableCell>
+                            <TableCell style={tableCellStyle}>
+                                <input style={quantityInputStyle}
                                     type="text"
-                                    size="70"
                                     name="money"
                                     placeholder="금액"
                                     onChange={this.onChangeHandler}
@@ -190,11 +189,10 @@ class customerTradeSlip2Insert extends Component {
                             </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell style={{ border: 'none' }}> 거래처코드 </TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
+                            <TableCell style={tableCellTitleStyle}> 거래처코드 </TableCell>
+                            <TableCell style={tableCellStyle}>
+                                <input style={InputStyle500px}
                                     type="text"
-                                    size="70"
                                     name="customerId"
                                     placeholder="거래처코드"
                                     onChange={this.onChangeHandler}
@@ -204,11 +202,10 @@ class customerTradeSlip2Insert extends Component {
                             </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell style={{ border: 'none' }}> 제목 </TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
+                            <TableCell style={tableCellTitleStyle}> 제목 </TableCell>
+                            <TableCell style={tableCellStyle}>
+                                <input style={InputStyle500px}
                                     type="text"
-                                    size="70"
                                     name="title"
                                     placeholder="제목"
                                     onChange={this.onChangeHandler}
@@ -216,9 +213,8 @@ class customerTradeSlip2Insert extends Component {
                                 />
                             </TableCell>
                         </TableRow>
-                    </TableHead>
+                    </TableBody>
                 </Table>
-                <br />
                 <Button variant="contained" style={normalButton} onClick={this.onSubmitAdd}>저장</Button>
                 <Button variant="contained" style={normalButton} onClick={this.goToCustomerTradeSlip2}>출금목록</Button>
                 {/* <Dialog
@@ -243,18 +239,91 @@ class customerTradeSlip2Insert extends Component {
 const style = {
     display: 'flex',
     justifyContent: 'left'
+};
+
+// 테이블 스타일
+const tableStyle = {
+    border: '1px solid lightgray',
+    backgroundColor: 'ghostwhite',  // 배경색 ghost white
+};
+
+// 테이블 셀 이름 스타일(테이블 1)
+const tableCellTitleStyle = {
+    width: '20%',
+    fontSize: '20px',
+    border: 'none',
+    paddingLeft: '30px'
 }
+
+// 테이블 셀 이름 스타일(테이블2)
+const tableCellTitleStyle2 = {
+    width: '240px',
+    height: '50px',
+    fontSize: '20px',
+    border: 'none',
+};
+
+// 테이블 셀 속성
+const tableCellStyle = {
+    border: 'none',
+};
+
+// 500px input창 속성
+const InputStyle500px = {
+    width: '500px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+// 300px input창 속성
+const InputStyle300px = {
+    width: '300px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+// width 200px input창 속성
+const InputStyle200px = {
+    width: '200px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+// 수량 입력창 속성(100px)
+const quantityInputStyle = {
+    width: '100px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+const labelStyle = {
+    fontSize: '20px',
+    display: 'flex',
+    float: 'left',
+    alignItems: 'center',
+    paddingRight: '20px'
+};
+
+// 체크박스 속성
+const checkBoxStyle = {
+    width: '30px',
+    height: '30px',
+    marginRight: '5px'
+};
 
 // 사다리꼴 버튼 속성
 const trapezoidButton = {
     backgroundColor: 'navy',
     color: 'white',
     marginRight: '10px',
-    clipPath: 'polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)',
-    width: '120px',
-    height: '30px',
-    padding: '10px 20px'
-}
+    clipPath: 'polygon(20% 2%, 80% 2%, 100% 100%, 0% 100%)',
+    width: '160px',
+    height: '50px',
+    padding: '10px 20px',
+    borderTopLeftRadius: '100px',
+    borderTopRightRadius: '100px',
+    fontSize: '18px'
+};
 
 // 기본 버튼 속성
 const normalButton = {
@@ -262,8 +331,32 @@ const normalButton = {
     color: 'white',
     marginRight: '10px',
     width: '150px',
-    height: '30px',
-    padding: '10px 20px'
-}
+    height: '40px',
+    padding: '10px 20px',
+    fontSize: '18px',
+};
+
+// 삭제 버튼 속성
+const deleteButton = {
+    backgroundColor: '#A52A2A',
+    color: 'white',
+    marginRight: '10px',
+    width: '150px',
+    height: '40px',
+    padding: '10px 20px',
+    borderRadius: '20px',
+    fontSize: '18px'
+};
+
+// 밑줄
+const divLineStyle = {
+    borderBottom: '3px solid navy'
+};
+
+// 테이블 간격 조정(테이블 2개 이상시)
+const tableInterval = {
+    paddingTop: '50px'
+};
+
 
 export default withRouter(customerTradeSlip2Insert);

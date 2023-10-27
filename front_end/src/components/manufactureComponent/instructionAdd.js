@@ -149,7 +149,7 @@ class instructionAdd extends Component {
     render() {
         return (
 
-            <div>
+            <div style={{padding: '30px'}}>
                 {/* 팝업 */}
                 <div>
                     <Modal
@@ -248,34 +248,35 @@ class instructionAdd extends Component {
                     </Modal>
                 </div>
                 {/* 팝업 끝 */}
-                <br />
-                <Typography variant="h4" style={style}> 작업지시서 등록 </Typography>
-                <br />
                 <div>
+                    <Typography variant="h4" style={style}> 작업지시서 등록 </Typography>
+                </div>
+                <br/>
+                <div style={divLineStyle}>
                     <Button variant="contained" style={trapezoidButton}>기본</Button>
                 </div>
-                <Table style={{ border: '1px solid lightgray', backgroundColor: 'ghostwhite' }}>
+                <Table style={tableStyle}>
                     <TableHead>
                         <TableRow>
-                            <TableCell style={{ border: 'none' }}> 작업지시서 코드 </TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
+                            <TableCell style={tableCellTitleStyle}> 작업지시서 코드 </TableCell>
+                            <TableCell style={tableCellStyle}>
+                                <input style={InputStyle500px}
                                     type="text"
-                                    size="70"
                                     name="workOrderId"
-                                    placeholder="지시서 코드"
+                                    className="redPlaceholder"
+                                    placeholder="작업 지시서 코드는 자동으로 생성됩니다." 
                                     onChange={this.onChangeHandler}
                                     value={this.state.workOrderId}
                                     readOnly
                                 />
                             </TableCell>
                         </TableRow>
+
                         <TableRow>
-                            <TableCell style={{ border: 'none' }}>거래처</TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
+                            <TableCell style={tableCellTitleStyle}>거래처</TableCell>
+                            <TableCell style={tableCellStyle}>
+                                <input style={InputStyle500px}
                                     type="text"
-                                    size="70"
                                     name="customerId"
                                     placeholder="거래처(검색)"
                                     onChange={this.onChangeHandler}
@@ -285,12 +286,12 @@ class instructionAdd extends Component {
                                 />
                             </TableCell>
                         </TableRow>
+
                         <TableRow>
-                            <TableCell style={{ border: 'none' }}>담당자</TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
+                            <TableCell style={tableCellTitleStyle}>담당자</TableCell>
+                            <TableCell style={tableCellStyle}>
+                                <input style={InputStyle500px}
                                     type="text"
-                                    size="70"
                                     name="managerId"
                                     placeholder="담당자(검색)"
                                     onChange={this.onChangeHandler}
@@ -300,12 +301,12 @@ class instructionAdd extends Component {
                                 />
                             </TableCell>
                         </TableRow>
+
                         <TableRow>
-                            <TableCell style={{ border: 'none' }}>지시서 명</TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
+                            <TableCell style={tableCellTitleStyle}>지시서 명</TableCell>
+                            <TableCell style={tableCellStyle}>
+                                <input style={InputStyle500px}
                                     type="text"
-                                    size="70"
                                     name="name"
                                     placeholder="지시서 명"
                                     onChange={this.onChangeHandler}
@@ -313,12 +314,12 @@ class instructionAdd extends Component {
                                 />
                             </TableCell>
                         </TableRow>
+
                         <TableRow>
-                            <TableCell style={{ border: 'none' }}>수량</TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
+                            <TableCell style={tableCellTitleStyle}>수량</TableCell>
+                            <TableCell style={tableCellStyle}>
+                                <input style={quantityInputStyle}
                                     type="text"
-                                    size="70"
                                     name="quantity"
                                     placeholder="수량"
                                     onChange={this.onChangeHandler}
@@ -326,12 +327,12 @@ class instructionAdd extends Component {
                                 />
                             </TableCell>
                         </TableRow>
+
                         <TableRow>
-                            <TableCell style={{ border: 'none' }}>규격</TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
+                            <TableCell style={tableCellTitleStyle}>규격</TableCell>
+                            <TableCell style={tableCellStyle}>
+                                <input style={quantityInputStyle}
                                     type="text"
-                                    size="70"
                                     name="standard"
                                     placeholder="규격"
                                     onChange={this.onChangeHandler}
@@ -339,12 +340,12 @@ class instructionAdd extends Component {
                                 />
                             </TableCell>
                         </TableRow>
+
                         <TableRow>
-                            <TableCell style={{ border: 'none' }}>받는창고</TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
+                            <TableCell style={tableCellTitleStyle}>받는창고</TableCell>
+                            <TableCell style={tableCellStyle}>
+                                <input style={InputStyle500px}
                                     type="text"
-                                    size="70"
                                     name="storageId"
                                     placeholder="받는창고(검색)"
                                     onChange={this.onChangeHandler}
@@ -354,12 +355,12 @@ class instructionAdd extends Component {
                                 />
                             </TableCell>
                         </TableRow>
+
                         <TableRow>
-                            <TableCell style={{ border: 'none' }}>납기일</TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
+                            <TableCell style={tableCellTitleStyle}>납기일</TableCell>
+                            <TableCell style={tableCellStyle}>
+                                <input style={InputStyle300px}
                                     type="date"
-                                    size="70"
                                     name="dueDate"
                                     placeholder="납기일"
                                     onChange={this.onChangeHandler}
@@ -367,12 +368,12 @@ class instructionAdd extends Component {
                                 />
                             </TableCell>
                         </TableRow>
+
                         <TableRow>
-                            <TableCell style={{ border: 'none' }}>생산품</TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
+                            <TableCell style={tableCellTitleStyle}>생산품</TableCell>
+                            <TableCell style={tableCellStyle}>
+                                <input style={InputStyle500px}
                                     type="text"
-                                    size="70"
                                     name="productionItemId"
                                     placeholder="생산품(검색)"
                                     onChange={this.onChangeHandler}
@@ -384,37 +385,132 @@ class instructionAdd extends Component {
                         </TableRow>
                     </TableHead>
                 </Table>
-                <br />
                 <Button variant="contained" style={normalButton} onClick={this.onSubmitAdd}>저장</Button>
             </div>
         );
     }
 }
 
+export default instructionAdd;
+
 const style = {
     display: 'flex',
     justifyContent: 'left'
+};
+
+// 테이블 스타일
+const tableStyle = {
+    border: '1px solid lightgray',
+    backgroundColor: 'ghostwhite',  // 배경색 ghost white
+};
+
+// 테이블 셀 이름 스타일(테이블 1)
+const tableCellTitleStyle = {
+    width: '20%',
+    fontSize: '20px',
+    border: 'none',
+    paddingLeft: '30px'
 }
+
+// 테이블 셀 이름 스타일(테이블2)
+const tableCellTitleStyle2 = {
+    width: '240px',
+    height: '50px',
+    fontSize: '20px',
+    border: 'none',
+};
+
+// 테이블 셀 속성
+const tableCellStyle = {
+    border: 'none',
+};
+
+// 500px input창 속성
+const InputStyle500px = {
+    width: '500px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+// 300px input창 속성
+const InputStyle300px = {
+    width: '300px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+// width 200px input창 속성
+const InputStyle200px = {
+    width: '200px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+// 수량 입력창 속성(100px)
+const quantityInputStyle = {
+    width: '100px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+const labelStyle = {
+    fontSize: '20px',
+    display: 'flex',
+    float: 'left',
+    alignItems: 'center',
+    paddingRight: '20px'
+};
+
+// 체크박스 속성
+const checkBoxStyle = {
+    width: '30px',
+    height: '30px',
+    marginRight: '5px'
+};
 
 // 사다리꼴 버튼 속성
 const trapezoidButton = {
     backgroundColor: 'navy',
     color: 'white',
     marginRight: '10px',
-    clipPath: 'polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)',
-    width: '120px',
-    height: '30px',
-    padding: '10px 20px'
-}
+    clipPath: 'polygon(20% 2%, 80% 2%, 100% 100%, 0% 100%)',
+    width: '160px',
+    height: '50px',
+    padding: '10px 20px',
+    borderTopLeftRadius: '100px',
+    borderTopRightRadius: '100px',
+    fontSize: '18px'
+};
 
 // 기본 버튼 속성
 const normalButton = {
     backgroundColor: 'navy',
     color: 'white',
     marginRight: '10px',
-    width: '120px',
-    height: '30px',
-    padding: '10px 20px'
-}
+    width: '150px',
+    height: '40px',
+    padding: '10px 20px',
+    fontSize: '18px',
+};
 
-export default instructionAdd;
+// 삭제 버튼 속성
+const deleteButton = {
+    backgroundColor: '#A52A2A',
+    color: 'white',
+    marginRight: '10px',
+    width: '150px',
+    height: '40px',
+    padding: '10px 20px',
+    borderRadius: '20px',
+    fontSize: '18px'
+};
+
+// 밑줄
+const divLineStyle = {
+    borderBottom: '3px solid navy'
+};
+
+// 테이블 간격 조정(테이블 2개 이상시)
+const tableInterval = {
+    paddingTop: '50px'
+};

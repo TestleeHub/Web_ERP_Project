@@ -139,14 +139,7 @@ class fixedAssetsList extends Component{
             displayedDatas: sortedData
         })
     }
-    sortUsingAssetType = () => { // assetType 정렬
-        const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
-            return a.assetType.localeCompare(b.assetType);
-        })
-        this.setState({
-            displayedDatas: sortedData
-        })
-    }
+
     sortUsingAssetTitle = () => { // assetTitle 정렬
         const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
             return a.assetTitle.localeCompare(b.assetTitle);
@@ -155,17 +148,17 @@ class fixedAssetsList extends Component{
             displayedDatas: sortedData
         })
     }
-    sortUsingAssetTotal = () => { // assetTotal 정렬
+    sortUsingAssetTotal = () => { // assetTotal 정렬 => 자료형 int 기준 정렬
         const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
-            return a.assetTotal.localeCompare(b.assetTotal);
+            return a.assetTotal - b.assetTotal;
         })
         this.setState({
             displayedDatas: sortedData
         })
     }
-    sortUsingAcquistionCost = () => { // acquistionCost 정렬
+    sortUsingAcquistionCost = () => { // acquistionCost 정렬 => 자료형 int 기준 정렬
         const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
-            return a.acquistionCost.localeCompare(b.acquistionCost);
+            return a.acquistionCost - b.acquistionCost;
         })
         this.setState({
             displayedDatas: sortedData
@@ -173,7 +166,7 @@ class fixedAssetsList extends Component{
     }
     sortUsingRegistDate = () => { // registDate 정렬
         const sortedData = this.state.displayedDatas.slice().sort((a, b) => {
-            return a.registDate.localeCompare(b.registDate);
+            return a.registDate - b.registDate;
         })
         this.setState({
             displayedDatas: sortedData
@@ -183,64 +176,72 @@ class fixedAssetsList extends Component{
     render(){
         const { displayedDatas, showMore } = this.state;
         return(
-            <div>
+            <div style={{padding:'30px'}}>
                 <div>
                     <Typography variant="h4" style={style}>고정자산 조회</Typography>
                 </div>
-                <div>
-                    <Button variant="contained" style={trapezoidButton} onClick={this.orderList}>발주 목록</Button>
+                <div style={divLineStyle}>
+                    <Button variant="contained" style={trapezoidButton} onClick={this.fixedAssetsList}>전체</Button>
                 </div>
                 <div>
                     {this.state.isLoading ? (
                             <p>로딩 중...</p>
                         ) : (
-                        <Table style={{border: '1px solid lightgray', backgroundColor: 'ghostwhite'}}>
+                        <Table style={tableStyle}>
                             <TableHead style={{backgroundColor: 'lightgray'}}>
                                 <TableRow>
-                                    <TableCell align="center">
+                                    <TableCell style={tableCellStyle}>
                                         
                                     </TableCell>
-                                    <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingAssetNo()} align="center">고정자산 번호▽</TableCell>
-                                    <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingAssetTitle()} align="center">고정자산계정명▽</TableCell>
-                                    <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingAssetName()} align="center">고정자산명▽</TableCell>
-                                    <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingAssetType()} align="center">고정자산유형▽</TableCell>
-                                    <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingAssetTotal()} align="center">수량▽</TableCell>
-                                    <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingAcquistionCost()} align="center">취득원가▽</TableCell>
-                                    <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingRegistDate()} align="center">취득일자▽</TableCell>
-                                    <TableCell style={{fontWeight: 'bold'}} onClick={() => this.sortUsingDepartmentId()} align="center">담당 부서명▽</TableCell>
-                                    <TableCell style={{fontWeight: 'bold'}} align="center">적요</TableCell>
-                                    <TableCell style={{fontWeight: 'bold'}} align="center">추가 작업</TableCell>
+                                    <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingAssetNo()} align="center">고정자산 번호▽</TableCell>
+                                    <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingAssetTitle()} align="center">고정자산계정명▽</TableCell>
+                                    <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingAssetName()} align="center">고정자산명▽</TableCell>
+                                    <TableCell style={tableCellTitleStyle} align="center">고정자산유형</TableCell>
+                                    <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingAssetTotal()} align="center">수량▽</TableCell>
+                                    <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingAcquistionCost()} align="center">취득원가▽</TableCell>
+                                    <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingRegistDate()} align="center">취득일자▽</TableCell>
+                                    <TableCell style={tableCellTitleStyle} onClick={() => this.sortUsingDepartmentId()} align="center">담당 부서명▽</TableCell>
+                                    <TableCell style={tableCellTitleStyle} align="center">적요</TableCell>
+                                    <TableCell style={tableCellTitleStyle} align="center">추가 작업</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                                 {this.state.displayedDatas.map((data, index) => (
                                     <TableRow>
-                                        <TableCell align="center">
+                                        <TableCell style={{ ...tableCellStyle, backgroundColor: 'lightgray' }}>
                                             {index + 1}
                                         </TableCell>
-                                        <TableCell align="center">{data.assetNo}</TableCell>
-                                        <TableCell align="center">{data.assetTitle}</TableCell>
-                                        <TableCell align="center">{data.assetName}</TableCell>
-                                        <TableCell align="center">{data.assetType ? data.assetType : 'N/A'}</TableCell>
-                                        <TableCell align="center">{data.assetTotal}</TableCell>
-                                        <TableCell align="center">{data.acquistionCost}</TableCell>
-                                        <TableCell align="center">{this.formatDate(data.registDate)}</TableCell>
-                                        <TableCell align="center">{data.departmentId}</TableCell>
-                                        <TableCell align="center">{data.depreciation ? data.depreciation : 'N/A'}</TableCell>
-                                        <TableCell align="center">
-                                            <Button variant="contained" style={updateButton} onClick={() => this.editData(data)}>수정
-                                                <img className="penImage" 
-                                                    alt="pen" 
-                                                    src="../images/pen.png" 
-                                                    style={{marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)'}} 
-                                                />
+                                        <TableCell style={tableCellTitleStyle}>{data.assetNo}</TableCell>
+                                        <TableCell style={tableCellTitleStyle}>{data.assetTitle}</TableCell>
+                                        <TableCell style={tableCellTitleStyle}>{data.assetName}</TableCell>
+                                        <TableCell style={tableCellTitleStyle}>{data.assetType ? data.assetType : 'N/A'}</TableCell>
+                                        <TableCell style={tableCellTitleStyle}>{data.assetTotal}</TableCell>
+                                        <TableCell style={tableCellTitleStyle}>{data.acquistionCost}</TableCell>
+                                        <TableCell style={tableCellTitleStyle}>{this.formatDate(data.registDate)}</TableCell>
+                                        <TableCell style={tableCellTitleStyle}>{data.departmentId}</TableCell>
+                                        <TableCell style={tableCellTitleStyle}>{data.depreciation ? data.depreciation : 'N/A'}</TableCell>
+                                        <TableCell style={tableCellTitleStyle}>
+                                            <div style={{paddingBottom: '8px'}}>
+                                            <Button variant="contained" style={updateButton} onClick={() => this.editData(data)}>
+                                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                    수정
+                                                    <img className="penImage" 
+                                                        alt="pen" 
+                                                        src="../images/pen.png" 
+                                                        style={{marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)'}} 
+                                                    />
+                                                </div>
                                             </Button>
-                                            <Button variant="contained" style={deleteButton} onClick={() => this.deleteData(data)}>삭제
-                                                <img className="garbageImage" 
-                                                    alt="garbage" 
-                                                    src="../images/garbage.png" 
-                                                    style={{marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)'}} 
-                                                 />
+                                            </div>
+                                            <Button variant="contained" style={deleteButton} onClick={() => this.deleteData(data)}> 
+                                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                    삭제
+                                                    <img className="garbageImage" 
+                                                        alt="garbage" 
+                                                        src="../images/garbage.png" 
+                                                        style={{marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)'}} 
+                                                    />
+                                                </div>
                                             </Button>
                                         </TableCell>
                                     </TableRow>
@@ -256,6 +257,25 @@ class fixedAssetsList extends Component{
         );
     }
 }
+// 테이블 스타일
+const tableStyle = {
+    border: '1px solid lightgray',
+    backgroundColor: 'ghostwhite',  // 배경색 ghost white
+}
+
+// 테이블 셀 이름 스타일
+const tableCellTitleStyle = {
+    width: '9%',
+    fontSize: '20px',
+    paddingLeft: '30px',
+    textAlign: 'center'
+}
+
+// 테이블 셀 스타일
+const tableCellStyle = {
+    fontSize: '20px',
+    border: 'none'
+}
 
 const style = {
     display: 'flex',
@@ -266,43 +286,79 @@ const style = {
 const trapezoidButton = {
     backgroundColor: 'navy',
     color: 'white',
+    marginRight: '10px',
     clipPath: 'polygon(20% 2%, 80% 2%, 100% 100%, 0% 100%)',
-    width: '120px',
-    height: '40px',
+    width: '160px',
+    height: '50px',
     padding: '10px 20px',
     borderTopLeftRadius: '100px',
-    borderTopRightRadius: '100px'
+    borderTopRightRadius: '100px',
+    fontSize: '18px'
 }
 
 // 기본 버튼 속성
 const normalButton = {
     backgroundColor: 'navy',
     color: 'white',
-    width: '120px',
-    height: '30px',
-    padding: '10px 20px'
+    marginRight: '10px',
+    width: '150px',
+    height: '40px',
+    padding: '10px 20px',
+    fontSize: '18px'
 }
+
+// 500px input 창
+const longInputStyle = {
+    width: '500px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+// 300px input 창
+const shortInputStyle = {
+    width: '300px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+const labelStyle = {
+    fontSize: '20px',
+    display: 'flex',
+    float: 'left',
+    alignItems: 'center',
+    paddingRight: '20px'
+};
+
+const checkBoxStyle = {
+    width: '30px',
+    height: '30px',
+    marginRight: '5px'
+};
+
+const divLineStyle = {
+    borderBottom: '3px solid navy'
+};
 
 // 수정 버튼 속성
 const updateButton = {
     backgroundColor: '#FF8C0A',
     color: 'white',
-    marginRight: '10px',
-    width: '100px',
-    height: '35px',
+    width: '140px',
+    height: '40px',
     padding: '10px 20px',
-    borderRadius: '20px'
-}
+    borderRadius: '20px',
+    fontSize: '18px'
+};
 
 // 삭제 버튼 속성
 const deleteButton = {
     backgroundColor: '#A52A2A',
     color: 'white',
-    marginRight: '10px',
-    width: '100px',
-    height: '35px',
+    width: '140px',
+    height: '40px',
     padding: '10px 20px',
-    borderRadius: '20px'
-}
+    borderRadius: '20px',
+    fontSize: '18px'
+};
 
 export default fixedAssetsList;
