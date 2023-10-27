@@ -56,7 +56,7 @@ class empList extends Component {
             // 경로가 변경될 때 실행할 코드
             // 예: 데이터 로딩 또는 초기화 작업
             this.reloadData();
-            this.setState({isLoading: true});
+            this.setState({ isLoading: true });
         }
     }
 
@@ -88,7 +88,7 @@ class empList extends Component {
                 console.log('response: ', response);
             }).catch((error) => {
                 console.log('error: ', error);
-                if(error.response.status === 403){
+                if (error.response.status === 403) {
                     console.log('접근 권한이 없습니다.');
                     this.props.history.push('/accessDenied');
                 }
@@ -127,10 +127,10 @@ class empList extends Component {
                 });
                 this.props.history.push('/humanResources/empList');
                 console.log('response : ', response);
-                
+
             }).catch((error) => {
                 console.log('error: ', error);
-                if(error.response.status === 403){
+                if (error.response.status === 403) {
                     console.log('접근 권한이 없습니다.');
                     this.props.history.push('/accessDenied');
                 }
@@ -165,13 +165,13 @@ class empList extends Component {
         return `${year}-${month}-${day}`;
     }
 
-    
+
 
     render() {
         const { displayedDatas, showMore } = this.state;
 
         return (
-            <div style={{padding: '30px'}}>
+            <div style={{ padding: '30px' }}>
                 <div>
                     <Typography variant="h4" style={style}> 사원 목록 </Typography>
                 </div>
@@ -186,7 +186,17 @@ class empList extends Component {
                     <Table style={tableStyle}>
                         <TableHead style={{ backgroundColor: 'lightgray' }}>
                             <TableRow>
-<<<<<<< HEAD
+                                <TableCell>
+                                    검색
+                                    <input
+                                        type="text"
+                                        name="search"
+                                        placeholder="검색"
+                                        onChange={this.onChangeHandler}
+                                    />
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
                                 <TableCell style={tableCellStyle}> No. </TableCell>
                                 <TableCell style={tableCellTitleStyle}>사원번호</TableCell>
                                 <TableCell style={tableCellTitleStyle}>성명</TableCell>
@@ -195,26 +205,6 @@ class empList extends Component {
                                 <TableCell style={tableCellTitleStyle}>이메일</TableCell>
                                 <TableCell style={tableCellTitleStyle}>입사일자</TableCell>
                                 <TableCell style={tableCellTitleStyle}> 추가 작업 </TableCell>
-=======
-                                <TableCell>
-                                    검색
-                                    <input 
-                                        type="text" 
-                                        name="search" 
-                                        placeholder="검색" 
-                                        onChange={this.onChangeHandler} 
-                                    />
-                                </TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell>사원번호</TableCell>
-                                <TableCell>성명</TableCell>
-                                <TableCell>부서코드</TableCell>
-                                <TableCell>직책</TableCell>
-                                <TableCell>이메일</TableCell>
-                                <TableCell>입사일자</TableCell>
-                                <TableCell></TableCell>
->>>>>>> feature/humanResource
                             </TableRow>
                         </TableHead>
 
@@ -231,26 +221,26 @@ class empList extends Component {
                                     <TableCell style={tableCellTitleStyle}> {data.email ? data.email : 'N/A'} </TableCell>
                                     <TableCell style={tableCellTitleStyle}> {data.joinDate ? this.formatDate(data.joinDate) : 'N/A'} </TableCell>
                                     <TableCell style={tableCellTitleStyle}>
-                                        <div style={{paddingBottom: '8px'}}>
+                                        <div style={{ paddingBottom: '8px' }}>
                                             <Button variant="contained" style={updateButton} onClick={() => this.editData(data)}>
                                                 <div style={{ display: 'flex', alignItems: 'center' }}>
                                                     수정
-                                                    <img className="penImage" 
-                                                            alt="pen" 
-                                                            src="../images/pen.png" 
-                                                            style={{marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)'}} 
+                                                    <img className="penImage"
+                                                        alt="pen"
+                                                        src="../images/pen.png"
+                                                        style={{ marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)' }}
                                                     />
                                                 </div>
                                             </Button>
                                         </div>
-                                        <div style={{paddingBottom: '8px'}}>
+                                        <div style={{ paddingBottom: '8px' }}>
                                             <Button variant="contained" style={deleteButton} onClick={() => this.deleteData(data)}>
                                                 <div style={{ display: 'flex', alignItems: 'center' }}>
                                                     삭제
-                                                    <img className="garbageImage" 
-                                                        alt="garbage" 
-                                                        src="../images/garbage.png" 
-                                                        style={{marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)'}} 
+                                                    <img className="garbageImage"
+                                                        alt="garbage"
+                                                        src="../images/garbage.png"
+                                                        style={{ marginLeft: '8px', width: '20px', height: '20px', filter: 'invert(1)' }}
                                                     />
                                                 </div>
                                             </Button>

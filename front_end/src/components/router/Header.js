@@ -155,13 +155,8 @@ function Header() {
                 integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
                 crossorigin="anonymous"
             />
-<<<<<<< HEAD
 
             <Navbar bg="dark" data-bs-theme="dark" expand="xl" style={{ minWidth: '1500px', height:'75px' }}>
-=======
-         
-            <Navbar bg="dark" data-bs-theme="dark" expand="xl" style={{ minWidth: '1500px' }}>
->>>>>>> feature/humanResource
                 <Container fluid>
                     <Navbar.Brand href="#">Web-ERP Service</Navbar.Brand>
                     <Navbar.Toggle aria-controls="navbarScroll" />
