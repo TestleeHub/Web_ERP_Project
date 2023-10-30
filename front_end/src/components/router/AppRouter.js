@@ -3,7 +3,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-// import inventoryAdjustment from '../logisticsComponent/inventoryAdjustment';
+import inventoryAdjustment from '../logisticsComponent/inventoryAdjustment';
 import inventorySelect from '../logisticsComponent/inventorySelect';
 // import productInsert from './components/logisticsComponent/productInsert';
 import materialInsert from '../logisticsComponent/materialInsert';
@@ -78,7 +78,7 @@ const AppRouter = () => {
 
             <Route path='/logistics' exact={true} component={inventorySelect} />
             {/* <Route path='/logistics/mainPage' exact={true} component={mainPage} /> */}
-            {/* <Route path='/logistics/inventoryAdjustment' exact={true} component={inventoryAdjustment} /> */}
+            <Route path='/logistics/inventoryAdjustment' exact={true} component={inventoryAdjustment} />
             <Route path='/logistics/inventorySelect' exact={true} component={inventorySelect} />
             {/* <Route path='/logistics/productInsert' exact={true} component={productInsert} /> */}
             <Route path='/logistics/materialInsert' exact={true} component={materialInsert} />

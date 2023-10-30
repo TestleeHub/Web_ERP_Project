@@ -38,7 +38,7 @@ public class SecurityConfig {
 					.antMatchers("/humanResources/*").hasAnyRole("ROLE_ADMIN", "ROLE_HR")
 					.antMatchers("/manufacture/*").hasAnyRole("ROLE_ADMIN", "ROLE_MF")
 					.antMatchers("/account/*").hasAnyRole("ROLE_ADMIN", "ROLE_AC")
-					.antMatchers("/purchase/*").hasAnyRole("ROLE_ADMIN", "ROLE_PC")
+					.antMatchers("/purchase/*").hasAnyRole("ROLE_ADMIN", "ROLE_PC", "ROLE_AC")
 					.antMatchers("/customer/*").hasAnyRole("ROLE_ADMIN", "ROLE_CR", "ROLE_MF", "ROLE_PC", "ROLE_LG")
 					.antMatchers("/logistics/*").hasAnyRole("ROLE_ADMIN", "ROLE_LG", "ROLE_MF", "ROLE_PC")
 					.antMatchers("/**").permitAll()//위 설정 외 다른 페이지는 모두 사용 가능

@@ -5,7 +5,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
-// 횡단관심 클래스 - 공통 클래스 => 핵심 관심 출력 메서드의 경과 시간에 대한 로그 출력 클래스
 @Configuration
 @EnableAspectJAutoProxy
 @Aspect

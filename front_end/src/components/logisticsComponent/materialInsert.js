@@ -96,6 +96,7 @@ class materialInsert extends Component{
             }).then((response) => {
                 alert('등록되었습니다.');
                 console.log('response : ', response);
+                this.props.history.push('/logistics/materialList');
             }).catch((error) => {
                 console.log('error : ', error);
                 if(error.response.status === 403){

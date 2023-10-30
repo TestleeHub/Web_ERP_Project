@@ -92,6 +92,7 @@ class inventoryAdjustment extends Component{
             }).then((response) => {
                 alert('등록되었습니다.');
                 console.log('response : ', response);
+                this.props.history.push('/logistics/inventoryList');
             }).catch((error) => {
                 console.log('error : ', error);
                 if(error.response.status === 403){
@@ -116,7 +117,7 @@ class inventoryAdjustment extends Component{
 
     render() {
         return(
-            <div>
+            <div style={{padding: '30px'}}>
                 {/* 팝업 */}
                 <div>
                     <Modal
@@ -142,22 +143,23 @@ class inventoryAdjustment extends Component{
                         <button onClick={this.closePopup}>닫기</button>
                     </Modal>
                 </div>
-
-                <br/>
+                <div>
                     <Typography variant="h4" style={customButtonStyle.style}>재고 입력</Typography>
+                </div>
                 <br/>
-                <Button variant="contained" style={customButtonStyle.trapezoidButton} onClick={this.addSample}>전체</Button>
-                <Table style={{border: '1px solid lightgray', backgroundColor: 'ghostwhite'}}>
+                <div style={divLineStyle}>
+                    <Button variant="contained" style={trapezoidButton} onClick={this.addSample}>전체</Button>
+                </div>
+                <Table style={tableStyle}>
                     <TableHead>
                         <TableRow>
-                            <TableCell style={{ border: 'none' }}> 제품 코드 </TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
+                            <TableCell style={tableCellTitleStyle}> 제품 코드 </TableCell>
+                            <TableCell style={tableCellStyle}>
+                                <input style={longInputStyle}
                                     readOnly
                                     type="text"
                                     name="productionItemId"
                                     className="redPlaceholder"
-                                    style={customButtonStyle.longInputStyle}
                                     placeholder="제품 코드는 자동으로 생성됩니다."
                                     onChange={this.onChangeHandler}
                                     value={this.state.productionItemId}
@@ -165,13 +167,12 @@ class inventoryAdjustment extends Component{
                             </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell style={{ border: 'none' }}>창고 코드</TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
+                            <TableCell style={tableCellTitleStyle}>창고 코드</TableCell>
+                            <TableCell style={tableCellStyle}>
+                                <input style={longInputStyle}
                                     readOnly
                                     type="text"
                                     name="storageId"
-                                    style={customButtonStyle.longInputStyle}
                                     placeholder="창고 코드"
                                     onChange={this.onChangeHandler}
                                     value={this.state.storageId}
@@ -179,27 +180,25 @@ class inventoryAdjustment extends Component{
                             </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell style={{ border: 'none' }}>담당자</TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
+                            <TableCell style={tableCellTitleStyle}>담당자</TableCell>
+                            <TableCell style={tableCellStyle}>
+                                <input style={longInputStyle}
                                     readOnly
                                     type="text"
                                     name="manager"
-                                    style={customButtonStyle.longInputStyle}
                                     placeholder="담당자"
                                     onChange={this.onChangeHandler}
-                                    value={this.state.manager}
+                                    value={this.state.manager.employeeId}
                                 />
                             </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell style={{ border: 'none' }}> 등록일 </TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
+                            <TableCell style={tableCellTitleStyle}> 등록일 </TableCell>
+                            <TableCell style={tableCellStyle}>
+                                <input style={shortInputStyle}
                                     readOnly
                                     type="date"
                                     name="registDate"
-                                    style={customButtonStyle.shortInputStyle}
                                     placeholder="등록일"
                                     onChange={this.onChangeHandler}
                                     value={this.formatDate(this.state.registDate)}
@@ -207,43 +206,114 @@ class inventoryAdjustment extends Component{
                             </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell style={{ border: 'none' }}>수량</TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
+                            <TableCell style={tableCellTitleStyle}>수량</TableCell>
+                            <TableCell style={tableCellStyle}>
+                                <input style={quantityInputStyle}
                                     type="number"
                                     name="quantity"
                                     min="0"
-                                    style={customButtonStyle.shortInputStyle}
                                     placeholder="0"
                                     onChange={this.onChangeHandler}
                                     value={this.state.quantity}
                                 />
                             </TableCell>
                         </TableRow>
-                        <TableRow>
-                            <TableCell style={{ border: 'none' }}>이력</TableCell>
-                            <TableCell style={{ border: 'none' }}>
-                                <input
-                                    readOnly
-                                    type="date"
-                                    name="record"
-                                    style={customButtonStyle.shortInputStyle}
-                                    placeholder="이력"
-                                    onChange={this.onChangeHandler}
-                                    value={this.state.record}
-                                />
-                            </TableCell>
-                        </TableRow>
                     </TableHead>
                 </Table>
-                <Button variant="contained" style={customButtonStyle.normalButton} onClick={this.onSubmitAdd}>저장</Button>
-                <Button variant="contained" style={customButtonStyle.normalButton} onClick={this.addSample}>단계별 재고실사</Button>
-                <Button variant="contained" style={customButtonStyle.normalButton} onClick={this.addSample}>재고조정</Button>
+                <Button variant="contained" style={normalButton} onClick={this.onSubmitAdd}>저장</Button>
             </div>
         );
     }
 }
 
-
-
 export default inventoryAdjustment;
+
+// 테이블 스타일
+const tableStyle = {
+    border: '1px solid lightgray',
+    backgroundColor: 'ghostwhite',  // 배경색 ghost white
+};
+
+// 테이블 셀 이름 스타일
+const tableCellTitleStyle = {
+    width: '20%',
+    fontSize: '20px',
+    border: 'none',
+    paddingLeft: '30px',
+};
+
+// 테이블 셀 스타일
+const tableCellStyle = {
+    border: 'none'
+};
+
+const style = {
+    display: 'flex',
+    justifyContent: 'left'
+};
+
+// 사다리꼴 버튼 속성
+const trapezoidButton = {
+    backgroundColor: 'navy',
+    color: 'white',
+    marginRight: '10px',
+    clipPath: 'polygon(20% 2%, 80% 2%, 100% 100%, 0% 100%)',
+    width: '160px',
+    height: '50px',
+    padding: '10px 20px',
+    borderTopLeftRadius: '100px',
+    borderTopRightRadius: '100px',
+    fontSize: '18px'
+};
+
+// 기본 버튼 속성
+const normalButton = {
+    backgroundColor: 'navy',
+    color: 'white',
+    marginRight: '10px',
+    width: '150px',
+    height: '40px',
+    padding: '10px 20px',
+    fontSize: '18px'
+};
+
+// 500px input 창
+const longInputStyle = {
+    width: '500px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+// 300px input 창
+const shortInputStyle = {
+    width: '300px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+// 수량 입력 창
+const quantityInputStyle = {
+    width: '100px',
+    height: '50px',
+    padding: '5px 10px',
+};
+
+const labelStyle = {
+    fontSize: '20px',
+    display: 'flex',
+    float: 'left',
+    alignItems: 'center',
+    paddingRight: '20px'
+};
+
+// 체크박스 스타일
+const checkBoxStyle = {
+    width: '30px',
+    height: '30px',
+    marginRight: '5px'
+};
+
+// 밑줄
+const divLineStyle = {
+    borderBottom: '3px solid navy'
+};

@@ -168,6 +168,7 @@ class storageSelect extends Component{
 
                             </TableCell>
                             <TableCell style={tableCellTitleStyle}> 제품 코드 </TableCell>
+                            <TableCell style={tableCellTitleStyle}> 제품 명 </TableCell>
                             <TableCell style={tableCellTitleStyle}> 창고 </TableCell>
                             <TableCell style={tableCellTitleStyle}> 담당자 </TableCell>
                             <TableCell style={tableCellTitleStyle}> 등록일 </TableCell>
@@ -184,6 +185,7 @@ class storageSelect extends Component{
                                     {index + 1}
                                 </TableCell>
                                 <TableCell style={tableCellTitleStyle}> {data.productionItemId} </TableCell>
+                                <TableCell style={tableCellTitleStyle}> {data.productionItem.name} </TableCell>
                                 <TableCell style={tableCellTitleStyle}> {data.storage.storageName} </TableCell>
                                 <TableCell style={tableCellTitleStyle}> {data.manager.name} </TableCell>
                                 <TableCell style={tableCellTitleStyle}> {this.formatDate(data.registDate)} </TableCell>
