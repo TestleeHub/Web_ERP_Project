@@ -206,7 +206,7 @@ class purchaseForm extends Component {
             purchaseId: "",
             customerId: "",
             employeeId: "",
-            registDate: "",
+            registDate: this.formatDate(new Date().getTime()),
             orderFormId: "",
             details: [],
             isPopupOpen: false,

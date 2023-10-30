@@ -62,9 +62,6 @@ public class PurchaseFormDTO {
 	// 구매장 아이디
 	@Column(name = "PURCHASEBOOKID")
 	private String purchaseBookId;
-//	@OneToOne
-//	@JoinColumn(name = "PURCHASEBOOKID")
-//	private PurchaseBook purchaseBook; 	// PurchaseBook 테이블 FK
 	
 	// 발주 아이디
 	@Column(name = "ORDERFORMID")

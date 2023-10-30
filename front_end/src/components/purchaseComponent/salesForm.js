@@ -205,7 +205,7 @@ class salesForm extends Component{
             salesId: "",
             customerId: "",
             employeeId: "",
-            registDate: "",
+            registDate: this.formatDate(new Date().getTime()),
             salesFormId: "",
             details: [],
             isPopupOpen: false,
