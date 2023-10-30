@@ -31,7 +31,7 @@ public class HumanResourcesController {
 	HumanResourcesService service;
 	private final PasswordEncoder passwordEncoder; 
 	
-	// emp 조회
+	// 사원 조회
 	@GetMapping(value = {"/humanResources/empList"})
 	public List<UserDTO> empList(){
 
@@ -48,7 +48,9 @@ public class HumanResourcesController {
 		// 계산 끝
 		
 		System.out.println("\n<<</humanResources/empList>>>");
+		// 사원 목록 가져오기
 		List<UserDTO> list = service.listEmp();
+		// 사원 목록에서 급여 계산하기
 		for(UserDTO dto : list) {
 			
 			overTimePay = dto.getSalar().getOvertimePay() != null ? dto.getSalar().getOvertimePay() : 0;
@@ -90,7 +92,7 @@ public class HumanResourcesController {
 		return list;
 	}
 	
-	// emp 추가/수정
+	// 사원 추가/수정
 	@PostMapping(value = {"/humanResources/empAdd"})
 	public void empAdd(@RequestBody UserDTO dto) {
 		System.out.println("<<</humanResources/empAdd>>>");
@@ -108,7 +110,7 @@ public class HumanResourcesController {
 		service.addEmp(dto);
 	}
 	
-	// emp 삭제
+	// 사원 삭제
 	@PutMapping(value = {"/humanResources/empDelete"})
 	public void empDelete(@RequestBody UserDTO dto) {
 		System.out.println("<<</humanResources/empDelete>>>");
@@ -149,16 +151,6 @@ public class HumanResourcesController {
 		service.addEmp(dto);
 	}
 	
-	// emp pwCheck 
-	@GetMapping(value = {"/humanResources/empPwCheck"})
-	public String empEdit(@RequestBody UserDTO dto){
-		
-		System.out.println("\n<<</humanResources/empPwCheck>>>");
-		System.out.println("dto: " + dto);
-		
-		return null;
-	}
-	
 	// 급여 등록
 	@PostMapping(value = {"/humanResources/salaryAdd"})
 	public void salaryAdd(@RequestBody SalaryDTO dto){
@@ -181,9 +173,9 @@ public class HumanResourcesController {
 	}
 	
 	// 출근 
-	@PostMapping(value = {"/humanResources/checkIn"})
+	@PostMapping(value = {"/attendance/checkIn"})
 	public String checkIn(@RequestBody AttendanceDTO dto){
-		System.out.println("\n<<</humanResources/checkIn>>>");
+		System.out.println("\n<<</attendance/checkIn>>>");
 		
 		Timestamp checkInTime = new Timestamp(System.currentTimeMillis()); // 현재 시간으로 Timestamp 생성
 		dto.setGotoWorkDay(checkInTime);
@@ -215,9 +207,9 @@ public class HumanResourcesController {
 	}
 	
 	// 퇴근
-	@PostMapping(value = {"/humanResources/checkOut"})
+	@PostMapping(value = {"/attendance/checkOut"})
 	public void checkOut(@RequestBody AttendanceDTO dto){
-		System.out.println("\n<<</humanResources/checkOut>>>");
+		System.out.println("\n<<</attendance/checkOut>>>");
 		
 		List<AttendanceDTO> existingAttendances = service.oneAttendance(dto.getEmployeeId());
 		for(int i=0; i<existingAttendances.size(); i++) {
@@ -244,15 +236,23 @@ public class HumanResourcesController {
 	}
 	
 	// 한명 출근시간 조회
-	@GetMapping(value = {"/humanResources/attendanceCheckTime/{employeeId}"})
+	@GetMapping(value = {"/attendance/attendanceCheckTime/{employeeId}"})
 	public Timestamp attendanceCheckTime(@PathVariable(name = "employeeId") String employeeId){
-		System.out.println("\n<<</humanResources/empEdit>>>");
+		System.out.println("\n<<</attendance/attendanceCheckTime>>>");
 		System.out.println("\n id:" + employeeId);
-		List<AttendanceDTO> existingAttendances = service.oneAttendance(employeeId);
-		int ListIndex = existingAttendances.size() - 1;
-		Timestamp LastCheckIn = existingAttendances.get(ListIndex).getGotoWorkDay();
+		Timestamp LastCheckIn = new Timestamp(0);
 		
-		return LastCheckIn; 
+		if(employeeId != null) {
+			List<AttendanceDTO> existingAttendances = service.oneAttendance(employeeId);
+			
+			if (!existingAttendances.isEmpty()) {
+				int ListIndex = existingAttendances.size() - 1;
+				LastCheckIn = existingAttendances.get(ListIndex).getGotoWorkDay();
+			}
+			
+		}
+		
+		return LastCheckIn;
 	}
 	
 }
