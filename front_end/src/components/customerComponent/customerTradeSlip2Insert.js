@@ -29,12 +29,6 @@ class customerTradeSlip2Insert extends Component {
         this.setState({ customerId: data.customerId, isCustomerPopupOpen: false });
     }
 
-    // 입력 성공 후 "거래처 출금 목록" 페이지로 이동
-    handleCloseDialog = () => {
-        this.setState({ openDialog: false });
-        this.props.history.push("/customer/customerTradeSlip2"); // "거래처 출금 목록" 페이지 경로
-    }
-
     // 라이프 사이클 중 컴포넌트가 생성된 후 사용자에게 보여지기 까지의 전체 과정을 렌더링
     componentDidMount() {
         const data = window.localStorage.getItem("tradeSlipData");
@@ -227,20 +221,6 @@ class customerTradeSlip2Insert extends Component {
                 </Table>
                 <Button variant="contained" style={normalButton} onClick={this.onSubmitAdd}>저장</Button>
                 <Button variant="contained" style={normalButton} onClick={this.goToCustomerTradeSlip2}>출금목록</Button>
-                {/* <Dialog
-                    open={this.state.openDialog}
-                    onClose={this.handleCloseDialog}
-                >
-                    <DialogTitle>알림</DialogTitle>
-                    <DialogContent>
-                        저장되었습니다.
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={this.handleCloseDialog} color="primary">
-                            확인
-                        </Button>
-                    </DialogActions>
-                </Dialog> */}
             </div>
         );
     }

@@ -193,7 +193,7 @@ class customerTradeSlip extends Component{
                                 <TableCell style={tableCellTitleStyle} onClick={() => this.handleSort('customer')} align="center">거래처명</TableCell>
                                 <TableCell style={tableCellTitleStyle} onClick={() => this.handleSort('title')} align="center">제목</TableCell>
                                 <TableCell style={tableCellTitleStyle} onClick={() => this.handleSort('regDate')} align="center">등록일</TableCell>
-                                <TableCell style={tableCellTitleStyle} ></TableCell>
+                                {/* <TableCell style={tableCellTitleStyle} ></TableCell> */}
                             </TableRow>
                         </TableHead>
                         
@@ -209,7 +209,7 @@ class customerTradeSlip extends Component{
                                     <TableCell style={tableCellTitleStyle}> {data.customer ? data.customer.name : 'N/A'} </TableCell>
                                     <TableCell style={tableCellTitleStyle}> {data.title ? data.title : 'N/A'} </TableCell>
                                     <TableCell style={tableCellTitleStyle}> {data.regDate ? this.formatDate(data.regDate) : 'N/A'} </TableCell>
-                                    <TableCell style={tableCellTitleStyle}>
+                                    {/* <TableCell style={tableCellTitleStyle}>
                                         <div style={{paddingBottom: '8px'}}>
                                         <Button variant="contained" style={updateButton} onClick={() => this.editData(data)}>
                                             <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -232,7 +232,7 @@ class customerTradeSlip extends Component{
                                                 />
                                             </div>
                                         </Button>
-                                    </TableCell>
+                                    </TableCell> */}
                                 </TableRow>    
                             ))}
                         </TableBody>
@@ -259,7 +259,7 @@ const tableStyle = {
 
 // 테이블 셀 이름 스타일
 const tableCellTitleStyle = {
-    width: '15%',
+    width: '20%',
     fontSize: '20px',
     paddingLeft: '30px',
     textAlign: 'center'
@@ -333,26 +333,26 @@ const divLineStyle = {
     borderBottom: '3px solid navy'
 };
 
-// 수정 버튼 속성
-const updateButton = {
-    backgroundColor: '#FF8C0A',
-    color: 'white',
-    width: '140px',
-    height: '40px',
-    padding: '10px 20px',
-    borderRadius: '20px',
-    fontSize: '18px'
-};
+// // 수정 버튼 속성
+// const updateButton = {
+//     backgroundColor: '#FF8C0A',
+//     color: 'white',
+//     width: '140px',
+//     height: '40px',
+//     padding: '10px 20px',
+//     borderRadius: '20px',
+//     fontSize: '18px'
+// };
 
-// 삭제 버튼 속성
-const deleteButton = {
-    backgroundColor: '#A52A2A',
-    color: 'white',
-    width: '140px',
-    height: '40px',
-    padding: '10px 20px',
-    borderRadius: '20px',
-    fontSize: '18px'
-};
+// // 삭제 버튼 속성
+// const deleteButton = {
+//     backgroundColor: '#A52A2A',
+//     color: 'white',
+//     width: '140px',
+//     height: '40px',
+//     padding: '10px 20px',
+//     borderRadius: '20px',
+//     fontSize: '18px'
+// };
 
 export default customerTradeSlip;
