@@ -88,23 +88,25 @@ public class CustomerController {
 		service.addTradeSlip(dto);
 	}
 	
-	// 입금/출금 수정
-	@PutMapping(value = { "/customer/tradeSlipUpdate" })
-	public void tradeSlipUpdate(@RequestBody TradeSlipDTO dto) {
-		System.out.println("[TradeSlipDTO]" + dto);
-		
-		service.updateTradeSlip(dto);
-	}
+	// 수정, 삭제는 테이블 특징상 제외.
 	
-	// 입금/출금 삭제(validation을 "1"에서 "0"으로 바꿔서 보이지 않도록 하는 방식)
-	@PutMapping(value = { "/customer/tradeSlipDelete" })
-	public void tradeSlipDelete(@RequestBody TradeSlipDTO dto) {
-		System.out.println("[TradeSlipDTO]" + dto);
-		
-		dto.setValidation(0);
-		
-		service.updateTradeSlip(dto);
-	}
+//	// 입금/출금 수정
+//	@PutMapping(value = { "/customer/tradeSlipUpdate" })
+//	public void tradeSlipUpdate(@RequestBody TradeSlipDTO dto) {
+//		System.out.println("[TradeSlipDTO]" + dto);
+//		
+//		service.updateTradeSlip(dto);
+//	}
+//	
+//	// 입금/출금 삭제(validation을 "1"에서 "0"으로 바꿔서 보이지 않도록 하는 방식)
+//	@PutMapping(value = { "/customer/tradeSlipDelete" })
+//	public void tradeSlipDelete(@RequestBody TradeSlipDTO dto) {
+//		System.out.println("[TradeSlipDTO]" + dto);
+//		
+//		dto.setValidation(0);
+//		
+//		service.updateTradeSlip(dto);
+//	}
 	
 	/* 입금/출금 관리 부분 끝 */
 	

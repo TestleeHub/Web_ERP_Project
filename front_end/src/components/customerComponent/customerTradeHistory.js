@@ -135,7 +135,7 @@ class customerTradeHistory extends Component{
                             <TableCell style={tableCellTitleStyle} onClick={() => this.handleSort('customer.name', true)} align="center">거래처</TableCell>
                             <TableCell style={tableCellTitleStyle} onClick={() => this.handleSort('title', true)} align="center">제목</TableCell>
                             <TableCell style={tableCellTitleStyle} onClick={() => this.handleSort('income')} align="center">거래 수입금</TableCell>
-                            <TableCell style={tableCellTitleStyle} onClick={() => this.handleSort('expend')} align="center">거래 지줄금</TableCell>
+                            <TableCell style={tableCellTitleStyle} onClick={() => this.handleSort('expend')} align="center">거래 지출금</TableCell>
                             <TableCell style={tableCellTitleStyle} onClick={() => this.handleSort('regDate', false, true)} align="center">등록일</TableCell>
                         </TableRow>
                     </TableHead>
