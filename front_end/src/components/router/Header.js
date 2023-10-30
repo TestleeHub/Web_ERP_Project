@@ -31,16 +31,16 @@ function Header() {
         
         console.log('isAtWork:', isAtWork)
         const previousStatus = localStorage.getItem('attendanceStatus');
-        const todayWorkStatus = localStorage.getItem('todayWorkStatus');
+        // const todayWorkStatus = localStorage.getItem('todayWorkStatus');
         
         // 새로 고침했을때 버튼 전의 상태 가져오기
         console.log("previousStatus:", previousStatus)
         if (previousStatus !== null) {
             setIsAtWork(previousStatus === 'true');
         }
-        if(todayWorkStatus !== ""){
-            setTodayWork(true)
-        }
+        // if(todayWorkStatus !== ""){
+        //     setTodayWork(true)
+        // }
 
         const interval = setInterval(() => {
             const now = new Date();
@@ -51,7 +51,7 @@ function Header() {
         const UserId = getUserId();
         request(
             "GET",
-            "/humanResources/attendanceCheckTime/" + UserId,
+            "/attendance/attendanceCheckTime/" + UserId,
             {
 
             }).then((response) => {
@@ -88,7 +88,7 @@ function Header() {
             
             request(
                 "POST",
-                "/humanResources/checkIn",
+                "/attendance/checkIn",
                 {
                     employeeId
                 }).then((response) => {
@@ -96,12 +96,13 @@ function Header() {
                         console.log('response : ', response);
                         if (response.data === '출근 완료') {
                             console.log("출근 완료")
-                            localStorage.setItem('attendanceStatus', !isAtWork);
+                            localStorage.setItem('attendanceStatus', !isAtWork); // 새로고침 했을때 다시 불러오기
                             setIsAtWork(!isAtWork); // 출근,퇴근 변경
                             window.location.reload();
                         } else if (response.data === '이미 출근 했습니다') {
                             setTodayWork(true)
-                            localStorage.setItem('todayWorkStatus', true);
+                            // localStorage.setItem('todayWorkStatus', true);
+                            window.alert("오늘은 이미 출근 했습니다")
                             console.log("이미 출근 했습니다")
                         }
                     }
@@ -118,7 +119,7 @@ function Header() {
             
             request(
                 "POST",
-                "/humanResources/checkOut",
+                "/attendance/checkOut",
                 {
                     employeeId
                 }).then((response) => {
@@ -177,14 +178,14 @@ function Header() {
                                     <NavDropdown.Item href="/myEdit">내 정보 수정</NavDropdown.Item>
                                     <NavDropdown.Divider />
                                     {/* Attendance 시작 */}
-                                    {
-                                        (todayWork === false) ?
+                                    {/* {
+                                        (todayWork === false) ? */}
                                         <Button variant="primary" onClick={toggleAttendance}>
                                             {isAtWork ? '출근' : '퇴근'}
                                         </Button>
-                                        :
+                                        {/* :
                                         ""
-                                    }
+                                    } */}
                                     <Modal show={showModal} onHide={handleClose}>
                                         <Modal.Header closeButton>
                                         <Modal.Title>

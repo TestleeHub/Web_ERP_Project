@@ -58,14 +58,11 @@ const LeftNavbar = () => {
             {humanResourceshow === true ?
               <div style={{ textAlign: 'left', margin: '0px 30px' }}>
                 <NavLink exact to="/humanResources/empAdd" activeClassName="activeClicked">
-                  - 사원 기본 정보 등록<br />
+                  - 사원 등록<br />
                 </NavLink>
                 <NavLink exact to="/humanResources/empList" activeClassName="activeClicked">
                   - 사원 목록<br />
                 </NavLink>
-                {/* <NavLink exact to="/humanResources/empProofMaking" activeClassName="activeClicked">
-                  - 재직 증명서 양식 제작<br />
-                </NavLink> */}
                 <NavLink exact to="/humanResources/salaryReg" activeClassName="activeClicked">
                   - 급여 등록<br />
                 </NavLink>
@@ -75,10 +72,6 @@ const LeftNavbar = () => {
                 <NavLink exact to="/humanResources/attendanceList" activeClassName="activeClicked">
                   - 출퇴근 기록부<br />
                 </NavLink>
-
-                {/* <NavLink exact to="/humanResources/depAdd" activeClassName="activeClicked">
-                  - 부서 추가<br />
-                </NavLink> */}
               </div> : <></>}
 
             {getUserRole() === 'ROLE_ADMIN' || getUserRole() === 'ROLE_MF' ?
