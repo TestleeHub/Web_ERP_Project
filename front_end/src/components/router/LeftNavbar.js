@@ -246,9 +246,15 @@ const LeftNavbar = () => {
                 <CDBSidebarMenuItem icon="user">로그아웃</CDBSidebarMenuItem>
               </NavLink>}
 
-            <NavLink exact to="/hero404" target="_blank" activeClassName="activeClicked">
-              <CDBSidebarMenuItem icon="exclamation-circle">QNA</CDBSidebarMenuItem>
-            </NavLink>
+            {getUserRole() === 'ROLE_ADMIN' ?
+              <a href="http://13.238.117.102:5601/app/dashboards#/view/d627a9d0-771b-11ee-9a31-0fb91c1a8634?_g=(filters:!(),refreshInterval:(pause:!t,value:60000),time:(from:now-15m,to:now))" target="_blank" className="activeClicked">
+                <CDBSidebarMenuItem icon="exclamation-circle">데이터 분석</CDBSidebarMenuItem>
+              </a>
+              :
+              <></>}
+
+
+
           </CDBSidebarMenu>
         </CDBSidebarContent>
 

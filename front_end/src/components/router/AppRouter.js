@@ -27,7 +27,6 @@ import customerInsert from '../customerComponent/customerInsert';
 import customerTradeHistory from '../customerComponent/customerTradeHistory';
 import customerTradeSlip from '../customerComponent/customerTradeSlip';
 import customerTradeSlipInsert from '../customerComponent/customerTradeSlipInsert';
-import customerIncome from '../customerComponent/customerIncome';
 
 import orderForm from '../purchaseComponent/orderForm';
 import orderList from '../purchaseComponent/orderList';
@@ -96,7 +95,6 @@ const AppRouter = () => {
             <Route path='/customer/CustomerTradeSlip2' exact={true} component={customerTradeSlip2} />
             <Route path='/customer/customerTradeSlipInsert' exact={true} component={customerTradeSlipInsert} />
             <Route path='/customer/customerTradeSlip2Insert' exact={true} component={customerTradeSlip2Insert} />
-            <Route path='/customer/customerIncome' exact={true} component={customerIncome} />
 
             <Route path='/purchase' exact={true} component={orderList} />
             <Route path='/purchase/orderList' exact={true} component={orderList} />
