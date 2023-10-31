@@ -12,7 +12,7 @@ class inventoryAdjustment extends Component{
         this.state = {
             productionItemId: "",
             registDate: "",
-            manager: "",
+            managerId: "",
             storageId: "",
             quantity: "",
             record: this.getCurrentDate()
@@ -84,7 +84,7 @@ class inventoryAdjustment extends Component{
             {
                 productionItemId: this.state.productionItemId,
                 registDate: this.state.registDate,
-                manager: this.state.manager,
+                managerId: this.state.managerId,
                 storageId: this.state.storageId,
                 quantity: this.state.quantity,
                 record: this.state.record
@@ -188,7 +188,7 @@ class inventoryAdjustment extends Component{
                                     name="manager"
                                     placeholder="담당자"
                                     onChange={this.onChangeHandler}
-                                    value={this.state.manager.employeeId}
+                                    value={this.state.managerId}
                                 />
                             </TableCell>
                         </TableRow>

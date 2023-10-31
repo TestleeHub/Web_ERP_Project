@@ -184,11 +184,11 @@ class storageSelect extends Component{
                                 <TableCell style={{ ...tableCellStyle, backgroundColor: 'lightgray' }}>
                                     {index + 1}
                                 </TableCell>
-                                <TableCell style={tableCellTitleStyle}> {data.productionItemId} </TableCell>
-                                <TableCell style={tableCellTitleStyle}> {data.productionItem.name} </TableCell>
-                                <TableCell style={tableCellTitleStyle}> {data.storage.storageName} </TableCell>
-                                <TableCell style={tableCellTitleStyle}> {data.manager.name} </TableCell>
-                                <TableCell style={tableCellTitleStyle}> {this.formatDate(data.registDate)} </TableCell>
+                                <TableCell style={tableCellTitleStyle}> {data.productionItemId ? data.productionItemId : 'N/A'} </TableCell>
+                                <TableCell style={tableCellTitleStyle}> {data.productionItem && data.productionItem.name ? data.productionItem.name : 'N/A'} </TableCell>
+                                <TableCell style={tableCellTitleStyle}> {data.storage && data.storage.storageName ? data.storage.storageName : 'N/A'} </TableCell>
+                                <TableCell style={tableCellTitleStyle}> {data.manager && data.manager.name ? data.manager.name : 'N/A'} </TableCell>
+                                <TableCell style={tableCellTitleStyle}> {data.registDate ? this.formatDate(data.registDate) : 'N/A'} </TableCell>
                                 <TableCell style={tableCellTitleStyle}> {data.quantity} </TableCell>
                                 <TableCell style={tableCellTitleStyle}> {this.formatDate(data.record)} </TableCell>
 
