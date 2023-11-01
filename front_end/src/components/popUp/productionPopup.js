@@ -56,7 +56,6 @@ class productionPopup extends Component {
                 <TableCell> 공정 </TableCell>
                 <TableCell> 생산 상품명 </TableCell>
                 <TableCell> 규격 </TableCell>
-                <TableCell> 생산 공장 코드 </TableCell>
                 <TableCell> 받는 창고 코드 </TableCell>
               </TableRow>
             </TableHead>
@@ -68,7 +67,6 @@ class productionPopup extends Component {
                   <TableCell> {data.process ? data.process : 'N/A'} </TableCell>
                   <TableCell> {data.name ? data.name : 'N/A'} </TableCell>
                   <TableCell> {data.standard ? data.standard : 'N/A'} </TableCell>
-                  <TableCell> {data.factoryId ? data.factoryId : 'N/A'} </TableCell>
                   <TableCell> {data.storageId ? data.storageId : 'N/A'} </TableCell>
                 </TableRow>
               ))}

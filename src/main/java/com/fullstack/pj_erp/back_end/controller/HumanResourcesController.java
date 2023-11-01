@@ -127,6 +127,7 @@ public class HumanResourcesController {
 		System.out.println("\n<<</humanResources/empEdit>>>");
 		System.out.println("\n id:" + employeeId);
 		UserDTO dto = service.getEmp(employeeId);
+		
 		System.out.println("dto:" + dto);
 		
 		return dto;
@@ -138,12 +139,9 @@ public class HumanResourcesController {
 		System.out.println("<<</humanResources/empUpdate>>>");
 
 		// 처음 등록할때만 현재 날짜로 등록
-		if(dto.getJoinDate() == null) {
-			System.out.println("myeEditPage :첫번째");
-			dto.setJoinDate(new Date(System.currentTimeMillis()));
-		}else {
-			System.out.println("myeEditPage :두번째");
-		}
+		if(dto.getJoinDate() == null) dto.setJoinDate(new Date(System.currentTimeMillis()));
+		
+		dto.setValidation(1);
 		
 		dto.setPassword(passwordEncoder.encode(CharBuffer.wrap(dto.getPassword())));
 		System.out.println(dto);

@@ -64,8 +64,8 @@ class Popup extends Component {
                 <TableHead>
                   <TableRow>
                     <TableCell>발주 번호</TableCell>
-                    <TableCell>거래처 코드</TableCell>
-                    <TableCell>담당자</TableCell>
+                    <TableCell>거래처 명</TableCell>
+                    <TableCell>담당자 명</TableCell>
                     <TableCell>납기일</TableCell>
                     <TableCell>진행 상태</TableCell>
                   </TableRow>
@@ -75,10 +75,10 @@ class Popup extends Component {
                   {this.state.datas.map((data, index) => (
                     <TableRow onClick={() => this.handleDataSelection(data)}>
                       <TableCell> {data.orderFormId ? data.orderFormId : 'N/A'} </TableCell>
-                      <TableCell> {data.customerId ? data.customerId : 'N/A'} </TableCell>
-                      <TableCell> {data.employeeId ? data.employeeId : 'N/A'} </TableCell>
+                      <TableCell> {data.customer ? data.customer.name : 'N/A'} </TableCell>
+                      <TableCell> {data.employeeId ? data.employee.name : 'N/A'} </TableCell>
                       <TableCell> {this.formatDate(data.dueDate) ? this.formatDate(data.dueDate) : 'N/A'} </TableCell>
-                      <TableCell> {data.Progress ? data.Progress : 'N/A'} </TableCell>
+                      <TableCell> {data.progress ? '진행 완료' : '진행 중'} </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
