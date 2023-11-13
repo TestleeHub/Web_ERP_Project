@@ -25,6 +25,7 @@ public class UserService {
 	
 	public UserDTO findById(String id) {
 		System.out.println("<<<UserService - findById()>>>");
+		System.out.println("<<<UserService 정상진입>>>");
 		
 		UserDTO user = userRepository.findById(id).orElseThrow(()-> new AppException("UnKnown user", HttpStatus.NOT_FOUND));
 		System.out.println("<<<UserService findById user>>>" + user);
